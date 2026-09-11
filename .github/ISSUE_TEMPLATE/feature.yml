@@ -1,0 +1,27 @@
+name: Feature proposal
+description: Propose a scoped engineering capability aligned with the roadmap.
+title: "[Feature]: "
+labels: ["type:feature", "status:needs-design"]
+body:
+  - type: textarea
+    id: problem
+    attributes: {label: Problem and context, description: Describe the need without prescribing a solution.}
+    validations: {required: true}
+  - type: textarea
+    id: goal
+    attributes: {label: Goal and non-goals}
+    validations: {required: true}
+  - type: textarea
+    id: scope
+    attributes: {label: Proposed scope and deliverables}
+    validations: {required: true}
+  - type: textarea
+    id: acceptance
+    attributes: {label: Acceptance criteria, description: Use observable, testable outcomes.}
+    validations: {required: true}
+  - type: textarea
+    id: architecture
+    attributes: {label: Architecture and vision impact, description: Address native grounding, identity/memory, information access, and many-agent scaling where relevant.}
+  - type: textarea
+    id: dependencies
+    attributes: {label: Dependencies and blockers}

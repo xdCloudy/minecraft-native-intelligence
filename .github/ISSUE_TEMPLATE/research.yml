@@ -1,0 +1,32 @@
+name: Research task
+description: Investigate an open question and produce decision-ready evidence.
+title: "[Research]: "
+labels: ["type:research", "status:needs-design"]
+body:
+  - type: textarea
+    id: question
+    attributes: {label: Research question or hypothesis}
+    validations: {required: true}
+  - type: textarea
+    id: background
+    attributes: {label: Background and prior work, description: Prefer primary papers and official repositories.}
+    validations: {required: true}
+  - type: textarea
+    id: methodology
+    attributes: {label: Methodology, description: Comparisons, data, controls, falsification or stop criteria.}
+    validations: {required: true}
+  - type: textarea
+    id: metrics
+    attributes: {label: Metrics and evidence}
+    validations: {required: true}
+  - type: textarea
+    id: reproducibility
+    attributes: {label: Reproducibility requirements, description: Versions, seeds, configuration, hardware, commands, artifacts, and licenses.}
+    validations: {required: true}
+  - type: textarea
+    id: output
+    attributes: {label: Expected output and decision unblocked}
+    validations: {required: true}
+  - type: textarea
+    id: result
+    attributes: {label: Result and conclusion, description: Complete when closing; include negative or inconclusive findings.}

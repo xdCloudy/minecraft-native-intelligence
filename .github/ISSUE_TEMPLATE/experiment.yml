@@ -1,0 +1,32 @@
+name: Experiment
+description: Propose a reproducible implementation and evaluation of a hypothesis.
+title: "[Experiment]: "
+labels: ["type:experiment", "status:needs-design"]
+body:
+  - type: textarea
+    id: hypothesis
+    attributes: {label: Hypothesis and falsification criterion}
+    validations: {required: true}
+  - type: textarea
+    id: background
+    attributes: {label: Background, baseline, and prior evidence}
+    validations: {required: true}
+  - type: textarea
+    id: methodology
+    attributes: {label: Methodology and controls, description: Include learned versus scripted components.}
+    validations: {required: true}
+  - type: textarea
+    id: metrics
+    attributes: {label: Metrics and analysis plan}
+    validations: {required: true}
+  - type: textarea
+    id: reproducibility
+    attributes: {label: Reproducibility requirements, description: Versions, seeds, configs, hardware, artifact lineage, and commands.}
+    validations: {required: true}
+  - type: textarea
+    id: output
+    attributes: {label: Expected output}
+    validations: {required: true}
+  - type: textarea
+    id: result
+    attributes: {label: Result and conclusion, description: Complete after the run with raw-artifact links and limitations.}

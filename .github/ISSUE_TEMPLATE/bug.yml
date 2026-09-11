@@ -1,0 +1,32 @@
+name: Bug report
+description: Report reproducible incorrect behaviour in project code or tooling.
+title: "[Bug]: "
+labels: ["type:bug", "status:needs-design"]
+body:
+  - type: textarea
+    id: context
+    attributes: {label: Problem and context, description: What happened, and why is it a defect?}
+    validations: {required: true}
+  - type: textarea
+    id: reproduce
+    attributes: {label: Reproduction, description: Include minimal steps, versions, seed, configuration, and relevant logs.}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Expected behaviour}
+    validations: {required: true}
+  - type: textarea
+    id: impact
+    attributes: {label: Impact and scope, description: Which agents, worlds, data, interfaces, or experiments are affected?}
+  - type: textarea
+    id: evidence
+    attributes: {label: Evidence and artifacts, description: Sanitized logs, traces, screenshots, or a minimal repository link.}
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed secrets and private player data.
+          required: true
+        - label: I searched for duplicate issues.
+          required: true

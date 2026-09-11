@@ -1,0 +1,32 @@
+name: Architecture or design proposal
+description: Propose a material interface, boundary, technology, or ADR.
+title: "[Design]: "
+labels: ["type:feature", "status:needs-design"]
+body:
+  - type: textarea
+    id: context
+    attributes: {label: Context and problem}
+    validations: {required: true}
+  - type: textarea
+    id: constraints
+    attributes: {label: Constraints and invariants, description: Include project vision and safety constraints.}
+    validations: {required: true}
+  - type: textarea
+    id: proposal
+    attributes: {label: Proposed decision and interfaces}
+    validations: {required: true}
+  - type: textarea
+    id: alternatives
+    attributes: {label: Alternatives considered and evidence}
+    validations: {required: true}
+  - type: textarea
+    id: consequences
+    attributes: {label: Consequences, migration, reversibility, and scaling}
+    validations: {required: true}
+  - type: textarea
+    id: validation
+    attributes: {label: Validation and acceptance criteria}
+    validations: {required: true}
+  - type: textarea
+    id: dependencies
+    attributes: {label: Dependencies and blockers}
