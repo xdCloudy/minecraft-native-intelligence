@@ -5,8 +5,8 @@ Milestones are progressive research and engineering infrastructure. Dates are in
 | Milestone | Outcome and exit gate | Depends on |
 | --- | --- | --- |
 | **v0.1 — Project Foundation** | Coherent documentation, contribution/security policy, issue taxonomy, reproducible experiment/test/CI plan, and research baseline | — |
-| **v0.2 — Minecraft Native Interface** | Versioned observation/event/action prototypes; information-access and legality tests; platform decision recorded | v0.1 |
-| **v0.3 — Agent Runtime** | Multiple identity-safe runtimes can save/load, schedule cognition, and execute through the interface | v0.2 |
+| **v0.2 — Minecraft Native Interface** | Installable Java Edition mod prototype; player-compatible AI embodiment; versioned observation/event/action contracts; Survival parity, information-access, legality, and vanilla presentation tests; loader/version decision recorded | v0.1 |
+| **v0.3 — Agent Runtime** | `/spawn ai-agent <username>` creates a persistent individual with stable profile/skin; multiple identity-safe runtimes can save/load, respawn, schedule cognition, and execute through the interface | v0.2 |
 | **v0.4 — Memory** | Auditable episodic, semantic, spatial, and procedural prototypes with provenance, contradiction, and consolidation experiments | v0.3 |
 | **v0.5 — Behaviour Baseline** | Reproducible native behavioural/imitation baseline with navigation, gathering, survival, and building evaluation | v0.2–v0.4 |
 | **v0.6 — Language Grounding** | Communication demonstrably conditions on world state, memory, relationships, and outcomes; human/agent pathways align | v0.4–v0.5 |
@@ -23,4 +23,4 @@ Every milestone must preserve legal action constraints, partial observability, p
 
 ## Current focus
 
-Complete v0.1, then prioritize platform selection, observation/action contracts, information-access rules, deterministic harness design, and telemetry. These determine whether later results are meaningful and should precede model architecture commitments.
+Complete v0.1, then prioritize loader/version selection, installable-mod packaging, player-compatible embodiment, Survival parity, observation/action contracts, information-access rules, deterministic harness design, and telemetry. These determine whether later results are meaningful and should precede model architecture commitments.

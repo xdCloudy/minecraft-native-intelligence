@@ -12,7 +12,10 @@ The agent-facing ontology should be grounded in blocks, entities, items, terrain
 
 ## System direction
 
-- A native Minecraft integration exposes bounded, observable state and validates ordinary in-game actions—without hidden information, teleportation, inventory editing, or other cheats.
+- An easy-to-install Java Edition mod runs on the logical server (integrated single-player/LAN or dedicated server), exposes bounded native state, and validates ordinary in-game actions—without hidden information, teleportation, inventory editing, or other cheats.
+- An authorized operator creates a persistent AI player with `/spawn ai-agent <username>`. It is represented through the normal player-facing systems—entity tracking, nameplate, chat, locator maps, player lists, scoreboards, death/respawn, and compatible integrations wherever technically possible.
+- New agents start in Survival with ordinary health, hunger, inventory, crafting, equipment/armour, effects, damage, death, pickup/drop, movement, reach, cooldown, and world-interaction rules. The integration drives player actions; it does not mutate outcomes directly.
+- On first creation, the mod assigns a random skin from a curated, distributable catalog and stores its immutable skin reference with that agent. The same skin returns after unload, restart, or respawn unless an authorized operator deliberately changes it.
 - A shared foundation model provides reusable world and behavioural competence without loading a full independent model per agent.
 - Each agent owns separate persistent identity, episodic/semantic/procedural/spatial memory, relationships, goals, preferences, and—only if evidence supports it—small personal learning modules.
 - Learning begins with durable state and memory, not continuous retraining. Later work may test replay, consolidation, adapters, and other continual-learning techniques against catastrophic forgetting.
@@ -34,6 +37,7 @@ See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 | [Goal](docs/GOAL.md) | Ultimate goal, near-term objective, and non-goals |
 | [Vision](docs/VISION.md) and [Principles](docs/PRINCIPLES.md) | Product direction and invariants |
 | [Architecture](ARCHITECTURE.md) | Proposed system boundaries and timescales |
+| [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
 | [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
 | [Roadmap](ROADMAP.md) | Milestones, dependencies, and exit criteria |
 | [Safety](docs/SAFETY.md) and [Security](SECURITY.md) | Minecraft-specific operational safeguards |

@@ -2,6 +2,12 @@
 
 Primary papers and official project repositories are preferred. Inclusion means “relevant evidence,” not endorsement or architectural adoption.
 
+## Java Edition mod integration
+
+The official [Fabric developer guides](https://docs.fabricmc.net/develop/) describe a lightweight Java Edition mod toolchain, server/client entry points, and distributable mod JARs; the [Fabric networking guide](https://docs.fabricmc.net/develop/networking) documents logical client/server synchronization, including the integrated server used in single-player; and its [command guide](https://docs.fabricmc.net/develop/commands/basics) documents server command registration. Official [NeoForge getting-started documentation](https://docs.neoforged.net/docs/1.21.1/gettingstarted/) likewise documents Java/Gradle mod JARs and dedicated-server testing.
+
+These sources support the feasibility of an installable Java mod and server-authoritative command/network boundary. They do not establish that either loader can cleanly instantiate a fully player-compatible AI entity across all vanilla and third-party systems. Loader/version selection, exact `ServerPlayer`-compatible hooks, and client requirements therefore remain empirical issues rather than assumed facts.
+
 ## Minecraft agents and datasets
 
 ### VPT — Video PreTraining

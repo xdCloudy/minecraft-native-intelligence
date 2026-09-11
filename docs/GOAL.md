@@ -23,6 +23,10 @@ The target combines:
 
 Build the infrastructure and research prototypes needed to determine whether the ultimate design is feasible. The near-term programme must produce testable interfaces, reproducible baselines, persistent-runtime prototypes, evaluation methods, and evidence-based architectural decisions. It must expose failures and research gaps rather than disguise them behind scripted demos or language-model fluency.
 
+The first usable integration target is an installable Minecraft: Java Edition mod. An authorized operator should be able to type `/spawn ai-agent <username>` in a single-player, LAN, or dedicated-server world and create a persistent AI-controlled player. The spawned individual must be presented through ordinary player-facing Minecraft systems and begin under Survival mechanics with the same health, hunger, inventory, crafting, armour/equipment, damage, death, and respawn rules as a human player. Its initially assigned skin is selected from an approved catalog and remains part of its persistent identity.
+
+The spawn command is an administrative lifecycle operation, not a command given to the intelligence and not a claim that the agent exists only to obey its creator.
+
 ## Native reality constraint
 
 For the agent, relevant concepts arise from its world: self, other players, blocks, entities, items, terrain, physics, needs, danger, time, place, communication, relationships, making, exploration, survival, death, and memory. The core design must not depend on awareness of a videogame, AI model, host computer, operating system, API, or human “user.” This is an internal ontology constraint, not permission to conceal AI involvement from people or server administrators.

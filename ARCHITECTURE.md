@@ -4,12 +4,16 @@ This is a hypothesis to organize interfaces and experiments, **not a validated i
 
 ```mermaid
 flowchart TD
-    MC[Minecraft world] --> IF[Native mod / environment interface]
+    OP[Authorized operator] -->|/spawn ai-agent username| MOD[Java Edition mod on logical server]
+    MC[Minecraft world] --> MOD
+    MOD --> PEID[Player embodiment and persistent profile]
+    PEID --> IF[Versioned environment interface]
     IF -->|bounded observations and events| PE[State / perception encoder]
     PE --> FM[Shared foundation world / behaviour model]
     FM --> AR[Agent runtime]
     AR --> AS[Action system and legal-action validator]
-    AS --> MC
+    AS -->|player inputs / intentions| PEID
+    PEID -->|ordinary Survival mechanics| MC
     AR --- ID[Identity and lifecycle]
     AR --- MEM[Episodic · semantic · procedural · spatial memory]
     AR --- PS[Personality · relationships · goals]
@@ -18,6 +22,8 @@ flowchart TD
 ```
 
 The foundation layer may eventually combine world understanding, planning/reasoning, behavioural policy, and language; whether these are one model, multiple models, or hybrid components is unresolved. The runtime binds shared competence to one persistent life. Personal adapters are optional research, not a v0.3 requirement.
+
+The mod is server-authoritative and must work with both the integrated server used by single-player/LAN and a dedicated server. Its AI avatar should use the closest maintainable `ServerPlayer`-compatible representation so vanilla clients and other mods observe a player, not a custom humanoid mob. Exact compatibility hooks and whether clients also need the mod remain loader/version research questions. See [`docs/INTEGRATION.md`](docs/INTEGRATION.md).
 
 ## Decision timescales
 
@@ -34,6 +40,7 @@ These loops must exchange versioned messages without forcing one cadence. Sleepi
 ## Core boundaries
 
 - **Integration boundary:** versioned observations, events, actions, capabilities, and outcomes; no model-specific types.
+- **Embodiment boundary:** the mod owns player-compatible lifecycle, profile/skin synchronization, and translation of actions into ordinary Survival mechanics.
 - **Runtime boundary:** per-agent state, scheduling, memory access, and lifecycle; no implicit singleton identity.
 - **Model boundary:** batched inference over agent contexts with explicit state ownership and latency budgets.
 - **Persistence boundary:** schema versions, atomic saves, migrations, export/deletion, and provenance.
@@ -41,4 +48,4 @@ These loops must exchange versioned messages without forcing one cadence. Sleepi
 
 ## Open decisions
 
-Mod loader, supported Minecraft version, process boundary, observation encoding, model family, training framework, persistence store, inference runtime, and personal adaptation technique remain unresolved. Each needs an issue, experiment, and ADR before commitment.
+Mod loader, supported Minecraft version, client installation requirement, exact player-entity hooks, process boundary, observation encoding, model family, training framework, persistence store, inference runtime, skin-catalog source, and personal adaptation technique remain unresolved. Each needs an issue, experiment, and ADR before commitment.

@@ -47,9 +47,27 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** select Fabric/NeoForge, Java/Python, PyTorch/JAX, a database, or an inference runtime immediately.
 - **Consequences:** Interfaces and research questions can advance; implementation waits for evidence where choices are costly.
 
+## ADR-0006 — Java Edition mod with server-authoritative player embodiment
+
+- **Date:** 2026-09-11
+- **Status:** accepted
+- **Context:** The intended user experience is easy installation and creation of an AI that appears and behaves through ordinary player systems, rather than a remote bot account or custom NPC mob.
+- **Decision:** Ship the Minecraft integration as a Java Edition mod attached to the logical server. An authorized `/spawn ai-agent <username>` command creates or loads a project-owned, player-compatible entity with a persistent profile and skin. New agents default to Survival, and existing Minecraft server mechanics remain authoritative for health, hunger, inventory, crafting, armour/equipment, damage, movement, interaction, death, and respawn.
+- **Alternatives:** external authenticated bot clients; a custom mob/NPC entity; desktop input automation; direct server-state simulation; a client-only mod.
+- **Consequences:** The selected loader/version must expose maintainable player lifecycle and synchronization hooks. Vanilla and third-party player-system compatibility requires a test matrix. The design must not impersonate real authenticated accounts. The mod boundary is decided; Fabric versus NeoForge, exact version, client requirement, and process transport remain open.
+
+## ADR-0007 — Skins are curated, assigned once, and persistent
+
+- **Date:** 2026-09-11
+- **Status:** accepted
+- **Context:** Spawned agents need distinct, recognizable player appearances that survive restarts without appropriating real account identities or relying on fragile scraping.
+- **Decision:** On first creation, choose randomly from an approved catalog of redistributable popular Minecraft-style skins; persist the catalog ID, content hash, geometry, and provenance with the agent identity. Do not reroll on spawn, reload, death, or respawn. Operator-requested changes are explicit and audited.
+- **Alternatives:** default Steve/Alex only; random skin on every spawn; fetch an arbitrary popular player's live skin; generate a new skin at runtime.
+- **Consequences:** A catalog licensing/provenance review and asset-integrity pipeline are required. Existing identities remain stable across catalog updates. Remote catalogs are optional rather than an installation dependency.
+
 ## Open decision queue
 
-Platform/version support, process and language boundary, observation and action granularity, model family, training framework, persistence store, telemetry format, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
+Fabric versus NeoForge (or another loader), supported Minecraft/Java versions, whether clients also need the mod, exact player lifecycle hooks, process and language boundary, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
 
 ## ADR template
 

@@ -2,6 +2,10 @@
 
 ## Responsibilities
 
+### Java Edition mod and player embodiment
+
+The distributable mod attaches to the logical server: the integrated server in single-player/LAN or the dedicated server in multiplayer. It registers administrative lifecycle commands, creates and tracks player-compatible AI entities, owns their Minecraft profile/skin synchronization, and delegates all game consequences to normal server mechanics. Vanilla-compatible clients should require no special AI UI; a small client component is acceptable only when a loader or presentation requirement makes it necessary and must degrade cleanly. See [Integration](INTEGRATION.md).
+
 ### Native environment interface
 
 Produces observations and events that an ordinary embodied player could legitimately access, and accepts semantic game actions. It owns Minecraft-version adaptation, capability negotiation, tick/time semantics, and enforcement of server/operator policy. See [Perception](PERCEPTION.md) and [Action space](ACTION_SPACE.md).
@@ -16,7 +20,7 @@ A research boundary for reusable world and behavioural competence. Candidate des
 
 ### Agent runtime
 
-Owns one individual's lifecycle, identity pointer, active context, memory access, relationships, goals, personality state, action arbitration, and optional personal modules. Many runtimes may share model servers but must never share mutable personal state accidentally.
+Owns one individual's lifecycle, identity pointer, active context, memory access, relationships, goals, personality state, action arbitration, persistent skin reference, and optional personal modules. Many runtimes may share model servers but must never share mutable personal state accidentally.
 
 ### Action system
 

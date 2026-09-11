@@ -4,4 +4,6 @@ Many persistent runtimes should share expensive foundation inference while isola
 
 Social outcomes—friendship, rivalry, reputation, exchange, division of labour, norms, shared settlements—are possible observations, not scripted product features. The environment should provide ordinary communication and interaction affordances from which behaviour can emerge.
 
+Each spawned AI is a distinct player-compatible entity with a unique username, persistent identity record, persistent skin, inventory, position/lifecycle state, and lived state. Other players should encounter it through the same ordinary surfaces as another player: world rendering and tracking, nameplates, chat, locator maps, player lists, scoreboards/teams, combat, item exchange, death messages, and server moderation. Compatibility with third-party map/mod plugins must be tested rather than assumed.
+
 Evaluation covers state leakage, cross-agent memory contamination, fair resource scheduling, communication grounding, coordination, competition, population scaling, and reproducibility across seeds. Centralized training may be studied; runtime policies must still respect each agent's partial observations.
