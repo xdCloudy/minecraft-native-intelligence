@@ -65,6 +65,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** default Steve/Alex only; random skin on every spawn; fetch an arbitrary popular player's live skin; generate a new skin at runtime.
 - **Consequences:** A catalog licensing/provenance review and asset-integrity pipeline are required. Existing identities remain stable across catalog updates. Remote catalogs are optional rather than an installation dependency.
 
+## ADR-0008 — Fabric 26.3 is the proposed first Minecraft platform
+
+- **Date:** 2026-09-22
+- **Status:** proposed
+- **Context:** Issue #1 requires a loader, Minecraft/Java version policy, and client/server installation model before player embodiment and observation/action implementation can proceed. The platform must support the logical server in both integrated and dedicated environments, one distributable mod, operator commands, headless testing, vanilla-client compatibility where practical, and a maintainable player-compatible AI embodiment.
+- **Decision:** Begin the v0.2 embodiment spike on Fabric, pinned to Minecraft 26.3 and Java 25. Load common code in both physical environments while keeping authoritative game logic on the logical server. Human clients are not required to install the project mod unless the embodiment/compatibility spike proves a client component unavoidable. Keep runtime, observation/action, persistence, and evaluation contracts loader-neutral.
+- **Alternatives:** NeoForge on a stable 26.x baseline; Quilt Loader/Fabric-compatible stack; maintaining multiple loaders from the start.
+- **Consequences:** Fabric currently offers a direct 26.3 path, one-JAR tooling, server commands, GameTests, and a small integration surface. The unresolved risk is synthetic-player lifecycle support: this decision is rejected if a vanilla-visible persistent ServerPlayer-compatible agent requires a fake authenticated connection, a required client mod, or broad brittle mixins, especially if a matched NeoForge spike satisfies the same tests more cleanly. Version upgrades are explicit, pinned migrations rather than floating to latest. See docs/MOD_PLATFORM.md for the comparison, spike plan, falsifiers, and sources.
+
 ## Open decision queue
 
 Fabric versus NeoForge (or another loader), supported Minecraft/Java versions, whether clients also need the mod, exact player lifecycle hooks, process and language boundary, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
