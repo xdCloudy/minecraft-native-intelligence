@@ -41,11 +41,11 @@ These loops must exchange versioned messages without forcing one cadence. Sleepi
 
 - **Integration boundary:** versioned observations, events, actions, capabilities, and outcomes; no model-specific types.
 - **Embodiment boundary:** the mod owns player-compatible lifecycle, profile/skin synchronization, and translation of actions into ordinary Survival mechanics.
-- **Runtime boundary:** per-agent state, scheduling, memory access, and lifecycle; no implicit singleton identity.
+- **Runtime boundary:** per-agent state, scheduling, memory access, and lifecycle over an asynchronous boundary; no implicit singleton identity and no synchronous model wait on the Minecraft tick thread. See [`docs/RUNTIME_BOUNDARY.md`](docs/RUNTIME_BOUNDARY.md).
 - **Model boundary:** batched inference over agent contexts with explicit state ownership and latency budgets.
 - **Persistence boundary:** schema versions, atomic saves, migrations, export/deletion, and provenance.
 - **Evaluation boundary:** deterministic/replayable scenarios where possible, plus long-running ecological evaluations that report variance.
 
 ## Open decisions
 
-Mod loader, supported Minecraft version, client installation requirement, exact player-entity hooks, process boundary, observation encoding, model family, training framework, persistence store, inference runtime, skin-catalog source, and personal adaptation technique remain unresolved. Each needs an issue, experiment, and ADR before commitment.
+Fabric embodiment validation, exact player-entity hooks, observation encoding, model family, training framework, persistence store, inference runtime implementation, skin-catalog source, and personal adaptation technique remain unresolved. Each needs an issue, experiment, and ADR before commitment.
