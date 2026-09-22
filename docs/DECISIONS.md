@@ -74,6 +74,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** NeoForge on a stable 26.x baseline; Quilt Loader/Fabric-compatible stack; maintaining multiple loaders from the start.
 - **Consequences:** Fabric currently offers a direct 26.3 path, one-JAR tooling, server commands, GameTests, and a small integration surface. The unresolved risk is synthetic-player lifecycle support: this decision is rejected if a vanilla-visible persistent ServerPlayer-compatible agent requires a fake authenticated connection, a required client mod, or broad brittle mixins, especially if a matched NeoForge spike satisfies the same tests more cleanly. Version upgrades are explicit, pinned migrations rather than floating to latest. See docs/MOD_PLATFORM.md for the comparison, spike plan, falsifiers, and sources.
 
+## ADR-0009 — Data use is deny-by-default and artifact-specific
+
+- **Date:** 2026-09-22
+- **Status:** accepted
+- **Context:** Gameplay telemetry, chat, skins, worlds, public videos, research datasets, derived labels, and trained artifacts can have different copyright, database, contractual, consent, privacy, and redistribution constraints. Public availability and a repository code license do not answer all of those layers.
+- **Decision:** No data source enters collection, training, evaluation publication, or redistribution unless a versioned manifest records source/provenance, applicable rights or consent, permitted uses, privacy classes, retention/deletion policy, transformation lineage, and unresolved questions. Missing or contradictory evidence means the source is on hold. Prefer project-collected native telemetry under a purpose-specific consent protocol and synthetic/agent-only data where human data is unnecessary. Human chat is off by default. Never promise deletion from trained parameters without a validated mechanism that can actually provide it.
+- **Alternatives:** Treat public/downloadable data as reusable by default; infer data rights from an open-source code license; defer provenance and deletion lineage until publication.
+- **Consequences:** Dataset ingestion and training tooling require machine-readable use gates and lineage. Third-party datasets may remain unusable until artifact-specific terms are resolved. Human collection needs versioned consent, minimisation, retention, and withdrawal workflows. See [DATA_GOVERNANCE.md](DATA_GOVERNANCE.md) for the source matrix, consent requirements, risks, and review triggers.
+
 ## Open decision queue
 
 Fabric versus NeoForge (or another loader), supported Minecraft/Java versions, whether clients also need the mod, exact player lifecycle hooks, process and language boundary, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
