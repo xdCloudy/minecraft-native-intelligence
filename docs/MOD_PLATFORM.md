@@ -23,7 +23,7 @@ materially less loader-internal patching, prefer NeoForge instead.
 The platform must preserve the existing project decisions:
 
 - Java Edition mod attached to the logical server.
-- /spawn ai-agent <username> is an operator lifecycle command.
+- `/spawn ai-agent <username>` is an operator lifecycle command.
 - The AI is represented through the closest maintainable player-compatible
   server abstraction, not a custom NPC mob or authenticated bot account.
 - Single-player/LAN and dedicated servers are both required.
@@ -56,12 +56,12 @@ surface without a clear project-specific advantage for the first integration.
 | Current 26.3 path | Official 26.3 guidance published on release day | 26.3 branch/primer active; public stable listing lagged on 26.2 during review | Loader active; relies heavily on Fabric compatibility |
 | One distributable mod JAR | Supported by Loom | Supported by ModDevGradle/NeoForge | Supported |
 | Integrated + dedicated logical server | Strong fit; keep common entrypoint available on the physical client and gate game logic to the logical server | Strong fit; explicit logical/physical side model | Similar to Fabric |
-| Server command registration | Fabric API CommandRegistrationCallback | NeoForge command events/vanilla Brigadier | Fabric-compatible routes available |
+| Server command registration | Fabric API `CommandRegistrationCallback` | NeoForge command events/vanilla Brigadier | Fabric-compatible routes available |
 | Automated in-game testing | Fabric Loader JUnit + vanilla/Fabric GameTest support | NeoForge GameTest/test framework and ephemeral test-server support | Less project-specific value than Fabric |
-| Player lifecycle hooks | Fabric API exposes server-player join/leave/respawn events; deeper synthetic-player creation still needs a spike | Rich player event surface; also exposes FakePlayer, though its documented purpose is a player context rather than a guaranteed fully tracked remote player | Primarily inherits Fabric ecosystem options |
+| Player lifecycle hooks | Fabric API exposes server-player join/leave/respawn events; deeper synthetic-player creation still needs a spike | Rich player event surface; also exposes `FakePlayer`, though its documented purpose is a player context rather than a guaranteed fully tracked remote player | Primarily inherits Fabric ecosystem options |
 | Vanilla-client target | Plausible if the mod sends only vanilla-compatible state and does not require client payload handlers; must be tested | Plausible for server-only behavior when no mandatory client synchronization is introduced; must be tested | Plausible, but no advantage over Fabric for this requirement |
 | Loader-specific surface | Small/lightweight; mixins are available when API hooks are insufficient | Broader patched/event API surface | Additional loader compatibility layer |
-| Main risk for this project | Full player-compatible synthetic lifecycle may require too much vanilla-internal work | Extra loader/API surface and current-version release cadence; FakePlayer is not proof of tab-list/network/player parity | QSL discontinuation and no compelling embodiment benefit |
+| Main risk for this project | Full player-compatible synthetic lifecycle may require too much vanilla-internal work | Extra loader/API surface and current-version release cadence; `FakePlayer` is not proof of tab-list/network/player parity | QSL discontinuation and no compelling embodiment benefit |
 
 ## Why Fabric is the initial recommendation
 
@@ -102,7 +102,7 @@ Neither loader's existence proves the hard requirement: a persistent
 AI-controlled player that vanilla clients and server systems treat sufficiently
 like an ordinary player while no authenticated network client exists.
 
-NeoForge documents FakePlayer as a ServerPlayer subclass intended to provide
+NeoForge documents `FakePlayer` as a `ServerPlayer` subclass intended to provide
 a player context for non-player mechanisms. That is useful evidence, but it is
 not itself evidence that a fake player is automatically:
 
@@ -112,7 +112,7 @@ not itself evidence that a fake player is automatically:
 - saved and loaded through the desired persistent lifecycle; or
 - compatible with third-party systems that assume a real connection/session.
 
-Fabric exposes ordinary ServerPlayer lifecycle events but does not provide an
+Fabric exposes ordinary `ServerPlayer` lifecycle events but does not provide an
 equivalent high-level guarantee for a synthetic player. The next step therefore
 must be a narrow comparative embodiment spike, not an assumption.
 
@@ -122,11 +122,11 @@ Implement the smallest possible Fabric 26.3 prototype on a dedicated branch.
 
 1. Build one mod JAR with pinned Minecraft, Fabric Loader, Fabric API, Loom,
    Gradle, and Java versions.
-2. Register an authorized /spawn ai-agent <username> command using vanilla
+2. Register an authorized `/spawn ai-agent <username>` command using vanilla
    Brigadier/Fabric command registration.
 3. Allocate a project-owned UUID/profile without authenticating or
    impersonating a real Minecraft account.
-4. Create the closest maintainable ServerPlayer-compatible instance.
+4. Create the closest maintainable `ServerPlayer`-compatible instance.
 5. Integrate it through the least invasive vanilla player tracking/lifecycle
    path available.
 6. Connect an **unmodified 26.3 client** to the dedicated server.
@@ -165,7 +165,7 @@ reasonable focused spike:
 - A matched NeoForge spike satisfies the same tests with substantially less
   invasive loader-internal or vanilla-internal patching.
 
-Conversely, do **not** switch to NeoForge merely because it exposes FakePlayer;
+Conversely, do **not** switch to NeoForge merely because it exposes `FakePlayer`;
 the NeoForge spike must prove the same visibility, lifecycle and vanilla-client
 requirements.
 
@@ -205,7 +205,7 @@ Initial operator journey:
 2. Place the project mod JAR (and declared Fabric API dependency, if not bundled)
    in the instance/server mods directory.
 3. Launch the world/server and check the mod's startup compatibility report.
-4. Run /spawn ai-agent <username> as an authorized operator.
+4. Run `/spawn ai-agent <username>` as an authorized operator.
 
 A dedicated server should not require ordinary human players to install the
 project mod if the compatibility spike confirms vanilla protocol behavior.
