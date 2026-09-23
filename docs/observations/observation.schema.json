@@ -291,6 +291,28 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "partial"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "negative_evidence": {
+                "enum": [
+                  "observed_items_only",
+                  "none"
+                ]
+              }
+            }
+          }
         }
       ]
     },
@@ -875,7 +897,7 @@
         "item": {
           "oneOf": [
             {
-              "$ref": "#/$defs/itemSummary"
+              "$ref": "#/$defs/visibleItemSummary"
             },
             {
               "type": "null"
@@ -1215,6 +1237,19 @@
             "pattern": "^[a-z0-9_.-]+(?:\\.[a-z0-9_.-]+)+$"
           },
           "additionalProperties": true
+        }
+      }
+    },
+    "visibleItemSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
         }
       }
     }
