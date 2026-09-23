@@ -10,7 +10,7 @@ The project asks whether broad, persistent, socially grounded Minecraft intellig
 4. **Grounded language and social learning:** measure whether conversation refers to shared state and changes later belief/action appropriately.
 5. **Individual adaptation:** separate memory-based learning from parameter updates; quantify retention, transfer, privacy, and rollback.
 6. **Multi-agent systems:** measure scheduling, batching, identity isolation, social dynamics, and emergent communication without scripting outcomes.
-7. **Evaluation:** build scenario suites and longitudinal studies that expose brittleness, privileged information, and scripted shortcuts.
+7. **Evaluation:** build scenario suites and longitudinal studies that expose brittleness, privileged information, and scripted shortcuts using the versioned contract in [`docs/EVALUATION.md`](docs/EVALUATION.md).
 
 ## Evidence standard
 
