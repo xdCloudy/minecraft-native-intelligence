@@ -1198,8 +1198,9 @@
     {
       "path": "policy.events.items[*].detail",
       "channel": "outcome",
-      "source": "Own concise player-facing outcome detail",
+      "source": "Own embodied lifecycle or own action outcome",
       "access_rule_ids": [
+        "ia.self.owned_state",
         "ia.outcome.own_action"
       ],
       "policy_visible": true,
@@ -1209,7 +1210,7 @@
       "unknown_semantics": "null when no safe detail",
       "absence_semantics": "must not leak hidden target/world state",
       "stability": "core",
-      "notes": ""
+      "notes": "Shared field path across self_lifecycle and action_outcome variants; detail remains bounded and must not leak hidden diagnostics."
     },
     {
       "path": "policy.events.coverage.status",
@@ -1276,27 +1277,14 @@
       "notes": "Unknown optional extension data is not automatically a model feature; each extension must register its own fields/access rules before policy use."
     },
     {
-      "path": "policy.events.items[*].event_id",
-      "channel": "protocol",
-      "source": "Observation/event adapter",
-      "access_rule_ids": [
-        "ia.protocol.mask_from_policy"
-      ],
-      "policy_visible": true,
-      "units": "observation_local_id",
-      "frame": "event_window",
-      "precision": "opaque token",
-      "unknown_semantics": "event exists only when legitimately delivered",
-      "absence_semantics": "absence governed by event coverage",
-      "stability": "core",
-      "notes": "Correlation token is policy-visible only to associate events inside the current observation stream; it is not a host/trace identifier."
-    },
-    {
       "path": "policy.events.items[*].kind",
-      "channel": "protocol",
-      "source": "Observation/event adapter",
+      "channel": "self",
+      "source": "Legitimately delivered player-facing event",
       "access_rule_ids": [
-        "ia.protocol.mask_from_policy"
+        "ia.self.owned_state",
+        "ia.audio.client_delivery",
+        "ia.chat.recipient_delivery",
+        "ia.outcome.own_action"
       ],
       "policy_visible": true,
       "units": "semantic_event_kind",
@@ -1305,7 +1293,7 @@
       "unknown_semantics": "event exists only when legitimately delivered",
       "absence_semantics": "absence governed by event coverage",
       "stability": "core",
-      "notes": "Discriminates the policy-visible event variant. It is not hidden server metadata."
+      "notes": "Variant discriminator only for an event already admitted through its channel-specific access rule."
     },
     {
       "path": "policy.events.items[*].event_type",
