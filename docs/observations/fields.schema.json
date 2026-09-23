@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:observation-fields:v0",
+  "title": "Minecraft Native Intelligence observation field registry v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registry_version",
+    "observation_schema_version",
+    "fields"
+  ],
+  "properties": {
+    "registry_version": {
+      "const": "observation-fields.v0"
+    },
+    "observation_schema_version": {
+      "const": "observation.v0"
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "channel",
+          "source",
+          "access_rule_ids",
+          "policy_visible",
+          "units",
+          "frame",
+          "precision",
+          "unknown_semantics",
+          "absence_semantics",
+          "stability"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "channel": {
+            "enum": [
+              "self",
+              "vision",
+              "audio",
+              "chat",
+              "ui",
+              "outcome",
+              "memory",
+              "protocol",
+              "privileged"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "access_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^ia\\.[a-z0-9_.-]+$"
+            }
+          },
+          "policy_visible": {
+            "type": "boolean"
+          },
+          "units": {
+            "type": "string",
+            "minLength": 1
+          },
+          "frame": {
+            "type": "string",
+            "minLength": 1
+          },
+          "precision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unknown_semantics": {
+            "type": "string",
+            "minLength": 1
+          },
+          "absence_semantics": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stability": {
+            "enum": [
+              "core",
+              "experimental",
+              "protocol_only"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
