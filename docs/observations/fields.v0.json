@@ -1,0 +1,1315 @@
+{
+  "registry_version": "observation-fields.v0",
+  "observation_schema_version": "observation.v0",
+  "fields": [
+    {
+      "path": "meta.agent_id",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Routing identity; never a policy feature."
+    },
+    {
+      "path": "meta.world_session_id",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "World/session routing identity; never a policy feature."
+    },
+    {
+      "path": "meta.sequence",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Monotonic ordering metadata."
+    },
+    {
+      "path": "meta.game_tick",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Exact server game tick for ordering/replay."
+    },
+    {
+      "path": "meta.trace_id",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Cross-system trace correlation."
+    },
+    {
+      "path": "meta.field_registry_version",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Field-registry compatibility metadata."
+    },
+    {
+      "path": "meta.producer_version",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Producer implementation/version metadata."
+    },
+    {
+      "path": "meta.information_access_profile_id",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Information-access profile metadata."
+    },
+    {
+      "path": "meta.capabilities",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Optional observation/representation capabilities."
+    },
+    {
+      "path": "meta.required_capabilities",
+      "channel": "protocol",
+      "source": "observation envelope",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": false,
+      "units": "n/a",
+      "frame": "protocol",
+      "precision": "exact",
+      "unknown_semantics": "not_applicable",
+      "absence_semantics": "not_applicable",
+      "stability": "protocol_only",
+      "notes": "Mandatory capabilities for interpretation."
+    },
+    {
+      "path": "policy.self.position",
+      "channel": "self",
+      "source": "ServerPlayer own position",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "blocks",
+      "frame": "world_continuous",
+      "precision": "implementation precision; quantization requires contract decision",
+      "unknown_semantics": "explicit observed/unknown/not_applicable wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.orientation",
+      "channel": "self",
+      "source": "ServerPlayer own look orientation",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "degrees",
+      "frame": "player_camera",
+      "precision": "floating point",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.velocity",
+      "channel": "self",
+      "source": "ServerPlayer own motion",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "blocks_per_tick",
+      "frame": "world_axes",
+      "precision": "floating point",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.pose",
+      "channel": "self",
+      "source": "ServerPlayer own pose",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id",
+      "frame": "self",
+      "precision": "namespaced semantic enum",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.on_ground",
+      "channel": "self",
+      "source": "ServerPlayer own grounded state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "boolean",
+      "frame": "self",
+      "precision": "exact",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.health.current",
+      "channel": "self",
+      "source": "Own health state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "health_points",
+      "frame": "self",
+      "precision": "floating point",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.health.max",
+      "channel": "self",
+      "source": "Own health state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "health_points",
+      "frame": "self",
+      "precision": "floating point",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.health.absorption",
+      "channel": "self",
+      "source": "Own absorption state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "health_points",
+      "frame": "self",
+      "precision": "floating point",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.food.level",
+      "channel": "self",
+      "source": "Own food/HUD state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "food_points",
+      "frame": "self",
+      "precision": "integer",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.air.current",
+      "channel": "self",
+      "source": "Own air state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "air_ticks",
+      "frame": "self",
+      "precision": "integer",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.air.max",
+      "channel": "self",
+      "source": "Own air capacity",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "air_ticks",
+      "frame": "self",
+      "precision": "integer",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.experience_level",
+      "channel": "self",
+      "source": "Own experience HUD state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "levels",
+      "frame": "self",
+      "precision": "integer",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.experience_progress",
+      "channel": "self",
+      "source": "Own experience HUD progress",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "fraction",
+      "frame": "self",
+      "precision": "float 0..1",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.selected_hotbar_slot",
+      "channel": "self",
+      "source": "Own selected slot",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "slot_index",
+      "frame": "inventory",
+      "precision": "integer",
+      "unknown_semantics": "explicit wrapper",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.inventory.status",
+      "channel": "self",
+      "source": "Own inventory access state",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "semantic_status",
+      "frame": "inventory",
+      "precision": "enum",
+      "unknown_semantics": "observed/unknown is explicit",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.inventory.slots[*].slot",
+      "channel": "self",
+      "source": "Own inventory slot",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "slot_index",
+      "frame": "inventory",
+      "precision": "integer",
+      "unknown_semantics": "collection available only when inventory.status=observed",
+      "absence_semantics": "null item means observed empty slot",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.inventory.slots[*].item",
+      "channel": "self",
+      "source": "Own inspectable item summary",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "item_summary",
+      "frame": "inventory",
+      "precision": "declared summary fields only",
+      "unknown_semantics": "collection available only when inventory.status=observed",
+      "absence_semantics": "null means observed empty slot",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.equipment[*]",
+      "channel": "self",
+      "source": "Own equipped item summary",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "item_summary",
+      "frame": "equipment_slot",
+      "precision": "declared summary fields only",
+      "unknown_semantics": "core equipment list expected",
+      "absence_semantics": "null item means observed empty equipment slot",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.self.status_effects[*]",
+      "channel": "self",
+      "source": "Own player-visible active effects",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "effect_summary",
+      "frame": "self",
+      "precision": "effect id/amplifier plus integer player-facing duration seconds",
+      "unknown_semantics": "empty list is observed none for declared self-visible effects",
+      "absence_semantics": "empty list means none in declared self-visible scope",
+      "stability": "core",
+      "notes": "Do not expose exact server tick expiry merely because the server stores it."
+    },
+    {
+      "path": "policy.world_cues.dimension_id",
+      "channel": "self",
+      "source": "Current embodied dimension context",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id",
+      "frame": "world",
+      "precision": "exact semantic category",
+      "unknown_semantics": "required current cue",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.world_cues.day_phase",
+      "channel": "vision",
+      "source": "Current player-facing sky/time cue",
+      "access_rule_ids": [
+        "ia.visual.occlusion"
+      ],
+      "policy_visible": true,
+      "units": "semantic_phase",
+      "frame": "world",
+      "precision": "coarse enum",
+      "unknown_semantics": "unknown enum value is explicit",
+      "absence_semantics": "unknown does not imply day/night",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.world_cues.weather",
+      "channel": "vision",
+      "source": "Current player-facing weather cue",
+      "access_rule_ids": [
+        "ia.visual.occlusion"
+      ],
+      "policy_visible": true,
+      "units": "semantic_weather",
+      "frame": "world",
+      "precision": "coarse enum",
+      "unknown_semantics": "unknown enum value is explicit",
+      "absence_semantics": "unknown does not imply clear",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.coverage.status",
+      "channel": "vision",
+      "source": "Per-agent access filter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "coverage_status",
+      "frame": "declared_visual_scope",
+      "precision": "enum",
+      "unknown_semantics": "partial/unavailable preserve unknown state",
+      "absence_semantics": "complete permits scope-level negative evidence only with matching mode",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.coverage.negative_evidence",
+      "channel": "vision",
+      "source": "Per-agent access filter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "negative_evidence_mode",
+      "frame": "declared_visual_scope",
+      "precision": "enum",
+      "unknown_semantics": "explicit",
+      "absence_semantics": "defines whether an empty collection can support absence",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.coverage.reason_codes[*]",
+      "channel": "vision",
+      "source": "Per-agent access filter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "reason_code",
+      "frame": "declared_visual_scope",
+      "precision": "semantic identifiers",
+      "unknown_semantics": "explicit",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].sample_id",
+      "channel": "vision",
+      "source": "Observation adapter visible-surface sampler",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "observation_local_id",
+      "frame": "current_observation",
+      "precision": "opaque token",
+      "unknown_semantics": "item absent when not observed",
+      "absence_semantics": "not an identity beyond current observation",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].relative_block",
+      "channel": "vision",
+      "source": "Visible surface block location",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "blocks",
+      "frame": "agent_local",
+      "precision": "integer block offset",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "absence governed by collection coverage",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].block_id",
+      "channel": "vision",
+      "source": "Visible surface block classification",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id",
+      "frame": "agent_local",
+      "precision": "exact approved block category",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "absence governed by collection coverage",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].visible_properties",
+      "channel": "vision",
+      "source": "Visible/interaction-relevant block-state whitelist",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "property_map",
+      "frame": "agent_local",
+      "precision": "approved properties only",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "missing property is not arbitrary hidden state",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].visible_faces",
+      "channel": "vision",
+      "source": "Visible block-face set",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "face_ids",
+      "frame": "agent_local",
+      "precision": "six-face enum",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "empty face set should not be emitted as visible sample",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].fluid_id",
+      "channel": "vision",
+      "source": "Visible fluid cue",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id_or_null",
+      "frame": "agent_local",
+      "precision": "exact approved fluid category",
+      "unknown_semantics": "null is observed no visible fluid for sample",
+      "absence_semantics": "not a query of hidden fluid state",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.geometry.items[*].visibility_quality",
+      "channel": "vision",
+      "source": "Access-filter visibility quality",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "fraction",
+      "frame": "agent_local",
+      "precision": "float 0..1",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "not a hidden light-engine value",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.coverage.status",
+      "channel": "vision",
+      "source": "Per-agent access filter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "coverage_status",
+      "frame": "declared_visual_scope",
+      "precision": "enum",
+      "unknown_semantics": "partial/unavailable preserve unknown state",
+      "absence_semantics": "complete permits scope-level negative evidence only with matching mode",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.coverage.negative_evidence",
+      "channel": "vision",
+      "source": "Per-agent access filter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "negative_evidence_mode",
+      "frame": "declared_visual_scope",
+      "precision": "enum",
+      "unknown_semantics": "explicit",
+      "absence_semantics": "defines whether empty collection supports absence",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.coverage.reason_codes[*]",
+      "channel": "vision",
+      "source": "Per-agent access filter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "reason_code",
+      "frame": "declared_visual_scope",
+      "precision": "semantic identifiers",
+      "unknown_semantics": "explicit",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].observation_ref",
+      "channel": "vision",
+      "source": "Observation adapter",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "observation_local_id",
+      "frame": "current_observation",
+      "precision": "opaque token",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "no persistence guarantee across observations",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].type_id",
+      "channel": "vision",
+      "source": "Player-facing entity classification",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id",
+      "frame": "agent_local",
+      "precision": "exact visible category",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "hidden type is not exposed",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].relative_position",
+      "channel": "vision",
+      "source": "Current sensed entity position",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "blocks",
+      "frame": "agent_local",
+      "precision": "floating point; later quantization allowed only by contract",
+      "unknown_semantics": "positive observation only",
+      "absence_semantics": "absence governed by collection coverage",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].relative_velocity",
+      "channel": "vision",
+      "source": "Current visibly inferable entity motion",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "blocks_per_tick",
+      "frame": "agent_local",
+      "precision": "floating point or explicit unknown",
+      "unknown_semantics": "observed/unknown wrapper",
+      "absence_semantics": "absence not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].pose",
+      "channel": "vision",
+      "source": "Current visible entity pose",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id_or_null",
+      "frame": "agent_local",
+      "precision": "coarse semantic value",
+      "unknown_semantics": "null means no declared visible pose",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].display_name",
+      "channel": "vision",
+      "source": "Visible nameplate/display text",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "text_or_null",
+      "frame": "agent_local",
+      "precision": "exact delivered display text",
+      "unknown_semantics": "null means no visible nameplate in current observation",
+      "absence_semantics": "not hidden profile lookup",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.entities.items[*].equipment",
+      "channel": "vision",
+      "source": "Visible held/equipped item summaries",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "item_summary_list",
+      "frame": "agent_local",
+      "precision": "visible item identity only",
+      "unknown_semantics": "empty means no visible equipment in declared representation",
+      "absence_semantics": "not hidden inventory",
+      "stability": "core",
+      "notes": "Uses visibleItemSummary: item_id only; no stack count, durability, custom name, enchantments, or hidden inventory metadata."
+    },
+    {
+      "path": "policy.entities.items[*].cue_flags",
+      "channel": "vision",
+      "source": "Visible mechanic-derived cue flags",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "semantic_flags",
+      "frame": "agent_local",
+      "precision": "declared flags",
+      "unknown_semantics": "empty means no declared visible cue flags",
+      "absence_semantics": "does not expose unrelated hidden properties",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].sound_id",
+      "channel": "audio",
+      "source": "Client-equivalent sound dispatch",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id",
+      "frame": "agent_local",
+      "precision": "stable event category",
+      "unknown_semantics": "event exists only when delivered/legitimately audible",
+      "absence_semantics": "lack of event depends on events coverage",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].category",
+      "channel": "audio",
+      "source": "Client-equivalent sound dispatch",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "semantic_category",
+      "frame": "agent_local",
+      "precision": "semantic enum/string",
+      "unknown_semantics": "same as event",
+      "absence_semantics": "same as event",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].direction",
+      "channel": "audio",
+      "source": "Client-equivalent audible cue",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "relative_vector",
+      "frame": "agent_local",
+      "precision": "observed/unknown wrapper",
+      "unknown_semantics": "unknown if direction unavailable",
+      "absence_semantics": "does not imply exact source position",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].distance_band",
+      "channel": "audio",
+      "source": "Client-equivalent attenuation cue",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "semantic_band",
+      "frame": "agent_local",
+      "precision": "very_near/near/mid/far/unknown",
+      "unknown_semantics": "unknown is explicit",
+      "absence_semantics": "not exact distance",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].volume",
+      "channel": "audio",
+      "source": "Player-facing sound cue",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "relative_volume",
+      "frame": "audio",
+      "precision": "floating point",
+      "unknown_semantics": "event exists only when delivered",
+      "absence_semantics": "not exact hidden source state",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].pitch",
+      "channel": "audio",
+      "source": "Player-facing sound cue",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "relative_pitch",
+      "frame": "audio",
+      "precision": "floating point",
+      "unknown_semantics": "event exists only when delivered",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].entity_ref",
+      "channel": "audio",
+      "source": "Association only when independently sensed",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible": true,
+      "units": "observation_local_id_or_null",
+      "frame": "current_observation",
+      "precision": "opaque token",
+      "unknown_semantics": "null when not independently associated",
+      "absence_semantics": "must not create hidden identity",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].channel",
+      "channel": "chat",
+      "source": "Server-delivered chat routing",
+      "access_rule_ids": [
+        "ia.chat.recipient_delivery"
+      ],
+      "policy_visible": true,
+      "units": "semantic_channel",
+      "frame": "social",
+      "precision": "exact delivered category",
+      "unknown_semantics": "event only when delivered",
+      "absence_semantics": "lack of message depends on event window coverage",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].sender_display",
+      "channel": "chat",
+      "source": "Player-facing delivered message",
+      "access_rule_ids": [
+        "ia.chat.recipient_delivery"
+      ],
+      "policy_visible": true,
+      "units": "text_or_null",
+      "frame": "social",
+      "precision": "exact delivered display identity",
+      "unknown_semantics": "null if not presented",
+      "absence_semantics": "not a hidden account lookup",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].sender_entity_ref",
+      "channel": "chat",
+      "source": "Association only when independently sensed",
+      "access_rule_ids": [
+        "ia.chat.recipient_delivery"
+      ],
+      "policy_visible": true,
+      "units": "observation_local_id_or_null",
+      "frame": "current_observation",
+      "precision": "opaque token",
+      "unknown_semantics": "null when not associated",
+      "absence_semantics": "not a server UUID",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].text",
+      "channel": "chat",
+      "source": "Server-delivered chat content",
+      "access_rule_ids": [
+        "ia.chat.recipient_delivery"
+      ],
+      "policy_visible": true,
+      "units": "text",
+      "frame": "social",
+      "precision": "exact delivered content",
+      "unknown_semantics": "event only when delivered",
+      "absence_semantics": "privacy/consent handled separately",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].message_type",
+      "channel": "chat",
+      "source": "Player-facing message type",
+      "access_rule_ids": [
+        "ia.chat.recipient_delivery"
+      ],
+      "policy_visible": true,
+      "units": "semantic_id",
+      "frame": "social",
+      "precision": "semantic category",
+      "unknown_semantics": "event only when delivered",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].request_id",
+      "channel": "outcome",
+      "source": "Own action correlation",
+      "access_rule_ids": [
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "request_id",
+      "frame": "action_stream",
+      "precision": "opaque token",
+      "unknown_semantics": "event only for own action",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].phase",
+      "channel": "outcome",
+      "source": "Own authoritative action outcome",
+      "access_rule_ids": [
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "semantic_phase",
+      "frame": "action_stream",
+      "precision": "enum",
+      "unknown_semantics": "event only when outcome exists",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].code",
+      "channel": "outcome",
+      "source": "Own semantic outcome/rejection code",
+      "access_rule_ids": [
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "semantic_code",
+      "frame": "action_stream",
+      "precision": "stable code",
+      "unknown_semantics": "event only when outcome exists",
+      "absence_semantics": "must not encode hidden diagnostics",
+      "stability": "core",
+      "notes": ""
+    },
+    {
+      "path": "policy.events.items[*].detail",
+      "channel": "outcome",
+      "source": "Own embodied lifecycle or own action outcome",
+      "access_rule_ids": [
+        "ia.self.owned_state",
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "text_or_null",
+      "frame": "action_stream",
+      "precision": "bounded text",
+      "unknown_semantics": "null when no safe detail",
+      "absence_semantics": "must not leak hidden target/world state",
+      "stability": "core",
+      "notes": "Shared field path across self_lifecycle and action_outcome variants; detail remains bounded and must not leak hidden diagnostics."
+    },
+    {
+      "path": "policy.events.coverage.status",
+      "channel": "protocol",
+      "source": "Observation/event adapter",
+      "access_rule_ids": [
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "coverage_status",
+      "frame": "event_window",
+      "precision": "enum",
+      "unknown_semantics": "partial/unavailable preserve uncertainty",
+      "absence_semantics": "complete may support no-event claim only for declared window",
+      "stability": "core",
+      "notes": "Policy-visible uncertainty/coverage semantics; not transport-only metadata."
+    },
+    {
+      "path": "policy.events.coverage.negative_evidence",
+      "channel": "protocol",
+      "source": "Observation/event adapter",
+      "access_rule_ids": [
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "negative_evidence_mode",
+      "frame": "event_window",
+      "precision": "enum",
+      "unknown_semantics": "explicit",
+      "absence_semantics": "defines no-event semantics",
+      "stability": "core",
+      "notes": "Policy-visible uncertainty/coverage semantics; not transport-only metadata."
+    },
+    {
+      "path": "policy.events.coverage.reason_codes[*]",
+      "channel": "protocol",
+      "source": "Observation/event adapter",
+      "access_rule_ids": [
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible": true,
+      "units": "reason_code",
+      "frame": "event_window",
+      "precision": "semantic identifiers",
+      "unknown_semantics": "explicit",
+      "absence_semantics": "not_applicable",
+      "stability": "core",
+      "notes": "Policy-visible uncertainty/coverage semantics; not transport-only metadata."
+    },
+    {
+      "path": "policy.extensions.*",
+      "channel": "ui",
+      "source": "Declared extension capability",
+      "access_rule_ids": [
+        "ia.ui.player_facing"
+      ],
+      "policy_visible": false,
+      "units": "extension_defined",
+      "frame": "extension_defined",
+      "precision": "extension-defined",
+      "unknown_semantics": "extension-defined",
+      "absence_semantics": "extension-defined",
+      "stability": "experimental",
+      "notes": "Unknown optional extension data is not automatically a model feature; each extension must register its own fields/access rules before policy use."
+    },
+    {
+      "path": "policy.events.items[*].kind",
+      "channel": "self",
+      "source": "Legitimately delivered player-facing event",
+      "access_rule_ids": [
+        "ia.self.owned_state",
+        "ia.audio.client_delivery",
+        "ia.chat.recipient_delivery",
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "semantic_event_kind",
+      "frame": "event_window",
+      "precision": "closed v0 enum",
+      "unknown_semantics": "event exists only when legitimately delivered",
+      "absence_semantics": "absence governed by event coverage",
+      "stability": "core",
+      "notes": "Variant discriminator only for an event already admitted through its channel-specific access rule."
+    },
+    {
+      "path": "policy.events.items[*].event_type",
+      "channel": "outcome",
+      "source": "Own embodied lifecycle/action outcome",
+      "access_rule_ids": [
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "semantic_lifecycle_type",
+      "frame": "self",
+      "precision": "semantic value",
+      "unknown_semantics": "event exists only when legitimately observed",
+      "absence_semantics": "absence governed by event coverage",
+      "stability": "core",
+      "notes": "Self-visible lifecycle event type."
+    }
+  ]
+}

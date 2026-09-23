@@ -1,0 +1,138 @@
+{
+  "schema_version": "observation-compatibility.v0",
+  "consumer_schema_version": "observation.v0",
+  "cases": [
+    {
+      "id": "canonical_v0",
+      "fixture": "example-observation.v0.json",
+      "mutation": null,
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "accept",
+      "reason": "Canonical v0 fixture is supported.",
+      "absence_claim_allowed": null
+    },
+    {
+      "id": "unknown_optional_extension",
+      "fixture": "example-extension.v0.json",
+      "mutation": null,
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "accept",
+      "reason": "Unknown optional extension/capability is ignorable.",
+      "absence_claim_allowed": null
+    },
+    {
+      "id": "unknown_required_capability",
+      "fixture": "example-observation.v0.json",
+      "mutation": {
+        "op": "add_required_capability",
+        "capability": "example.required.future.v9"
+      },
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "reject",
+      "reason": "Consumer must fail closed on an unknown required capability.",
+      "absence_claim_allowed": null
+    },
+    {
+      "id": "future_schema_version",
+      "fixture": "example-observation.v0.json",
+      "mutation": {
+        "op": "set_schema_version",
+        "value": "observation.v1"
+      },
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "reject",
+      "reason": "A v0-only consumer rejects an unsupported observation schema version.",
+      "absence_claim_allowed": null
+    },
+    {
+      "id": "wrong_position_shape",
+      "fixture": "example-observation.v0.json",
+      "mutation": {
+        "op": "set_path",
+        "path": "policy.self.position.value.x",
+        "value": "not-a-number"
+      },
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "reject",
+      "reason": "Core field shape/type is strict.",
+      "absence_claim_allowed": null
+    },
+    {
+      "id": "unknown_core_property",
+      "fixture": "example-observation.v0.json",
+      "mutation": {
+        "op": "add_core_property",
+        "path": "policy.server_secret",
+        "value": true
+      },
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "reject",
+      "reason": "Unknown core policy properties cannot bypass the extension surface.",
+      "absence_claim_allowed": null
+    },
+    {
+      "id": "partial_empty_is_not_absence",
+      "fixture": "example-unknowns.v0.json",
+      "mutation": null,
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "accept",
+      "reason": "An empty partial entity collection is valid but does not establish absence.",
+      "absence_claim_allowed": false
+    },
+    {
+      "id": "complete_empty_can_support_absence",
+      "fixture": "example-unknowns.v0.json",
+      "mutation": {
+        "op": "set_collection_coverage",
+        "collection": "entities",
+        "status": "complete",
+        "negative_evidence": "scope_complete"
+      },
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "accept",
+      "reason": "An empty complete entity collection supports absence only inside its declared sensor scope.",
+      "absence_claim_allowed": true
+    },
+    {
+      "id": "partial_cannot_claim_scope_complete",
+      "fixture": "example-unknowns.v0.json",
+      "mutation": {
+        "op": "set_collection_coverage",
+        "collection": "entities",
+        "status": "partial",
+        "negative_evidence": "scope_complete"
+      },
+      "supported_capabilities": [
+        "mni.geometry.surface_samples.v0",
+        "mni.entities.ephemeral.v0"
+      ],
+      "expected": "reject",
+      "reason": "Partial coverage cannot claim complete negative evidence.",
+      "absence_claim_allowed": null
+    }
+  ]
+}

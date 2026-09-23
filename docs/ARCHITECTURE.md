@@ -28,7 +28,7 @@ Converts intentions/policy outputs into typed actions, checks schema and timing,
 
 ## Data flow
 
-Every observation and action should carry agent identity, world/session identity, schema version, monotonic sequence information, game time, validity masks, and trace correlation. Persistent facts link to evidence; model inputs are reconstructable subject to privacy retention policy.
+Every observation/action envelope should carry agent identity, world/session identity, schema version, monotonic sequence information, game time, validity/coverage state, and trace correlation. Observation v0 keeps this routing/replay metadata in a policy-hidden `meta` section and exposes only information-access-approved native state through `policy`; model-input builders must not serialize the whole envelope. Persistent facts link to evidence, and retained model inputs remain reconstructable subject to privacy policy.
 
 ## Failure isolation
 

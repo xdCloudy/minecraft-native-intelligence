@@ -1,0 +1,174 @@
+{
+  "schema_version": "observation.v0",
+  "meta": {
+    "agent_id": "agent-fixture-001",
+    "world_session_id": "world-fixture-001",
+    "sequence": 43,
+    "game_tick": 841,
+    "trace_id": "trace-fixture-unknowns",
+    "field_registry_version": "observation-fields.v0",
+    "producer_version": "fixture-producer.v0",
+    "capabilities": [
+      "mni.geometry.surface_samples.v0",
+      "mni.entities.ephemeral.v0"
+    ],
+    "required_capabilities": [],
+    "information_access_profile_id": "player-equivalent.v1"
+  },
+  "policy": {
+    "self": {
+      "position": {
+        "status": "observed",
+        "value": {
+          "x": 100.5,
+          "y": 64,
+          "z": -20.25
+        }
+      },
+      "orientation": {
+        "status": "observed",
+        "value": {
+          "yaw_degrees": 90,
+          "pitch_degrees": -5
+        }
+      },
+      "velocity": {
+        "status": "unknown",
+        "reason": "temporarily_unavailable"
+      },
+      "pose": {
+        "status": "observed",
+        "value": "standing"
+      },
+      "on_ground": {
+        "status": "observed",
+        "value": true
+      },
+      "health": {
+        "current": {
+          "status": "observed",
+          "value": 18
+        },
+        "max": {
+          "status": "observed",
+          "value": 20
+        },
+        "absorption": {
+          "status": "observed",
+          "value": 0
+        }
+      },
+      "food": {
+        "level": {
+          "status": "observed",
+          "value": 17
+        }
+      },
+      "air": {
+        "current": {
+          "status": "observed",
+          "value": 300
+        },
+        "max": {
+          "status": "observed",
+          "value": 300
+        }
+      },
+      "experience_level": {
+        "status": "observed",
+        "value": 4
+      },
+      "experience_progress": {
+        "status": "observed",
+        "value": 0.35
+      },
+      "selected_hotbar_slot": {
+        "status": "observed",
+        "value": 0
+      },
+      "inventory": {
+        "status": "unknown",
+        "slots": [],
+        "reason": "inventory_snapshot_unavailable"
+      },
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": {
+            "item_id": "minecraft:iron_pickaxe",
+            "count": 1,
+            "damage": 12,
+            "max_damage": 250,
+            "custom_name": null,
+            "visible_enchantments": []
+          }
+        },
+        {
+          "slot": "offhand",
+          "item": {
+            "item_id": "minecraft:torch",
+            "count": 16,
+            "damage": null,
+            "max_damage": null,
+            "custom_name": null,
+            "visible_enchantments": []
+          }
+        },
+        {
+          "slot": "head",
+          "item": null
+        },
+        {
+          "slot": "chest",
+          "item": null
+        },
+        {
+          "slot": "legs",
+          "item": null
+        },
+        {
+          "slot": "feet",
+          "item": null
+        }
+      ],
+      "status_effects": []
+    },
+    "world_cues": {
+      "dimension_id": "minecraft:overworld",
+      "day_phase": "day",
+      "weather": "clear"
+    },
+    "geometry": {
+      "coverage": {
+        "status": "unavailable",
+        "negative_evidence": "none",
+        "reason_codes": [
+          "sensor_unavailable"
+        ]
+      },
+      "items": []
+    },
+    "entities": {
+      "coverage": {
+        "status": "partial",
+        "negative_evidence": "observed_items_only",
+        "reason_codes": [
+          "occlusion",
+          "outside_frustum"
+        ]
+      },
+      "items": []
+    },
+    "events": {
+      "coverage": {
+        "status": "unavailable",
+        "negative_evidence": "none",
+        "reason_codes": [
+          "event_window_unavailable"
+        ]
+      },
+      "items": []
+    },
+    "extensions": {}
+  }
+}

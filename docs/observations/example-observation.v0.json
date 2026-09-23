@@ -1,0 +1,285 @@
+{
+  "schema_version": "observation.v0",
+  "meta": {
+    "agent_id": "agent-fixture-001",
+    "world_session_id": "world-fixture-001",
+    "sequence": 42,
+    "game_tick": 840,
+    "trace_id": "trace-fixture-001",
+    "field_registry_version": "observation-fields.v0",
+    "producer_version": "fixture-producer.v0",
+    "capabilities": [
+      "mni.geometry.surface_samples.v0",
+      "mni.entities.ephemeral.v0"
+    ],
+    "required_capabilities": [],
+    "information_access_profile_id": "player-equivalent.v1"
+  },
+  "policy": {
+    "self": {
+      "position": {
+        "status": "observed",
+        "value": {
+          "x": 100.5,
+          "y": 64,
+          "z": -20.25
+        }
+      },
+      "orientation": {
+        "status": "observed",
+        "value": {
+          "yaw_degrees": 90,
+          "pitch_degrees": -5
+        }
+      },
+      "velocity": {
+        "status": "observed",
+        "value": {
+          "x": 0.08,
+          "y": 0,
+          "z": 0
+        }
+      },
+      "pose": {
+        "status": "observed",
+        "value": "standing"
+      },
+      "on_ground": {
+        "status": "observed",
+        "value": true
+      },
+      "health": {
+        "current": {
+          "status": "observed",
+          "value": 18
+        },
+        "max": {
+          "status": "observed",
+          "value": 20
+        },
+        "absorption": {
+          "status": "observed",
+          "value": 0
+        }
+      },
+      "food": {
+        "level": {
+          "status": "observed",
+          "value": 17
+        }
+      },
+      "air": {
+        "current": {
+          "status": "observed",
+          "value": 300
+        },
+        "max": {
+          "status": "observed",
+          "value": 300
+        }
+      },
+      "experience_level": {
+        "status": "observed",
+        "value": 4
+      },
+      "experience_progress": {
+        "status": "observed",
+        "value": 0.35
+      },
+      "selected_hotbar_slot": {
+        "status": "observed",
+        "value": 0
+      },
+      "inventory": {
+        "status": "observed",
+        "slots": [
+          {
+            "slot": 0,
+            "item": {
+              "item_id": "minecraft:iron_pickaxe",
+              "count": 1,
+              "damage": 12,
+              "max_damage": 250,
+              "custom_name": null,
+              "visible_enchantments": []
+            }
+          },
+          {
+            "slot": 1,
+            "item": {
+              "item_id": "minecraft:torch",
+              "count": 16,
+              "damage": null,
+              "max_damage": null,
+              "custom_name": null,
+              "visible_enchantments": []
+            }
+          },
+          {
+            "slot": 2,
+            "item": null
+          }
+        ]
+      },
+      "equipment": [
+        {
+          "slot": "mainhand",
+          "item": {
+            "item_id": "minecraft:iron_pickaxe",
+            "count": 1,
+            "damage": 12,
+            "max_damage": 250,
+            "custom_name": null,
+            "visible_enchantments": []
+          }
+        },
+        {
+          "slot": "offhand",
+          "item": {
+            "item_id": "minecraft:torch",
+            "count": 16,
+            "damage": null,
+            "max_damage": null,
+            "custom_name": null,
+            "visible_enchantments": []
+          }
+        },
+        {
+          "slot": "head",
+          "item": null
+        },
+        {
+          "slot": "chest",
+          "item": null
+        },
+        {
+          "slot": "legs",
+          "item": null
+        },
+        {
+          "slot": "feet",
+          "item": null
+        }
+      ],
+      "status_effects": []
+    },
+    "world_cues": {
+      "dimension_id": "minecraft:overworld",
+      "day_phase": "day",
+      "weather": "clear"
+    },
+    "geometry": {
+      "coverage": {
+        "status": "complete",
+        "negative_evidence": "scope_complete",
+        "reason_codes": []
+      },
+      "items": [
+        {
+          "sample_id": "block-1",
+          "relative_block": {
+            "x": 0,
+            "y": -1,
+            "z": 1
+          },
+          "block_id": "minecraft:grass_block",
+          "visible_properties": {},
+          "visible_faces": [
+            "up",
+            "north"
+          ],
+          "fluid_id": null,
+          "visibility_quality": 1
+        },
+        {
+          "sample_id": "block-2",
+          "relative_block": {
+            "x": 0,
+            "y": 0,
+            "z": 2
+          },
+          "block_id": "minecraft:stone",
+          "visible_properties": {},
+          "visible_faces": [
+            "north"
+          ],
+          "fluid_id": null,
+          "visibility_quality": 0.92
+        }
+      ]
+    },
+    "entities": {
+      "coverage": {
+        "status": "partial",
+        "negative_evidence": "observed_items_only",
+        "reason_codes": [
+          "occlusion"
+        ]
+      },
+      "items": [
+        {
+          "observation_ref": "entity-local-1",
+          "type_id": "minecraft:zombie",
+          "relative_position": {
+            "x": 1.5,
+            "y": 0,
+            "z": 5.25
+          },
+          "relative_velocity": {
+            "status": "observed",
+            "value": {
+              "x": -0.02,
+              "y": 0,
+              "z": 0
+            }
+          },
+          "pose": "standing",
+          "display_name": null,
+          "equipment": [
+            {
+              "slot": "mainhand",
+              "item": {
+                "item_id": "minecraft:iron_sword"
+              }
+            }
+          ],
+          "cue_flags": []
+        }
+      ]
+    },
+    "events": {
+      "coverage": {
+        "status": "complete",
+        "negative_evidence": "scope_complete",
+        "reason_codes": []
+      },
+      "items": [
+        {
+          "kind": "sound",
+          "sound_id": "minecraft:block.grass.step",
+          "category": "players",
+          "direction": {
+            "status": "observed",
+            "value": {
+              "x": 0.2,
+              "y": 0,
+              "z": 0.98
+            }
+          },
+          "distance_band": "near",
+          "volume": 1,
+          "pitch": 1,
+          "entity_ref": null
+        },
+        {
+          "kind": "action_outcome",
+          "request_id": "action-fixture-17",
+          "phase": "completed",
+          "code": "success",
+          "detail": null
+        }
+      ]
+    },
+    "extensions": {}
+  }
+}
