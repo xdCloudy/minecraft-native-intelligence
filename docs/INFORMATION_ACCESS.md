@@ -1019,6 +1019,9 @@ Primary/current sources used for the baseline:
   describes server-side sound broadcasting to clients in tracking range.
 - [Minecraft: How to craft](https://www.minecraft.net/en-us/article/how-craft)
   documents player-facing recipe-book use.
+- [Minecraft Java Edition 1.20.2 Pre-Release 1](https://feedback.minecraft.net/hc/en-us/articles/19208108934925-Minecraft-Java-Edition-1-20-2-Pre-Release-1)
+  documents Java recipe-book search showing recipes even when they have not
+  been unlocked.
 
 Source links establish player-facing mechanics and implementation constraints.
 They do not by themselves prove that the server-side filter exactly matches
