@@ -128,6 +128,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Radius/chunk dumps from authoritative state; screenshot/audio-only core perception; allow all information available to an ordinary Java debug screen; rely on downstream model code to ignore privileged fields.
 - **Consequences:** #3 must attach access rules and unknown semantics to every observation field, and #62 must filter before data crosses the environment boundary. Memory cannot refresh unseen facts from the server. Privileged exceptions are declared in evaluation scenarios and invalidate baseline information claims if exposed to the policy. See [INFORMATION_ACCESS.md](INFORMATION_ACCESS.md) and `docs/information_access/`.
 
+## ADR-0015 — Observation v0 separates policy state from protocol metadata
+
+- **Date:** 2026-09-23
+- **Status:** accepted
+- **Context:** The native environment needs exact routing/replay metadata and a minimal structured policy view, while server-side implementation detail, hidden state, and ambiguous negative evidence would invalidate learning/evaluation if they reached the model. Terrain encoding, persistent sensed-entity identity, and temporal bandwidth are still separate research decisions.
+- **Decision:** Define `observation.v0` as a strict language-neutral envelope with policy-hidden `meta` and access-filtered `policy`. Core policy state covers self-owned state, coarse world cues, visible surface samples, ephemeral sensed entities, and bounded player-facing events. Potentially unavailable values use explicit observed/unknown/not-applicable states; sensed collections carry coverage and negative-evidence semantics so empty partial data cannot mean observed absence. Entity references are observation-local only. Unknown experimentation uses namespaced extensions/capabilities instead of arbitrary core fields.
+- **Alternatives:** One omniscient server-state object passed to the runtime; free-form JSON dictionaries; policy exposure of sequence/tick/profile metadata; radius-based block/entity dumps; assign persistent server UUIDs to sensed entities immediately.
+- **Consequences:** Every core field has a source, units/frame, access-rule mapping, visibility status, precision and unknown/absence semantics in `fields.v0.json`. #5 can now research re-identification without a server-UUID shortcut, #6 can compare richer geometry encodings under the same access rules, #61 can build full protocol negotiation, and #64 can define cadence/backpressure without changing unknown-versus-absent meaning. See [OBSERVATION_SCHEMA.md](OBSERVATION_SCHEMA.md) and `docs/observations/`.
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
