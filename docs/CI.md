@@ -60,6 +60,7 @@ It performs:
 
 - byte-compilation of current Python tooling;
 - JSON parsing under `docs/` and `experiments/`;
+- information-access rule/reference/conformance integrity;
 - the deterministic experiment-runner smoke;
 - failure/retry preservation assertions;
 - artifact hash checks;
