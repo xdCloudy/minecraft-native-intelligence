@@ -179,7 +179,7 @@ Rules:
 - `unavailable + []` means unknown;
 - loaded/unloaded chunk state never changes these semantics by itself.
 
-#7 remains authoritative for access legality. #64 will later define temporal
+Issue #7 remains authoritative for access legality. #64 will later define temporal
 windowing, sampling, coalescing, and bandwidth behavior.
 
 ## Coordinate frames
@@ -311,11 +311,11 @@ than exact server timers.
 v0 includes:
 
 - dimension ID;
-- coarse day phase;
-- coarse weather cue; and
-- declared active visual profile ID.
+- coarse day phase; and
+- coarse weather cue.
 
-Exact `game_tick` remains in policy-hidden `meta`.
+The active information-access profile is recorded in policy-hidden
+`meta.information_access_profile_id`, alongside exact `game_tick`.
 
 Possible day phase values:
 
@@ -339,13 +339,9 @@ This is intentionally not a future-weather oracle.
 v0 provides a minimal **surface sample** representation only so the observation
 contract is executable before #6 compares richer terrain encodings.
 
-`geometry.representation` is:
-
-```text
-surface_samples.v0
-```
-
-Each item may contain:
+The core v0 geometry shape is a visible-surface sample collection. Its
+representation identity belongs in hidden capability/protocol metadata rather
+than the learned policy payload. Each item may contain:
 
 - observation-local `sample_id`;
 - relative block position in `agent_local`;
@@ -359,7 +355,7 @@ This is not a radius dump.
 
 Only legitimately visible surfaces enter the collection.
 
-#6 may later propose dense/sparse/graph/multiscale encodings. A replacement must
+Issue #6 may later propose dense/sparse/graph/multiscale encodings. A replacement must
 preserve #7 access semantics and either:
 
 - define a new representation capability; or
@@ -367,7 +363,9 @@ preserve #7 access semantics and either:
 
 ## Entities
 
-v0 intentionally uses **ephemeral sensed entity references**.
+v0 intentionally uses **ephemeral sensed entity references**. The entity
+representation/profile identity is protocol/capability metadata rather than a
+policy feature.
 
 Each entity has:
 
@@ -377,7 +375,8 @@ Each entity has:
 - optional relative velocity;
 - visible pose;
 - optional display/nameplate text;
-- visible held/equipped item summaries; and
+- visible held/equipped **item identities only** (no hidden stack count,
+  durability, enchantments, or inventory metadata); and
 - visible cue flags.
 
 An `observation_ref` only correlates fields/events inside the declared current
@@ -458,7 +457,7 @@ It does not carry operator-only lifecycle controls.
 
 The item summary deliberately stays narrow.
 
-Allowed v0:
+Allowed for **own inventory/equipment** in v0:
 
 - item ID;
 - count;
@@ -466,6 +465,11 @@ Allowed v0:
 - custom display name when player-visible; and
 - coarse enchantment/effect information only when normal own-inventory UI makes
   it available and the field registry explicitly permits it.
+
+For **other sensed entities**, equipment summaries use a separate visible-item
+shape containing only the visible item identity. The schema does not expose
+another entity's stack count, durability, custom item name, enchantments, or
+hidden inventory through visual equipment fields.
 
 Not allowed as a generic escape hatch:
 
@@ -597,11 +601,11 @@ All examples are synthetic contract fixtures, not benchmark evidence.
 
 ## Relationship to #5
 
-#3 intentionally does **not** decide persistent sensed-entity identity.
+Issue #3 intentionally does **not** decide persistent sensed-entity identity.
 
 The v0 `observation_ref` is ephemeral.
 
-#5 may introduce:
+Issue #5 may introduce:
 
 - re-identification hypotheses;
 - stable sensed handles;
@@ -614,17 +618,17 @@ of the observation envelope.
 
 ## Relationship to #6
 
-#3 uses only a minimal visible-surface representation.
+Issue #3 uses only a minimal visible-surface representation.
 
-#6 is free to compare dense/sparse/octree/graph/egocentric/multiscale
+Issue #6 is free to compare dense/sparse/octree/graph/egocentric/multiscale
 representations under identical #7 access constraints.
 
 ## Relationship to #64
 
-#3 includes sequence/game tick in hidden metadata and basic event collection
+Issue #3 includes sequence/game tick in hidden metadata and basic event collection
 coverage.
 
-#64 decides:
+Issue #64 decides:
 
 - snapshot/event cadence;
 - temporal windows;
@@ -686,7 +690,7 @@ authoritative Minecraft state/events
 candidate extraction
         |
         v
-#7 per-agent access filter
+Issue #7 per-agent access filter
         |
         v
 typed v0 policy fields
