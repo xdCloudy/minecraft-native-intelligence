@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:entity-semantics:v1",
+  "title": "Minecraft Native Intelligence entity semantics v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "raw_reference",
+    "track_reference",
+    "memory_reference",
+    "states",
+    "allowed_evidence",
+    "forbidden_identity_inputs",
+    "prototype"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "entity-semantics.v1"
+    },
+    "raw_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "scope",
+        "persistent",
+        "server_identity"
+      ],
+      "properties": {
+        "name": {
+          "const": "observation_ref"
+        },
+        "scope": {
+          "const": "observation_window"
+        },
+        "persistent": {
+          "const": false
+        },
+        "server_identity": {
+          "const": false
+        }
+      }
+    },
+    "track_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "scope",
+        "source",
+        "shared_between_agents",
+        "server_identity"
+      ],
+      "properties": {
+        "name": {
+          "const": "track_ref"
+        },
+        "scope": {
+          "const": "observer_local_tracklet"
+        },
+        "source": {
+          "const": "derived_from_legal_observations"
+        },
+        "shared_between_agents": {
+          "const": false
+        },
+        "server_identity": {
+          "const": false
+        }
+      }
+    },
+    "memory_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "scope",
+        "source",
+        "mutable_belief"
+      ],
+      "properties": {
+        "name": {
+          "const": "memory_entity_ref"
+        },
+        "scope": {
+          "const": "persistent_agent_belief"
+        },
+        "source": {
+          "const": "tracklet_association_with_provenance"
+        },
+        "mutable_belief": {
+          "const": true
+        }
+      }
+    },
+    "states": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "visible",
+          "occluded_hypothesis",
+          "lost",
+          "terminated_observed"
+        ]
+      }
+    },
+    "allowed_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "type_compatibility",
+          "derived_motion_proximity",
+          "visible_pose_variant",
+          "visible_equipment_identity",
+          "visible_public_identity",
+          "visible_appearance",
+          "observed_relation",
+          "observed_transformation",
+          "current_sound_association",
+          "current_chat_association",
+          "route_history",
+          "temporal_gap"
+        ]
+      }
+    },
+    "forbidden_identity_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "minecraft_entity_uuid",
+          "minecraft_numeric_entity_id",
+          "server_object_identity",
+          "hidden_tracking_table",
+          "hidden_world_position",
+          "hidden_health_inventory",
+          "server_ai_target_path",
+          "other_agent_private_track",
+          "evaluator_ground_truth"
+        ]
+      }
+    },
+    "prototype": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "max_gap_observations",
+        "association_threshold",
+        "ambiguity_margin",
+        "max_position_distance",
+        "weights",
+        "gap_penalty"
+      ],
+      "properties": {
+        "purpose": {
+          "const": "deterministic_research_fixture_only"
+        },
+        "max_gap_observations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "association_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "ambiguity_margin": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "max_position_distance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "position",
+            "appearance"
+          ],
+          "properties": {
+            "position": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "appearance": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "gap_penalty": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}
