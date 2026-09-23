@@ -101,6 +101,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Per-experiment ad hoc scripts/results; summary-only benchmark tables; model-specific evaluation formats; selecting a runner language/framework before the contract.
 - **Consequences:** Downstream evaluation work shares one evidence shape and can detect hidden-state/scripted shortcuts. The executable experiment runner remains #46, benchmark taxonomy remains #29, repository test tiers remain #51, and CI implementation remains #52. See [EVALUATION.md](EVALUATION.md) and `docs/evaluation/`.
 
+## ADR-0012 — Reference experiment runner is replaceable Python tooling
+
+- **Date:** 2026-09-23
+- **Status:** accepted
+- **Context:** The evaluation contracts need a runnable v0.1 implementation that works on Windows/Linux research machines without selecting the future model, training, or agent-runtime language.
+- **Decision:** Provide a Python 3.11+ standard-library reference experiment runner for execution/provenance only. The canonical experiment and evaluation contracts remain versioned JSON/JSON Schema, and no Python API becomes an architecture boundary. The runner may be replaced by another implementation that produces the same persisted contracts.
+- **Alternatives:** No executable v0.1 runner; PowerShell-only tooling; choose Python as the project-wide core language; bind experiments directly to a future training framework.
+- **Consequences:** A clean checkout can execute the deterministic smoke with Git + Python and no packages. This does not select Python for Minecraft integration, models, agent runtime, storage, or training. See [EXPERIMENTS.md](EXPERIMENTS.md).
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.

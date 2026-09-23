@@ -1,0 +1,30 @@
+{
+  "schema_version": "experiment.v1",
+  "experiment_id": "fixture-experiment-runner",
+  "scenario_path": "docs/evaluation/example-scenario.json",
+  "allow_dirty": false,
+  "default_wall_timeout_seconds": 30,
+  "environment_capture": {
+    "environment_variables": [
+      "CI"
+    ]
+  },
+  "variants": [
+    {
+      "id": "deterministic-fixture",
+      "executable": "{python}",
+      "arguments": [
+        "experiments/smoke/trial_fixture.py"
+      ],
+      "environment": {
+        "MNI_SYNTHETIC_FIXTURE": "1"
+      },
+      "working_directory": ".",
+      "config_refs": [
+        "fixture://runtime/deterministic"
+      ],
+      "notes": "Synthetic runner smoke variant; not a learned policy."
+    }
+  ],
+  "notes": "Synthetic reproducibility smoke only; do not cite as capability evidence."
+}
