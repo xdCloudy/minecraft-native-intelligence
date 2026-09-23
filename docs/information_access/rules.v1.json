@@ -135,5 +135,136 @@
       "negative_evidence": "not_applicable",
       "privileged_if_bypassed": true
     }
+  ],
+  "field_classes": [
+    {
+      "field_class": "self.pose_motion",
+      "channel": "self",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "not_applicable",
+      "notes": "Own position/orientation/motion precision remains a #3 schema decision."
+    },
+    {
+      "field_class": "self.needs_status",
+      "channel": "self",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "self.inventory_equipment",
+      "channel": "self",
+      "access_rule_ids": [
+        "ia.self.owned_state"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "vision.blocks_surfaces",
+      "channel": "vision",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "coverage_required"
+    },
+    {
+      "field_class": "vision.entities",
+      "channel": "vision",
+      "access_rule_ids": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "coverage_required"
+    },
+    {
+      "field_class": "audio.events",
+      "channel": "audio",
+      "access_rule_ids": [
+        "ia.audio.client_delivery"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "explicit_unknown"
+    },
+    {
+      "field_class": "chat.messages",
+      "channel": "chat",
+      "access_rule_ids": [
+        "ia.chat.recipient_delivery"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "ui.player_facing",
+      "channel": "ui",
+      "access_rule_ids": [
+        "ia.ui.player_facing"
+      ],
+      "policy_visible_default": false,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "ui.recipe_book",
+      "channel": "ui",
+      "access_rule_ids": [
+        "ia.ui.player_facing",
+        "ia.knowledge.recipe_ui_explicit"
+      ],
+      "policy_visible_default": false,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "outcome.own_action",
+      "channel": "outcome",
+      "access_rule_ids": [
+        "ia.outcome.own_action"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "memory.prior_observation",
+      "channel": "memory",
+      "access_rule_ids": [
+        "ia.memory.no_authoritative_refresh"
+      ],
+      "policy_visible_default": true,
+      "unknown_semantics": "explicit_unknown"
+    },
+    {
+      "field_class": "protocol.ordering_trace",
+      "channel": "protocol",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible_default": false,
+      "unknown_semantics": "not_applicable"
+    },
+    {
+      "field_class": "privileged.evaluator_operator_debug",
+      "channel": "privileged",
+      "access_rule_ids": [
+        "ia.privileged.baseline_off"
+      ],
+      "policy_visible_default": false,
+      "unknown_semantics": "not_applicable"
+    }
   ]
 }
