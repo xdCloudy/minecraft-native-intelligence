@@ -1,0 +1,144 @@
+{
+  "schema_version": "eval.scenario.v1",
+  "scenario_id": "fixture.runtime-roundtrip.v1",
+  "title": "Synthetic runtime round-trip contract fixture",
+  "description": "Schema fixture only; this is not Minecraft intelligence benchmark evidence.",
+  "owner": "project evaluation maintainers",
+  "evaluation_class": "integration",
+  "construct": "Preservation of trial identity, failure records, and declared information boundaries.",
+  "research_question": "Can an evaluation runner preserve deterministic trial provenance and explicit failures without exposing evaluator-only state to the policy?",
+  "falsification": {
+    "criteria": [
+      "Any trial record is overwritten by a retry.",
+      "Evaluator-only expected state is delivered to the tested policy.",
+      "The result omits the resolved seed or source revision."
+    ],
+    "stop_conditions": [
+      "Stop after the declared synthetic trial set is exhausted."
+    ]
+  },
+  "environment": {
+    "minecraft_version": "26.3",
+    "code_revision_policy": "exact_commit",
+    "world": {
+      "source": "synthetic generated fixture world",
+      "sha256": null,
+      "reset_mode": "clean_world",
+      "reset_details": "Regenerate the synthetic fixture from the declared seed before each trial."
+    },
+    "required_components": [],
+    "config_refs": [
+      "fixture://runtime-roundtrip/default"
+    ],
+    "rules": {
+      "game_mode": "survival",
+      "difficulty": "normal"
+    }
+  },
+  "participants": {
+    "agents": [
+      {
+        "role": "tested_agent",
+        "count": 1,
+        "initialization": "fresh synthetic test identity per seed"
+      }
+    ],
+    "humans_present": false,
+    "operator_present": false,
+    "persistent_state": {
+      "mode": "fresh",
+      "survives": []
+    }
+  },
+  "information_access": {
+    "permitted_inputs": [
+      "bounded_fixture_observation"
+    ],
+    "permitted_outputs": [
+      "typed_fixture_action"
+    ],
+    "prohibited_cross_agent_state": [
+      "all_other_agent_state"
+    ],
+    "privileged_inputs": [
+      {
+        "name": "expected_fixture_state",
+        "reason": "Evaluator checks action/outcome correlation.",
+        "consumers": [
+          "evaluator"
+        ],
+        "exposure": "evaluator_only",
+        "baseline_claim_valid": true
+      }
+    ]
+  },
+  "scaffolding": [
+    {
+      "id": "fixture-world-reset",
+      "type": "reset_harness",
+      "owner": "runner",
+      "influence": "Creates the deterministic initial fixture state only.",
+      "active_when": "Before each trial.",
+      "encodes_solution": false,
+      "accounting": "Declared setup scaffolding; no policy action is selected by the harness."
+    }
+  ],
+  "trial_plan": {
+    "seeds": [
+      101,
+      202
+    ],
+    "repetitions_per_seed": 1,
+    "warmup": "none",
+    "timeout": {
+      "game_ticks": 200,
+      "wall_seconds": 30
+    },
+    "allowed_retries": 1,
+    "intervention_policy": "No interventions after trial start.",
+    "order_policy": "Execute seeds in listed order for this deterministic fixture."
+  },
+  "metrics": [
+    {
+      "id": "fixture_record_preserved",
+      "definition": "Whether the runner preserves the complete trial record including failures.",
+      "unit": "boolean",
+      "direction": "higher",
+      "role": "primary",
+      "aggregation": "mean of boolean encoded as 0/1 for the synthetic fixture",
+      "failure_treatment": "A failed or timed-out trial still scores true when its failure record is preserved.",
+      "raw_source": "result.trials",
+      "threshold": 1
+    }
+  ],
+  "baselines": [
+    {
+      "id": "deterministic-test-runtime",
+      "type": "heuristic",
+      "config_ref": "fixture://runtime/deterministic",
+      "notes": "Synthetic contract fixture; not a learned-policy baseline."
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "resolved_scenario",
+      "required": true,
+      "privacy_class": "public",
+      "description": "Exact resolved synthetic scenario."
+    },
+    {
+      "kind": "trial_log",
+      "required": true,
+      "privacy_class": "public",
+      "description": "Synthetic per-trial events and failures."
+    },
+    {
+      "kind": "result_manifest",
+      "required": true,
+      "privacy_class": "public",
+      "description": "Final synthetic result manifest."
+    }
+  ],
+  "data_policy_ref": "docs/DATA_GOVERNANCE.md",
+  "notes": "All values are synthetic schema fixtures and must not be cited as capability evidence."
+}
