@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:evaluation:result:v1",
+  "title": "Minecraft Native Intelligence evaluation result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic_fixture",
+    "scenario",
+    "run_id",
+    "run_status",
+    "source_revision",
+    "resolved_environment",
+    "hardware",
+    "started_at",
+    "ended_at",
+    "trials",
+    "summary",
+    "actual_privileged_inputs",
+    "actual_scaffolding",
+    "artifacts",
+    "interpretation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "eval.result.v1"
+    },
+    "synthetic_fixture": {
+      "type": "boolean"
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "schema_version",
+        "sha256"
+      ],
+      "properties": {
+        "scenario_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{3,160}$"
+    },
+    "run_status": {
+      "enum": [
+        "completed",
+        "partial",
+        "error",
+        "cancelled"
+      ]
+    },
+    "source_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vcs",
+        "commit"
+      ],
+      "properties": {
+        "vcs": {
+          "const": "git"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40,64}$"
+        },
+        "dirty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resolved_environment": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "scenario_config_sha256"
+      ],
+      "properties": {
+        "scenario_config_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ended_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "trials": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "trial_id",
+          "seed",
+          "repetition_index",
+          "attempt",
+          "status",
+          "metrics",
+          "failures",
+          "interventions",
+          "deviations",
+          "artifact_ids"
+        ],
+        "properties": {
+          "trial_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "seed": {
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          },
+          "repetition_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "attempt": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "failed",
+              "timeout",
+              "error",
+              "cancelled"
+            ]
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "number",
+                "integer",
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "message"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "message": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "code": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "interventions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deviations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "artifact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trial_count",
+        "status_counts",
+        "metrics"
+      ],
+      "properties": {
+        "trial_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "n",
+              "aggregation",
+              "value"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "n": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "aggregation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "integer",
+                  "boolean",
+                  "null"
+                ]
+              },
+              "dispersion": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "dispersion_kind": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "actual_privileged_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "used_by_policy",
+          "notes"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "used_by_policy": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "actual_scaffolding": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "used",
+          "notes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "used": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "locator",
+          "sha256",
+          "privacy_class"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "privacy_class": {
+            "enum": [
+              "public",
+              "internal",
+              "restricted",
+              "human_data"
+            ]
+          }
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "rationale",
+        "limitations"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "supports_hypothesis",
+            "does_not_support_hypothesis",
+            "inconclusive",
+            "not_applicable"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "supersedes_result_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}
