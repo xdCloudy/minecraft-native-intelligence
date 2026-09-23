@@ -13,7 +13,7 @@ Read [`docs/GOAL.md`](docs/GOAL.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`ROA
 3. Follow [`docs/TESTING.md`](docs/TESTING.md): run the narrowest relevant local checks first, preserve failed attempts, and keep expensive statistical/longitudinal work out of ordinary PR CI.
 4. Use the ecosystem's standard formatter/linter once a stack exists.
 5. Update docs and `docs/DECISIONS.md` when contracts or architecture change.
-5. Submit the pull-request template completely, including learned-versus-scripted and data/privacy sections.
+6. Submit the pull-request template completely, including learned-versus-scripted and data/privacy sections.
 
 Capability claims need rerunnable evidence and limitations. Negative results are valuable. Do not include player chat/telemetry without consent and provenance, or third-party assets without license review.
 
