@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:experiment:v1",
+  "title": "Minecraft Native Intelligence experiment manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "scenario_path",
+    "allow_dirty",
+    "environment_capture",
+    "variants"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "experiment.v1"
+    },
+    "experiment_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "scenario_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allow_dirty": {
+      "type": "boolean"
+    },
+    "default_wall_timeout_seconds": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "environment_capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment_variables"
+      ],
+      "properties": {
+        "environment_variables": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "variants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "executable",
+          "arguments",
+          "environment"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"
+          },
+          "executable": {
+            "type": "string",
+            "minLength": 1
+          },
+          "arguments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "environment": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "boolean"
+              ]
+            }
+          },
+          "working_directory": {
+            "type": "string",
+            "minLength": 1
+          },
+          "config_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}
