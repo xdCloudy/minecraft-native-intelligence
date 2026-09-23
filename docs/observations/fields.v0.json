@@ -460,11 +460,11 @@
       "policy_visible": true,
       "units": "effect_summary",
       "frame": "self",
-      "precision": "effect id/amplifier/duration",
+      "precision": "effect id/amplifier plus integer player-facing duration seconds",
       "unknown_semantics": "empty list is observed none for declared self-visible effects",
       "absence_semantics": "empty list means none in declared self-visible scope",
       "stability": "core",
-      "notes": ""
+      "notes": "Do not expose exact server tick expiry merely because the server stores it."
     },
     {
       "path": "policy.world_cues.dimension_id",
