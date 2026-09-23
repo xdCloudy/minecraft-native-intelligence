@@ -1,0 +1,163 @@
+{
+  "schema_version": "entity-conformance.v1",
+  "semantics_version": "entity-semantics.v1",
+  "scenarios": [
+    {
+      "id": "EID-01",
+      "name": "continuous_unambiguous_entity",
+      "setup": "One entity moves smoothly across adjacent legal observations.",
+      "expected": [
+        "One observer-local track retains continuity with high association confidence."
+      ],
+      "prohibited": [
+        "Server UUID/entity ID used as association evidence."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-02",
+      "name": "new_same_type_entity",
+      "setup": "A second same-type entity appears far from an existing track.",
+      "expected": [
+        "A new track is created when association evidence is insufficient."
+      ],
+      "prohibited": [
+        "Forced reassignment solely because the type matches."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-03",
+      "name": "short_occlusion",
+      "setup": "One entity disappears for a bounded gap then reappears near predicted motion.",
+      "expected": [
+        "Track may resume with reduced confidence and explicit gap history."
+      ],
+      "prohibited": [
+        "Hidden intermediate position lookup."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-04",
+      "name": "long_occlusion",
+      "setup": "Entity remains unavailable beyond configured track retention.",
+      "expected": [
+        "Old track becomes lost; later sighting is new or explicitly uncertain."
+      ],
+      "prohibited": [
+        "Perfect identity continuation from server identity."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-05",
+      "name": "identical_crossing_ambiguity",
+      "setup": "Two similar same-type entities cross with insufficient distinguishing evidence.",
+      "expected": [
+        "Association is left ambiguous or new tracklets are created; confidence reflects ambiguity."
+      ],
+      "prohibited": [
+        "Hidden-ID-perfect labels.",
+        "History rewritten to conceal identity switch."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-06",
+      "name": "observed_death",
+      "setup": "Entity death/destruction is legitimately observed.",
+      "expected": [
+        "Associated track becomes terminated_observed."
+      ],
+      "prohibited": [
+        "Termination inferred from hidden server removal."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-07",
+      "name": "unseen_despawn",
+      "setup": "Entity leaves legal access and is later removed by the server while unseen.",
+      "expected": [
+        "Tracker reaches occluded_hypothesis/lost only; evaluator may record true despawn separately."
+      ],
+      "prohibited": [
+        "Policy-visible despawn event from hidden server state."
+      ],
+      "prototype_covered": false
+    },
+    {
+      "id": "EID-08",
+      "name": "observed_transformation",
+      "setup": "A visible entity transforms type during a legitimately observed transition.",
+      "expected": [
+        "Same track may update type with observed_transformation evidence."
+      ],
+      "prohibited": [
+        "Type continuity decided by hidden UUID."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-09",
+      "name": "unobserved_type_replacement",
+      "setup": "An entity disappears and a different type later appears without transition evidence.",
+      "expected": [
+        "Continuity is not guaranteed; create new/uncertain track."
+      ],
+      "prohibited": [
+        "Automatic cross-type identity merge."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-10",
+      "name": "mount_passenger_relation",
+      "setup": "Rider and mount are currently visible with a player-facing relationship.",
+      "expected": [
+        "Current sparse relation edge may reference observation/track refs and becomes stale when endpoints are lost."
+      ],
+      "prohibited": [
+        "Hidden passenger/owner/target graph edges."
+      ],
+      "prototype_covered": false
+    },
+    {
+      "id": "EID-11",
+      "name": "projectile",
+      "setup": "A visible projectile crosses the sensed region.",
+      "expected": [
+        "Short-lived track based on type/motion; source only when legitimately observed."
+      ],
+      "prohibited": [
+        "Hidden server owner/shooter field."
+      ],
+      "prototype_covered": false
+    },
+    {
+      "id": "EID-12",
+      "name": "public_player_identity_evidence",
+      "setup": "A player-facing identity cue is legitimately observed across separate sightings.",
+      "expected": [
+        "Public identity evidence may raise re-association confidence without exposing authenticated UUID."
+      ],
+      "prohibited": [
+        "Minecraft authenticated UUID/session identity as cognition input."
+      ],
+      "prototype_covered": true
+    },
+    {
+      "id": "EID-13",
+      "name": "cross_agent_isolation",
+      "setup": "Two agents independently observe the same physical entity.",
+      "expected": [
+        "Each maintains its own track namespace, evidence and confidence."
+      ],
+      "prohibited": [
+        "Shared private track ref or evaluator identity injected into both agents."
+      ],
+      "prototype_covered": false
+    }
+  ]
+}
