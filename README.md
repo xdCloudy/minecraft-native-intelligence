@@ -39,12 +39,34 @@ See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 | [Architecture](ARCHITECTURE.md) | Proposed system boundaries and timescales |
 | [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
 | [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
+| [Evaluation](docs/EVALUATION.md) and [experiments](docs/EXPERIMENTS.md) | Scenario/result evidence contracts and reproducible execution |
+| [Testing](docs/TESTING.md) and [CI](docs/CI.md) | Test tiers, local checks, and stack-aware remote verification |
+| [Data governance](docs/DATA_GOVERNANCE.md) | Licensing, consent, privacy, retention, and deletion gates |
+| [Runtime boundary](docs/RUNTIME_BOUNDARY.md) | Java ↔ research-runtime process and protocol boundary |
 | [Roadmap](ROADMAP.md) | Milestones, dependencies, and exit criteria |
 | [Safety](docs/SAFETY.md) and [Security](SECURITY.md) | Minecraft-specific operational safeguards |
 | [Decision log](docs/DECISIONS.md) | Accepted decisions and unresolved ADRs |
 | [Glossary](docs/GLOSSARY.md) | Canonical terminology |
 
 Focused design notes live under [`docs/`](docs/).
+
+## Contributor path
+
+For a first contribution:
+
+1. Read the [authoritative goal](docs/GOAL.md) and current [roadmap](ROADMAP.md).
+2. Pick an issue in the current milestone with `status:ready`; do not silently
+   work around a listed blocker.
+3. Read the issue discussion, [decision log](docs/DECISIONS.md), and the focused
+   subsystem document linked by the issue.
+4. Follow [testing](docs/TESTING.md), [local/CI checks](docs/CI.md), and—when
+   relevant—[evaluation](docs/EVALUATION.md),
+   [experiment](docs/EXPERIMENTS.md), and
+   [data-governance](docs/DATA_GOVERNANCE.md) rules.
+5. Keep one coherent change/PR and record what was actually validated.
+
+[CONTRIBUTING.md](CONTRIBUTING.md) contains the issue-template and first-task
+workflow.
 
 ## Contributing
 
