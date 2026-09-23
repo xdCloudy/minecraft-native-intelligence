@@ -110,6 +110,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** No executable v0.1 runner; PowerShell-only tooling; choose Python as the project-wide core language; bind experiments directly to a future training framework.
 - **Consequences:** A clean checkout can execute the deterministic smoke with Git + Python and no packages. This does not select Python for Minecraft integration, models, agent runtime, storage, or training. See [EXPERIMENTS.md](EXPERIMENTS.md).
 
+## ADR-0013 — Tests are tiered by determinism and execution cost
+
+- **Date:** 2026-09-23
+- **Status:** accepted
+- **Context:** The repository will mix deterministic Java/Python/schema code with Minecraft simulation, stochastic learned policies, security fault injection, and long-running multi-agent research. Treating all of these as one CI test class would either waste workflow capacity or weaken meaningful validation.
+- **Decision:** Use the T0–T7 architecture in [TESTING.md](TESTING.md): static, unit, contract, component integration, Minecraft simulation/conformance, statistical capability, security/privacy/adversarial, and longitudinal/soak. PRs run deterministic, path-relevant checks; expensive statistical/longitudinal work is scheduled/manual. Deterministic flakes are defects, while stochastic tests use predeclared seeds/repetitions and preserve all attempts.
+- **Alternatives:** One universal test suite; full research evaluation on every PR; minimal CI with manual testing only; blind retries for intermittent failures.
+- **Consequences:** Each subsystem maps to explicit test tiers and owners. CI can remain efficient without hiding failures. #52 can now implement path-filtered gates for the stacks that actually exist.
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
