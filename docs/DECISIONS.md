@@ -119,6 +119,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** One universal test suite; full research evaluation on every PR; minimal CI with manual testing only; blind retries for intermittent failures.
 - **Consequences:** Each subsystem maps to explicit test tiers and owners. CI can remain efficient without hiding failures. #52 can now implement path-filtered gates for the stacks that actually exist.
 
+## ADR-0014 — Baseline perception uses explicit access equivalence
+
+- **Date:** 2026-09-23
+- **Status:** accepted
+- **Context:** A server-native interface can inspect loaded chunks, hidden entities, internal metadata, evaluator labels, debug values, and other state that an ordinary embodied player could not legitimately know. Requiring screenshots/audio waveforms would avoid some leakage but would also redefine the project around pixel/input imitation instead of native structured grounding.
+- **Decision:** Use explicit **access equivalence**: a structured field may encode a fact precisely once that fact is legitimately available through the agent's embodied self-state, current senses, ordinary non-debug player UI, or own action outcomes. Every policy-visible observation field references stable information-access rule IDs. Vision is bounded by camera frustum, declared distance, client-equivalent availability, occlusion and visual effects; server chunk/simulation residency never grants perception. Missing coverage is unknown rather than observed absence. Debug/evaluator/operator state is isolated and baseline-disabled.
+- **Alternatives:** Radius/chunk dumps from authoritative state; screenshot/audio-only core perception; allow all information available to an ordinary Java debug screen; rely on downstream model code to ignore privileged fields.
+- **Consequences:** #3 must attach access rules and unknown semantics to every observation field, and #62 must filter before data crosses the environment boundary. Memory cannot refresh unseen facts from the server. Privileged exceptions are declared in evaluation scenarios and invalidate baseline information claims if exposed to the policy. See [INFORMATION_ACCESS.md](INFORMATION_ACCESS.md) and `docs/information_access/`.
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
