@@ -990,7 +990,6 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "event_id",
         "kind",
         "sound_id",
         "category",
@@ -1001,10 +1000,6 @@
         "entity_ref"
       ],
       "properties": {
-        "event_id": {
-          "type": "string",
-          "minLength": 1
-        },
         "kind": {
           "const": "sound"
         },
@@ -1048,7 +1043,6 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "event_id",
         "kind",
         "channel",
         "sender_display",
@@ -1057,10 +1051,6 @@
         "message_type"
       ],
       "properties": {
-        "event_id": {
-          "type": "string",
-          "minLength": 1
-        },
         "kind": {
           "const": "chat"
         },
@@ -1093,7 +1083,6 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "event_id",
         "kind",
         "request_id",
         "phase",
@@ -1101,10 +1090,6 @@
         "detail"
       ],
       "properties": {
-        "event_id": {
-          "type": "string",
-          "minLength": 1
-        },
         "kind": {
           "const": "action_outcome"
         },
@@ -1139,16 +1124,11 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "event_id",
         "kind",
         "event_type",
         "detail"
       ],
       "properties": {
-        "event_id": {
-          "type": "string",
-          "minLength": 1
-        },
         "kind": {
           "const": "self_lifecycle"
         },
