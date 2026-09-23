@@ -27,7 +27,7 @@ Read the focused document for the subsystem you touch and check [`docs/DECISIONS
 - Maintain a clear boundary between Minecraft integration, environment schemas, agent runtime, model/research code, persistence, and evaluation.
 - Validate all actions against ordinary Minecraft mechanics and the agent's permitted information. No hidden-state oracle, teleportation, direct inventory mutation, or equivalent shortcut belongs in a baseline.
 - Keep `/spawn ai-agent <username>` and other lifecycle commands as authorized operator controls, separate from in-world chat and the agent action space. Preserve Survival parity and persistent identity/skin semantics.
-- Write focused tests for behaviour and schemas; run relevant tests before submitting changes.
+- Write focused tests for behaviour and schemas; follow [`docs/TESTING.md`](docs/TESTING.md) and run relevant local checks before submitting changes.
 - Keep changes scoped. Avoid unrelated refactors and premature shared abstractions.
 - Document assumptions, nondeterminism, seeds, data versions, model/checkpoint versions, environment versions, hardware, and commands needed to reproduce experiments.
 - Separate experimental code and conclusions from candidate production architecture.
