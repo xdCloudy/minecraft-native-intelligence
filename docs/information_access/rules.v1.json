@@ -1,0 +1,139 @@
+{
+  "schema_version": "information-access.v1",
+  "profile_id": "player-equivalent.v1",
+  "camera": {
+    "base_horizontal_fov_degrees": 70,
+    "visual_distance_source": "scenario_declared",
+    "debug_overlay": false
+  },
+  "rules": [
+    {
+      "id": "ia.self.owned_state",
+      "channel": "self",
+      "policy": "allow",
+      "summary": "Expose declared self-owned proprioceptive, HUD and inventory state; exclude host/server implementation internals.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": false
+    },
+    {
+      "id": "ia.visual.frustum",
+      "channel": "vision",
+      "policy": "filter",
+      "summary": "Visual candidates must be inside the active camera frustum; baseline base horizontal FOV is 70 degrees.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.visual.distance",
+      "channel": "vision",
+      "policy": "filter",
+      "summary": "Visual candidates must be inside the scenario-declared effective visual distance and client-equivalent availability.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.visual.occlusion",
+      "channel": "vision",
+      "policy": "filter",
+      "summary": "Current visual facts require unobstructed player-facing evidence after geometry and visual-effect filtering.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.visual.surface_only",
+      "channel": "vision",
+      "policy": "filter",
+      "summary": "Expose visible block/object surfaces rather than full radius/chunk contents behind them.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.entity.visible_properties",
+      "channel": "vision",
+      "policy": "filter",
+      "summary": "For sensed entities expose only current player-facing properties, not hidden health, inventory, AI goals or server-only metadata.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.audio.client_delivery",
+      "channel": "audio",
+      "policy": "filter",
+      "summary": "Expose only sounds the equivalent client/player could receive or hear; do not add exact hidden source state.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.chat.recipient_delivery",
+      "channel": "chat",
+      "policy": "filter",
+      "summary": "Expose only messages delivered to this player by the active chat/channel/server rules.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.ui.player_facing",
+      "channel": "ui",
+      "policy": "explicit_capability",
+      "summary": "Expose ordinary non-debug player-facing UI only when the capability is declared; never use it to leak underlying server objects.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.world.chunk_not_authority",
+      "channel": "vision",
+      "policy": "deny",
+      "summary": "Loaded, ticking, simulated or ticketed chunk state never grants policy perception by itself.",
+      "negative_evidence": "unknown_without_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.negative.coverage_required",
+      "channel": "vision",
+      "policy": "filter",
+      "summary": "Observed absence is valid only where current sensor coverage is sufficient; otherwise state is unknown.",
+      "negative_evidence": "allowed_with_coverage",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.memory.no_authoritative_refresh",
+      "channel": "memory",
+      "policy": "deny",
+      "summary": "Memory cannot query authoritative unseen server state to refresh or verify remembered facts.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.protocol.mask_from_policy",
+      "channel": "protocol",
+      "policy": "mask",
+      "summary": "Sequence, schema, trace and exact timing metadata may support transport/evaluation but are not automatically policy-visible.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.outcome.own_action",
+      "channel": "outcome",
+      "policy": "allow",
+      "summary": "Expose semantic outcomes of this agent's own actions without hidden target/world diagnostics.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": false
+    },
+    {
+      "id": "ia.knowledge.recipe_ui_explicit",
+      "channel": "ui",
+      "policy": "explicit_capability",
+      "summary": "Recipe-book-equivalent access must be explicit; never passively inject the complete server recipe registry.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": true
+    },
+    {
+      "id": "ia.privileged.baseline_off",
+      "channel": "privileged",
+      "policy": "deny",
+      "summary": "Evaluator, operator, debug-overlay and admin-only state is isolated from the baseline policy input.",
+      "negative_evidence": "not_applicable",
+      "privileged_if_bypassed": true
+    }
+  ]
+}
