@@ -16,6 +16,7 @@ PYTHON_FILES = [
     ROOT / "scripts" / "compare_experiment_runs.py",
     ROOT / "scripts" / "ci_smoke.py",
     ROOT / "scripts" / "validate_information_access.py",
+    ROOT / "scripts" / "validate_observation_contract.py",
     ROOT / "experiments" / "smoke" / "trial_fixture.py",
 ]
 
@@ -43,6 +44,10 @@ def run(cmd: list[str], *, check: bool = True) -> subprocess.CompletedProcess[st
 
 def check_information_access() -> None:
     run([sys.executable, "scripts/validate_information_access.py"])
+
+
+def check_observation_contract() -> None:
+    run([sys.executable, "scripts/validate_observation_contract.py"])
 
 
 def check_smoke() -> Path:
@@ -106,11 +111,13 @@ def main() -> int:
     check_python()
     json_count = check_json()
     check_information_access()
+    check_observation_contract()
     run_dir = check_smoke()
     check_dirty_refusal()
     print(f"python compile: ok ({len(PYTHON_FILES)} files)")
     print(f"json parse: ok ({json_count} files)")
     print("information-access contract: ok")
+    print("observation contract: ok")
     print(f"experiment smoke: ok ({run_dir.name})")
     print("dirty-tree refusal: ok")
     return 0
