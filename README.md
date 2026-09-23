@@ -26,7 +26,7 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 
 ## Status and roadmap
 
-The project is at **v0.1 — Project Foundation**. The immediate objective is infrastructure, reproducible research baselines, and evidence needed to select interfaces and architectures. Later milestones progress through native integration, runtime and memory prototypes, behavioural and language grounding, autonomy, lifelong learning, multi-agent scaling, and an integrated research platform. They are research stages—not promises of human-level intelligence.
+The **v0.1 — Project Foundation** baseline is complete. Current work moves into **v0.2 — Minecraft Native Interface**: validating the proposed Fabric/Minecraft baseline through player-compatible embodiment, then implementing and testing the native observation/action, information-access, Survival-parity, packaging, and compatibility boundaries. Later milestones progress through runtime and memory prototypes, behavioural and language grounding, autonomy, lifelong learning, multi-agent scaling, and an integrated research platform. They are research stages—not promises of human-level intelligence.
 
 See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 
