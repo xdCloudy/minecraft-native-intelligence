@@ -438,10 +438,12 @@ An experiment may enable a debug profile, but:
 
 Recipe knowledge is not passively dumped into every observation.
 
-Minecraft's recipe book is a normal player UI and modern Java versions can
-surface recipe-search information beyond only newly unlocked recipes. At the
-same time, this project's larger research question—what mechanics/affordances
-should be structured versus learned—is intentionally unresolved.
+Minecraft's recipe book is a normal player UI, but the exact catalog,
+unlock, and search behavior is version-sensitive. The server's complete recipe
+registry therefore cannot be treated as equivalent to what the player-facing UI
+currently presents. At the same time, this project's larger research
+question—what mechanics/affordances should be structured versus learned—is
+intentionally unresolved.
 
 Therefore v1 adopts this boundary:
 
@@ -1008,10 +1010,10 @@ Primary/current sources used for the baseline:
   documents the current release and the 26.3 subtitle-direction behavior.
 - [Taking Inventory: Spyglass](https://www.minecraft.net/en-us/article/taking-inventory--spyglass)
   documents Java Edition's default 70-degree FOV and configurable FOV.
-- [Minecraft Java Edition 1.20.2](https://feedback.minecraft.net/hc/en-us/articles/19703470383757-Minecraft-Java-Edition-1-20-2)
-  documents client chunk delivery being limited to the client's render distance.
-- [Minecraft Java Edition 1.18](https://feedback.minecraft.net/hc/en-us/articles/4415128577293-Minecraft-Java-Edition-1-18)
-  documents the separate simulation-distance setting.
+- [New Realms features in Java snapshot](https://www.minecraft.net/en-us/article/new-realms-features-in-java-snapshot)
+  documents separately configurable render and simulation distance in current
+  Java testing, reinforcing that simulation state is not the same concept as
+  visible range.
 - [Fabric: Playing Sounds](https://docs.fabricmc.net/develop/sounds/using-sounds)
   documents logical-server sound playback, sound category, volume, and
   distance behavior.
@@ -1019,9 +1021,10 @@ Primary/current sources used for the baseline:
   describes server-side sound broadcasting to clients in tracking range.
 - [Minecraft: How to craft](https://www.minecraft.net/en-us/article/how-craft)
   documents player-facing recipe-book use.
-- [Minecraft Java Edition 1.20.2 Pre-Release 1](https://feedback.minecraft.net/hc/en-us/articles/19208108934925-Minecraft-Java-Edition-1-20-2-Pre-Release-1)
-  documents Java recipe-book search showing recipes even when they have not
-  been unlocked.
+- [Minecraft 1.20.2 Pre-Release 2](https://www.minecraft.net/en-us/article/minecraft-1-20-2-pre-release-1)
+  records a recipe-book search change and its subsequent revert, illustrating
+  why recipe UI semantics must be versioned rather than inferred from the
+  server registry.
 
 Source links establish player-facing mechanics and implementation constraints.
 They do not by themselves prove that the server-side filter exactly matches
