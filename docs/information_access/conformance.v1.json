@@ -1,0 +1,279 @@
+{
+  "schema_version": "information-access-conformance.v1",
+  "profile_id": "player-equivalent.v1",
+  "scenarios": [
+    {
+      "id": "IA-01",
+      "name": "hidden_block_behind_opaque_wall",
+      "rules": [
+        "ia.visual.frustum",
+        "ia.visual.distance",
+        "ia.visual.occlusion",
+        "ia.visual.surface_only",
+        "ia.negative.coverage_required"
+      ],
+      "setup": "Agent faces an opaque wall; a distinctive block is directly behind it; involved chunks are loaded/simulated.",
+      "expected": [
+        "Wall surface is observable.",
+        "Hidden block identity is not a current visual observation.",
+        "Space behind the wall is unknown rather than observed empty."
+      ],
+      "prohibited": [
+        "Hidden block registry/state in policy-visible output.",
+        "Observed-absent claim for the occluded region."
+      ]
+    },
+    {
+      "id": "IA-02",
+      "name": "hidden_entity_behind_opaque_wall",
+      "rules": [
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties",
+        "ia.audio.client_delivery"
+      ],
+      "setup": "An entity moves behind an opaque wall within server tracking/simulation range.",
+      "expected": [
+        "No visual entity observation.",
+        "Permitted audio may appear if the entity emits an audible event."
+      ],
+      "prohibited": [
+        "Exact hidden position.",
+        "Hidden health.",
+        "Hidden inventory."
+      ]
+    },
+    {
+      "id": "IA-03",
+      "name": "out_of_frustum_entity",
+      "rules": [
+        "ia.visual.frustum",
+        "ia.visual.distance"
+      ],
+      "setup": "An unobstructed entity is behind the agent's current look direction and inside distance bounds.",
+      "expected": [
+        "Entity is absent from visual observations until the agent turns into the frustum."
+      ],
+      "prohibited": [
+        "Permanent 360-degree entity observation."
+      ]
+    },
+    {
+      "id": "IA-04",
+      "name": "transparent_window",
+      "rules": [
+        "ia.visual.occlusion"
+      ],
+      "setup": "An entity is behind clear glass inside the declared frustum/range.",
+      "expected": [
+        "Entity can be visually observed when client-equivalent presentation permits it.",
+        "Glass remains visible."
+      ],
+      "prohibited": [
+        "Treating every intervening block as opaque."
+      ]
+    },
+    {
+      "id": "IA-05",
+      "name": "partial_opening_large_entity",
+      "rules": [
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties"
+      ],
+      "setup": "A large entity is partly visible through a doorway or partial-block opening.",
+      "expected": [
+        "Visibility follows the documented sample-point strategy and remains stable under regression testing."
+      ],
+      "prohibited": [
+        "Center-point-only logic that hides obviously visible geometry without documented rationale."
+      ]
+    },
+    {
+      "id": "IA-06",
+      "name": "loaded_but_client_unavailable_chunk",
+      "rules": [
+        "ia.visual.distance",
+        "ia.world.chunk_not_authority",
+        "ia.negative.coverage_required"
+      ],
+      "setup": "A distant chunk stays loaded for server reasons but lies outside the agent's declared visual/client availability.",
+      "expected": [
+        "No block/entity state is exposed.",
+        "Coverage is unknown."
+      ],
+      "prohibited": [
+        "Loaded/ticking flag in policy input.",
+        "Empty-air/no-entity inference."
+      ]
+    },
+    {
+      "id": "IA-07",
+      "name": "unloaded_remembered_location",
+      "rules": [
+        "ia.memory.no_authoritative_refresh",
+        "ia.world.chunk_not_authority"
+      ],
+      "setup": "Agent observes a chest, leaves until the location is unavailable, and the world changes while away.",
+      "expected": [
+        "Old memory remains stale/provenanced.",
+        "Memory updates only after legitimate re-observation."
+      ],
+      "prohibited": [
+        "Live server lookup refreshing unseen memory."
+      ]
+    },
+    {
+      "id": "IA-08",
+      "name": "darkness_or_fog_impairment",
+      "rules": [
+        "ia.visual.occlusion"
+      ],
+      "setup": "The same target is observed under normal and declared low-visibility/effect states.",
+      "expected": [
+        "Visibility/quality changes according to the selected profile."
+      ],
+      "prohibited": [
+        "Exact hidden light-engine/debug values in baseline policy input.",
+        "Unconditional full night vision."
+      ]
+    },
+    {
+      "id": "IA-09",
+      "name": "sound_behind_wall",
+      "rules": [
+        "ia.audio.client_delivery",
+        "ia.visual.occlusion"
+      ],
+      "setup": "A sound source is visually occluded but inside client-equivalent audible range.",
+      "expected": [
+        "Permitted audio cue is present.",
+        "Visual state remains hidden."
+      ],
+      "prohibited": [
+        "Exact hidden source coordinates unless independently observed."
+      ]
+    },
+    {
+      "id": "IA-10",
+      "name": "sound_outside_range",
+      "rules": [
+        "ia.audio.client_delivery"
+      ],
+      "setup": "A sound event occurs outside the equivalent client's audible/delivery range.",
+      "expected": [
+        "No audio event is emitted to policy input."
+      ],
+      "prohibited": [
+        "Server event existence leaking through diagnostics or empty-event metadata."
+      ]
+    },
+    {
+      "id": "IA-11",
+      "name": "chat_recipient_isolation",
+      "rules": [
+        "ia.chat.recipient_delivery"
+      ],
+      "setup": "Send public chat, a DM to the agent, a DM between two other players, and a console/operator log line.",
+      "expected": [
+        "Agent receives public chat and its addressed DM."
+      ],
+      "prohibited": [
+        "Other-player DM.",
+        "Console/operator log."
+      ]
+    },
+    {
+      "id": "IA-12",
+      "name": "own_vs_other_inventory",
+      "rules": [
+        "ia.self.owned_state",
+        "ia.entity.visible_properties"
+      ],
+      "setup": "Agent and another player carry different hidden inventories while visibly holding/equipping selected items.",
+      "expected": [
+        "Own inventory is available.",
+        "Visible held/equipped items of the other player may be observed."
+      ],
+      "prohibited": [
+        "Other player's hidden inventory contents."
+      ]
+    },
+    {
+      "id": "IA-13",
+      "name": "evaluator_target_isolation",
+      "rules": [
+        "ia.privileged.baseline_off",
+        "ia.protocol.mask_from_policy"
+      ],
+      "setup": "Evaluator knows exact target coordinates/labels for scoring.",
+      "expected": [
+        "Evaluator can score using privileged state.",
+        "Policy view omits target ground truth."
+      ],
+      "prohibited": [
+        "Evaluator target coordinates or labels in policy message/tensor."
+      ]
+    },
+    {
+      "id": "IA-14",
+      "name": "protocol_metadata_masking",
+      "rules": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "setup": "Observation envelope contains schema, sequence, trace and exact timing metadata.",
+      "expected": [
+        "Transport/evaluator retains metadata.",
+        "Fields marked policy-hidden are absent from policy view."
+      ],
+      "prohibited": [
+        "Accidental policy feature generation from hidden protocol metadata."
+      ]
+    },
+    {
+      "id": "IA-15",
+      "name": "recipe_registry_isolation",
+      "rules": [
+        "ia.knowledge.recipe_ui_explicit",
+        "ia.ui.player_facing"
+      ],
+      "setup": "Server has a complete recipe registry; scenario does not enable recipe-book UI capability.",
+      "expected": [
+        "Current crafting outcomes remain observable."
+      ],
+      "prohibited": [
+        "Passive full recipe-registry dump."
+      ]
+    },
+    {
+      "id": "IA-16",
+      "name": "mechanic_derived_through_wall_cue",
+      "rules": [
+        "ia.visual.occlusion",
+        "ia.entity.visible_properties"
+      ],
+      "setup": "A normal player-facing mechanic presents a through-wall cue, such as a supported glowing outline.",
+      "expected": [
+        "The specific player-facing cue may be represented with provenance/reason."
+      ],
+      "prohibited": [
+        "Unrelated hidden properties becoming visible."
+      ]
+    },
+    {
+      "id": "IA-17",
+      "name": "cross_agent_isolation",
+      "rules": [
+        "ia.self.owned_state",
+        "ia.chat.recipient_delivery",
+        "ia.memory.no_authoritative_refresh",
+        "ia.privileged.baseline_off"
+      ],
+      "setup": "Two agents have different visibility, inventory, private chat and memory while sharing batching/runtime infrastructure.",
+      "expected": [
+        "Each agent receives only its own permitted state."
+      ],
+      "prohibited": [
+        "Any other-agent private/unseen field in the wrong policy input."
+      ]
+    }
+  ]
+}

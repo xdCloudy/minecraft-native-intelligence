@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:information-access:v1",
+  "title": "Minecraft Native Intelligence information access rules v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "camera",
+    "rules",
+    "field_classes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "information-access.v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_horizontal_fov_degrees",
+        "visual_distance_source",
+        "debug_overlay"
+      ],
+      "properties": {
+        "base_horizontal_fov_degrees": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 180
+        },
+        "visual_distance_source": {
+          "enum": [
+            "scenario_declared"
+          ]
+        },
+        "debug_overlay": {
+          "type": "boolean"
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "channel",
+          "policy",
+          "summary",
+          "negative_evidence",
+          "privileged_if_bypassed"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ia\\.[a-z0-9_.-]+$"
+          },
+          "channel": {
+            "enum": [
+              "self",
+              "vision",
+              "audio",
+              "chat",
+              "ui",
+              "outcome",
+              "memory",
+              "protocol",
+              "privileged"
+            ]
+          },
+          "policy": {
+            "enum": [
+              "allow",
+              "filter",
+              "deny",
+              "mask",
+              "explicit_capability"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "negative_evidence": {
+            "enum": [
+              "allowed_with_coverage",
+              "not_applicable",
+              "unknown_without_coverage"
+            ]
+          },
+          "privileged_if_bypassed": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "field_classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field_class",
+          "channel",
+          "access_rule_ids",
+          "policy_visible_default",
+          "unknown_semantics"
+        ],
+        "properties": {
+          "field_class": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$"
+          },
+          "channel": {
+            "enum": [
+              "self",
+              "vision",
+              "audio",
+              "chat",
+              "ui",
+              "outcome",
+              "memory",
+              "protocol",
+              "privileged"
+            ]
+          },
+          "access_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^ia\\.[a-z0-9_.-]+$"
+            }
+          },
+          "policy_visible_default": {
+            "type": "boolean"
+          },
+          "unknown_semantics": {
+            "enum": [
+              "not_applicable",
+              "explicit_unknown",
+              "coverage_required"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
