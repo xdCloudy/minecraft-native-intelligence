@@ -33,3 +33,4 @@ runs/
 # Local bootstrap scratch data
 work/
 .mni-runs/
+.ci-artifacts/

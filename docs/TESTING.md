@@ -554,12 +554,17 @@ A new subsystem is test-ready when:
 
 At the v0.1 state:
 
+- the unified CI workflow routes documentation, Python/JSON, and PowerShell
+  checks by changed paths;
 - documentation checks are T0;
+- Python/JSON CI runs deterministic compile/parse plus the experiment-runner
+  smoke and dirty-tree guard;
+- PowerShell CI performs syntax parsing without installing extra modules;
 - evaluation JSON fixtures are T2 contract fixtures;
 - experiment runner smoke behavior is a T1/T3 tooling check;
 - no Minecraft T4 suite exists yet;
-- no capability T5 result is implied;
-- later #52 should add only the cheap Python/schema smoke required for current
-  code, leaving Minecraft/model-heavy work for later milestones.
+- no capability T5 result is implied; and
+- Minecraft/model-heavy work remains outside ordinary PR CI.
 
-This prevents CI architecture from getting ahead of implemented stacks.
+This keeps CI aligned with implemented stacks rather than hypothetical future
+architecture.
