@@ -23,4 +23,4 @@ Every milestone must preserve legal action constraints, partial observability, p
 
 ## Current focus
 
-Complete v0.1, then prioritize loader/version selection, installable-mod packaging, player-compatible embodiment, Survival parity, observation/action contracts, information-access rules, deterministic harness design, and telemetry. These determine whether later results are meaningful and should precede model architecture commitments.
+The v0.1 foundation baseline is complete. Current work is v0.2: validate the proposed Fabric/Minecraft baseline through the player-compatible embodiment spike, then prioritize installable-mod packaging, Survival parity, observation/action implementation, information-access enforcement, deterministic Minecraft harnesses, compatibility testing, and telemetry. These determine whether later results are meaningful and should precede model architecture commitments.
