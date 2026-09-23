@@ -6,4 +6,6 @@ Each field needs coordinate frame, units, validity/visibility mask, sampling/eve
 
 The baseline uses **access equivalence rather than pixel equivalence**: once a fact is legitimately available through the player's senses or ordinary non-debug UI, it may be encoded structurally without requiring a vision/audio classifier. Unseen/occluded/unavailable facts remain unknown even when the server can inspect them. The machine-readable baseline rules and conformance cases live in `docs/information_access/`.
 
+The initial environment payload is defined by [Structured observation schema v0](OBSERVATION_SCHEMA.md). It separates policy-hidden transport/replay metadata from the policy view, uses explicit unknown/not-applicable wrappers, and gives sensed collections explicit coverage/negative-evidence semantics.
+
 Open questions include voxel/token/graph representations, temporal event encoding, observation bandwidth, Minecraft-version stability, precision quantization, and exact server-side approximation of client visual effects. Screenshot perception may be retained only as an explicitly labelled comparison experiment.
