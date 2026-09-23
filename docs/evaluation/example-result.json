@@ -1,0 +1,155 @@
+{
+  "schema_version": "eval.result.v1",
+  "synthetic_fixture": true,
+  "scenario": {
+    "scenario_id": "fixture.runtime-roundtrip.v1",
+    "schema_version": "eval.scenario.v1",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "run_id": "fixture:runtime-roundtrip:0001",
+  "run_status": "partial",
+  "source_revision": {
+    "vcs": "git",
+    "commit": "0000000000000000000000000000000000000000",
+    "dirty": false
+  },
+  "resolved_environment": {
+    "scenario_config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "minecraft_version": "26.3",
+    "note": "Synthetic fixture values; not evidence from an executed benchmark."
+  },
+  "hardware": {
+    "kind": "synthetic_fixture",
+    "note": "No hardware measurement represented."
+  },
+  "started_at": "2026-09-22T00:00:00Z",
+  "ended_at": "2026-09-22T00:00:01Z",
+  "trials": [
+    {
+      "trial_id": "seed-101-r0-a0",
+      "seed": 101,
+      "repetition_index": 0,
+      "attempt": 0,
+      "status": "completed",
+      "metrics": {
+        "fixture_record_preserved": true
+      },
+      "failures": [],
+      "interventions": [],
+      "deviations": [],
+      "artifact_ids": [
+        "trial-101-log"
+      ]
+    },
+    {
+      "trial_id": "seed-202-r0-a0",
+      "seed": 202,
+      "repetition_index": 0,
+      "attempt": 0,
+      "status": "timeout",
+      "metrics": {
+        "fixture_record_preserved": true
+      },
+      "failures": [
+        {
+          "type": "timeout",
+          "message": "Synthetic timeout fixture retained in the result manifest.",
+          "code": "FIXTURE_TIMEOUT"
+        }
+      ],
+      "interventions": [],
+      "deviations": [],
+      "artifact_ids": [
+        "trial-202-log"
+      ]
+    },
+    {
+      "trial_id": "seed-202-r0-a1",
+      "seed": 202,
+      "repetition_index": 0,
+      "attempt": 1,
+      "status": "completed",
+      "metrics": {
+        "fixture_record_preserved": true
+      },
+      "failures": [],
+      "interventions": [],
+      "deviations": [
+        "Retry after the preserved synthetic timeout attempt."
+      ],
+      "artifact_ids": [
+        "trial-202-retry-log"
+      ]
+    }
+  ],
+  "summary": {
+    "trial_count": 3,
+    "status_counts": {
+      "completed": 2,
+      "timeout": 1
+    },
+    "metrics": [
+      {
+        "id": "fixture_record_preserved",
+        "n": 3,
+        "aggregation": "mean of boolean encoded as 0/1 for the synthetic fixture",
+        "value": 1,
+        "dispersion": 0,
+        "dispersion_kind": "population_standard_deviation"
+      }
+    ]
+  },
+  "actual_privileged_inputs": [
+    {
+      "name": "expected_fixture_state",
+      "used_by_policy": false,
+      "notes": "Synthetic evaluator-only input remained outside the policy input."
+    }
+  ],
+  "actual_scaffolding": [
+    {
+      "id": "fixture-world-reset",
+      "used": true,
+      "notes": "Synthetic reset harness only."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "trial-101-log",
+      "kind": "trial_log",
+      "locator": "fixture://artifacts/trial-101",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "privacy_class": "public"
+    },
+    {
+      "id": "trial-202-log",
+      "kind": "trial_log",
+      "locator": "fixture://artifacts/trial-202",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "privacy_class": "public"
+    },
+    {
+      "id": "trial-202-retry-log",
+      "kind": "trial_log",
+      "locator": "fixture://artifacts/trial-202-retry",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "privacy_class": "public"
+    },
+    {
+      "id": "result-manifest",
+      "kind": "result_manifest",
+      "locator": "fixture://artifacts/result",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "privacy_class": "public"
+    }
+  ],
+  "interpretation": {
+    "state": "not_applicable",
+    "rationale": "Synthetic schema fixture demonstrates failure preservation only; it does not evaluate an intelligence capability.",
+    "limitations": [
+      "All identifiers, hashes, timings, statuses, and values are illustrative fixture data."
+    ]
+  },
+  "supersedes_result_id": null,
+  "notes": "Never cite this fixture as benchmark evidence."
+}
