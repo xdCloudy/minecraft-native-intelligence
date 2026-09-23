@@ -16,3 +16,10 @@
 - **Emergent behaviour:** behaviour arising from learning and interaction rather than being directly scripted to appear.
 - **Minecraft-native ontology:** agent-facing concepts grounded in its world, without required external-computer concepts.
 - **Experiment:** bounded evidence-gathering implementation; not automatically the production architecture.
+- **Evaluation scenario:** versioned declaration of a question, environment, information boundaries, scaffolding, seeds, metrics, baselines, and artifacts used to test a claim.
+- **Evaluation result:** immutable evidence record linking trial-level outcomes, failures, artifacts, variance, and interpretation to one exact evaluation scenario.
+- **Experiment run:** execution/provenance record for a scenario and configuration, including source revision, attempts, logs, and artifact hashes; distinct from scientific interpretation.
+- **Privileged input:** evaluator/operator/environment information unavailable to the tested agent under the baseline information-access policy.
+- **Scaffolding:** declared scripted, heuristic, oracle, authored, or operator assistance that may influence a run and must not be credited as learned behaviour.
+- **Quality gate:** required validation appropriate to a change or release stage; gates range from static checks through integration, statistical, security, and longitudinal testing.
+- **Runtime boundary:** asynchronous interface separating the Minecraft Java integration from the replaceable research/model runtime.
