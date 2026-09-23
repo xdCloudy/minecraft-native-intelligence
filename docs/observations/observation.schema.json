@@ -435,7 +435,7 @@
       "required": [
         "effect_id",
         "amplifier",
-        "duration_ticks"
+        "duration_seconds"
       ],
       "properties": {
         "effect_id": {
@@ -446,7 +446,7 @@
           "type": "integer",
           "minimum": 0
         },
-        "duration_ticks": {
+        "duration_seconds": {
           "type": "integer",
           "minimum": 0
         }
