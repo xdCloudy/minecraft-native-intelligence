@@ -1,0 +1,618 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:evaluation:scenario:v1",
+  "title": "Minecraft Native Intelligence evaluation scenario v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "title",
+    "evaluation_class",
+    "construct",
+    "research_question",
+    "falsification",
+    "environment",
+    "participants",
+    "information_access",
+    "scaffolding",
+    "trial_plan",
+    "metrics",
+    "baselines",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "eval.scenario.v1"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluation_class": {
+      "enum": [
+        "unit",
+        "integration",
+        "simulation",
+        "statistical",
+        "security",
+        "longitudinal"
+      ]
+    },
+    "construct": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "falsification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criteria",
+        "stop_conditions"
+      ],
+      "properties": {
+        "criteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "stop_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minecraft_version",
+        "code_revision_policy",
+        "world",
+        "required_components",
+        "config_refs"
+      ],
+      "properties": {
+        "minecraft_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "code_revision_policy": {
+          "const": "exact_commit"
+        },
+        "world": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "reset_mode"
+          ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "reset_mode": {
+              "enum": [
+                "clean_world",
+                "snapshot_restore",
+                "persistent_world",
+                "custom"
+              ]
+            },
+            "reset_details": {
+              "type": "string"
+            }
+          }
+        },
+        "required_components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "name",
+              "version"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "mod",
+                  "plugin",
+                  "datapack",
+                  "resource_pack",
+                  "runtime",
+                  "other"
+                ]
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        "config_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rules": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "participants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agents",
+        "humans_present",
+        "operator_present",
+        "persistent_state"
+      ],
+      "properties": {
+        "agents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "count",
+              "initialization"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "initialization": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "humans_present": {
+          "type": "boolean"
+        },
+        "operator_present": {
+          "type": "boolean"
+        },
+        "persistent_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "survives"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "fresh",
+                "reuse",
+                "mixed"
+              ]
+            },
+            "survives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "information_access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "permitted_inputs",
+        "permitted_outputs",
+        "privileged_inputs",
+        "prohibited_cross_agent_state"
+      ],
+      "properties": {
+        "permitted_inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "permitted_outputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "prohibited_cross_agent_state": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "privileged_inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "reason",
+              "consumers",
+              "exposure",
+              "baseline_claim_valid"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "consumers": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "exposure": {
+                "enum": [
+                  "policy",
+                  "evaluator_only",
+                  "environment_only",
+                  "operator_only"
+                ]
+              },
+              "baseline_claim_valid": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "scaffolding": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "owner",
+          "influence",
+          "active_when",
+          "encodes_solution",
+          "accounting"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "script",
+              "heuristic",
+              "oracle",
+              "authored_plan",
+              "operator_intervention",
+              "reset_harness",
+              "recovery",
+              "other"
+            ]
+          },
+          "owner": {
+            "enum": [
+              "policy",
+              "environment",
+              "evaluator",
+              "operator",
+              "runner"
+            ]
+          },
+          "influence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "active_when": {
+            "type": "string",
+            "minLength": 1
+          },
+          "encodes_solution": {
+            "type": "boolean"
+          },
+          "accounting": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "trial_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seeds",
+        "repetitions_per_seed",
+        "warmup",
+        "timeout",
+        "allowed_retries",
+        "intervention_policy",
+        "order_policy"
+      ],
+      "properties": {
+        "seeds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string",
+                "minLength": 1
+              }
+            ]
+          }
+        },
+        "repetitions_per_seed": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "warmup": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timeout": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "game_ticks": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "wall_seconds": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "exclusiveMinimum": 0
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "game_ticks"
+              ]
+            },
+            {
+              "required": [
+                "wall_seconds"
+              ]
+            }
+          ]
+        },
+        "allowed_retries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "intervention_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "order_policy": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "definition",
+          "unit",
+          "direction",
+          "role",
+          "aggregation",
+          "failure_treatment",
+          "raw_source"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direction": {
+            "enum": [
+              "higher",
+              "lower",
+              "neutral"
+            ]
+          },
+          "role": {
+            "enum": [
+              "primary",
+              "secondary",
+              "diagnostic",
+              "guardrail"
+            ]
+          },
+          "aggregation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "failure_treatment": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "threshold": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "baselines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "config_ref"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "candidate",
+              "previous",
+              "heuristic",
+              "random",
+              "no_op",
+              "ablation",
+              "human_reference",
+              "other"
+            ]
+          },
+          "config_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "required",
+          "privacy_class"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "privacy_class": {
+            "enum": [
+              "public",
+              "internal",
+              "restricted",
+              "human_data"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "data_policy_ref": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

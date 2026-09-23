@@ -92,6 +92,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Primary in-process Java runtime; embedded Python/JNI; custom sockets/JSON; shared memory as the initial transport; separate loader/model-specific contracts.
 - **Consequences:** The research runtime can restart and evolve independently of Minecraft and can use non-JVM model stacks. Deployment gains another local service and explicit connection/backpressure/versioning work. Protocol overhead must pass the benchmark gate in [RUNTIME_BOUNDARY.md](RUNTIME_BOUNDARY.md); if measured overhead is material, optimize or add an optional shared-memory data plane without weakening the logical boundary.
 
+## ADR-0011 — Evaluations use versioned scenario and result contracts
+
+- **Date:** 2026-09-23
+- **Status:** accepted
+- **Context:** Model, runtime, memory, Minecraft-integration, and multi-agent experiments need comparable evidence without coupling evaluation to one programming language, mod loader, model stack, or CI runner. Aggregate scores and successful demos can hide seed sensitivity, failed attempts, privileged information, or scripted task logic.
+- **Decision:** Evaluation scenarios and results use language-neutral, versioned contracts. The v1 canonical persisted interchange format is JSON validated by JSON Schema Draft 2020-12. Scenarios predeclare question/hypothesis, falsification/stop criteria, environment, information access, privileged inputs, scaffolding, seeds/repetitions, timeouts, metrics, baselines, reset policy, and required artifacts. Results preserve every trial attempt, including failures/timeouts/retries, exact resolved revisions/configuration, actual privileged/scaffold use, raw artifact hashes, and aggregate variance. Material scenario changes create a new version/content hash.
+- **Alternatives:** Per-experiment ad hoc scripts/results; summary-only benchmark tables; model-specific evaluation formats; selecting a runner language/framework before the contract.
+- **Consequences:** Downstream evaluation work shares one evidence shape and can detect hidden-state/scripted shortcuts. The executable experiment runner remains #46, benchmark taxonomy remains #29, repository test tiers remain #51, and CI implementation remains #52. See [EVALUATION.md](EVALUATION.md) and `docs/evaluation/`.
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
