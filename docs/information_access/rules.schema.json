@@ -8,7 +8,8 @@
     "schema_version",
     "profile_id",
     "camera",
-    "rules"
+    "rules",
+    "field_classes"
   ],
   "properties": {
     "schema_version": {
@@ -96,6 +97,62 @@
           },
           "privileged_if_bypassed": {
             "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "field_classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field_class",
+          "channel",
+          "access_rule_ids",
+          "policy_visible_default",
+          "unknown_semantics"
+        ],
+        "properties": {
+          "field_class": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$"
+          },
+          "channel": {
+            "enum": [
+              "self",
+              "vision",
+              "audio",
+              "chat",
+              "ui",
+              "outcome",
+              "memory",
+              "protocol",
+              "privileged"
+            ]
+          },
+          "access_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^ia\\.[a-z0-9_.-]+$"
+            }
+          },
+          "policy_visible_default": {
+            "type": "boolean"
+          },
+          "unknown_semantics": {
+            "enum": [
+              "not_applicable",
+              "explicit_unknown",
+              "coverage_required"
+            ]
           },
           "notes": {
             "type": "string"
