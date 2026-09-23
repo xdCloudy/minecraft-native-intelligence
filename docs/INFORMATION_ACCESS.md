@@ -908,7 +908,7 @@ For baseline evaluation:
 
 ## Interaction with #3 observation schema
 
-#3 should not invent access semantics field by field.
+Issue #3 should not invent access semantics field by field.
 
 Instead each observation field must reference this contract.
 
@@ -933,7 +933,7 @@ If no rule justifies a policy-visible field, the field is not baseline-valid.
 
 This document decides **what** can be known.
 
-#64 decides **when/how often** legitimate observations/events are sampled,
+Issue #64 decides **when/how often** legitimate observations/events are sampled,
 ordered, coalesced, marked stale, or dropped under bandwidth pressure.
 
 Backpressure cannot enlarge access. Dropping an observation also cannot be
@@ -943,7 +943,7 @@ converted into a confident negative observation.
 
 This document decides current sensory/UI access.
 
-#73 decides which non-current Minecraft mechanics/affordances/knowledge may be
+Issue #73 decides which non-current Minecraft mechanics/affordances/knowledge may be
 provided structurally versus learned.
 
 A fact being available in a server registry is not enough to pass either gate.
