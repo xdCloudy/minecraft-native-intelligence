@@ -14,7 +14,7 @@ The project asks whether broad, persistent, socially grounded Minecraft intellig
 
 ## Evidence standard
 
-Each experiment must predeclare a question/hypothesis, baseline, intervention, metrics, seeds, environment version, compute budget, stop/falsification conditions, and expected output. Preserve configuration and raw results where policy permits. Report variance, negative results, failures, and the exact amount of scripted scaffolding. A compelling video is not sufficient evidence.
+Each experiment must predeclare a question/hypothesis, baseline, intervention, metrics, seeds, environment version, compute budget, stop/falsification conditions, and expected output. Execute and preserve runs through the reproducibility framework in [`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md). Preserve configuration and raw results where policy permits. Report variance, negative results, failures, and the exact amount of scripted scaffolding. A compelling video is not sufficient evidence.
 
 ## Prior work
 
