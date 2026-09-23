@@ -1,0 +1,1238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:observation:v0",
+  "title": "Minecraft Native Intelligence observation v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "meta",
+    "policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "observation.v0"
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "policy": {
+      "$ref": "#/$defs/policy"
+    }
+  },
+  "$defs": {
+    "vec3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "ivec3": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "z": {
+          "type": "integer"
+        }
+      }
+    },
+    "observedNumber": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "value"
+          ],
+          "properties": {
+            "status": {
+              "const": "observed"
+            },
+            "value": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "not_applicable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "observedInteger": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "value"
+          ],
+          "properties": {
+            "status": {
+              "const": "observed"
+            },
+            "value": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "not_applicable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "observedBoolean": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "value"
+          ],
+          "properties": {
+            "status": {
+              "const": "observed"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "not_applicable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "observedVec3": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "value"
+          ],
+          "properties": {
+            "status": {
+              "const": "observed"
+            },
+            "value": {
+              "$ref": "#/$defs/vec3"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "not_applicable"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "negative_evidence",
+        "reason_codes"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "negative_evidence": {
+          "enum": [
+            "scope_complete",
+            "observed_items_only",
+            "none"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "negative_evidence": {
+                "const": "scope_complete"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unavailable"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "negative_evidence": {
+                "const": "none"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "itemSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "count"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "damage": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "max_damage": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "custom_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "visible_enchantments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "level"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+              },
+              "level": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "inventorySlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot",
+        "item"
+      ],
+      "properties": {
+        "slot": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "item": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/itemSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "equipmentEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot",
+        "item"
+      ],
+      "properties": {
+        "slot": {
+          "enum": [
+            "mainhand",
+            "offhand",
+            "head",
+            "chest",
+            "legs",
+            "feet"
+          ]
+        },
+        "item": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/itemSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "statusEffect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effect_id",
+        "amplifier",
+        "duration_ticks"
+      ],
+      "properties": {
+        "effect_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "amplifier": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duration_ticks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "world_session_id",
+        "sequence",
+        "game_tick",
+        "trace_id",
+        "field_registry_version",
+        "producer_version",
+        "capabilities",
+        "required_capabilities"
+      ],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "world_session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "game_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "field_registry_version": {
+          "const": "observation-fields.v0"
+        },
+        "producer_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$"
+          }
+        },
+        "required_capabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$"
+          }
+        }
+      }
+    },
+    "self": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "position",
+        "orientation",
+        "velocity",
+        "pose",
+        "on_ground",
+        "health",
+        "food",
+        "air",
+        "experience_level",
+        "experience_progress",
+        "selected_hotbar_slot",
+        "inventory",
+        "equipment",
+        "status_effects"
+      ],
+      "properties": {
+        "position": {
+          "$ref": "#/$defs/observedVec3"
+        },
+        "orientation": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value"
+              ],
+              "properties": {
+                "status": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "yaw_degrees",
+                    "pitch_degrees"
+                  ],
+                  "properties": {
+                    "yaw_degrees": {
+                      "type": "number"
+                    },
+                    "pitch_degrees": {
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "unknown",
+                    "not_applicable"
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        "velocity": {
+          "$ref": "#/$defs/observedVec3"
+        },
+        "pose": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value"
+              ],
+              "properties": {
+                "status": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_.-]+(?::[a-z0-9_./-]+)?$"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "unknown",
+                    "not_applicable"
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        "on_ground": {
+          "$ref": "#/$defs/observedBoolean"
+        },
+        "health": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "current",
+            "max",
+            "absorption"
+          ],
+          "properties": {
+            "current": {
+              "$ref": "#/$defs/observedNumber"
+            },
+            "max": {
+              "$ref": "#/$defs/observedNumber"
+            },
+            "absorption": {
+              "$ref": "#/$defs/observedNumber"
+            }
+          }
+        },
+        "food": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level"
+          ],
+          "properties": {
+            "level": {
+              "$ref": "#/$defs/observedInteger"
+            }
+          }
+        },
+        "air": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "current",
+            "max"
+          ],
+          "properties": {
+            "current": {
+              "$ref": "#/$defs/observedInteger"
+            },
+            "max": {
+              "$ref": "#/$defs/observedInteger"
+            }
+          }
+        },
+        "experience_level": {
+          "$ref": "#/$defs/observedInteger"
+        },
+        "experience_progress": {
+          "$ref": "#/$defs/observedNumber"
+        },
+        "selected_hotbar_slot": {
+          "$ref": "#/$defs/observedInteger"
+        },
+        "inventory": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "slots"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "observed",
+                "unknown"
+              ]
+            },
+            "slots": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/inventorySlot"
+              }
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "unknown"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "reason"
+                ],
+                "properties": {
+                  "slots": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "equipment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/equipmentEntry"
+          }
+        },
+        "status_effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statusEffect"
+          }
+        }
+      }
+    },
+    "worldCues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dimension_id",
+        "day_phase",
+        "weather",
+        "visual_profile_id"
+      ],
+      "properties": {
+        "dimension_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "day_phase": {
+          "enum": [
+            "day",
+            "sunset",
+            "night",
+            "sunrise",
+            "unknown"
+          ]
+        },
+        "weather": {
+          "enum": [
+            "clear",
+            "rain",
+            "thunder",
+            "unknown"
+          ]
+        },
+        "visual_profile_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "surfaceSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_id",
+        "relative_block",
+        "block_id",
+        "visible_properties",
+        "visible_faces",
+        "fluid_id",
+        "visibility_quality"
+      ],
+      "properties": {
+        "sample_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "relative_block": {
+          "$ref": "#/$defs/ivec3"
+        },
+        "block_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "visible_properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "integer",
+              "boolean"
+            ]
+          }
+        },
+        "visible_faces": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "north",
+              "south",
+              "east",
+              "west",
+              "up",
+              "down"
+            ]
+          }
+        },
+        "fluid_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "visibility_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "representation",
+        "frame",
+        "coverage",
+        "items"
+      ],
+      "properties": {
+        "representation": {
+          "const": "surface_samples.v0"
+        },
+        "frame": {
+          "const": "agent_local"
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/surfaceSample"
+          }
+        }
+      }
+    },
+    "visibleEquipment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot",
+        "item"
+      ],
+      "properties": {
+        "slot": {
+          "enum": [
+            "mainhand",
+            "offhand",
+            "head",
+            "chest",
+            "legs",
+            "feet"
+          ]
+        },
+        "item": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/itemSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_ref",
+        "type_id",
+        "relative_position",
+        "relative_velocity",
+        "pose",
+        "display_name",
+        "equipment",
+        "cue_flags"
+      ],
+      "properties": {
+        "observation_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "relative_position": {
+          "$ref": "#/$defs/vec3"
+        },
+        "relative_velocity": {
+          "$ref": "#/$defs/observedVec3"
+        },
+        "pose": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_.-]+(?::[a-z0-9_./-]+)?$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "display_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "equipment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/visibleEquipment"
+          }
+        },
+        "cue_flags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]+$"
+          }
+        }
+      }
+    },
+    "entities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "representation",
+        "frame",
+        "coverage",
+        "items"
+      ],
+      "properties": {
+        "representation": {
+          "const": "ephemeral_entities.v0"
+        },
+        "frame": {
+          "const": "agent_local"
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entity"
+          }
+        }
+      }
+    },
+    "soundEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "kind",
+        "sound_id",
+        "category",
+        "direction",
+        "distance_band",
+        "volume",
+        "pitch",
+        "entity_ref"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "sound"
+        },
+        "sound_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "$ref": "#/$defs/observedVec3"
+        },
+        "distance_band": {
+          "enum": [
+            "very_near",
+            "near",
+            "mid",
+            "far",
+            "unknown"
+          ]
+        },
+        "volume": {
+          "type": "number",
+          "minimum": 0
+        },
+        "pitch": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "entity_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "chatEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "kind",
+        "channel",
+        "sender_display",
+        "sender_entity_ref",
+        "text",
+        "message_type"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "chat"
+        },
+        "channel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sender_display": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sender_entity_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "message_type": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "actionOutcomeEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "kind",
+        "request_id",
+        "phase",
+        "code",
+        "detail"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "action_outcome"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phase": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "started",
+            "progress",
+            "completed",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        },
+        "detail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "lifecycleEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "kind",
+        "event_type",
+        "detail"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "self_lifecycle"
+        },
+        "event_type": {
+          "enum": [
+            "damage_received",
+            "death",
+            "respawn",
+            "dimension_transition",
+            "status_change"
+          ]
+        },
+        "detail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "event": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/soundEvent"
+        },
+        {
+          "$ref": "#/$defs/chatEvent"
+        },
+        {
+          "$ref": "#/$defs/actionOutcomeEvent"
+        },
+        {
+          "$ref": "#/$defs/lifecycleEvent"
+        }
+      ]
+    },
+    "events": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coverage",
+        "items"
+      ],
+      "properties": {
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self",
+        "world_cues",
+        "geometry",
+        "entities",
+        "events",
+        "extensions"
+      ],
+      "properties": {
+        "self": {
+          "$ref": "#/$defs/self"
+        },
+        "world_cues": {
+          "$ref": "#/$defs/worldCues"
+        },
+        "geometry": {
+          "$ref": "#/$defs/geometry"
+        },
+        "entities": {
+          "$ref": "#/$defs/entities"
+        },
+        "events": {
+          "$ref": "#/$defs/events"
+        },
+        "extensions": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[a-z0-9_.-]+(?:\\.[a-z0-9_.-]+)+$"
+          },
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}
