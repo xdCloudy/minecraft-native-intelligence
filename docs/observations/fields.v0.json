@@ -928,11 +928,11 @@
       "policy_visible": true,
       "units": "item_summary_list",
       "frame": "agent_local",
-      "precision": "visible slots only",
+      "precision": "visible item identity only",
       "unknown_semantics": "empty means no visible equipment in declared representation",
       "absence_semantics": "not hidden inventory",
       "stability": "core",
-      "notes": ""
+      "notes": "Uses visibleItemSummary: item_id only; no stack count, durability, custom name, enchantments, or hidden inventory metadata."
     },
     {
       "path": "policy.entities.items[*].cue_flags",
@@ -1068,7 +1068,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].chat.channel",
+      "path": "policy.events.items[*].channel",
       "channel": "chat",
       "source": "Server-delivered chat routing",
       "access_rule_ids": [
@@ -1084,7 +1084,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].chat.sender_display",
+      "path": "policy.events.items[*].sender_display",
       "channel": "chat",
       "source": "Player-facing delivered message",
       "access_rule_ids": [
@@ -1100,7 +1100,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].chat.sender_entity_ref",
+      "path": "policy.events.items[*].sender_entity_ref",
       "channel": "chat",
       "source": "Association only when independently sensed",
       "access_rule_ids": [
@@ -1116,7 +1116,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].chat.text",
+      "path": "policy.events.items[*].text",
       "channel": "chat",
       "source": "Server-delivered chat content",
       "access_rule_ids": [
@@ -1132,7 +1132,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].chat.message_type",
+      "path": "policy.events.items[*].message_type",
       "channel": "chat",
       "source": "Player-facing message type",
       "access_rule_ids": [
@@ -1148,7 +1148,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].action_outcome.request_id",
+      "path": "policy.events.items[*].request_id",
       "channel": "outcome",
       "source": "Own action correlation",
       "access_rule_ids": [
@@ -1164,7 +1164,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].action_outcome.phase",
+      "path": "policy.events.items[*].phase",
       "channel": "outcome",
       "source": "Own authoritative action outcome",
       "access_rule_ids": [
@@ -1180,7 +1180,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].action_outcome.code",
+      "path": "policy.events.items[*].code",
       "channel": "outcome",
       "source": "Own semantic outcome/rejection code",
       "access_rule_ids": [
@@ -1196,7 +1196,7 @@
       "notes": ""
     },
     {
-      "path": "policy.events.items[*].action_outcome.detail",
+      "path": "policy.events.items[*].detail",
       "channel": "outcome",
       "source": "Own concise player-facing outcome detail",
       "access_rule_ids": [
@@ -1216,7 +1216,6 @@
       "channel": "protocol",
       "source": "Observation/event adapter",
       "access_rule_ids": [
-        "ia.protocol.mask_from_policy",
         "ia.negative.coverage_required"
       ],
       "policy_visible": true,
@@ -1226,14 +1225,13 @@
       "unknown_semantics": "partial/unavailable preserve uncertainty",
       "absence_semantics": "complete may support no-event claim only for declared window",
       "stability": "core",
-      "notes": ""
+      "notes": "Policy-visible uncertainty/coverage semantics; not transport-only metadata."
     },
     {
       "path": "policy.events.coverage.negative_evidence",
       "channel": "protocol",
       "source": "Observation/event adapter",
       "access_rule_ids": [
-        "ia.protocol.mask_from_policy",
         "ia.negative.coverage_required"
       ],
       "policy_visible": true,
@@ -1243,14 +1241,13 @@
       "unknown_semantics": "explicit",
       "absence_semantics": "defines no-event semantics",
       "stability": "core",
-      "notes": ""
+      "notes": "Policy-visible uncertainty/coverage semantics; not transport-only metadata."
     },
     {
       "path": "policy.events.coverage.reason_codes[*]",
       "channel": "protocol",
       "source": "Observation/event adapter",
       "access_rule_ids": [
-        "ia.protocol.mask_from_policy",
         "ia.negative.coverage_required"
       ],
       "policy_visible": true,
@@ -1260,7 +1257,7 @@
       "unknown_semantics": "explicit",
       "absence_semantics": "not_applicable",
       "stability": "core",
-      "notes": ""
+      "notes": "Policy-visible uncertainty/coverage semantics; not transport-only metadata."
     },
     {
       "path": "policy.extensions.*",
@@ -1277,6 +1274,54 @@
       "absence_semantics": "extension-defined",
       "stability": "experimental",
       "notes": "Unknown optional extension data is not automatically a model feature; each extension must register its own fields/access rules before policy use."
+    },
+    {
+      "path": "policy.events.items[*].event_id",
+      "channel": "protocol",
+      "source": "Observation/event adapter",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": true,
+      "units": "observation_local_id",
+      "frame": "event_window",
+      "precision": "opaque token",
+      "unknown_semantics": "event exists only when legitimately delivered",
+      "absence_semantics": "absence governed by event coverage",
+      "stability": "core",
+      "notes": "Correlation token is policy-visible only to associate events inside the current observation stream; it is not a host/trace identifier."
+    },
+    {
+      "path": "policy.events.items[*].kind",
+      "channel": "protocol",
+      "source": "Observation/event adapter",
+      "access_rule_ids": [
+        "ia.protocol.mask_from_policy"
+      ],
+      "policy_visible": true,
+      "units": "semantic_event_kind",
+      "frame": "event_window",
+      "precision": "closed v0 enum",
+      "unknown_semantics": "event exists only when legitimately delivered",
+      "absence_semantics": "absence governed by event coverage",
+      "stability": "core",
+      "notes": "Discriminates the policy-visible event variant. It is not hidden server metadata."
+    },
+    {
+      "path": "policy.events.items[*].event_type",
+      "channel": "outcome",
+      "source": "Own embodied lifecycle/action outcome",
+      "access_rule_ids": [
+        "ia.outcome.own_action"
+      ],
+      "policy_visible": true,
+      "units": "semantic_lifecycle_type",
+      "frame": "self",
+      "precision": "semantic value",
+      "unknown_semantics": "event exists only when legitimately observed",
+      "absence_semantics": "absence governed by event coverage",
+      "stability": "core",
+      "notes": "Self-visible lifecycle event type."
     }
   ]
 }
