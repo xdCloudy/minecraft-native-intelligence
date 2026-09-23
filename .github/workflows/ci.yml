@@ -1,0 +1,161 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Detect changed stacks
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+      python: ${{ steps.filter.outputs.python }}
+      powershell: ${{ steps.filter.outputs.powershell }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect relevant paths
+        id: filter
+        shell: bash
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EVENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          base="${PR_BASE_SHA:-${PUSH_BEFORE_SHA:-}}"
+          head="${PR_HEAD_SHA:-$EVENT_SHA}"
+
+          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
+            base="$(git rev-list --max-parents=0 "$head" | tail -n 1)"
+          fi
+
+          docs=false
+          python=false
+          powershell=false
+
+          while IFS= read -r file; do
+            case "$file" in
+              *.md|.markdownlint.yml)
+                docs=true
+                ;;
+            esac
+
+            case "$file" in
+              *.py|*.json|pyproject.toml|requirements*.txt|.gitignore)
+                python=true
+                ;;
+            esac
+
+            case "$file" in
+              *.ps1)
+                powershell=true
+                ;;
+            esac
+
+            if [[ "$file" == ".github/workflows/ci.yml" ]]; then
+              docs=true
+              python=true
+              powershell=true
+            fi
+          done < <(git diff --name-only "$base" "$head")
+
+          echo "docs=$docs" >> "$GITHUB_OUTPUT"
+          echo "python=$python" >> "$GITHUB_OUTPUT"
+          echo "powershell=$powershell" >> "$GITHUB_OUTPUT"
+
+  documentation:
+    name: Documentation
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20
+        with:
+          globs: "**/*.md"
+
+      - name: Check Markdown links
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
+        with:
+          args: --no-progress --exclude-path LICENSE --accept 200,429 "**/*.md"
+          fail: true
+
+  python:
+    name: Python and JSON tooling
+    needs: changes
+    if: needs.changes.outputs.python == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up minimum supported Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+
+      - name: Run deterministic tooling smoke
+        run: python scripts/ci_smoke.py
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: python-ci-failure-${{ github.run_id }}
+          path: .ci-artifacts/
+          if-no-files-found: ignore
+          retention-days: 3
+
+  powershell:
+    name: PowerShell syntax
+    needs: changes
+    if: needs.changes.outputs.powershell == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Parse PowerShell scripts
+        shell: pwsh
+        run: |
+          $failed = $false
+          Get-ChildItem -Path . -Recurse -Filter *.ps1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              $_.FullName,
+              [ref]$tokens,
+              [ref]$errors
+            ) | Out-Null
+
+            foreach ($error in $errors) {
+              Write-Error "$($_.FullName):$($error.Extent.StartLineNumber): $($error.Message)"
+              $failed = $true
+            }
+          }
+
+          if ($failed) {
+            exit 1
+          }
