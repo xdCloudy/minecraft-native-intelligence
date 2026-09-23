@@ -84,7 +84,7 @@ def git_info(repo_root: Path) -> dict[str, Any]:
         "vcs": "git",
         "commit": commit,
         "dirty": bool(dirty_text),
-        "dirty_entries": dirty_text.splitlines(),
+        "dirty_entry_count": len(dirty_text.splitlines()),
     }
 
 
@@ -246,7 +246,7 @@ def run_attempt(
         "ended_at": ended_at,
         "duration_seconds": round(duration, 6),
         "timeout_seconds": timeout_seconds,
-        "command": command,
+        "command": {"executable": str(variant["executable"]), "arguments": arguments},
         "working_directory": cwd.relative_to(repo_root).as_posix() or ".",
         "exit_code": exit_code,
         "launch_error": launch_error,
@@ -275,7 +275,6 @@ def capture_environment(manifest: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("environment_capture.environment_variables must be a list")
     return {
         "python": sys.version,
-        "python_executable": sys.executable,
         "platform": platform.platform(),
         "system": platform.system(),
         "release": platform.release(),
