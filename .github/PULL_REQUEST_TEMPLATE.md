@@ -27,8 +27,8 @@ Describe data provenance/licensing, player consent/privacy, untrusted inputs, ho
 ## Checklist
 
 - [ ] I read `docs/GOAL.md`, `ARCHITECTURE.md`, and `ROADMAP.md`.
-- [ ] Relevant tests and checks pass.
+- [ ] I ran the relevant local checks from `docs/CI.md` and followed `docs/TESTING.md`; anything not validated is stated above.
 - [ ] Documentation and decision records are updated.
-- [ ] Capability claims are supported by reproducible evidence.
+- [ ] Capability/research claims use the evaluation/experiment contracts where applicable and are supported by reproducible evidence.
 - [ ] No secrets, private player data, or unlicensed artifacts are included.
 - [ ] The change is focused and its dependencies are identified.
