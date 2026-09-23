@@ -1,0 +1,65 @@
+{
+  "schema_version": "entity-semantics.v1",
+  "raw_reference": {
+    "name": "observation_ref",
+    "scope": "observation_window",
+    "persistent": false,
+    "server_identity": false
+  },
+  "track_reference": {
+    "name": "track_ref",
+    "scope": "observer_local_tracklet",
+    "source": "derived_from_legal_observations",
+    "shared_between_agents": false,
+    "server_identity": false
+  },
+  "memory_reference": {
+    "name": "memory_entity_ref",
+    "scope": "persistent_agent_belief",
+    "source": "tracklet_association_with_provenance",
+    "mutable_belief": true
+  },
+  "states": [
+    "visible",
+    "occluded_hypothesis",
+    "lost",
+    "terminated_observed"
+  ],
+  "allowed_evidence": [
+    "type_compatibility",
+    "derived_motion_proximity",
+    "visible_pose_variant",
+    "visible_equipment_identity",
+    "visible_public_identity",
+    "visible_appearance",
+    "observed_relation",
+    "observed_transformation",
+    "current_sound_association",
+    "current_chat_association",
+    "route_history",
+    "temporal_gap"
+  ],
+  "forbidden_identity_inputs": [
+    "minecraft_entity_uuid",
+    "minecraft_numeric_entity_id",
+    "server_object_identity",
+    "hidden_tracking_table",
+    "hidden_world_position",
+    "hidden_health_inventory",
+    "server_ai_target_path",
+    "other_agent_private_track",
+    "evaluator_ground_truth"
+  ],
+  "prototype": {
+    "purpose": "deterministic_research_fixture_only",
+    "max_gap_observations": 2,
+    "association_threshold": 0.55,
+    "ambiguity_margin": 0.15,
+    "max_position_distance": 8,
+    "weights": {
+      "position": 0.65,
+      "appearance": 0.35
+    },
+    "gap_penalty": 0.12
+  }
+}
