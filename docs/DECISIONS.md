@@ -83,9 +83,18 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Treat public/downloadable data as reusable by default; infer data rights from an open-source code license; defer provenance and deletion lineage until publication.
 - **Consequences:** Dataset ingestion and training tooling require machine-readable use gates and lineage. Third-party datasets may remain unusable until artifact-specific terms are resolved. Human collection needs versioned consent, minimisation, retention, and withdrawal workflows. See [DATA_GOVERNANCE.md](DATA_GOVERNANCE.md) for the source matrix, consent requirements, risks, and review triggers.
 
+## ADR-0010 — Research runtime is asynchronous and out-of-process by default
+
+- **Date:** 2026-09-22
+- **Status:** accepted
+- **Context:** Minecraft integration runs in the Java logical server while model, memory, batching, and research tooling may use different languages and native/GPU dependencies. Coupling them inside the Minecraft JVM would reduce transport overhead but also couples crashes, OOMs, garbage collection, dependency conflicts, upgrades, and research-language choice to world availability.
+- **Decision:** Use an asynchronous out-of-process runtime as the default boundary. Start with localhost gRPC using binary Protocol Buffers as the portable Windows/Linux transport, with long-lived asynchronous streaming, explicit session/agent identity, bounded queues, version negotiation, health/recovery, and fail-closed action handling. The Minecraft tick thread never synchronously waits for inference. Retain a narrow in-process Java SPI only for deterministic tests and deliberately simple baselines that pass the same semantic contract tests. Defer shared memory or other zero-copy bulk paths until profiling proves they are needed.
+- **Alternatives:** Primary in-process Java runtime; embedded Python/JNI; custom sockets/JSON; shared memory as the initial transport; separate loader/model-specific contracts.
+- **Consequences:** The research runtime can restart and evolve independently of Minecraft and can use non-JVM model stacks. Deployment gains another local service and explicit connection/backpressure/versioning work. Protocol overhead must pass the benchmark gate in [RUNTIME_BOUNDARY.md](RUNTIME_BOUNDARY.md); if measured overhead is material, optimize or add an optional shared-memory data plane without weakening the logical boundary.
+
 ## Open decision queue
 
-Fabric versus NeoForge (or another loader), supported Minecraft/Java versions, whether clients also need the mod, exact player lifecycle hooks, process and language boundary, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
+Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
 
 ## ADR template
 

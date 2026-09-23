@@ -28,7 +28,7 @@ flowchart LR
     NET --> CLIENTS[Human Java clients and compatible mods]
 ```
 
-The Java mod is the only component attached directly to Minecraft. A research/model runtime may run in-process for an early spike or out-of-process through a versioned local protocol; that decision must not change Minecraft-facing semantics. If the runtime is unavailable, the entity safely idles or is paused according to operator policy rather than being driven by a fallback chatbot.
+The Java mod is the only component attached directly to Minecraft. The default research/model runtime is out-of-process through the asynchronous, versioned local boundary defined in [RUNTIME_BOUNDARY.md](RUNTIME_BOUNDARY.md); a narrow in-process Java implementation remains available for deterministic tests and simple spikes. Neither path may change Minecraft-facing semantics. The logical-server tick never waits synchronously for model inference. If the runtime is unavailable, the entity safely idles or is paused according to operator policy rather than being driven by a fallback chatbot.
 
 ## Player embodiment contract
 
