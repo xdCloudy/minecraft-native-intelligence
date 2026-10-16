@@ -1,0 +1,338 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sensed entity identity contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "issue",
+    "research_question",
+    "answer",
+    "options",
+    "decision",
+    "evidence_layer",
+    "track_layer",
+    "identity_states",
+    "signals",
+    "policy",
+    "edge_cases",
+    "hard_rules",
+    "conformance"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "entity-identity.v0"
+    },
+    "issue": {
+      "const": "#5"
+    },
+    "research_question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "answer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity_continuity", "observed_versus_derived"],
+      "properties": {
+        "identity_continuity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_versus_derived": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["observed", "derived"],
+          "properties": {
+            "observed": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "derived": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "verdict", "why"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "description": { "type": "string", "minLength": 1 },
+          "verdict": {
+            "type": "string",
+            "enum": ["adopted", "component", "rejected", "comparison_only"]
+          },
+          "why": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "adr"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 1 },
+        "adr": { "type": "string", "pattern": "^ADR-[0-9]{4}$" }
+      }
+    },
+    "evidence_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observation_schema", "ref_semantics", "unchanged"],
+      "properties": {
+        "observation_schema": { "const": "observation.v0" },
+        "ref_semantics": {
+          "type": "string",
+          "enum": ["observation_local_only"]
+        },
+        "unchanged": { "type": "boolean" }
+      }
+    },
+    "track_layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "representation", "inputs", "outputs", "persistence"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "enum": ["agent_runtime", "memory_boundary"]
+        },
+        "representation": {
+          "type": "string",
+          "enum": ["association_graph", "typed_tuple_set", "flat_record"]
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(observation|policy)\\.[a-z0-9_.*]+$"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "persistence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "identity_states": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["state", "entry", "exit", "bucket_ceiling"],
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "new",
+              "tracked",
+              "occluded_hypothesis",
+              "reassociated",
+              "retired"
+            ]
+          },
+          "entry": { "type": "string", "minLength": 1 },
+          "exit": { "type": "string", "minLength": 1 },
+          "bucket_ceiling": {
+            "type": "string",
+            "enum": ["ambiguous", "plausible", "strong", "certain"]
+          }
+        }
+      }
+    },
+    "signals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "channel", "access_rule_ids", "weight", "scoring_contribution", "max_signal_score", "notes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "channel": {
+            "type": "string",
+            "enum": ["vision", "audio", "chat", "self", "memory", "protocol", "outcome"]
+          },
+          "access_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^ia\\.[a-z0-9_.]+$" }
+          },
+          "scoring_contribution": { "type": "string", "enum": ["base", "time_sensitive"] },
+          "weight": { "type": "number", "minimum": 0, "maximum": 100 },
+          "max_signal_score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "notes": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["buckets", "thresholds", "tie_break", "decay", "speed_envelope", "merge", "split"],
+      "properties": {
+        "buckets": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["ambiguous", "plausible", "strong", "certain"]
+          }
+        },
+        "thresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ambiguous_min", "plausible_min", "strong_min", "certain_min"],
+          "properties": {
+            "ambiguous_min": { "type": "number", "minimum": 0 },
+            "plausible_min": { "type": "number", "minimum": 0 },
+            "strong_min": { "type": "number", "minimum": 0 },
+            "certain_min": { "type": "number", "minimum": 0 }
+          }
+        },
+        "tie_break": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "decay": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model", "parameter", "unit"],
+          "properties": {
+            "model": { "type": "string", "minLength": 1 },
+            "parameter": { "type": "number", "minimum": 0 },
+            "unit": { "type": "string", "minLength": 1 }
+          }
+        },
+        "speed_envelope": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["scope", "blocks_per_tick"],
+            "properties": {
+              "scope": { "type": "string", "minLength": 1 },
+              "blocks_per_tick": { "type": "number", "minimum": 0 }
+            }
+          }
+        },
+        "merge": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "split": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "edge_cases": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "category", "rule", "signals_used", "fixtures"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^EI-[0-9]{2}$" },
+          "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "category": {
+            "type": "string",
+            "enum": ["spawn_despawn", "occlusion", "similar_entities", "mounts_projectiles", "information_loss", "state_machine", "compatibility"]
+          },
+          "rule": { "type": "string", "minLength": 1 },
+          "signals_used": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }
+          },
+          "fixtures": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "hard_rules": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "conformance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prototype", "fixtures_root", "cases"],
+      "properties": {
+        "prototype": { "type": "string", "minLength": 1 },
+        "fixtures_root": { "type": "string", "minLength": 1 },
+        "cases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "fixture", "expected"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^EI-[0-9]{2}\\.case-[0-9]+$" },
+              "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+              "fixture": { "type": "string", "minLength": 1 },
+              "expected": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["tracks", "leakage_free"],
+                "properties": {
+                  "tracks": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["handle", "state", "bucket", "aggregate"],
+                      "properties": {
+                          "handle": { "type": "string", "pattern": "^t[0-9]+$" },
+                          "state": { "type": "string" },
+                          "bucket": {
+                            "type": "string",
+                            "enum": ["ambiguous", "plausible", "strong", "certain"]
+                          },
+                          "aggregate": { "type": "number", "minimum": 0, "maximum": 130 }
+                      }
+                    }
+                  },
+                  "leakage_free": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
