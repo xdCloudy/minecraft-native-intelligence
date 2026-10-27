@@ -48,6 +48,15 @@ The stack is intentionally open. Apply the native formatter, linter, static/type
 - Distinguish learned behaviour from scripted scaffolding in every evaluation.
 - Check data consent, licensing, privacy, leakage, and Minecraft/server policy.
 
+## Canonical progress system (required for meaningful changes)
+
+- Maintain `docs/progress/progress.json` as the only manual source for progress percentages and generated matrices. Do not hand-edit generated `docs/*MATRIX.md`, `docs/PROGRESS.md`, or the bounded README/ROADMAP dashboards.
+- For each meaningful feature, research result, changed requirement, or milestone change, update the relevant stable-ID item(s), independent status dimensions, exact evidence/revision, acceptance/completion criteria, limitations, remaining work and history. Update model/training entries and milestone maps when affected.
+- Audit main and open feature branches separately. Unmerged code, experiments and CI results never count as integrated or shipped capability.
+- Regenerate and validate the tracker before submitting: `python tools/progress.py validate`, `python tools/progress.py generate`, `python tools/progress.py check`, and `python -m unittest discover -s tests -p test_progress.py`.
+- Preserve the separation among research, experimental outcome, implementation, validation and production readiness. Never use documentation, schemas, unit tests or a completed infrastructure milestone as a claim of demonstrated autonomous Minecraft intelligence.
+- Read [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for status definitions, scoring and evidence requirements.
+
 ## Pull request checklist
 
 - Relevant tests and documentation pass.
