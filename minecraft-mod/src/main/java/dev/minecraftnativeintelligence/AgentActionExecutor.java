@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -146,7 +147,7 @@ public final class AgentActionExecutor {
         if (this.active.containsKey(player.getUUID())) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "action_conflict");
         }
-        if (!Set.of("move", "look", "jump", "mine", "eat").contains(type)) {
+        if (!Set.of("move", "look", "jump", "mine", "eat", "select_slot").contains(type)) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "executor_action_unsupported");
         }
         boolean hasInput = type.equals("move") || type.equals("jump");
@@ -185,11 +186,21 @@ public final class AgentActionExecutor {
             }
             if (control.actionType().equals("eat") && control.started()) continue;
             // Vanilla ignores most gameplay packets until the initial client-load
-            // timeout expires. The silent server-owned player has no client ack.
-            if (!player.connection.hasClientLoaded()) continue;
+            // timeout expires; carried-slot selection does not use that packet gate.
+            if (!control.actionType().equals("select_slot") && !player.connection.hasClientLoaded()) continue;
 
             try {
-                if (control.actionType().equals("mine")) {
+                if (control.actionType().equals("select_slot")) {
+                    int slot = hotbarSlot(control.action());
+                    player.connection.handleSetCarriedItem(new ServerboundSetCarriedItemPacket(slot));
+                    if (player.getInventory().getSelectedSlot() != slot) {
+                        this.finishRejected(control, "slot_selection_failed");
+                        continue;
+                    }
+                    this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
+                    this.finishCompleted(control);
+                    continue;
+                } else if (control.actionType().equals("mine")) {
                     BlockPos pos = blockPos(control.action());
                     if (!player.isWithinBlockInteractionRange(pos, 1.0)) {
                         this.sendBlockAction(player, pos, control.action(), ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK);
@@ -385,6 +396,10 @@ public final class AgentActionExecutor {
 
     static InteractionHand handFor(JsonObject action) {
         return stringField(action, "hand").equals("off") ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+    }
+
+    static int hotbarSlot(JsonObject action) {
+        return action.get("hotbar_slot").getAsInt();
     }
 
     static Input inputFor(JsonObject action, String type) {

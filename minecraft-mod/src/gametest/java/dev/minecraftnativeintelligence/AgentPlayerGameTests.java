@@ -110,6 +110,37 @@ public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
         tickEatingAction(helper, executor, server, player, manager, outcomes, 1);
     }
 
+    @GameTest
+    public void selectSlotUsesVanillaCarriedItemHandler(GameTestHelper helper) {
+        AgentPlayerManager manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        var position = helper.absolutePos(new BlockPos(1, 1, 1));
+        ServerPlayer player = manager.spawn(server, level, "MniSlotAgent",
+                position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
+        var outcomes = new ArrayList<AgentActionExecutor.Outcome>();
+        AgentActionExecutor executor = new AgentActionExecutor(manager, outcomes::add);
+        String agentId = player.getGameProfile().id().toString();
+        ActionValidationContext context = new ActionValidationContext(agentId, 1, 0, level.getGameTime(), 0,
+                41, false, Set.of(ActionValidationContext.actionCapability("select_slot")), Set.of("select_slot"),
+                Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Map.of(), Map.of());
+        var submission = executor.submit(player,
+                "{\"schema_version\":\"action-request.v0\",\"agent_id\":\"" + agentId
+                        + "\",\"session_epoch\":1,\"request_id\":\"slot-1\",\"based_on_observation_seq\":0,"
+                        + "\"trace_id\":\"slot-trace-1\",\"action\":{\"type\":\"select_slot\",\"hotbar_slot\":4}}",
+                context);
+        helper.assertTrue(submission.accepted(), "valid hotbar selection is accepted");
+        executor.startServerTick(server);
+        helper.assertTrue(player.getInventory().getSelectedSlot() == 4,
+                "vanilla carried-item handler selects the requested hotbar slot");
+        helper.assertTrue(outcomes.stream().map(AgentActionExecutor.Outcome::status).toList()
+                        .containsAll(java.util.List.of("accepted", "started", "completed")),
+                "selection emits accepted, started, and completed outcomes");
+        executor.removeAgent(player);
+        manager.remove(server, player.getUUID());
+        helper.succeed();
+    }
+
     private static void tickEatingAction(GameTestHelper helper, AgentActionExecutor executor,
             net.minecraft.server.MinecraftServer server, ServerPlayer player, AgentPlayerManager manager,
             ArrayList<AgentActionExecutor.Outcome> outcomes, int tick) {

@@ -7,11 +7,11 @@ the mod, runs `ActionRequestValidator`, applies one-action-at-a-time arbitration
 and emits correlated `action-outcome.v0` records with per-agent sequence and
 world game tick.
 
-This slice executes `move`, `look`, `jump`, `mine`, and `eat`, and can cancel
-the currently active action for that player. Movement and jump controls are
-translated into Minecraft's `Input` value and passed through the player's
-`ServerGamePacketListenerImpl.handlePlayerInput`; look uses its ordinary
-rotation packet handler. A tick-bounded control is started from
+This slice executes `move`, `look`, `jump`, `mine`, `eat`, and `select_slot`,
+and can cancel the currently active action for that player. Movement and jump
+controls are translated into Minecraft's `Input` value and passed through the
+player's `ServerGamePacketListenerImpl.handlePlayerInput`; look uses its
+ordinary rotation packet handler. A tick-bounded control is started from
 `START_SERVER_TICK`, consumed by the ordinary player tick, and released at
 `END_SERVER_TICK`. The server packet handlers and game mode remain responsible
 for collisions, movement, reach, and other mechanics. Positive strafe means
@@ -33,13 +33,18 @@ completion only after hunger rises or the held stack count falls. Cancellation,
 deadline expiry, and server cleanup release item use through the ordinary
 `RELEASE_USE_ITEM` handler.
 
+Hotbar selection sends `ServerboundSetCarriedItemPacket` through vanilla's
+carried-item handler and completes only after the player's selected slot
+matches the requested slot. Vanilla handles stopping a main-hand use when the
+selection changes.
+
 The silent player has no client to acknowledge initial loading. The executor
-waits for vanilla's 60-tick client-load timeout before dispatching these
-controls, because the corresponding packet handlers gate gameplay input on
-that state. A request deadline can expire during this wait and produces a
-rejection outcome. Malformed requests without usable request and trace IDs
-return a deterministic submission error but cannot be represented as a
-correlated schema outcome.
+waits for vanilla's 60-tick client-load timeout before dispatching movement,
+look, mining, and item-use controls because their packet handlers gate those
+actions on that state. Hotbar selection uses a handler without this gate. A
+request deadline can expire during the wait and produces a rejection outcome.
+Malformed requests without usable request and trace IDs return a deterministic
+submission error but cannot be represented as a correlated schema outcome.
 
 Other valid schema actions currently fail closed with
 `executor_action_unsupported`. Combat, placement, inventory, crafting,
@@ -51,8 +56,9 @@ invoke it on the server thread. The profile UUID is used as the current
 session-scoped agent ID; persistent identity binding remains future work.
 
 `actionContractTest` covers request validation, control-value translation,
-mining-target and hand mapping, and outcome serialization. A GameTest covers
-vanilla-timed food consumption through the executor, but CI only compiles it.
+mining-target, hand, and hotbar-slot mapping, and outcome serialization.
+GameTests cover vanilla-timed food consumption and carried-item selection
+through the executor, but CI only compiles them.
 CI compiles the GameTest sources but does not launch a Minecraft server. The
 runtime control path therefore remains unverified until an operator runs the
 GameTest server under the project's EULA opt-in procedure.

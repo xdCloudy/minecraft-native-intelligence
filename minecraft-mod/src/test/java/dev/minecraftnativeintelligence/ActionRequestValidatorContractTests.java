@@ -20,6 +20,7 @@ public final class ActionRequestValidatorContractTests {
         checkControlInputMapping();
         checkMiningTargetMapping();
         checkEatHandMapping();
+        checkHotbarSlotMapping();
         checkOutcomeSerialization();
         equal("malformed_request", validateRaw(envelope("-1", "{\"type\":\"jump\"}")).reasonCode(), "negative observation sequence");
         equal("malformed_request", validateRaw(envelope("999999999999999999999999999999", "{\"type\":\"jump\"}")).reasonCode(), "overflow observation sequence");
@@ -30,7 +31,7 @@ public final class ActionRequestValidatorContractTests {
         equal("unsupported_capability", validateRaw(envelope("4", "{\"type\":\"eat\",\"hand\":\"main\"}")).reasonCode(), "unsupported action capability");
         equal("inventory_precondition_failed", validateRaw(envelope("4", "{\"type\":\"drop\",\"slot\":0,\"count\":1,\"whole_stack\":true}")).reasonCode(), "whole-stack count mismatch");
         equal("malformed_request", ActionRequestValidator.validate("{", context()).reasonCode(), "malformed JSON");
-        System.out.println("Native action contract checks passed (40 cases)");
+        System.out.println("Native action contract checks passed (42 cases)");
     }
 
     private static void checkControlInputMapping() {
@@ -70,6 +71,13 @@ public final class ActionRequestValidatorContractTests {
         equal(InteractionHand.OFF_HAND,
                 AgentActionExecutor.handFor(JsonParser.parseString("{\"hand\":\"off\"}").getAsJsonObject()),
                 "off-hand use mapping");
+    }
+
+    private static void checkHotbarSlotMapping() {
+        equal(0, AgentActionExecutor.hotbarSlot(JsonParser.parseString("{\"hotbar_slot\":0}").getAsJsonObject()),
+                "first hotbar slot mapping");
+        equal(8, AgentActionExecutor.hotbarSlot(JsonParser.parseString("{\"hotbar_slot\":8}").getAsJsonObject()),
+                "last hotbar slot mapping");
     }
 
     private static void checkEveryActionVariant() {
