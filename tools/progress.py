@@ -93,6 +93,17 @@ def validate(data,schema):
  need(data['schemaVersion']==3,'unsupported progress schemaVersion')
  need(data['assessment']['baseline']=='main','assessment must describe main')
  need(data['assessment']['sourceRevision']==data['assessment']['defaultBranchRevision'],'sourceRevision must match the audited main baseline')
+ historic=set(data['assessment'].get('historicalMainRevisions',[]))
+ need(all(re.fullmatch(r'[a-f0-9]{40}',sha) and sha!=data['assessment']['defaultBranchRevision'] for sha in historic),'invalid historical main revisions')
+ need(data['branchAudit']['defaultBranchRevision']==data['assessment']['defaultBranchRevision'],'branch audit must match main assessment')
+ github=data['githubState']
+ need(github['repository']=='xdCloudy/minecraft-native-intelligence','GitHub state refers to another repository')
+ need(all(isinstance(github[key],int) and not isinstance(github[key],bool) and github[key]>=0 for key in ['openIssueCount','openPullRequestCount','issuesClosedAdministratively']),'invalid GitHub workflow counts')
+ for key,count in [('openIssueNumbers','openIssueCount'),('openPullRequestNumbers','openPullRequestCount')]:
+  ids=github[key]
+  need(len(ids)==github[count] and len(ids)==len(set(ids)) and all(isinstance(x,int) and x>0 for x in ids),f'invalid GitHub {key} snapshot')
+ need(github['openPullRequestCount']==sum(pr['state']=='open' for pr in data['unmergedWork']),'GitHub PR count disagrees with tracked open PR records')
+ need(set(github['openPullRequestNumbers'])=={int(pr['id'][3:]) for pr in data['unmergedWork'] if pr['state']=='open'},'GitHub PR number snapshot disagrees with tracked records')
  need(data['statusDefinitions']==STATUS,'statusDefinitions differ from generator vocabulary')
  scoring=data['scoring']
  score_keys={'researchCompletion':'research','experimentalEffectiveness':'experimentalOutcome','implementationMaturity':'implementation','validationCoverage':'validation','productionReadiness':'productionReadiness'}
@@ -148,7 +159,7 @@ def validate(data,schema):
    need(item['status']['validation'] in IN_GAME_VALIDATION,f'{item["id"]}: production validated requires in-game or stronger evidence')
    need(item['status']['experimentalOutcome']=='positive',f'{item["id"]}: production validated requires a positive recorded outcome')
   for mid in item['milestones']: need(mid in {m['id'] for m in data['milestones']},f'{item["id"]}: unknown milestone {mid}')
-  for hist in item['history']: need(hist['revision']==data['assessment']['defaultBranchRevision'] or hist['revision'] in {p['headRevision'] for p in data['unmergedWork']},f'{item["id"]}: history revision is not audited')
+  for hist in item['history']: need(hist['revision'] in historic or hist['revision']==data['assessment']['defaultBranchRevision'] or hist['revision'] in {p['headRevision'] for p in data['unmergedWork']},f'{item["id"]}: history revision is not audited')
   if 'competency' in item:
    c=item['competency']
    need(kind=='avenue' and item['id'].startswith('GP-'),f'{item["id"]}: gameplay competency must be a tracked gameplay avenue')
@@ -191,8 +202,10 @@ def validate(data,schema):
   if record.get('sourcePR'): need(record['sourcePR'] in {p['id'] for p in data['unmergedWork']},f'{record["id"]}: unknown source PR')
  for pr in data['unmergedWork']:
   unique(pr,'PR snapshot')
-  need(pr['state']=='open' and pr['integrated'] is False and pr['countsAsShipped'] is False,f'{pr["id"]}: open work cannot receive integrated/shipped credit')
-  if pr['base']=='main': need(pr['baseRevision']==data['assessment']['defaultBranchRevision'],f'{pr["id"]}: main base SHA differs from assessment')
+  need(pr['state'] in {'open','closed'} and pr['integrated'] is False and pr['countsAsShipped'] is False,f'{pr["id"]}: unmerged work cannot receive integrated/shipped credit')
+  if pr['base']=='main':
+   need(re.fullmatch(r'[a-f0-9]{40}',pr['baseRevision']) is not None,f'{pr["id"]}: invalid base revision')
+   if pr['state']=='open': need(pr['baseRevision']==data['assessment']['defaultBranchRevision'],f'{pr["id"]}: open PR main base SHA differs from assessment')
   else: need(any(parent['head']==pr['base'] and parent['headRevision']==pr['baseRevision'] for parent in data['unmergedWork']),f'{pr["id"]}: stacked base is not an audited PR head')
   need(pr['headRevision'] and len({c['name'] for c in pr['checks']})==len(pr['checks']),f'{pr["id"]}: invalid check snapshot')
   for ref in pr['affectedAvenues']: need(ref in items,f'{pr["id"]}: unknown affected item {ref}')
@@ -288,7 +301,7 @@ def render(data):
  sources={e['id']:e for e in data['evidence']}; rows=all_items(data); m=metrics(data); now=current_milestone(data)
  byid={x['id']:(d,x,k) for d,x,k in rows}
  # Compact project dashboard; details remain in generated matrices.
- overview=['# Research and development progress','',f"Assessment: `{data['assessment']['date']}` · main `{data['assessment']['defaultBranchRevision']}` · {len(data['domains'])} workstreams · {len(rows)} tracked features, research candidates and methods.",'','> The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Open PRs and their checks are recorded separately and receive no integrated or shipped credit.','', '| Dimension | Progress | Percent | Interpretation |','|---|---|---:|---|']
+ overview=['# Research and development progress','',f"Assessment: `{data['assessment']['date']}` · assessed main `{data['assessment']['defaultBranchRevision']}` · {len(data['domains'])} workstreams · {len(rows)} tracked features, research candidates and methods.",'','> The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Unmerged PRs and their historical checks are recorded separately and receive no integrated or shipped credit.','', '| Dimension | Progress | Percent | Interpretation |','|---|---|---:|---|']
  labels=[('researchCoverage','Research coverage','Catalog completeness, not amount of research conducted.'),('researchCompletion','Research completion','Investigation can conclude negatively or as infeasible.'),('experimentalEffectiveness','Experimental effectiveness','Positive outcomes only; a negative result can still conclude research.'),('demonstratedCapabilities','Demonstrated capabilities','Positive, functional and in-game or stronger evidence on main.'),('implementationMaturity','Implementation maturity','Functional states on the assessed main revision.'),('validationCoverage','Validation coverage','Unit through independent verification; gameplay requires in-game evidence.'),('productionReadiness','Production readiness','Operational, security, privacy, compatibility and release gates.'),('overallScopedProgress','Overall scoped progress','60% demonstrated capabilities, 20% implementation, 10% validation, 10% readiness.')]
  for key,label,meaning in labels: overview.append(f'| {label} | {bar(m[key])} | {pct(m[key])} | {meaning} |')
  overview+=['','Research coverage and completion are distinct. Expanding scope can lower completion. Weights are `workstream weight × item priority`; neither is adjusted to preserve a trend. [Scoring and definitions](PROGRESS_WORKFLOW.md).','',f'## Current milestone','',f"**{now['id']} — {now['name']}** · {pct(milestone_score(data,now))} of evidence-reviewed exit gates. This delivery milestone does not imply agent capability.",'','### Model and training research','',f"- Model architecture research completion: **{pct(m['modelResearch'])}** across {len(data['modelCandidates'])} candidates.",f"- Training and learning research completion: **{pct(m['trainingResearch'])}** across {len(data['trainingMethods'])} methods.",'','### Workstream view','','| Workstream | Items | Research | Implementation | Validation | Readiness |','|---|---:|---:|---:|---:|---:|']
@@ -302,19 +315,20 @@ def render(data):
  overview+=['','## Roadmap progress','','Gate percentage is calculated from each milestone’s evidence-reviewed criteria (open=0, prototype=25%, partial=50%, met=100%). Item mappings are shown in the feature matrix; a PR cannot satisfy an integrated gate.','', '| Milestone | Stage | Gate progress | Gates met / total |','|---|---|---:|---:|']
  for mile in data['milestones']:
   met=sum(c['status']=='met' for c in mile['criteria']);overview.append(f'| {mile["id"]} — {mile["name"]} | {mile["status"]} | {pct(milestone_score(data,mile))} | {met}/{len(mile["criteria"])} |')
- overview+=['','## Open PR snapshot','','| PR | Branch | Base → head | Checks | Integrated credit |','|---:|---|---|---|---|']
+ state=data['githubState']
+ overview+=['','## GitHub workflow audit','',f"Checked: {state['checkedAt']} · open issues: **{state['openIssueCount']}** · open PRs: **{state['openPullRequestCount']}** · issues closed administratively: **{state['issuesClosedAdministratively']}**.",'',state['note'],'','## Unmerged PR history (including closed PRs)','','| PR / state | Branch | Base → head | Historical checks | Integrated credit |','|---|---|---|---|---|']
  for pr in data['unmergedWork']:
   checks='; '.join(f'{c["name"]}: {c["conclusion"]}' for c in pr['checks'])
-  overview.append(f'| [#{pr["id"][3:]}]({pr["url"]}) {"draft" if pr["draft"] else "ready"} | `{pr["head"]}` | `{pr["base"]}` → `{pr["headRevision"][:8]}` | {checks} | excluded |')
+  overview.append(f'| [#{pr["id"][3:]}]({pr["url"]}) {pr["state"]} | `{pr["head"]}` | `{pr["base"]}` → `{pr["headRevision"][:8]}` | {checks} | excluded |')
  overview+=['','## Detailed matrices','','- [Feature and engineering matrix](FEATURE_MATRIX.md) — every scoped subsystem item and its five independent status dimensions.','- [Minecraft gameplay competency matrix](MINECRAFT_COMPETENCY_MATRIX.md) — concrete legal Survival scenarios and negative tests.','- [Research inventory](RESEARCH_MATRIX.md) — full questions, alternatives, prior work, methods, evidence and open issues.','- [Model architectures and training methods](MODEL_TRAINING_MATRIX.md) — candidate-by-candidate research and measured unknowns.','- [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.','- [Progress maintenance workflow](PROGRESS_WORKFLOW.md).','']
 
  overview+=[f"**Minecraft-specific competency scenarios inventoried: {len(gameplay_competencies(data))}.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.",'']
- feature=['# Feature and engineering matrix','','This is the implementation and validation view of every canonical item. Its 0% capability-oriented baseline does not erase the project’s documented v0.1 foundation; it indicates that documentation and contracts are not implemented Minecraft-native agent capabilities.','', '| ID / capability | Workstream / category | Description and scope | Dependencies / milestones | Implementation | Validation | Production readiness | Priority | Evidence / issues / PRs / main revision |','|---|---|---|---|---|---|---|---:|---|']
+ feature=['# Feature and engineering matrix','','This is the implementation and validation view of every canonical item. Its 0% capability-oriented baseline does not erase the project’s documented v0.1 foundation; it indicates that documentation and contracts are not implemented Minecraft-native agent capabilities. Administratively closed issues and closed unmerged PRs are historical links, not completed acceptance criteria.','', '| ID / capability | Workstream / category | Description and scope | Dependencies / milestones | Implementation | Validation | Production readiness | Priority | Evidence / issues / PRs / main revision |','|---|---|---|---|---|---|---|---:|---|']
  for dom,item,kind in rows:
   deps=', '.join(f'`{d}`' for d in item['dependencies']) or '—'; milestones=', '.join(item['milestones'])
   refs=', '.join(linked_evidence(x,sources) for x in item['evidence']) or '—'
   issues=', '.join(f'[#'+x[1:]+'](https://github.com/xdCloudy/minecraft-native-intelligence/issues/'+x[1:]+')' for x in item['relatedIssues']) or '—'
-  prs=', '.join(f'[{x}]({next(p["url"] for p in data["unmergedWork"] if p["id"]==x)})' for x in item['relatedPRs']) or '—'
+  prs=', '.join(f'[{x}]({next(p["url"] for p in data["unmergedWork"] if p["id"]==x)}) ({next(p["state"] for p in data["unmergedWork"] if p["id"]==x)})' for x in item['relatedPRs']) or '—'
   feature.append(f'| <a id="{item["id"].lower()}"></a>`{item["id"]}` {item["title"]} | {dom["name"]}<br>{item["category"]} | {item["description"]}<br>**Scope:** {item["scope"]} | **Depends:** {deps}<br>**Milestones:** {milestones} | {item["status"]["implementation"]} | {item["status"]["validation"]} | {item["status"]["productionReadiness"]} | {item["priority"]} | {refs}<br>Issues: {issues}<br>PRs (unmerged): {prs}<br>Main revision `{item["lastVerifiedRevision"]}` |')
  feature.append('')
 
@@ -364,10 +378,10 @@ def render(data):
   if item['remainingWork'] or item['openQuestions']:
    question='; '.join(item.get('openQuestions',[])[:2])
    readiness.append(f'| `{item["id"]}` | {item["remainingWork"]}; {question} | {dom["name"]} | {", ".join(item["dependencies"]) or "—"} | {"; ".join(item["acceptanceCriteria"])} |')
- readiness+=['','## Open feature branches and pull requests','','The repository was audited at the exact main SHA and the eight open PR heads. File-level change summaries, reviewed paths, base/head revisions and latest check snapshots follow. Stacked branch check success does not mean the parent branch is merged. Every PR listed remains `integrated=false` and `countsAsShipped=false`.','', '| PR / branch | Exact base → head | Review summary and files | Affected items | Latest check snapshot |','|---|---|---|---|---|']
+ readiness+=['','## Historical unmerged pull requests','',f"Audited main {data['assessment']['defaultBranchRevision']}. {sum(pr['state']=='open' for pr in data['unmergedWork'])} tracked PRs remain open; {sum(pr['state']=='closed' for pr in data['unmergedWork'])} were closed without merging. Historical head/base revisions, reviewed paths and check snapshots are preserved. Stacked-branch success does not imply main integration. All records are excluded from shipped capability credit.",'', '| PR / state / branch | Historical base → head | Review summary and files | Affected items | Historical check snapshot |','|---|---|---|---|---|']
  for pr in data['unmergedWork']:
   files='<br>'.join(f'`{f}`' for f in pr['reviewedFiles']); checks='; '.join(f'{c["name"]}: {c["conclusion"]} ({c["completedAt"]})' for c in pr['checks'])
-  readiness.append(f'| [#{pr["id"][3:]}]({pr["url"]}) `{pr["head"]}` (draft={str(pr["draft"]).lower()}) | `{pr["base"]}` `{pr["baseRevision"]}` → `{pr["headRevision"]}` | {pr["changeSummary"]}<br>{files} | {", ".join(f"`{x}`" for x in pr["affectedAvenues"])} | run `{pr["latestCheckRun"]}` at {pr["checkSnapshotAt"]}: {checks}<br>Integrated: no; shipped: no |')
+  readiness.append(f'| [#{pr["id"][3:]}]({pr["url"]}) {pr["state"]} `{pr["head"]}` (draft={str(pr["draft"]).lower()}) | `{pr["base"]}` `{pr["baseRevision"]}` → `{pr["headRevision"]}` | {pr["changeSummary"]}<br>{files} | {", ".join(f"`{x}`" for x in pr["affectedAvenues"])} | run `{pr["latestCheckRun"]}` at {pr["checkSnapshotAt"]}: {checks}<br>Integrated: no; shipped: no |')
 
  return {
   ROOT/'docs/PROGRESS.md':'\n'.join(overview),ROOT/'docs/FEATURE_MATRIX.md':'\n'.join(feature),ROOT/'docs/MINECRAFT_COMPETENCY_MATRIX.md':'\n'.join(competency),ROOT/'docs/RESEARCH_MATRIX.md':'\n'.join(research),ROOT/'docs/MODEL_TRAINING_MATRIX.md':'\n'.join(model),ROOT/'docs/PRODUCTION_READINESS.md':'\n'.join(readiness),
@@ -378,7 +392,7 @@ def final_outputs(data,outputs):
  readme=ROOT/'README.md';road=ROOT/'ROADMAP.md';m=metrics(data);current=current_milestone(data)
  dash=['### Live research and engineering progress','',f"**{len(data['domains'])} workstreams · {len(all_items(data))} tracked research/engineering items · current milestone: {current['id']} {current['name']}.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.",'','| Progress dimension | Current |','|---|---:|']
  for key,label in [('researchCoverage','Research coverage'),('researchCompletion','Research completion'),('modelResearch','Model architecture research'),('trainingResearch','Training-method research'),('experimentalEffectiveness','Experimental effectiveness'),('demonstratedCapabilities','Demonstrated capabilities'),('implementationMaturity','Implementation maturity'),('validationCoverage','Validation coverage'),('productionReadiness','Production readiness'),('overallScopedProgress','Overall scoped progress')]:dash.append(f'| {label} | {pct(m[key])} |')
- dash+=['',f"**Minecraft-specific competency scenarios inventoried: {len(gameplay_competencies(data))}.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.",'','**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Open PR work is displayed separately and does not count as integrated.','', '[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Minecraft competency matrix](docs/MINECRAFT_COMPETENCY_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)','']
+ dash+=['',f"**Minecraft-specific competency scenarios inventoried: {len(gameplay_competencies(data))}.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.",'','**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Historical unmerged PRs are displayed separately and do not count as integrated.','', '[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Minecraft competency matrix](docs/MINECRAFT_COMPETENCY_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)','']
  outputs[readme]=update_marked(readme.read_text(encoding='utf-8'),README_START,README_END,'\n'.join(dash),'README')
  roadmap_lines=['','| Milestone | Status | Gate progress | Evidence gates met |','|---|---|---:|---:|']
  for mile in data['milestones']:

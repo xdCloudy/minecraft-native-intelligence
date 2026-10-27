@@ -139,11 +139,29 @@ class ProgressTests(unittest.TestCase):
         with self.assertRaisesRegex(progress.InvalidProgress, 'outside enum'):
             self.validate(data)
 
-    def test_open_pr_cannot_receive_integrated_credit(self):
+    def test_unmerged_closed_pr_cannot_receive_integrated_credit(self):
         data = copy.deepcopy(BASE)
         data['unmergedWork'][0]['integrated'] = True
-        with self.assertRaisesRegex(progress.InvalidProgress, 'open work cannot receive integrated/shipped credit'):
+        with self.assertRaisesRegex(progress.InvalidProgress, 'unmerged work cannot receive integrated/shipped credit'):
             self.validate(data)
+
+    def test_live_pr_number_and_count_snapshots_must_match(self):
+        data = copy.deepcopy(BASE)
+        data['githubState']['openPullRequestNumbers'] = [122]
+        with self.assertRaisesRegex(progress.InvalidProgress, 'GitHub openPullRequestNumbers snapshot'):
+            self.validate(data)
+        data = copy.deepcopy(BASE)
+        data['unmergedWork'][0]['state'] = 'open'
+        with self.assertRaisesRegex(progress.InvalidProgress, 'GitHub PR count disagrees'):
+            self.validate(data)
+
+    def test_historical_pr_is_reported_as_closed_without_main_credit(self):
+        result = progress.render(BASE)
+        dashboard = result[ROOT / 'docs/PROGRESS.md']
+        self.assertIn('open PRs: **0**', dashboard)
+        self.assertIn('## Unmerged PR history', dashboard)
+        self.assertIn('](https://github.com/xdCloudy/minecraft-native-intelligence/pull/122) closed', dashboard)
+        self.assertNotIn('## Open PR snapshot', dashboard)
 
     def test_branch_experiment_has_provenance_without_main_capability_credit(self):
         record = BASE['experimentRecords'][0]

@@ -46,7 +46,7 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 
 **Minecraft-specific competency scenarios inventoried: 60.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.
 
-**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Open PR work is displayed separately and does not count as integrated.
+**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Historical unmerged PRs are displayed separately and do not count as integrated.
 
 [Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Minecraft competency matrix](docs/MINECRAFT_COMPETENCY_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)
 <!-- MNI_PROGRESS_END -->

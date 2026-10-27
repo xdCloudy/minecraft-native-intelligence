@@ -7,6 +7,7 @@
   "required": [
     "schemaVersion",
     "assessment",
+    "githubState",
     "statusDefinitions",
     "scoring",
     "evidence",
@@ -53,12 +54,31 @@
         "sourceRevision": {
           "$ref": "#/$defs/sha"
         },
+        "historicalMainRevisions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/sha"}
+        },
         "note": {
           "type": "string",
           "minLength": 1
         }
       },
       "additionalProperties": true
+    },
+    "githubState": {
+      "type": "object",
+      "required": ["repository", "checkedAt", "openIssueCount", "openPullRequestCount", "openIssueNumbers", "openPullRequestNumbers", "issuesClosedAdministratively", "note"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "checkedAt": {"type": "string", "minLength": 1},
+        "openIssueCount": {"type": "integer", "minimum": 0},
+        "openPullRequestCount": {"type": "integer", "minimum": 0},
+        "openIssueNumbers": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+        "openPullRequestNumbers": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+        "issuesClosedAdministratively": {"type": "integer", "minimum": 0},
+        "note": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
     },
     "statusDefinitions": {
       "type": "object",
