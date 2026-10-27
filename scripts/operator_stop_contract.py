@@ -15,7 +15,7 @@ class ControlState:
     """Per-agent control fence. Epoch increments invalidate queued actions."""
 
     agent_id: str
-    mode: Mode = "running"
+    mode: Mode = "paused"
     epoch: int = 0
     last_operator_sequence: int = -1
 
