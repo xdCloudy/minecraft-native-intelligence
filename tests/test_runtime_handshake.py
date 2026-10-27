@@ -105,7 +105,7 @@ class RuntimeNegotiationTests(unittest.TestCase):
         with self.assertRaisesRegex(HandshakeError, "Minecraft missing"):
             self.negotiate()
 
-    def test_reject_self_inconsistent_requirements(self):
+    def test_reject_unavailable_requirement(self):
         self.worker["required_capabilities"] = ["fictional"]
         with self.assertRaises(HandshakeError):
             self.negotiate()
