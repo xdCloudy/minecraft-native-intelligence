@@ -1,0 +1,19 @@
+{
+  "schema_version": "mni-consumer-policy.v0",
+  "protocol_major": 1,
+  "max_protocol_minor": 1,
+  "environment_support": {
+    "minecraft_versions": ["26.3"],
+    "java_majors": [25],
+    "loaders": [{ "id": "fabric", "versions": ["0.20.1"] }],
+    "mods": [{ "id": "minecraft_native_intelligence", "versions": ["0.1.0-SNAPSHOT"] }],
+    "server_modes": ["integrated", "dedicated", "replay"]
+  },
+  "schemas": {
+    "observation": ["observation.v0"],
+    "action_request": ["action-request.v0"],
+    "action_outcome": ["action-outcome.v0"]
+  },
+  "capabilities": ["mni.geometry.surface_samples.v0", "mni.entities.ephemeral.v0"],
+  "allowed_experimental_capabilities": []
+}

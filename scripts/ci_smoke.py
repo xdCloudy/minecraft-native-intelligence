@@ -18,6 +18,7 @@ PYTHON_FILES = [
     ROOT / "scripts" / "validate_information_access.py",
     ROOT / "scripts" / "validate_observation_contract.py",
     ROOT / "scripts" / "validate_action_contract.py",
+    ROOT / "scripts" / "validate_protocol_compatibility.py",
     ROOT / "experiments" / "smoke" / "trial_fixture.py",
 ]
 
@@ -53,6 +54,10 @@ def check_observation_contract() -> None:
 
 def check_action_contract() -> None:
     run([sys.executable, "scripts/validate_action_contract.py"])
+
+
+def check_protocol_compatibility() -> None:
+    run([sys.executable, "scripts/validate_protocol_compatibility.py"])
 
 
 def check_smoke() -> Path:
@@ -118,6 +123,7 @@ def main() -> int:
     check_information_access()
     check_observation_contract()
     check_action_contract()
+    check_protocol_compatibility()
     run_dir = check_smoke()
     check_dirty_refusal()
     print(f"python compile: ok ({len(PYTHON_FILES)} files)")
@@ -125,6 +131,7 @@ def main() -> int:
     print("information-access contract: ok")
     print("observation contract: ok")
     print("action request/outcome contract: ok")
+    print("protocol compatibility contract: ok")
     print(f"experiment smoke: ok ({run_dir.name})")
     print("dirty-tree refusal: ok")
     return 0

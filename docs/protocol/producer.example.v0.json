@@ -1,0 +1,28 @@
+{
+  "schema_version": "mni-peer-manifest.v0",
+  "implementation": { "id": "mni.fabric-adapter", "version": "0.1.0-spike" },
+  "protocol": { "major": 1, "minor": 0 },
+  "environment": {
+    "game": "minecraft-java",
+    "minecraft_version": "26.3",
+    "java_major": 25,
+    "mod_id": "minecraft_native_intelligence",
+    "mod_version": "0.1.0-SNAPSHOT",
+    "loader_id": "fabric",
+    "loader_version": "0.20.1",
+    "server_mode": "dedicated"
+  },
+  "schemas": {
+    "observation": "observation.v0",
+    "action_request": "action-request.v0",
+    "action_outcome": "action-outcome.v0"
+  },
+  "capabilities": [
+    { "id": "mni.geometry.surface_samples.v0", "maturity": "stable" },
+    { "id": "mni.entities.ephemeral.v0", "maturity": "stable" }
+  ],
+  "required_capabilities": [
+    "mni.geometry.surface_samples.v0",
+    "mni.entities.ephemeral.v0"
+  ]
+}

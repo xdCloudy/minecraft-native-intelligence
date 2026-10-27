@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:peer-manifest:v0",
+  "title": "Minecraft Native Intelligence producer manifest v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "implementation",
+    "protocol",
+    "environment",
+    "schemas",
+    "capabilities",
+    "required_capabilities"
+  ],
+  "properties": {
+    "schema_version": { "const": "mni-peer-manifest.v0" },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+        "version": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["major", "minor"],
+      "properties": {
+        "major": { "type": "integer", "minimum": 1 },
+        "minor": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["game", "minecraft_version", "java_major", "mod_id", "mod_version", "loader_id", "loader_version", "server_mode"],
+      "properties": {
+        "game": { "const": "minecraft-java" },
+        "minecraft_version": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "java_major": { "type": "integer", "minimum": 17 },
+        "mod_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,63}$" },
+        "mod_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "loader_id": { "enum": ["fabric", "neoforge", "quilt", "replay", "offline"] },
+        "loader_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "server_mode": { "enum": ["integrated", "dedicated", "replay", "offline"] }
+      }
+    },
+    "schemas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observation", "action_request", "action_outcome"],
+      "properties": {
+        "observation": { "type": "string", "pattern": "^observation\\.v[0-9]+$" },
+        "action_request": { "type": "string", "pattern": "^action-request\\.v[0-9]+$" },
+        "action_outcome": { "type": "string", "pattern": "^action-outcome\\.v[0-9]+$" }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "maturity"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" },
+          "maturity": { "enum": ["stable", "experimental"] }
+        }
+      }
+    },
+    "required_capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$" }
+    }
+  }
+}

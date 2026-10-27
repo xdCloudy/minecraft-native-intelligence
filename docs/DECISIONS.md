@@ -146,6 +146,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Free-form commands; direct state mutation; wait for Minecraft adapter implementation before specifying the wire contract.
 - **Consequences:** The legal-action validator (#8) can now validate this schema and enforce observation freshness, capability, visibility, and vanilla preconditions. The schemas do not implement game legality, scheduling, or transport. See [ACTION_SCHEMA.md](ACTION_SCHEMA.md).
 
+## ADR-0019 — Environment protocol negotiation fails closed on semantic mismatch
+
+- **Date:** 2026-10-27
+- **Status:** proposed
+- **Context:** The mod, runtime, replay tools, and model consumers can evolve independently. Observation and action schemas have exact versions, and capability presence varies by implementation and server mode. Treating successful parsing as semantic compatibility could silently change agent-visible information or accepted actions.
+- **Decision:** Exchange a versioned peer manifest before starting a session. Match protocol major, exact schema versions, Minecraft/loader/mod tuples, and server mode against an explicit consumer policy. Allow additive same-major protocol minors only as ignorable metadata. Unknown optional capabilities yield a degraded session and are omitted; unsupported required capabilities, major mismatches, unsupported environment tuples, and unknown exact schemas fail closed before actions are accepted. Experimental capabilities require an exact local allowlist and remain marked experimental.
+- **Alternatives:** Compare only protocol major; infer compatibility from mod version; silently ignore unknown required capabilities; transparently migrate all schema versions; expose capabilities as model policy features.
+- **Consequences:** Compatibility becomes deterministic and auditable, while support matrices and migration adapters require explicit maintenance. The JSON manifests are conformance artifacts; the runtime wire remains asynchronous gRPC/Protocol Buffers. See [PROTOCOL_COMPATIBILITY.md](PROTOCOL_COMPATIBILITY.md) and `docs/protocol/`.
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
