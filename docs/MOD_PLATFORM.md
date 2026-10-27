@@ -257,3 +257,39 @@ Quilt:
 
 - [Quilt project overview](https://quiltmc.org/en/about/)
 - [Quilt FAQ](https://quiltmc.org/en/about/faq/)
+
+## 2026-10-27 executable Fabric 26.3 baseline spike (#151)
+
+The experimental root Gradle project introduces an installable *platform probe*
+only; it logs Fabric initialization and logical-server start without modifying
+world state or creating a player. It does **not** prove Minecraft-native AI
+embodiment or complete the spike defined above.
+
+The experimental branch pins Minecraft `26.3`, Java `25`, Fabric Loader
+`0.20.1`, Fabric API `0.165.0+26.3`, Fabric Loom `1.19.3`, and Gradle
+`9.8.2`. These follow the [official Fabric 26.3 example template](https://github.com/FabricMC/fabric-example-mod/tree/26.3)
+and the current [Fabric API releases](https://github.com/FabricMC/fabric-api/releases).
+The [release-day Fabric guide](https://www.fabricmc.net/2026/09/15/263.html)
+listed older tool versions; those historical values above were valid at its
+publication, but are not this experiment's exact pinned build inputs.
+
+The Gradle wrapper scripts/JAR were taken from the official 26.3 example
+template; wrapper JAR SHA-256 is
+`3b8a25775a69158b5ad2b1d17a80a88dc7b40a352a73eb27d06c612a7ce68e98`.
+No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
+
+### Evidence gates (all distinct)
+
+| Gate | Evidence status |
+| --- | --- |
+| Java 25 Gradle compile and build JAR | Pending CI result |
+| Dedicated logical-server launch and mod event | Untested |
+| Integrated single-player/LAN logical-server launch | Untested |
+| Vanilla-client compatibility and profile/tab-list presentation | Untested |
+| Project-owned player embodiment, Survival parity, death/respawn | Untested |
+| Loader comparison/decision and accepted ADR | Untested; ADR-0008 stays proposed |
+
+The current local engineering environment has Java 17, not Java 25. Do not
+interpret a Java 17 build failure as a Fabric 26.3 incompatibility. The
+repository's Minecraft CI job provisions Java 25 and is the first meaningful
+compile check; actual GameTests and player parity require separate execution.
