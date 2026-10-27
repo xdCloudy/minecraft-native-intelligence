@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:action-outcome:v0",
+  "title": "MNI authoritative server action outcome v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "agent_id",
+    "session_epoch",
+    "action_id",
+    "trace_id",
+    "server_tick",
+    "phase"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "action-outcome.v0"
+    },
+    "agent_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "server_tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "phase": {
+      "enum": [
+        "accepted",
+        "started",
+        "completed",
+        "rejected",
+        "cancelled"
+      ]
+    },
+    "reason": {
+      "enum": [
+        "invalid_schema",
+        "unsupported_version",
+        "unsupported_action",
+        "expired",
+        "stale_observation",
+        "wrong_session",
+        "unknown_agent",
+        "illegal_action",
+        "permission_denied",
+        "unavailable_target",
+        "interrupted",
+        "operator_stop",
+        "server_error"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "enum": [
+              "rejected",
+              "cancelled"
+            ]
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "enum": [
+              "accepted",
+              "started",
+              "completed"
+            ]
+          }
+        },
+        "required": [
+          "phase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "reason": {
+            "const": null
+          }
+        }
+      }
+    }
+  ]
+}

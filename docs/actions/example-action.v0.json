@@ -1,0 +1,16 @@
+{
+  "schema_version": "action.v0",
+  "agent_id": "example-agent",
+  "session_epoch": 1,
+  "action_id": "move-0001",
+  "observation_seq": 12,
+  "submitted_tick": 250,
+  "expires_tick": 260,
+  "trace_id": "trace-move-0001",
+  "intent": {
+    "type": "move",
+    "forward": 1,
+    "strafe": 0,
+    "duration_ticks": 10
+  }
+}
