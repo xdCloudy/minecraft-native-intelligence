@@ -8,10 +8,18 @@ from scripts.operator_stop_contract import ControlState, action_admissible, appl
 
 class OperatorStopContractTests(unittest.TestCase):
     def setUp(self):
-        self.initial = ControlState("agent-001")
+        self.initial = ControlState("agent-001", mode="running")
 
     def send(self, state, command, seq, role="server_owner"):
         return apply_operator_command(state, command, seq, verified_role=role)
+
+    def test_new_state_starts_paused_and_requires_authorized_resume(self):
+        initial = ControlState("new-agent")
+        self.assertEqual("paused", initial.mode)
+        self.assertFalse(action_admissible(initial, agent_id="new-agent", action_epoch=0))
+        running, reason = self.send(initial, "resume", 1)
+        self.assertEqual("running", reason)
+        self.assertTrue(action_admissible(running, agent_id="new-agent", action_epoch=running.epoch))
 
     def test_emergency_stop_fences_queued_and_inflight_actions(self):
         state = self.initial
