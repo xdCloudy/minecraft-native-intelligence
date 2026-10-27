@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraft_native_intelligence",
+  "version": "${version}",
+  "name": "Minecraft Native Intelligence",
+  "description": "Research prototype for native Minecraft agent interfaces.",
+  "authors": ["Minecraft Native Intelligence contributors"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.minecraftnativeintelligence.MniMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

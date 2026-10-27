@@ -21,6 +21,7 @@ jobs:
       docs: ${{ steps.filter.outputs.docs }}
       python: ${{ steps.filter.outputs.python }}
       powershell: ${{ steps.filter.outputs.powershell }}
+      minecraft: ${{ steps.filter.outputs.minecraft }}
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -48,6 +49,7 @@ jobs:
           docs=false
           python=false
           powershell=false
+          minecraft=false
 
           while IFS= read -r file; do
             case "$file" in
@@ -68,16 +70,24 @@ jobs:
                 ;;
             esac
 
+            case "$file" in
+              minecraft-mod/**|*.gradle|*.gradle.kts|gradlew|gradlew.bat)
+                minecraft=true
+                ;;
+            esac
+
             if [[ "$file" == ".github/workflows/ci.yml" ]]; then
               docs=true
               python=true
               powershell=true
+              minecraft=true
             fi
           done < <(git diff --name-only "$base" "$head")
 
           echo "docs=$docs" >> "$GITHUB_OUTPUT"
           echo "python=$python" >> "$GITHUB_OUTPUT"
           echo "powershell=$powershell" >> "$GITHUB_OUTPUT"
+          echo "minecraft=$minecraft" >> "$GITHUB_OUTPUT"
 
   documentation:
     name: Documentation
@@ -159,3 +169,24 @@ jobs:
           if ($failed) {
             exit 1
           }
+
+  minecraft-mod:
+    name: Minecraft mod compile
+    needs: changes
+    if: needs.changes.outputs.minecraft == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: gradle
+
+      - name: Compile, package, and compile GameTests
+        working-directory: minecraft-mod
+        run: ./gradlew compileJava compileGametestJava jar --no-daemon

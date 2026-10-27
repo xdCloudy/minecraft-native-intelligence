@@ -49,6 +49,16 @@ Quilt Loader remains active and Fabric-compatible, but Quilt Standard Libraries
 were discontinued in December 2025. Quilt therefore adds another compatibility
 surface without a clear project-specific advantage for the first integration.
 
+### 26.3 prototype toolchain check (2026-10-27)
+
+The embodiment prototype in [`EMBODIMENT_SPIKE.md`](EMBODIMENT_SPIKE.md) was
+compiled against Java 25, Minecraft 26.3, Fabric Loader 0.20.1, Fabric API
+0.165.0+26.3, Loom 1.19.3, and Gradle 9.8.2. These are pinned in
+`minecraft-mod/`; the Gradle distribution checksum is recorded in its wrapper
+properties. This records the buildable toolchain used for the spike, not a
+claim that the player embodiment itself has passed integrated/dedicated-server
+or vanilla-client conformance.
+
 ## Comparison
 
 | Criterion | Fabric | NeoForge | Quilt |

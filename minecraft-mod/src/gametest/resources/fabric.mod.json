@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraft_native_intelligence_test",
+  "version": "0.1.0",
+  "name": "Minecraft Native Intelligence Game Tests",
+  "environment": "server",
+  "entrypoints": {
+    "fabric-gametest": ["dev.minecraftnativeintelligence.AgentPlayerGameTests"]
+  }
+}

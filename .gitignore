@@ -16,6 +16,7 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 node_modules/
+.gradle/
 build/
 dist/
 target/
@@ -34,3 +35,4 @@ runs/
 work/
 .mni-runs/
 .ci-artifacts/
+/minecraft-mod/run/
