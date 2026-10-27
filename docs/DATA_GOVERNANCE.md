@@ -513,3 +513,32 @@ This policy unblocks design work on:
 
 Those issues must implement this framework rather than re-deciding the same
 baseline from scratch.
+
+## Offline use-rights preflight prototype (issue #201)
+
+The versioned [manifest schema](data/dataset-manifest.schema.json) and
+`scripts/validate_data_rights.py` implement a fail-closed **metadata gate**.
+For a JSON object mapping artifact IDs to manifests, run:
+
+```sh
+python scripts/validate_data_rights.py docs/data/example-manifests.v0.json --artifact fixture-only-001 --use train
+```
+
+The example is intentionally **unapproved** and the command must return a
+nonzero status. Do not change it to an approved training source to make a demo
+pass. In approved research records, reviewers must separately attest every
+intended use; collection, training, evaluation, derivatives, publishing and
+redistribution are not interchangeable.
+
+The gate checks source hashes and references are *declared*, review/use status,
+consent purpose, separate chat opt-in, retention expiry, withdrawal, pending
+deletion, and recursive lineage. A revoked ancestor blocks future use of its
+descendants. All test data are synthetic.
+
+**Important limitations:** this code does not authenticate a reviewer or
+independently verify licenses/consent, capture player telemetry, physically erase
+any data, purge caches/backups, unpublish exports, or remove already learned
+information from checkpoints. A deletion request is currently a stop-use
+tombstone, **not proof of deletion**. Actual collection/export/deletion,
+audited storage connectors, and machine-unlearning/retraining governance need
+separately tested implementations before #201 can close or be called compliant.
