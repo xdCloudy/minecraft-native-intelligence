@@ -89,7 +89,7 @@ class ActionContractTests(unittest.TestCase):
         for field, value, expected in (
             ("expires_tick", 100, "expired"),
             ("submitted_tick", 102, "expired"),
-            ("expires_tick", 99, "expired"),
+            ("expires_tick", 99, "invalid_schema"),
         ):
             action = example_action()
             action[field] = value
