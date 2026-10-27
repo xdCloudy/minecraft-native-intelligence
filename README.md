@@ -29,7 +29,7 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 <!-- MNI_PROGRESS_START -->
 ### Live research and engineering progress
 
-**13 workstreams · 236 tracked research/engineering items · current milestone: v0.2 Minecraft Native Interface.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.
+**15 workstreams · 310 tracked research/engineering items · current milestone: v0.2 Minecraft Native Interface.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.
 
 | Progress dimension | Current |
 |---|---:|
@@ -44,9 +44,11 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 | Production readiness | 0.0% |
 | Overall scoped progress | 0.0% |
 
+**Minecraft-specific competency scenarios inventoried: 60.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.
+
 **Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Open PR work is displayed separately and does not count as integrated.
 
-[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)
+[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Minecraft competency matrix](docs/MINECRAFT_COMPETENCY_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)
 <!-- MNI_PROGRESS_END -->
 
 See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.

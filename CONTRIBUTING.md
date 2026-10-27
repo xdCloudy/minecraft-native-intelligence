@@ -69,6 +69,12 @@ python -m unittest discover -s tests -p test_progress.py
 See [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for scoring,
 status definitions and evidence rules.
 
+For game-mechanic changes, use the generated
+[`Minecraft competency matrix`](docs/MINECRAFT_COMPETENCY_MATRIX.md) and
+[`coverage protocol`](docs/COMPETENCY_COVERAGE.md). Add independent
+scenario/failure-boundary gates when aggregated capabilities conceal missing
+mechanics. Model/data hypotheses are not in-game capability evidence.
+
 ## Before opening a pull request
 
 1. Run the relevant local checks from [docs/CI.md](docs/CI.md).

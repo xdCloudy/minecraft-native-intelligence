@@ -27,10 +27,45 @@ class ProgressTests(unittest.TestCase):
 
     def test_canonical_inventory_is_exhaustive_and_scored(self):
         items, _, milestones = self.validate()
-        self.assertEqual(len(items), 236)
-        self.assertEqual(len(BASE['domains']), 13)
+        self.assertEqual(len(items), 310)
+        self.assertEqual(len(BASE['domains']), 15)
         self.assertEqual(len(milestones), 12)
         self.assertEqual(progress.metrics(BASE)['researchCoverage'], 1.0)
+
+    def test_gameplay_competencies_have_independent_in_game_gates(self):
+        self.validate()
+        competencies = progress.gameplay_competencies(BASE)
+        self.assertEqual(len(competencies), 60)
+        self.assertEqual({row['competency']['group'] for _, row in competencies}, progress.COMPETENCY_GROUPS)
+        for _, row in competencies:
+            self.assertTrue(row['dependencies'])
+            self.assertTrue(row['competency']['scenario'])
+            self.assertTrue(row['competency']['failureBoundary'])
+            self.assertEqual(row['status']['validation'], 'untested')
+
+    def test_missing_or_invalid_gameplay_gate_is_rejected(self):
+        data = copy.deepcopy(BASE)
+        item(data, 'GP-001').pop('competency')
+        with self.assertRaisesRegex(progress.InvalidProgress, 'lacks independently testable competency'):
+            self.validate(data)
+        data = copy.deepcopy(BASE)
+        item(data, 'GP-001')['competency']['scenario'] = 'brief'
+        with self.assertRaisesRegex(progress.InvalidProgress, 'string shorter than minLength'):
+            self.validate(data)
+
+    def test_duplicate_model_candidate_name_is_rejected(self):
+        data = copy.deepcopy(BASE)
+        data['modelCandidates'][-1]['name'] = data['modelCandidates'][0]['name']
+        with self.assertRaisesRegex(progress.InvalidProgress, 'duplicated model architecture'):
+            self.validate(data)
+
+    def test_new_scope_maps_into_existing_milestones_without_credit(self):
+        self.validate()
+        mapped = {ident for m in BASE['milestones'] for ident in m['items']}
+        for ident in ['GP-001','GP-027','GP-037','GP-060','DP-001','DP-012','TM-20','TM-21']:
+            self.assertIn(ident, mapped)
+            self.assertEqual(item(BASE, ident)['status']['implementation'], 'not_implemented')
+        self.assertEqual(progress.metrics(BASE)['demonstratedCapabilities'], 0.0)
 
     def test_unexplored_catalogue_is_not_research_completion(self):
         self.assertEqual(item(BASE, 'MI-01')['status']['research'], 'not_investigated')
@@ -125,6 +160,7 @@ class ProgressTests(unittest.TestCase):
         first = progress.final_outputs(BASE, progress.render(BASE))
         second = progress.final_outputs(BASE, progress.render(BASE))
         self.assertEqual(first, second)
+        self.assertIn(ROOT / 'docs/MINECRAFT_COMPETENCY_MATRIX.md', first)
         self.assertEqual(progress.apply_outputs(first, check=True), [])
 
 

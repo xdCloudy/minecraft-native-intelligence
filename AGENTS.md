@@ -56,6 +56,8 @@ The stack is intentionally open. Apply the native formatter, linter, static/type
 - Regenerate and validate the tracker before submitting: `python tools/progress.py validate`, `python tools/progress.py generate`, `python tools/progress.py check`, and `python -m unittest discover -s tests -p test_progress.py`.
 - Preserve the separation among research, experimental outcome, implementation, validation and production readiness. Never use documentation, schemas, unit tests or a completed infrastructure milestone as a claim of demonstrated autonomous Minecraft intelligence.
 - Read [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for status definitions, scoring and evidence requirements.
+- For gameplay work, check the generated [`Minecraft competency matrix`](docs/MINECRAFT_COMPETENCY_MATRIX.md) and [`coverage protocol`](docs/COMPETENCY_COVERAGE.md). Extend stable-ID cases when mechanics, versions or failure boundaries are not independently tracked.
+- A broad parent such as crafting, construction or navigation does not complete its distinct mechanics. Prove each claimed skill through legal Survival actions, held-out seeds, negative cases and reproducible outcomes.
 
 ## Pull request checklist
 
