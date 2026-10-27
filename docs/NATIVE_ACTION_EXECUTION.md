@@ -37,7 +37,7 @@ correlated schema outcome.
 
 Other valid schema actions currently fail closed with
 `executor_action_unsupported`. Combat, placement, inventory, crafting, eating,
-entity interaction, pickup, and chat still need executor paths and
+block/entity interaction, pickup, and chat still need executor paths and
 ordinary-mechanics conformance evidence. The outcome sink is currently the
 mod log; `MniMod.submitAgentAction` is an ingress seam, not a network transport.
 Its caller must construct the context from current authoritative state and
