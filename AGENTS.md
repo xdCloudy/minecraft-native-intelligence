@@ -8,6 +8,11 @@ Before substantial work, read:
 2. [`ARCHITECTURE.md`](ARCHITECTURE.md) — proposed boundaries and known uncertainty.
 3. [`ROADMAP.md`](ROADMAP.md) — milestone order and current scope.
 
+Before selecting an implementation task, consult the
+[critical-path engineering backlog](docs/BACKLOG.md) and verify the issue's
+dependencies using `python tools/backlog.py --live`. A static ready label
+or an administratively closed prerequisite is not sufficient evidence.
+
 Read the focused document for the subsystem you touch and check [`docs/DECISIONS.md`](docs/DECISIONS.md) for binding decisions.
 
 ## Vision invariants

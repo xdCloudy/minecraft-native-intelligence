@@ -10,11 +10,13 @@ Read the [goal](docs/GOAL.md), [architecture](ARCHITECTURE.md), [roadmap](ROADMA
 
 ## Finding and choosing work
 
-Use [ROADMAP.md](ROADMAP.md) to identify the current milestone, then prefer an
-issue labelled `status:ready`. If none is available, propose a scoped issue;
-administratively closed issues do not mean their engineering requirements have
-been completed. Check the [feature matrix](docs/FEATURE_MATRIX.md) for current
-evidence state.
+Use [ROADMAP.md](ROADMAP.md) to identify the current milestone, then consult
+the [critical-path backlog](docs/BACKLOG.md). Run `python tools/backlog.py --live`
+for the ranked work queue: it checks real prerequisites and takes precedence
+over possibly stale `status:ready` labels. If none is available, investigate
+the active blockers or propose a scoped research issue; administratively
+closed issues do not mean their engineering requirements are completed.
+Check the [feature matrix](docs/FEATURE_MATRIX.md) for current evidence state.
 
 Before starting:
 

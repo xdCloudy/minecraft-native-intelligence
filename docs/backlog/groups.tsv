@@ -1,0 +1,66 @@
+key	domain	priority	title	matrix_ids
+mi-platform	minecraft-interface	P0	Validate loader, Minecraft version, server modes and vanilla presentation	MI-01 MI-004 MI-005 MI-008 MI-009
+mi-lifecycle	minecraft-interface	P0	Build player embodiment, installable mod, Survival parity and persistent lifecycle	MI-02 MI-03 MI-006 MI-007 MI-012
+mi-runtime	minecraft-interface	P0	Enforce Minecraft thread safety, operator disclosure and bounded bridge recovery	MI-010 MI-011 MI-013
+pe-access	perception	P0	Validate lawful player-equivalent perception, entity visibility and partial observability	PE-01 PE-005 PE-007 PE-011
+pe-active	perception	P2	Evaluate active sensing and viewpoint selection under partial observability	PE-014
+pe-world	perception	P1	Evaluate world-state uncertainty, temporal/spatial context and symbolic representations	PE-03 PE-009 PE-012 PE-013
+pe-terrain	perception	P2	Compare local terrain representations against three-dimensional structure models	PE-04
+pe-temporal	perception	P1	Investigate temporal, multimodal and bandwidth-aware observation	PE-02 PE-006 PE-008 PE-010
+ac-schema	action	P0	Specify versioned typed Minecraft action interchange and migration rules	AC-004
+ac-contracts	action	P0	Implement native action legality, outcomes and Survival parity	AC-01 AC-005 AC-010 AC-011
+ac-motion	action	P0	Implement embodied motion, look control and obstacle avoidance	AC-02 AC-007 AC-013
+ac-navigation	action	P1	Research robust navigation through changing three-dimensional terrain	AC-006
+ac-interactions	action	P1	Implement legal inventory, placement, mining, crafting and combat primitives	AC-008 AC-014
+ac-recovery	action	P1	Implement action scheduling, interruption, recovery and reusable skills	AC-03 AC-009 AC-012
+mo-baselines	models	P1	Compare grounded foundation, imitation, goal conditioning and specialist baselines	MO-01 MO-02 MO-03 MO-014 MO-015 MO-017 MC-01 MC-03 MC-04 MC-06 MC-07
+mo-sequence	models	P2	Compare transformers, state-space, recurrent and sparse MoE policies	MO-004 MO-005 MO-006 MO-007 MC-08 MC-09 MC-10 MC-11
+mo-planning	models	P2	Compare latent world models, hierarchical, diffusion and planning policies	MO-008 MO-009 MO-010 MO-011 MO-012 MO-013 MC-02 MC-05 MC-12 MC-13 MC-14 MC-15 MC-16 MC-17 MC-18
+mo-inference	models	P1	Benchmark quantisation, constrained action output, context caching and routing	MO-016 MO-018 MO-019 MO-020 MO-021 MC-19 MC-20 MC-21
+lr-imitation	learning	P1	Compare behaviour cloning, interactive imitation and inverse reinforcement learning	LR-004 LR-021 LR-023 TM-01 TM-20 TM-22
+lr-rl	learning	P2	Compare offline, online, hierarchical and model-based RL with legal action	LR-01 LR-005 LR-006 LR-007 LR-011 LR-017 TM-02 TM-03 TM-04 TM-08 TM-09 TM-15
+lr-selfsupervised	learning	P2	Evaluate self-supervision, goal representations, transfer and curricula	LR-008 LR-009 LR-010 LR-012 LR-018 TM-05 TM-06 TM-07 TM-10 TM-16 TM-21
+lr-continual	learning	P2	Evaluate continual adaptation, distillation, replay, isolation and rollback	LR-03 LR-013 LR-016 LR-019 LR-020 LR-022 TM-11 TM-14 TM-17 TM-18 TM-19
+lr-preference	learning	P2	Evaluate intrinsic motivation, reward learning and active human preferences	LR-02 LR-015 LR-024 TM-13 TM-23
+lr-multiagent	learning	P3	Research multi-agent reinforcement learning and self-play	LR-014 TM-12
+co-control	cognition	P1	Build multi-timescale control, hierarchical skills and survival resource decisions	CO-01 CO-02 CO-010
+co-goals	cognition	P2	Investigate autonomous goals, arbitration, curiosity and open-ended projects	CO-03 CO-004 CO-005 CO-008 CO-009 CO-014 CO-015
+co-planning	cognition	P2	Evaluate long-horizon reasoning, belief-state search, replanning and recovery	CO-006 CO-007 CO-011 CO-012 CO-013 CO-016
+bu-spatial	construction	P1	Represent build sites, 3D structures, geometric constraints and adaptation	BU-01 BU-004 BU-005 BU-007 BU-009
+bu-execution	construction	P2	Plan and execute resource-constrained building with verified recovery	BU-02 BU-006 BU-008 BU-010 BU-018
+bu-generation	construction	P2	Investigate original, aesthetic, text and image-grounded structure generation	BU-011 BU-012 BU-015 BU-016 BU-017
+bu-autonomy	construction	P3	Evaluate original construction goals and cooperative building	BU-03 BU-013 BU-014
+me-identity	memory	P1	Build identity-safe persistent memory, working context and migrations	ME-01 ME-02 ME-004 ME-013 ME-015
+me-knowledge	memory	P2	Investigate episodic, semantic, spatial and procedural memory	ME-03 ME-005 ME-006 ME-007 ME-008 ME-009
+me-retrieval	memory	P2	Evaluate retrieval, forgetting, contradiction and behavioural continuity	ME-010 ME-011 ME-012 ME-014 ME-016
+me-graph	memory	P2	Evaluate temporally scoped knowledge graphs and relational world beliefs	ME-017
+ls-language	language-social	P2	Evaluate world-grounded reference, dialogue and conversational history	LA-01 LS-004 LS-005 LS-006 LS-007
+ls-cooperation	language-social	P2	Evaluate agent dialogue, knowledge sharing and cooperative planning	LA-03 LS-008 LS-009 LS-010 LS-013
+ls-relationships	language-social	P3	Study individuality, social learning, trust and emergent behaviour	LA-02 LS-011 LS-012 LS-014 LS-015
+in-serving	infrastructure	P1	Specify model serving, versioned APIs and isolated process architecture	IN-004 IN-005
+in-boundary	infrastructure	P0	Implement Minecraft-to-agent runtime boundary	IN-01
+in-persistence	infrastructure	P1	Implement runtime persistence, diagnostics, traceability and crash recovery	IN-03 IN-012 IN-013
+in-inference	infrastructure	P1	Benchmark local inference, action deadlines, context and KV isolation	IN-008 IN-009 IN-014 IN-016
+in-simulation	infrastructure	P1	Establish replayable headless Minecraft evaluation	IN-015
+ev-contracts	evaluation	P0	Establish benchmark manifests, controlled baselines and statistical evidence	EV-004 EV-005 EV-014 EV-015 EV-017
+ev-capability	evaluation	P0	Run legal Minecraft-native capability benchmark and evidence gates	EV-01
+ev-gameplay	evaluation	P1	Benchmark legal Survival, navigation and in-world building outcomes	EV-006 EV-007 EV-008 EV-018
+ev-longhorizon	evaluation	P2	Evaluate learned autonomy, memory retention and language grounding	EV-02 EV-03 EV-009 EV-010 EV-011 EV-016
+ev-multiagent	evaluation	P2	Evaluate social cooperation, scaling, tail latency and TPS	EV-012 EV-013 EV-019
+sg-threat	safety-governance	P0	Specify exploit resistance, privileged-state safeguards and operator stop policy	SG-004 SG-005 SG-007
+sg-legality	safety-governance	P0	Enforce untrusted-input isolation, multiplayer legality and adversarial boundaries	SG-01 SG-006 SG-011
+sg-data	safety-governance	P1	Establish dataset rights, privacy, consent and deletion mechanisms	SG-02 SG-009 SG-010
+sg-operations	safety-governance	P1	Harden runtime isolation, auditing, rollback and release safeguards	SG-03 SG-008 SG-012 SG-013 SG-014 SG-015
+ma-identity	multi-agent-infrastructure	P1	Prove many-agent lifecycle separation and safe state recovery	MA-006 MA-007 MA-010 MA-013
+ma-scheduling	multi-agent-infrastructure	P2	Implement fair batching, capacity budgets and population scheduling	IN-02 IN-006 IN-007 IN-010 MA-008 MA-009 MA-014
+ma-distributed	multi-agent-infrastructure	P3	Test distributed execution, replay and cooperative deadlock recovery	IN-011 MA-011 MA-012 MA-015
+gp-survival	gameplay-competencies	P1	Verify crafting, hunger, farming, trading and resource progression	GP-001 GP-002 GP-003 GP-004 GP-005 GP-006 GP-007 GP-008 GP-009 GP-010 GP-011 GP-012 GP-016
+gp-combat	gameplay-competencies	P1	Verify death, respawn, hazards, combat and defensive behaviour	GP-013 GP-014 GP-017 GP-018 GP-019 GP-020 GP-021 GP-022 GP-023
+gp-travel	gameplay-competencies	P1	Verify biomes, dimensions, vehicles and complex navigation	GP-015 GP-024 GP-025 GP-026 GP-027 GP-028 GP-029 GP-030 GP-031 GP-032 GP-033 GP-034 GP-035 GP-036
+gp-building	gameplay-competencies	P2	Verify redstone, automation, architecture and cooperative construction	GP-037 GP-038 GP-039 GP-040 GP-041 GP-042 GP-043 GP-044 GP-045 GP-046 GP-047 GP-048 GP-061 GP-062
+gp-multiplayer	gameplay-competencies	P2	Verify claims, sharing, consent and unfamiliar modded mechanics	GP-049 GP-050 GP-051 GP-052 GP-058
+gp-reliability	gameplay-competencies	P1	Verify save/restart continuity, offline time, versions and backups	GP-053 GP-054 GP-055 GP-056 GP-057
+gp-autonomy	gameplay-competencies	P2	Verify independent Survival routines and cross-mechanic generalisation	GP-059 GP-060
+dp-capture	data-pipeline	P1	Implement consented demonstration capture, alignment and dataset lineage	DP-001 DP-002 DP-003 DP-004
+dp-datasets	data-pipeline	P2	Implement dataset splits, migration, curricula and preference annotations	DP-005 DP-006 DP-007 DP-008 DP-010
+dp-governance	data-pipeline	P2	Evaluate reward exploits, simulation transfer and checkpoint governance	DP-009 DP-011 DP-012
