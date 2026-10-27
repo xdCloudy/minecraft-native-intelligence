@@ -9,6 +9,17 @@ import net.minecraft.server.level.ServerPlayer;
 
 public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
     @GameTest
+    public void usernameValidationMatchesProfileConstraints(GameTestHelper helper) {
+        helper.assertTrue(AgentPlayerManager.isValidUsername("abc"), "three-character username is accepted");
+        helper.assertTrue(AgentPlayerManager.isValidUsername("A_12345678901234"), "16-character username is accepted");
+        helper.assertTrue(!AgentPlayerManager.isValidUsername("ab"), "two-character username is rejected");
+        helper.assertTrue(!AgentPlayerManager.isValidUsername("A_123456789012345"), "17-character username is rejected");
+        helper.assertTrue(!AgentPlayerManager.isValidUsername("bad-name"), "punctuation is rejected");
+        helper.assertTrue(!AgentPlayerManager.isValidUsername(null), "missing username is rejected");
+        helper.succeed();
+    }
+
+    @GameTest
     public void projectOwnedPlayerJoinsAndUnloads(GameTestHelper helper) {
         AgentPlayerManager manager = new AgentPlayerManager();
         var level = helper.getLevel();

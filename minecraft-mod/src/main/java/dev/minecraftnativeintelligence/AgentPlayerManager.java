@@ -20,13 +20,13 @@ import net.minecraft.world.level.GameType;
 
 /** Owns the in-memory registry of project-owned player entities for one server. */
 public final class AgentPlayerManager {
-    private static final Pattern VALID_NAME = Pattern.compile("[A-Za-z0-9_]{1,16}");
+    private static final Pattern VALID_NAME = Pattern.compile("[A-Za-z0-9_]{3,16}");
     private final Map<UUID, ServerPlayer> agents = new HashMap<>();
 
     public ServerPlayer spawn(MinecraftServer server, ServerLevel level, String username, double x, double y, double z) {
         requireServerThread(server);
-        if (!VALID_NAME.matcher(username).matches()) {
-            throw new IllegalArgumentException("username must contain 1–16 ASCII letters, digits, or underscores");
+        if (!isValidUsername(username)) {
+            throw new IllegalArgumentException("username must contain 3–16 ASCII letters, digits, or underscores");
         }
         if (server.getPlayerList().getPlayer(username) != null) {
             throw new IllegalArgumentException("a player with that name is already online");
@@ -88,6 +88,10 @@ public final class AgentPlayerManager {
         if (!server.isSameThread()) {
             throw new IllegalStateException("AI player lifecycle must run on the Minecraft server thread");
         }
+    }
+
+    static boolean isValidUsername(String username) {
+        return username != null && VALID_NAME.matcher(username).matches();
     }
 
     /**
