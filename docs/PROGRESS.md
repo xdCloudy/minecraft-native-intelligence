@@ -84,7 +84,7 @@ Gate percentage is calculated from each milestone’s evidence-reviewed criteria
 | [#126](https://github.com/xdCloudy/minecraft-native-intelligence/pull/126) draft | `feat/persistent-agent-identity` | `main` → `28713c16` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
 | [#127](https://github.com/xdCloudy/minecraft-native-intelligence/pull/127) draft | `feat/environment-protocol-compatibility` | `feat/native-action-schema-v0` → `9d26898d` | PowerShell syntax: skipped; Documentation: success; Python and JSON tooling: success; Detect changed stacks: success | excluded |
 | [#128](https://github.com/xdCloudy/minecraft-native-intelligence/pull/128) draft | `feat/legal-action-validator` | `spike/server-player-embodiment` → `2231a03b` | Python and JSON tooling: success; Documentation: success; PowerShell syntax: success; Minecraft mod compile: success; Detect changed stacks: success | excluded |
-| [#129](https://github.com/xdCloudy/minecraft-native-intelligence/pull/129) draft | `feat/native-action-executor` | `feat/legal-action-validator` → `5c0ee36d` | PowerShell syntax: skipped; Python and JSON tooling: skipped; Minecraft mod compile: success; Documentation: success; Detect changed stacks: success | excluded |
+| [#129](https://github.com/xdCloudy/minecraft-native-intelligence/pull/129) draft | `feat/native-action-executor` | `feat/legal-action-validator` → `25272d72` | Python and JSON tooling: skipped; PowerShell syntax: skipped; Documentation: success; Minecraft mod compile: success; Detect changed stacks: success | excluded |
 
 ## Detailed matrices
 

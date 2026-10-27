@@ -346,6 +346,7 @@ def final_outputs(data,outputs):
 def apply_outputs(outputs,check=False):
  stale=[]
  for path,content in outputs.items():
+  if not content.endswith('\n'): content += '\n'
   if not path.exists() or path.read_text(encoding='utf-8')!=content:
    stale.append(path)
    if not check:path.write_text(content,encoding='utf-8',newline='\n')

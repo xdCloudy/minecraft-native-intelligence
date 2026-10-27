@@ -20300,7 +20300,7 @@
       "base": "feat/legal-action-validator",
       "baseRevision": "2231a03b5348b01c7dd927176b4444fe5c6cbbe3",
       "head": "feat/native-action-executor",
-      "headRevision": "5c0ee36d28d8b27f31f49d4924355a4ffa83ed87",
+      "headRevision": "25272d721501f8cdd77e99062cb6d55e81e75e45",
       "draft": true,
       "affectedAvenues": [
         "AC-02",
@@ -20308,49 +20308,54 @@
         "AC-008",
         "MI-03"
       ],
-      "latestCheckRun": "40478343487",
-      "checkSnapshotAt": "2026-10-27T09:08:00Z",
+      "latestCheckRun": "40489465592",
+      "checkSnapshotAt": "2026-10-27T10:34:35Z",
       "checks": [
-        {
-          "name": "PowerShell syntax",
-          "conclusion": "skipped",
-          "completedAt": "2026-10-27T09:07:09Z",
-          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40478343487"
-        },
         {
           "name": "Python and JSON tooling",
           "conclusion": "skipped",
-          "completedAt": "2026-10-27T09:07:09Z",
-          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40478343487"
+          "completedAt": "2026-10-27T10:34:05Z",
+          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40489465592/job/122139496588"
         },
         {
-          "name": "Minecraft mod compile",
-          "conclusion": "success",
-          "completedAt": "2026-10-27T09:07:41Z",
-          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40478343487"
+          "name": "PowerShell syntax",
+          "conclusion": "skipped",
+          "completedAt": "2026-10-27T10:34:05Z",
+          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40489465592/job/122139495028"
         },
         {
           "name": "Documentation",
           "conclusion": "success",
-          "completedAt": "2026-10-27T09:07:19Z",
-          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40478343487"
+          "completedAt": "2026-10-27T10:34:15Z",
+          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40489465592/job/122139493505"
+        },
+        {
+          "name": "Minecraft mod compile",
+          "conclusion": "success",
+          "completedAt": "2026-10-27T10:34:35Z",
+          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40489465592/job/122139493131"
         },
         {
           "name": "Detect changed stacks",
           "conclusion": "success",
-          "completedAt": "2026-10-27T09:07:09Z",
-          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40478343487"
+          "completedAt": "2026-10-27T10:34:05Z",
+          "url": "https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40489465592/job/122139449497"
         }
       ],
       "integrated": false,
       "countsAsShipped": false,
       "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
-      "changeSummary": "Native action execution slice and GameTest updates for movement/interaction execution; remains unmerged and stacked on PR #128.",
+      "changeSummary": "Server-thread native action executor: vanilla movement, mining, eating, hotbar selection, counted drops, equipment swap/recovery and placement with live server legality checks; correlated outcomes and cancellation.",
       "reviewedFiles": [
+        "docs/ACTION_SCHEMA.md",
+        "docs/DECISIONS.md",
+        "docs/LEGAL_ACTION_VALIDATION.md",
+        "docs/NATIVE_ACTION_EXECUTION.md",
+        "minecraft-mod/src/gametest/java/dev/minecraftnativeintelligence/AgentPlayerGameTests.java",
         "minecraft-mod/src/main/java/dev/minecraftnativeintelligence/AgentActionExecutor.java",
         "minecraft-mod/src/main/java/dev/minecraftnativeintelligence/AgentPlayerManager.java",
-        "minecraft-mod/src/gametest/java/dev/minecraftnativeintelligence/AgentPlayerGameTests.java",
-        "docs/NATIVE_ACTION_EXECUTION.md"
+        "minecraft-mod/src/main/java/dev/minecraftnativeintelligence/MniMod.java",
+        "minecraft-mod/src/test/java/dev/minecraftnativeintelligence/ActionRequestValidatorContractTests.java"
       ]
     }
   ],
@@ -20519,6 +20524,12 @@
       "event": "Expanded taxonomy and versioned scoring to research coverage, research completion, outcome effectiveness, implementation maturity, capability demonstration, validation, production readiness and overall scoped progress.",
       "revision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "scopeChange": "Added model/training tracked items, a dedicated multi-agent infrastructure workstream and explicitly missing production/integration questions; broader scope may lower completion."
+    },
+    {
+      "date": "2026-10-27",
+      "event": "Refreshed open PR 129 branch audit to the exact post-expansion head and latest completed checks.",
+      "revision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "scopeChange": "Updated branch provenance, changed-file audit and check snapshot; unmerged feature work remains excluded from integrated, shipped and demonstrated capability scores."
     }
   ],
   "branchAudit": {
