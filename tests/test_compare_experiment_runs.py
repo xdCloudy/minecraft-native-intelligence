@@ -53,6 +53,10 @@ class ComparisonRetryIntegrityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "missing attempt"):
             trial_histories(run([trial(0, "failed"), trial(2, "completed")]))
 
+    def test_huge_sparse_attempt_does_not_allocate_large_range(self):
+        with self.assertRaisesRegex(ValueError, "missing attempt"):
+            trial_histories(run([trial(10**10, "failed")]))
+
     def test_retry_after_success_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "retry after"):
             trial_histories(run([trial(0, "completed"), trial(1, "failed")]))
