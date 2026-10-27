@@ -37,6 +37,15 @@ public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
         helper.assertTrue(server.getPlayerList().getPlayer(player.getUUID()) == player, "vanilla player list registers the agent");
         helper.assertTrue(level.players().contains(player), "server level tracks the agent as a player");
         helper.assertTrue(player.gameMode.getGameModeForPlayer() == net.minecraft.world.level.GameType.SURVIVAL, "agent starts in Survival");
+        boolean caseVariantRejected = false;
+        try {
+            manager.spawn(server, level, "mNItEsTaGeNt", position.getX() + 1.5, position.getY(), position.getZ() + 0.5);
+        } catch (IllegalArgumentException expected) {
+            caseVariantRejected = true;
+        }
+        helper.assertTrue(caseVariantRejected, "case-insensitive online username collision is rejected");
+        helper.assertTrue(server.getPlayerList().getPlayers().stream().filter(p -> p.getGameProfile().name().equalsIgnoreCase("MniTestAgent")).count() == 1,
+                "case variant rejection leaves exactly one matching player");
 
         helper.runAtTickTime(3, () -> {
             helper.assertTrue(player.isAlive(), "agent survives normal server ticks without an authenticated client");
