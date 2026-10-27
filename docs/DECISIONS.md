@@ -137,6 +137,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** One omniscient server-state object passed to the runtime; free-form JSON dictionaries; policy exposure of sequence/tick/profile metadata; radius-based block/entity dumps; assign persistent server UUIDs to sensed entities immediately.
 - **Consequences:** Every core field has a source, units/frame, access-rule mapping, visibility status, precision and unknown/absence semantics in `fields.v0.json`. #5 can now research re-identification without a server-UUID shortcut, #6 can compare richer geometry encodings under the same access rules, #61 can build full protocol negotiation, and #64 can define cadence/backpressure without changing unknown-versus-absent meaning. See [OBSERVATION_SCHEMA.md](OBSERVATION_SCHEMA.md) and `docs/observations/`.
 
+## ADR-0017 — Sparse visible samples are the first terrain-encoder candidate
+
+- **Date:** 2026-10-27
+- **Status:** proposed
+- **Context:** Observation v0 defines visible-surface samples but leaves denser, graph, and temporal encodings open. Any candidate must preserve unknown/partial-coverage semantics and must not encode server-known hidden blocks.
+- **Decision:** Use sorted sparse visible-sample records as the first lossless adapter-level prototype. The synthetic issue #6 benchmark found exact reconstruction and spatial-query results at lower median serialization latency than the other lossless encodings; the octree was about 4% smaller in median payload but about 2.2× slower to encode. This is a candidate for integration testing, not a production architecture decision.
+- **Alternatives:** Dense voxels, octrees, explicit graphs, egocentric slices, chunk summaries, and change events remain comparison options. Chunk summaries are restricted to coarse count queries because the prototype lost individual sample reconstruction and local/adjacency query fidelity.
+- **Consequences:** Observation v0 stays unchanged. The evidence is a deterministic synthetic Python benchmark, not Minecraft mod behavior or agent capability. Re-evaluate after real adapter bandwidth/latency and Minecraft visibility conformance measurements. Raw results are under `experiments/terrain-encoding/results/` and methodology is in [TERRAIN_ENCODING.md](TERRAIN_ENCODING.md).
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.

@@ -1,0 +1,272 @@
+{
+  "schema_version": "eval.scenario.v1",
+  "scenario_id": "geometry.local-encoding-synthetic.v1",
+  "title": "Local terrain encoding comparison on synthetic visible surfaces",
+  "description": "A deterministic representation-only benchmark using synthetic Minecraft-like voxel patterns. It does not launch Minecraft, train a model, or measure agent capability.",
+  "owner": "project research",
+  "evaluation_class": "unit",
+  "construct": "Storage and query tradeoffs for encoding the same bounded, player-visible surface samples.",
+  "research_question": "Which local geometry representation offers a useful bandwidth, encode/decode latency, reconstruction, and simple spatial-query tradeoff while preserving the observation-v0 information boundary?",
+  "falsification": {
+    "criteria": [
+      "Any representation claims absent blocks from partial or unavailable visible-surface data.",
+      "Any lossless representation fails exact reconstruction of visible sample records.",
+      "A representation uses evaluator-only world truth or unobserved block properties.",
+      "The benchmark reports latency or bandwidth without preserving per-terrain, per-seed raw measurements."
+    ],
+    "stop_conditions": [
+      "Stop the run if a policy input contains fields outside the declared observation-v0 visible-surface subset.",
+      "Stop the run if any encoder fails hidden-state conformance or its declared reconstruction contract."
+    ]
+  },
+  "environment": {
+    "minecraft_version": null,
+    "code_revision_policy": "exact_commit",
+    "world": {
+      "source": "synthetic generated voxel patterns with a separate evaluator-only hidden block map",
+      "sha256": null,
+      "reset_mode": "clean_world",
+      "reset_details": "Regenerate six bounded terrain patterns and two observation windows from each declared seed. Only visible v0-style samples enter the encoder."
+    },
+    "required_components": [],
+    "config_refs": [
+      "fixture://geometry/local-encoding-synthetic-v1"
+    ],
+    "rules": {
+      "scope_blocks_per_axis": 16,
+      "coverage": "partial",
+      "negative_evidence": "observed_items_only",
+      "terrain_patterns": ["open_plane", "cliff", "cave_mouth", "sparse_cave", "multi_level", "stepped_ridge"]
+    }
+  },
+  "participants": {
+    "agents": [
+      {
+        "role": "geometry_encoder_under_test",
+        "count": 1,
+        "initialization": "stateless encoder invoked with one synthetic policy observation; change-events additionally receives a prior policy observation"
+      }
+    ],
+    "humans_present": false,
+    "operator_present": false,
+    "persistent_state": {
+      "mode": "fresh",
+      "survives": []
+    }
+  },
+  "information_access": {
+    "permitted_inputs": [
+      "current observation-v0 visible surface samples",
+      "current collection coverage and declared local sensor scope",
+      "prior policy-visible observation for the change-events comparison only"
+    ],
+    "permitted_outputs": [
+      "encoded visible-surface records or explicitly lossy summaries",
+      "typed encoding and reconstruction metrics"
+    ],
+    "prohibited_cross_agent_state": ["all_other_agent_state"],
+    "privileged_inputs": [
+      {
+        "name": "hidden_evaluator_voxel_map",
+        "reason": "Count unseen synthetic blocks and verify that the encoder boundary does not depend on them.",
+        "consumers": ["evaluator_only_checks"],
+        "exposure": "evaluator_only",
+        "baseline_claim_valid": true
+      }
+    ]
+  },
+  "scaffolding": [
+    {
+      "id": "synthetic_terrain_generator",
+      "type": "reset_harness",
+      "owner": "environment",
+      "influence": "Creates six fixed-shape terrain families and samples visible positions from declared seeds.",
+      "active_when": "Before each encoder trial.",
+      "encodes_solution": false,
+      "accounting": "Synthetic fixture setup only; it is not a Minecraft world or agent policy."
+    },
+    {
+      "id": "representation_encoders",
+      "type": "script",
+      "owner": "policy",
+      "influence": "Transforms only supplied visible samples into the selected representation.",
+      "active_when": "During every trial.",
+      "encodes_solution": false,
+      "accounting": "Deterministic hand-written representation prototypes; no learned component."
+    },
+    {
+      "id": "spatial_query_evaluator",
+      "type": "oracle",
+      "owner": "evaluator",
+      "influence": "Calculates material counts, nearest visible target distance, adjacency, and lookup reference answers from visible samples; it selects the lookup coordinate after encoding and never supplies evaluator answers to an encoder.",
+      "active_when": "After encoding/decoding.",
+      "encodes_solution": false,
+      "accounting": "Evaluator references are never passed to encoders."
+    }
+  ],
+  "trial_plan": {
+    "seeds": [101, 202, 303, 404, 505],
+    "repetitions_per_seed": 1,
+    "warmup": "One unrecorded encoder invocation per terrain before timing.",
+    "timeout": {
+      "game_ticks": null,
+      "wall_seconds": 120
+    },
+    "allowed_retries": 0,
+    "intervention_policy": "No intervention after a trial starts; preserve any failure.",
+    "order_policy": "Execute variants and seeds in manifest order; terrain patterns use a fixed declared order."
+  },
+  "metrics": [
+    {
+      "id": "encoded_payload_bytes",
+      "definition": "UTF-8 byte length of the deterministic compact JSON representation, excluding runner metadata.",
+      "unit": "bytes",
+      "direction": "lower",
+      "role": "primary",
+      "aggregation": "Median across terrain and seed cases; retain raw per-case values.",
+      "failure_treatment": "A failed encoder trial is preserved and is not assigned a size.",
+      "raw_source": "terrain-encoding.json.cases[].payload_bytes"
+    },
+    {
+      "id": "encode_latency",
+      "definition": "Median wall-clock duration of seven encode-plus-compact-JSON-serialization calls for one case.",
+      "unit": "nanoseconds",
+      "direction": "lower",
+      "role": "secondary",
+      "aggregation": "Report median and interquartile range over raw case medians.",
+      "failure_treatment": "A failed trial has no latency value; no retry is allowed.",
+      "raw_source": "terrain-encoding.json.cases[].encode_median_ns"
+    },
+    {
+      "id": "decode_latency",
+      "definition": "Median wall-clock duration of seven compact-JSON-parsing-plus-decode calls for one case.",
+      "unit": "nanoseconds",
+      "direction": "lower",
+      "role": "secondary",
+      "aggregation": "Report median and interquartile range over raw case medians.",
+      "failure_treatment": "A failed trial has no latency value; no retry is allowed.",
+      "raw_source": "terrain-encoding.json.cases[].decode_median_ns"
+    },
+    {
+      "id": "visible_sample_reconstruction",
+      "definition": "Fraction of visible sample records reconstructed with all declared fields exactly; chunk summaries are intentionally lossy.",
+      "unit": "fraction",
+      "direction": "higher",
+      "role": "primary",
+      "aggregation": "Mean across terrain and seed cases; report lossless and lossy variants separately.",
+      "failure_treatment": "A failed or malformed decode scores zero and remains failed in the trial record.",
+      "raw_source": "terrain-encoding.json.cases[].visible_sample_reconstruction",
+      "threshold": 1
+    },
+    {
+      "id": "prior_view_overlap",
+      "definition": "Jaccard overlap between positions in the current and prior visible sample collections; diagnostic context for change-event size.",
+      "unit": "fraction",
+      "direction": "neutral",
+      "role": "diagnostic",
+      "aggregation": "Mean across terrain and seed cases; preserve per-case values.",
+      "failure_treatment": "A failed trial has no overlap value.",
+      "raw_source": "terrain-encoding.json.cases[].visible_position_overlap_jaccard"
+    },
+    {
+      "id": "visible_material_count_exact",
+      "definition": "Whether counts of each block ID in the visible sample collection are preserved.",
+      "unit": "boolean",
+      "direction": "higher",
+      "role": "secondary",
+      "aggregation": "Mean of boolean encoded as 0/1 across terrain and seed cases.",
+      "failure_treatment": "A failed trial scores false.",
+      "raw_source": "terrain-encoding.json.cases[].visible_material_counts_exact",
+      "threshold": 1
+    },
+    {
+      "id": "nearest_gold_distance_error",
+      "definition": "Absolute error in nearest visible gold-block distance from local origin; cases with no visible gold are reported as not applicable.",
+      "unit": "blocks",
+      "direction": "lower",
+      "role": "secondary",
+      "aggregation": "Mean over applicable terrain and seed cases; preserve null cases.",
+      "failure_treatment": "A failed trial is preserved and excluded only from this not-applicable metric's denominator.",
+      "raw_source": "terrain-encoding.json.cases[].nearest_gold_distance_error_blocks"
+    },
+    {
+      "id": "local_block_query_exact",
+      "definition": "Whether the representation returns the exact observed block ID at an evaluator-selected coordinate known to contain a visible sample.",
+      "unit": "boolean",
+      "direction": "higher",
+      "role": "secondary",
+      "aggregation": "Mean of boolean encoded as 0/1 across terrain and seed cases.",
+      "failure_treatment": "A failed trial scores false.",
+      "raw_source": "terrain-encoding.json.cases[].local_block_query_exact",
+      "threshold": 1
+    },
+    {
+      "id": "visible_adjacency_graph_exact",
+      "definition": "Whether the encoding preserves geometric adjacency relationships among currently observed samples without adding unseen neighbors.",
+      "unit": "boolean",
+      "direction": "higher",
+      "role": "secondary",
+      "aggregation": "Mean of boolean encoded as 0/1 across terrain and seed cases; chunk summaries are intentionally not adjacency-preserving.",
+      "failure_treatment": "A failed trial scores false.",
+      "raw_source": "terrain-encoding.json.cases[].visible_adjacency_graph_exact"
+    },
+    {
+      "id": "hidden_state_compliance",
+      "definition": "Whether encoder inputs are restricted to declared visible samples, required unknown/coverage semantics are preserved, and outputs are derived solely from those inputs.",
+      "unit": "boolean",
+      "direction": "higher",
+      "role": "guardrail",
+      "aggregation": "All cases must pass; report any failure as a gate failure.",
+      "failure_treatment": "Any violation invalidates the representation result.",
+      "raw_source": "terrain-encoding.json.cases[].hidden_state_compliant",
+      "threshold": 1
+    },
+    {
+      "id": "hidden_world_perturbation_independent",
+      "definition": "Whether changing evaluator-only block identities outside both current and prior visible observations leaves the encoding unchanged.",
+      "unit": "boolean",
+      "direction": "higher",
+      "role": "guardrail",
+      "aggregation": "All cases must pass; any output difference is a hidden-state violation.",
+      "failure_treatment": "Any violation invalidates the representation result.",
+      "raw_source": "terrain-encoding.json.cases[].hidden_world_perturbation_independent",
+      "threshold": 1
+    }
+  ],
+  "baselines": [
+    {
+      "id": "sparse-visible-sample-set",
+      "type": "candidate",
+      "config_ref": "fixture://geometry/sparse",
+      "notes": "Canonical lossless reference representation; not a learned policy."
+    },
+    {
+      "id": "chunk-feature-summary",
+      "type": "ablation",
+      "config_ref": "fixture://geometry/chunk_features",
+      "notes": "Intentionally lossy coarse summary used to quantify query/reconstruction tradeoffs."
+    }
+  ],
+  "artifacts": [
+    {
+      "kind": "trial_log",
+      "required": true,
+      "privacy_class": "public",
+      "description": "Per-variant and per-seed command logs."
+    },
+    {
+      "kind": "terrain_encoding_metrics",
+      "required": true,
+      "privacy_class": "public",
+      "description": "Raw metrics for each encoder and synthetic terrain case."
+    },
+    {
+      "kind": "result_manifest",
+      "required": true,
+      "privacy_class": "public",
+      "description": "Resolved scenario, experiment, source revision, and artifact hashes."
+    }
+  ],
+  "data_policy_ref": "docs/DATA_GOVERNANCE.md",
+  "notes": "Synthetic representation evidence only. It does not certify an encoding for real Minecraft visibility, model use, or agent behavior."
+}

@@ -1,0 +1,1 @@
+{"all_hidden_state_compliant": true, "encoder": "chunk_features", "mean_decode_ns": 120033.33, "mean_encode_ns": 366183.33, "mean_payload_bytes": 5578.5, "seed": 101, "terrain_cases": 6}

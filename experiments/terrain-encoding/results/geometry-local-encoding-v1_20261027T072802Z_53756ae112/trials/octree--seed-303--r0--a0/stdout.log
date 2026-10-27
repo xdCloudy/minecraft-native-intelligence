@@ -1,0 +1,1 @@
+{"all_hidden_state_compliant": true, "encoder": "octree", "mean_decode_ns": 330766.67, "mean_encode_ns": 773183.33, "mean_payload_bytes": 19056.17, "seed": 303, "terrain_cases": 6}

@@ -1,0 +1,1 @@
+{"all_hidden_state_compliant": true, "encoder": "egocentric_slices", "mean_decode_ns": 290716.67, "mean_encode_ns": 970716.67, "mean_payload_bytes": 22855.17, "seed": 202, "terrain_cases": 6}

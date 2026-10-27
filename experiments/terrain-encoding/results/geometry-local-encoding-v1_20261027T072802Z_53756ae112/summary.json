@@ -1,0 +1,214 @@
+{
+  "environment": {
+    "environment_variables": {},
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "release": "10",
+    "system": "Windows"
+  },
+  "format": "terrain-encoding-summary.v0",
+  "logical_trials": 35,
+  "run_id": "geometry-local-encoding-v1:20261027T072802Z:53756ae112",
+  "scenario_id": "geometry.local-encoding-synthetic.v1",
+  "source_commit": "0c0558f651acd2d2905a3658b11677fcfda8902e",
+  "summaries": {
+    "change-events": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 289700.0,
+        "p25": 260275.0,
+        "p75": 354100.0
+      },
+      "encode_median_ns": {
+        "median": 638600.0,
+        "p25": 546575.0,
+        "p75": 695425.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 1,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.0,
+      "payload_bytes": {
+        "median": 23435.5,
+        "p25": 17835.5,
+        "p75": 26671.75
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 1,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 1.0
+    },
+    "chunk-features": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 108450.0,
+        "p25": 90850.0,
+        "p75": 150050.0
+      },
+      "encode_median_ns": {
+        "median": 334850.0,
+        "p25": 294950.0,
+        "p75": 511000.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 0,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.04431071375213663,
+      "payload_bytes": {
+        "median": 4980.5,
+        "p25": 3778.0,
+        "p75": 6842.0
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 0,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 0.0
+    },
+    "dense": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 410050.0,
+        "p25": 366950.0,
+        "p75": 443950.0
+      },
+      "encode_median_ns": {
+        "median": 435500.0,
+        "p25": 379275.0,
+        "p75": 578625.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 1,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.0,
+      "payload_bytes": {
+        "median": 38758.0,
+        "p25": 35611.0,
+        "p75": 40261.25
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 1,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 1.0
+    },
+    "egocentric-slices": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 216300.0,
+        "p25": 184675.0,
+        "p75": 282675.0
+      },
+      "encode_median_ns": {
+        "median": 469000.0,
+        "p25": 370400.0,
+        "p75": 662900.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 1,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.0,
+      "payload_bytes": {
+        "median": 21548.5,
+        "p25": 17986.5,
+        "p75": 24461.25
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 1,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 1.0
+    },
+    "graph": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 166950.0,
+        "p25": 118150.0,
+        "p75": 222425.0
+      },
+      "encode_median_ns": {
+        "median": 413350.0,
+        "p25": 323125.0,
+        "p75": 558450.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 1,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.0,
+      "payload_bytes": {
+        "median": 20705.5,
+        "p25": 16641.0,
+        "p75": 22595.0
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 1,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 1.0
+    },
+    "octree": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 263250.0,
+        "p25": 228550.0,
+        "p75": 316700.0
+      },
+      "encode_median_ns": {
+        "median": 654450.0,
+        "p25": 534500.0,
+        "p75": 822625.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 1,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.0,
+      "payload_bytes": {
+        "median": 17909.0,
+        "p25": 14716.25,
+        "p75": 18832.75
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 1,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 1.0
+    },
+    "sparse": {
+      "current_sample_reobserved_fraction_mean": 0.2578171544217287,
+      "decode_median_ns": {
+        "median": 144950.0,
+        "p25": 108025.0,
+        "p75": 186800.0
+      },
+      "encode_median_ns": {
+        "median": 296900.0,
+        "p25": 226175.0,
+        "p75": 365650.0
+      },
+      "hidden_state_compliance_all": true,
+      "hidden_world_perturbation_independent_all": true,
+      "local_block_query_exact_rate": 1,
+      "nearest_gold_applicable_cases": 29,
+      "nearest_gold_distance_error_blocks_mean": 0.0,
+      "payload_bytes": {
+        "median": 18725.5,
+        "p25": 15491.0,
+        "p75": 20268.75
+      },
+      "terrain_case_count": 30,
+      "visible_adjacency_graph_exact_rate": 1,
+      "visible_material_count_exact_rate": 1,
+      "visible_position_overlap_jaccard_mean": 0.20100425452173995,
+      "visible_sample_reconstruction_mean": 1.0
+    }
+  }
+}

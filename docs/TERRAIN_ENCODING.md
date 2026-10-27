@@ -63,6 +63,63 @@ requires adapter integration and Minecraft conformance tests.
 
 ## Results
 
-No result table is published until the experiment has completed from a clean,
-committed revision. The run manifest and raw per-trial artifacts are the source
-for any subsequent recommendation.
+The reference run completed all 35 encoder/seed trials from clean commit
+`0c0558f651acd2d2905a3658b11677fcfda8902e`: five seeds × seven representations,
+with six terrain cases per trial. It ran on Windows 10 x64 with Python 3.11.9.
+All 210 terrain cases passed hidden-state checks, including hidden-world
+perturbation noninterference. The [run manifest](../experiments/terrain-encoding/results/geometry-local-encoding-v1_20261027T072802Z_53756ae112/run.json),
+artifact hashes, logs, raw per-case metrics, and [summary](../experiments/terrain-encoding/results/geometry-local-encoding-v1_20261027T072802Z_53756ae112/summary.json)
+are committed with this change.
+
+Values below are medians across the 30 terrain cases per representation.
+Payload and latency ranges show the 25th–75th percentiles of those case-level
+measurements. Latencies are microseconds for encode plus JSON serialization,
+and JSON parsing plus decode.
+
+| Representation | Payload bytes, median (P25–P75) | Encode µs | Decode µs | Exact sample reconstruction | Nearest gold error, blocks | Local lookup / adjacency exact |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Dense | 38,758 (35,611–40,261) | 436 | 410 | 100% | 0.000 | 100% / 100% |
+| Sparse | 18,726 (15,491–20,269) | 297 | 145 | 100% | 0.000 | 100% / 100% |
+| Octree | 17,909 (14,716–18,833) | 654 | 263 | 100% | 0.000 | 100% / 100% |
+| Graph | 20,706 (16,641–22,595) | 413 | 167 | 100% | 0.000 | 100% / 100% |
+| Egocentric slices | 21,549 (17,987–24,461) | 469 | 216 | 100% | 0.000 | 100% / 100% |
+| Chunk features | 4,981 (3,778–6,842) | 335 | 108 | 0% | 0.044 | 0% / 0% |
+| Change events | 23,436 (17,836–26,672) | 639 | 290 | 100% | 0.000 | 100% / 100% |
+
+Visible material counts were exact for all seven formats. The nearest-target
+metric applied in 29 of 30 cases per format. Mean current/prior position
+overlap was 0.201 (Jaccard) and the mean fraction of current samples repeated
+from the prior view was 0.258.
+
+### Recommendation
+
+Use sparse visible samples as the initial lossless baseline for the next
+prototype. In these fixtures it reconstructed every sample, supported all
+tested spatial queries, and had lower median serialization latency than the
+other lossless alternatives. Octrees reduced median payload size by about 4%
+relative to sparse records, while taking about 2.2× as long to encode and 1.8×
+as long to decode on this Python implementation. The graph representation
+preserved explicit adjacency but cost about 11% more payload than sparse;
+derive adjacency from sparse coordinates unless a later model or query workload
+shows a benefit from storing edges.
+
+Chunk features are a useful compact aggregate when only block counts matter.
+They cannot reconstruct individual samples or answer the tested local and
+adjacency queries. Change events were larger than sparse records at the measured
+20% Jaccard overlap; high-overlap views were not tested, so this result does not
+rule out event encoding for a different observation cadence.
+
+### Limits
+
+These measurements compare Python data structures on synthetic visible-surface
+records, not real Minecraft worlds. They do not measure mod-side filtering,
+client-equivalent occlusion, transport compression, model consumption, or agent
+spatial reasoning. Timing is specific to the recorded Windows host and Python
+version. The recommendation is a candidate for adapter-level testing, not a
+production architecture decision or capability claim.
+
+Summarize the committed raw run with:
+
+```powershell
+python scripts/summarize_terrain_encoding_run.py experiments/terrain-encoding/results/geometry-local-encoding-v1_20261027T072802Z_53756ae112
+```

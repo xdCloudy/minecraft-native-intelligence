@@ -1,0 +1,1382 @@
+{
+  "artifact_manifest": "artifacts.json",
+  "ended_at": "2026-10-27T07:28:22.521045Z",
+  "environment": {
+    "environment_variables": {},
+    "machine": "AMD64",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "release": "10",
+    "system": "Windows"
+  },
+  "expected_logical_trials": 35,
+  "experiment_id": "geometry-local-encoding-v1",
+  "experiment_manifest_sha256": "53756ae112c9cf892ae0b809f57138fb4309bd6d3ea86fd8f3786ae07cba788e",
+  "notes": "Run from a clean exact commit. The script emits per-terrain measurements to each trial artifact directory.",
+  "publishable": true,
+  "run_id": "geometry-local-encoding-v1:20261027T072802Z:53756ae112",
+  "scenario": {
+    "scenario_id": "geometry.local-encoding-synthetic.v1",
+    "sha256": "7b8e40801c75af4e1b033753d177170181c49d2089fb9b2571df3494e6b90a8c"
+  },
+  "schema_version": "experiment.run.v1",
+  "source_revision": {
+    "commit": "0c0558f651acd2d2905a3658b11677fcfda8902e",
+    "dirty": false,
+    "dirty_entry_count": 0,
+    "vcs": "git"
+  },
+  "started_at": "2026-10-27T07:28:02.583830Z",
+  "status": "completed",
+  "summary": {
+    "attempt_status_counts": {
+      "completed": 35
+    },
+    "final_trial_status_counts": {
+      "completed": 35
+    },
+    "logical_trial_count": 35
+  },
+  "trials": [
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "0a00ee7cda5f68de0ab37631116ded8f87693ecff3c48f4a2b25edb8ebde5ec2",
+          "size_bytes": 181
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "445010e08e271ecb778c00fe407e6f8616aacbf3e098681be930f0c75dc8f2eb",
+          "size_bytes": 4869
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.61,
+      "ended_at": "2026-10-27T07:28:03.199928Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:02.590117Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "dense--seed-101--r0--a0",
+      "variant_id": "dense",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "f7b4c9dc3bd5a6222dccd6c02e56f6f6d15324e75ce8e8a83e1f2b7923460503",
+          "size_bytes": 180
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "0baa4253a6fe8f2b12a39cff0c585ed6cc9ec2cb8aede53602bc5c98757214b2",
+          "size_bytes": 4883
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.609,
+      "ended_at": "2026-10-27T07:28:03.819795Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:03.210140Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "dense--seed-202--r0--a0",
+      "variant_id": "dense",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "1d2a6120bee7ecdf5380c996a18427a2b4f8cb0841461e805058aa843b6bee5c",
+          "size_bytes": 172
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "5fe85a0fa634ef9074652306387a3af9b330a9171aa4dc524c3688823d30e2ab",
+          "size_bytes": 4869
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.515,
+      "ended_at": "2026-10-27T07:28:04.343790Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:03.833591Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "dense--seed-303--r0--a0",
+      "variant_id": "dense",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "ddf001e6baa6f9414698f8bd45d04d3c4b81176ee0d9277bd02bcce5ad6df5ac",
+          "size_bytes": 174
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "6e7e9747218b8958ebf0579b5fe8f31334b03ee0b458806069f4b4f20a6d3091",
+          "size_bytes": 4881
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.563,
+      "ended_at": "2026-10-27T07:28:04.912693Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:04.353668Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "dense--seed-404--r0--a0",
+      "variant_id": "dense",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "68f78fb5a8d2a7da827e19c018eaabad3ac0049b8fb0d7116efd46a85fbbc477",
+          "size_bytes": 177
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "855eac0ab996ccfb5c1a37f3b949c1f82ad590ec8e552bc3975341f5ea06edc8",
+          "size_bytes": 4884
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.562,
+      "ended_at": "2026-10-27T07:28:05.488187Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:04.929933Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "dense--seed-505--r0--a0",
+      "variant_id": "dense",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "ec1d217a6663257caff3bbe524d2549f5a690606d7b2e03538f9ecfdb20b43e1",
+          "size_bytes": 182
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "2b2f439bb0f51478533b8076547a81ecda7b94ab503743568a3e5c903f532e67",
+          "size_bytes": 4869
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.5,
+      "ended_at": "2026-10-27T07:28:06.000607Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:05.495269Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "sparse--seed-101--r0--a0",
+      "variant_id": "sparse",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "a205a31897aad480b6f4ae3564556a2ee1e07d73ee704b005283e1ca80250d2e",
+          "size_bytes": 179
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "4857fd452d4d8ab0bed557f9b5814136d0ed7fc89e680a388c67e219a0fd1f13",
+          "size_bytes": 4882
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.532,
+      "ended_at": "2026-10-27T07:28:06.555189Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:06.015925Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "sparse--seed-202--r0--a0",
+      "variant_id": "sparse",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "805dba4199745f26e0c34d1cf4c3491dcd466199c9a0f01dbf73a2058a3a49b4",
+          "size_bytes": 179
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "81a43b3a149a51a4e3665168ba04942dd6e34695e4881a1b66216045d76765b8",
+          "size_bytes": 4869
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.61,
+      "ended_at": "2026-10-27T07:28:07.173015Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:06.563889Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "sparse--seed-303--r0--a0",
+      "variant_id": "sparse",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "dd9f7eec0579d8e967daad2b2aed10001644fb24c78edddf4407061708e803e1",
+          "size_bytes": 176
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "d3e853de0be38a74a12e931593771361d3af5e36050c40ac8ab449dde2df5ab7",
+          "size_bytes": 4882
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.453,
+      "ended_at": "2026-10-27T07:28:07.645966Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:07.186443Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "sparse--seed-404--r0--a0",
+      "variant_id": "sparse",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "78581fa5c9fba8a279cb147795163e60a6bd75d872fd95236436f5375a4453e1",
+          "size_bytes": 179
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "bb40a1c86692ea2ad05ac1273ac10a5ae31f4716b44a5dd9406470626f74d929",
+          "size_bytes": 4883
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.547,
+      "ended_at": "2026-10-27T07:28:08.212061Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:07.654665Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "sparse--seed-505--r0--a0",
+      "variant_id": "sparse",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "d6f97099cfca29e090b8ab8d8d316bedefda608e16c96363ef37d19542888cee",
+          "size_bytes": 179
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "cc611b1a0de2182faec9a8c2579d048c0297afdf5d9b3d3fd4748b08b7c9207a",
+          "size_bytes": 4871
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.532,
+      "ended_at": "2026-10-27T07:28:08.752393Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:08.217018Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "octree--seed-101--r0--a0",
+      "variant_id": "octree",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "fb4f00386f32cf23d354b9838f25e1584b1d75cf848b322d4721d4f85bfe803c",
+          "size_bytes": 178
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "4ffc41af3827f1aac459717a4a6771b6b848bb06ea00753838156861008a0c03",
+          "size_bytes": 4886
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.563,
+      "ended_at": "2026-10-27T07:28:09.338462Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:08.763027Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "octree--seed-202--r0--a0",
+      "variant_id": "octree",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "22726bdd86c0e77cbbbd34b536c3b1e37613f6d084fb6b069b41688a5013e16a",
+          "size_bytes": 182
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "f8ada885b502ba584b609dad5ccc3524ff83520f10e6a8ed86b9d713f9c49d65",
+          "size_bytes": 4871
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.469,
+      "ended_at": "2026-10-27T07:28:09.818771Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:09.353491Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "octree--seed-303--r0--a0",
+      "variant_id": "octree",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "5ecd5e7aaf8737d10493900fe1da160eb5cc3738e0281e4d306d0bd9dfb3c864",
+          "size_bytes": 176
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "dabb1b692a4a5589d8c256827fd7c2edd7a1e0af2a4fd8b0ff9ac824d7b07886",
+          "size_bytes": 4883
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.515,
+      "ended_at": "2026-10-27T07:28:10.350793Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:09.833232Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "octree--seed-404--r0--a0",
+      "variant_id": "octree",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "1a985f8032c4ff2c2a71b2e91e6ecc502c6248b663941a188229c6da68767953",
+          "size_bytes": 182
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "890df7ed27c32599696999a33f8ca4806f31d309041ce70248133bff535d8a0a",
+          "size_bytes": 4885
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.609,
+      "ended_at": "2026-10-27T07:28:10.977298Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:10.365492Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "octree--seed-505--r0--a0",
+      "variant_id": "octree",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "0224f82e34fe606020a81e6c288045015a755c920193c1fae3a64fdec37939e2",
+          "size_bytes": 181
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "b6d5505acefd743a2be50e2778a5901a806ff33a679a89af1633d75edc38f7cd",
+          "size_bytes": 4868
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.516,
+      "ended_at": "2026-10-27T07:28:11.497389Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:10.984138Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "graph--seed-101--r0--a0",
+      "variant_id": "graph",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "15164e5e48f7f400c96fa23c56a9687044f34aa40438a2284d7efe0b4d310d8f",
+          "size_bytes": 181
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "2509bf551cefbe1fd5efe9c74d30d398600b42a0539ff21555e5f83d7e384b67",
+          "size_bytes": 4882
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.625,
+      "ended_at": "2026-10-27T07:28:12.129309Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:11.508671Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "graph--seed-202--r0--a0",
+      "variant_id": "graph",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "54f7b36778edec11fa05089373288b98958554ae5ba69efda08250cc5ec42c1c",
+          "size_bytes": 181
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "b80bfd0bb12de428d74a7a7e64504877cbe99a70eea5f2a06ca62b1e74a240f5",
+          "size_bytes": 4868
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.578,
+      "ended_at": "2026-10-27T07:28:12.726040Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:12.142603Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "graph--seed-303--r0--a0",
+      "variant_id": "graph",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "cffadf649d3fbbcd63e3eb67bf7709afcc261bf0c22dccd6e485b0e38148c63a",
+          "size_bytes": 178
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "0dd9218f2d001557cfe55cfb1c7c15cc9c91869039944388be613590e4dba118",
+          "size_bytes": 4881
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.594,
+      "ended_at": "2026-10-27T07:28:13.335663Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:12.740816Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "graph--seed-404--r0--a0",
+      "variant_id": "graph",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "b538060fedb27181e195c7e1415324173092452ac322cc55aa569112e66cf029",
+          "size_bytes": 175
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "821cca440b71c324781c76b4a6be27852e885fb86e8a177a32fd33c0fbd404f4",
+          "size_bytes": 4884
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.562,
+      "ended_at": "2026-10-27T07:28:13.942117Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:13.372124Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "graph--seed-505--r0--a0",
+      "variant_id": "graph",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "268312a676415bd7fa39983fc936dcb9d9514e9c7b9b76560a9bade3c6b9b100",
+          "size_bytes": 187
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "642713758febc4f215b6eb8586aa865260090c4d2e4c2b10164b80b998aae26a",
+          "size_bytes": 4882
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.547,
+      "ended_at": "2026-10-27T07:28:14.502273Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:13.950865Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "egocentric-slices--seed-101--r0--a0",
+      "variant_id": "egocentric-slices",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "6bff9e3f318405b0966054d29e38b8d63720a8a80f94bd8c8f2c19f36c8d7459",
+          "size_bytes": 193
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "faa65e6d0afdf4db97c923b7025f5231b83448df481455a9e6c7676cf25b44a3",
+          "size_bytes": 4897
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.594,
+      "ended_at": "2026-10-27T07:28:15.110514Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:14.517738Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "egocentric-slices--seed-202--r0--a0",
+      "variant_id": "egocentric-slices",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "051cf417ccfc75bd1334406bf7425b1e81b5e7d436bf84ea3bfd91d7914064ee",
+          "size_bytes": 187
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "ddf20438a1e27f288547da0d4e0595e79da0bbc2a55ccc51b09a868a357db3d5",
+          "size_bytes": 4881
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.531,
+      "ended_at": "2026-10-27T07:28:15.656792Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:15.125514Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "egocentric-slices--seed-303--r0--a0",
+      "variant_id": "egocentric-slices",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "7467b12aff50fd6a8d3a8a5cc3112e9113f6872d3f377a0cafe3cf066eab89ca",
+          "size_bytes": 190
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "1b579163f6231ba6746f1a7feb0dbb4bc8681f038130deb8938113b2206ea3d1",
+          "size_bytes": 4894
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.484,
+      "ended_at": "2026-10-27T07:28:16.144268Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:15.665570Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "egocentric-slices--seed-404--r0--a0",
+      "variant_id": "egocentric-slices",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "f170baec3090256090696bec693bf95d2fccebafe02f3301a22348c59da507a5",
+          "size_bytes": 187
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "f87f360ff239a727a27152b8b7a7def5931cf1d0cb8328cce2fb54075c1254d3",
+          "size_bytes": 4897
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.578,
+      "ended_at": "2026-10-27T07:28:16.729673Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:16.156333Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "egocentric-slices--seed-505--r0--a0",
+      "variant_id": "egocentric-slices",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "4243bc8575a78d6ecb6de0fe7c74e4bc46581dca6996183dd6ba4f62105bf30e",
+          "size_bytes": 188
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "c46b3f2679f14bdff00582f59de69f8d61017ac003a14564c23cd92b89a074d7",
+          "size_bytes": 4888
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.5,
+      "ended_at": "2026-10-27T07:28:17.253285Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:16.747848Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "chunk-features--seed-101--r0--a0",
+      "variant_id": "chunk-features",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "5d6d35ab07e717caf533a55dae969476dfa9903113ee19a39c7e6a64c248388c",
+          "size_bytes": 188
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "fcf186304d4caf2a5e7242a54b09c29dc300c9f04f55f2df1149d33ad48a0a42",
+          "size_bytes": 4916
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.61,
+      "ended_at": "2026-10-27T07:28:17.872003Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:17.263289Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "chunk-features--seed-202--r0--a0",
+      "variant_id": "chunk-features",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "60ec68c31a4bf3baa5703228352518c8c23d4e7c58620bc86d1b25c1920e687b",
+          "size_bytes": 183
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "9616553ad6ee8c4c50635be7c0022f7c795b7113cac5e17732eb917945758cf7",
+          "size_bytes": 4903
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.438,
+      "ended_at": "2026-10-27T07:28:18.328308Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:17.885812Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "chunk-features--seed-303--r0--a0",
+      "variant_id": "chunk-features",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "1884bcc7e34b811cab18dffeac500b77d419413caa8188bbb79d1da70b451dcf",
+          "size_bytes": 186
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "61aeb383a6ee3acff9c2a6716a845c7f8794fb29a3badc857af3961f78bb6198",
+          "size_bytes": 4915
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.422,
+      "ended_at": "2026-10-27T07:28:18.765015Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:18.338705Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "chunk-features--seed-404--r0--a0",
+      "variant_id": "chunk-features",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "0932de6470c6d25ca4148a0b65403b493b3b6694bc974a52b192cf887f909a14",
+          "size_bytes": 185
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "cd664e8b4608f2b66a6cd5541e26213be87522dd6c6564bbef9b4cb656e1d886",
+          "size_bytes": 4921
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.547,
+      "ended_at": "2026-10-27T07:28:19.323013Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:18.778153Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "chunk-features--seed-505--r0--a0",
+      "variant_id": "chunk-features",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "9d36b2389311acd56c3fdbff36db3912061610577215e3331a36382f11adbc9e",
+          "size_bytes": 186
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "5c4a0b0f2c287a9b147cb24a43ad58ecdcd9bf5d5b9467b1ad674cf0caf7b1a1",
+          "size_bytes": 4877
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.687,
+      "ended_at": "2026-10-27T07:28:20.011677Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 101,
+      "started_at": "2026-10-27T07:28:19.336283Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "change-events--seed-101--r0--a0",
+      "variant_id": "change-events",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "a38c2164a2934da2042641d590664d8679a2c89aa90c026fd3816678074e5181",
+          "size_bytes": 186
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "859b9039a593bef56abfae83b3ae89b118ab3e15835215eb42f6f346ca3954c8",
+          "size_bytes": 4891
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.578,
+      "ended_at": "2026-10-27T07:28:20.617780Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 202,
+      "started_at": "2026-10-27T07:28:20.028718Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "change-events--seed-202--r0--a0",
+      "variant_id": "change-events",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "cb91d7076313d24b46be212ded67c42d17853790885ce78d234f625bfb6aa70b",
+          "size_bytes": 188
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "7b51295dd88ae0776999edb48238edd2e4c47352394849802c2995f6c2bb04b6",
+          "size_bytes": 4877
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.609,
+      "ended_at": "2026-10-27T07:28:21.231641Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 303,
+      "started_at": "2026-10-27T07:28:20.632672Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "change-events--seed-303--r0--a0",
+      "variant_id": "change-events",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "fe1cb084f7187edd14bbb286ca20c34087176c827acb3b8fb1763d95bcd71079",
+          "size_bytes": 189
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "14a9ad15d69e467a0721370470aa01f6cee99da928b9bf307f8739766c56e20f",
+          "size_bytes": 4889
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.563,
+      "ended_at": "2026-10-27T07:28:21.796442Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 404,
+      "started_at": "2026-10-27T07:28:21.242215Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "change-events--seed-404--r0--a0",
+      "variant_id": "change-events",
+      "working_directory": "."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "size_bytes": 0
+        },
+        {
+          "path": "stdout.log",
+          "sha256": "3f9cbee62645eea8f50017d8bad554804b42d3f5b5f2f06152ae99ed8a5e574e",
+          "size_bytes": 183
+        },
+        {
+          "path": "terrain-encoding.json",
+          "sha256": "1455a830f5e9892b6cd41bffa15269e1f3bffb6385c140dd9a7bf3bd138ad0dc",
+          "size_bytes": 4892
+        }
+      ],
+      "attempt": 0,
+      "command": {
+        "arguments": [
+          "scripts/benchmark_terrain_encodings.py"
+        ],
+        "executable": "{python}"
+      },
+      "duration_seconds": 0.688,
+      "ended_at": "2026-10-27T07:28:22.505982Z",
+      "exit_code": 0,
+      "launch_error": null,
+      "repetition_index": 0,
+      "seed": 505,
+      "started_at": "2026-10-27T07:28:21.807473Z",
+      "status": "completed",
+      "timeout_seconds": 120.0,
+      "trial_id": "change-events--seed-505--r0--a0",
+      "variant_id": "change-events",
+      "working_directory": "."
+    }
+  ],
+  "variants": [
+    "dense",
+    "sparse",
+    "octree",
+    "graph",
+    "egocentric-slices",
+    "chunk-features",
+    "change-events"
+  ]
+}

@@ -1,0 +1,1 @@
+{"all_hidden_state_compliant": true, "encoder": "dense", "mean_decode_ns": 370316.67, "mean_encode_ns": 456166.67, "mean_payload_bytes": 39949.83, "seed": 101, "terrain_cases": 6}

@@ -1,0 +1,1 @@
+{"all_hidden_state_compliant": true, "encoder": "graph", "mean_decode_ns": 185650, "mean_encode_ns": 430200, "mean_payload_bytes": 22460.33, "seed": 505, "terrain_cases": 6}
