@@ -1,0 +1,32 @@
+{
+  "schema_version": "agent-identity.v0",
+  "agent_id": "2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0",
+  "minecraft_profile_id": "1752d676-bf45-4698-9695-330ab157aa49",
+  "world_binding_id": "104a01f8-0ad2-4e69-9bef-d7ca35c23cb1",
+  "revision": 0,
+  "created_at": "2026-10-27T08:00:00Z",
+  "created_by": {
+    "kind": "operator"
+  },
+  "lifecycle_state": "active",
+  "display": {
+    "username": "MossWalker",
+    "display_name": "Moss Walker",
+    "skin": {
+      "catalog_id": "mni.default.classic-01",
+      "content_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "model": "classic"
+    }
+  },
+  "personal_state_refs": {
+    "minecraft_state": "mni-state://agent/2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0/minecraft",
+    "memory": "mni-state://agent/2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0/memory",
+    "relationships": "mni-state://agent/2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0/relationships",
+    "goals": "mni-state://agent/2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0/goals",
+    "personality": "mni-state://agent/2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0/personality",
+    "skills": "mni-state://agent/2bdb5d5e-5dd3-4f1c-8e51-1601a72df7a0/skills"
+  },
+  "lineage": {
+    "operation": "original"
+  }
+}

@@ -38,6 +38,7 @@ See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 | [Vision](docs/VISION.md) and [Principles](docs/PRINCIPLES.md) | Product direction and invariants |
 | [Architecture](ARCHITECTURE.md) | Proposed system boundaries and timescales |
 | [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
+| [Persistent agent identity](docs/AGENT_IDENTITY.md) | Stable identity, per-agent state ownership, and clone/import semantics |
 | [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
 | [Evaluation](docs/EVALUATION.md) and [experiments](docs/EXPERIMENTS.md) | Scenario/result evidence contracts and reproducible execution |
 | [Testing](docs/TESTING.md) and [CI](docs/CI.md) | Test tiers, local checks, and stack-aware remote verification |

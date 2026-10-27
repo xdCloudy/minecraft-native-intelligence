@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:agent-identity:v0",
+  "title": "Persistent Minecraft Native Intelligence agent identity v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "agent_id",
+    "minecraft_profile_id",
+    "world_binding_id",
+    "revision",
+    "created_at",
+    "created_by",
+    "lifecycle_state",
+    "display",
+    "personal_state_refs"
+  ],
+  "properties": {
+    "schema_version": { "const": "agent-identity.v0" },
+    "agent_id": { "$ref": "#/$defs/uuid" },
+    "minecraft_profile_id": { "$ref": "#/$defs/uuid" },
+    "world_binding_id": { "$ref": "#/$defs/uuid" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "created_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["operator", "import"] },
+        "principal_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "lifecycle_state": {
+      "enum": ["active", "paused", "despawned", "retired"]
+    },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["username", "skin"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 16,
+          "pattern": "^[A-Za-z0-9_]+$"
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "skin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["catalog_id", "content_sha256", "model"],
+          "properties": {
+            "catalog_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+            },
+            "content_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "model": { "enum": ["classic", "slim"] }
+          }
+        }
+      }
+    },
+    "personal_state_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minecraft_state",
+        "memory",
+        "relationships",
+        "goals",
+        "personality",
+        "skills"
+      ],
+      "properties": {
+        "minecraft_state": { "$ref": "#/$defs/state_ref" },
+        "memory": { "$ref": "#/$defs/state_ref" },
+        "relationships": { "$ref": "#/$defs/state_ref" },
+        "goals": { "$ref": "#/$defs/state_ref" },
+        "personality": { "$ref": "#/$defs/state_ref" },
+        "skills": { "$ref": "#/$defs/state_ref" }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation"],
+      "properties": {
+        "operation": { "enum": ["original", "relocated", "clone"] },
+        "source_agent_id": { "$ref": "#/$defs/uuid" }
+      }
+    }
+  },
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "state_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^mni-state://agent/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/[a-z][a-z0-9-]*$"
+    }
+  }
+}
