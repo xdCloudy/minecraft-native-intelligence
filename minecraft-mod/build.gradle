@@ -58,3 +58,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_25
     withSourcesJar()
 }
+
+tasks.register('actionContractTest', JavaExec) {
+    group = 'verification'
+    description = 'Runs deterministic action-validator checks without starting Minecraft.'
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.minecraftnativeintelligence.ActionRequestValidatorContractTests'
+}

@@ -189,4 +189,4 @@ jobs:
 
       - name: Compile, package, and compile GameTests
         working-directory: minecraft-mod
-        run: ./gradlew compileJava compileGametestJava jar --no-daemon
+        run: ./gradlew compileJava compileGametestJava actionContractTest jar --no-daemon

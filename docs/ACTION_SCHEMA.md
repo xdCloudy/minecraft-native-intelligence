@@ -59,10 +59,14 @@ V0 requires an exact schema version. A consumer that does not support
 actions. Additive action kinds, fields, or lifecycle semantics require a new
 schema version; v0 consumers must not silently ignore unknown fields.
 
-These contracts do not implement action legality, tick scheduling, player
-embodiment, or adapter transport. Minecraft remains the final authority. See
+These contracts do not implement tick scheduling, player embodiment, or
+adapter transport. Minecraft remains the final authority. See
 [`ACTION_SPACE.md`](ACTION_SPACE.md), [`INFORMATION_ACCESS.md`](INFORMATION_ACCESS.md),
 and [`RUNTIME_BOUNDARY.md`](RUNTIME_BOUNDARY.md) for surrounding constraints.
+
+The current pure validation core and its adapter requirements are described in
+[`LEGAL_ACTION_VALIDATION.md`](LEGAL_ACTION_VALIDATION.md). It does not yet
+connect the request schema to a server transport or execute actions.
 
 Examples: [request](actions/example-action-request.v0.json),
 [started outcome](actions/example-action-outcome.v0.json).
