@@ -22,6 +22,7 @@ def load(path: Path) -> dict[str, Any]:
 def trial_histories(run: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     """Index every attempt deterministically; never discard failed retries."""
     histories: dict[str, dict[int, dict[str, Any]]] = {}
+    identities: dict[str, tuple[Any, Any, Any]] = {}
     trials = run.get("trials", [])
     if not isinstance(trials, list):
         raise ValueError("trials must be a list")
@@ -29,6 +30,10 @@ def trial_histories(run: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
         if not isinstance(trial, dict):
             raise ValueError("trial must be an object")
         key = f"{trial['variant_id']}|{trial['seed']}|{trial['repetition_index']}"
+        identity = (trial["variant_id"], trial["seed"], trial["repetition_index"])
+        if key in identities and identities[key] != identity:
+            raise ValueError(f"ambiguous logical trial key: {key}")
+        identities[key] = identity
         attempt = trial["attempt"]
         if type(attempt) is not int or attempt < 0:
             raise ValueError(f"{key}: attempt must be a nonnegative integer")
