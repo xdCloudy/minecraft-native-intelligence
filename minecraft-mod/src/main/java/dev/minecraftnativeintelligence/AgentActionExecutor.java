@@ -13,10 +13,12 @@ import java.util.function.Consumer;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Input;
 
 /**
@@ -75,6 +77,8 @@ public final class AgentActionExecutor {
             boolean hasInput,
             boolean started,
             boolean stopSent,
+            int startingFoodLevel,
+            int startingHandCount,
             int ticksApplied) {}
 
     private record SessionKey(UUID agentUuid, long sessionEpoch) {}
@@ -84,7 +88,7 @@ public final class AgentActionExecutor {
     private final Map<UUID, ActiveControl> active = new HashMap<>();
     private final Map<SessionKey, Set<String>> seenRequestIds = new HashMap<>();
     private final Map<UUID, Long> outcomeSequences = new HashMap<>();
-    private final Map<UUID, Integer> blockActionSequences = new HashMap<>();
+    private final Map<UUID, Integer> packetSequences = new HashMap<>();
 
     public AgentActionExecutor(AgentPlayerManager players, Consumer<Outcome> outcomeSink) {
         this.players = players;
@@ -142,7 +146,7 @@ public final class AgentActionExecutor {
         if (this.active.containsKey(player.getUUID())) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "action_conflict");
         }
-        if (!Set.of("move", "look", "jump", "mine").contains(type)) {
+        if (!Set.of("move", "look", "jump", "mine", "eat").contains(type)) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "executor_action_unsupported");
         }
         boolean hasInput = type.equals("move") || type.equals("jump");
@@ -151,8 +155,11 @@ public final class AgentActionExecutor {
                 ? optionalInt(action, "duration_ticks", 1)
                 : type.equals("jump") ? optionalInt(action, "hold_ticks", 1) : 1;
         long deadline = optionalLong(request, "deadline_game_tick", Long.MAX_VALUE);
+        int startingFoodLevel = type.equals("eat") ? player.getFoodData().getFoodLevel() : -1;
+        int startingHandCount = type.equals("eat") ? player.getItemInHand(handFor(action)).getCount() : -1;
         this.active.put(player.getUUID(), new ActiveControl(player, authoritativeAgentId, context.sessionEpoch(),
-                requestId, traceId, type, action, deadline, durationTicks, input, hasInput, false, false, 0));
+                requestId, traceId, type, action, deadline, durationTicks, input, hasInput, false, false,
+                startingFoodLevel, startingHandCount, 0));
         this.emit(player, authoritativeAgentId, context.sessionEpoch(), requestId, traceId, "accepted", null);
         return new Submission(true, "accepted");
     }
@@ -176,6 +183,7 @@ public final class AgentActionExecutor {
                 this.finishCompleted(control);
                 continue;
             }
+            if (control.actionType().equals("eat") && control.started()) continue;
             // Vanilla ignores most gameplay packets until the initial client-load
             // timeout expires. The silent server-owned player has no client ack.
             if (!player.connection.hasClientLoaded()) continue;
@@ -194,6 +202,14 @@ public final class AgentActionExecutor {
                     } else if (!control.stopSent()) {
                         this.sendBlockAction(player, pos, control.action(), ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK);
                     }
+                } else if (control.actionType().equals("eat")) {
+                    player.connection.handleUseItem(new ServerboundUseItemPacket(
+                            handFor(control.action()), this.nextPacketSequence(player), player.getYRot(), player.getXRot()));
+                    if (!player.isUsingItem()) {
+                        this.finishRejected(control, "use_not_started");
+                        continue;
+                    }
+                    this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
                 } else if (control.actionType().equals("look")) {
                     player.connection.handleMovePlayer(new ServerboundMovePlayerPacket.Rot(
                             (float) control.action().get("yaw_degrees").getAsDouble(),
@@ -202,13 +218,14 @@ public final class AgentActionExecutor {
                 } else {
                     player.connection.handlePlayerInput(new ServerboundPlayerInputPacket(control.input()));
                 }
-                if (!control.started() && !control.actionType().equals("mine")) {
+                if (!control.started() && !control.actionType().equals("mine") && !control.actionType().equals("eat")) {
                     this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
                 }
                 this.active.put(player.getUUID(), new ActiveControl(player, control.agentId(), control.sessionEpoch(),
                         control.requestId(), control.traceId(), control.actionType(), control.action(),
                         control.deadlineGameTick(), control.durationTicks(), control.input(), control.hasInput(), true,
                         control.actionType().equals("mine") ? (control.started() || control.stopSent()) : control.stopSent(),
+                        control.startingFoodLevel(), control.startingHandCount(),
                         control.ticksApplied() + 1));
             } catch (RuntimeException failure) {
                 this.finishRejected(control, "action_execution_failed");
@@ -226,6 +243,17 @@ public final class AgentActionExecutor {
                 }
                 continue;
             }
+            if (control.actionType().equals("eat")) {
+                if (!control.started() || control.player().isUsingItem()) continue;
+                int foodLevel = control.player().getFoodData().getFoodLevel();
+                int handCount = control.player().getItemInHand(handFor(control.action())).getCount();
+                if (foodLevel > control.startingFoodLevel() || handCount < control.startingHandCount()) {
+                    this.finishCompleted(control);
+                } else {
+                    this.finishRejected(control, "use_had_no_effect");
+                }
+                continue;
+            }
             if (!control.started() || control.ticksApplied() < control.durationTicks()) continue;
             if (control.hasInput() && control.player().connection != null) {
                 control.player().connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
@@ -240,7 +268,7 @@ public final class AgentActionExecutor {
         if (control != null) this.finishRejected(control, "agent_unavailable");
         this.seenRequestIds.keySet().removeIf(key -> key.agentUuid().equals(player.getUUID()));
         this.outcomeSequences.remove(player.getUUID());
-        this.blockActionSequences.remove(player.getUUID());
+        this.packetSequences.remove(player.getUUID());
     }
 
     public void stop(MinecraftServer server) {
@@ -250,7 +278,7 @@ public final class AgentActionExecutor {
         }
         this.seenRequestIds.clear();
         this.outcomeSequences.clear();
-        this.blockActionSequences.clear();
+        this.packetSequences.clear();
     }
 
     private Submission reject(ServerPlayer player, long epoch, String requestId, String traceId, String reason) {
@@ -267,6 +295,9 @@ public final class AgentActionExecutor {
         }
         if (control.hasInput() && control.player().connection != null) {
             control.player().connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
+        }
+        if (control.actionType().equals("eat") && control.started() && control.player().connection != null) {
+            this.sendPlayerAction(control.player(), ServerboundPlayerActionPacket.Action.RELEASE_USE_ITEM);
         }
         this.active.remove(control.player().getUUID());
         this.emit(control.player(), control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "rejected", reason);
@@ -303,6 +334,8 @@ public final class AgentActionExecutor {
         if (target.actionType().equals("mine") && target.started()) {
             this.sendBlockAction(player, blockPos(target.action()), target.action(),
                     ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK);
+        } else if (target.actionType().equals("eat") && target.started() && player.connection != null) {
+            this.sendPlayerAction(player, ServerboundPlayerActionPacket.Action.RELEASE_USE_ITEM);
         } else if (target.hasInput() && player.connection != null) {
             player.connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
         }
@@ -321,9 +354,17 @@ public final class AgentActionExecutor {
 
     private void sendBlockAction(ServerPlayer player, BlockPos pos, JsonObject action,
             ServerboundPlayerActionPacket.Action type) {
-        int sequence = this.blockActionSequences.getOrDefault(player.getUUID(), 0);
-        this.blockActionSequences.put(player.getUUID(), sequence == Integer.MAX_VALUE ? 0 : sequence + 1);
-        player.connection.handlePlayerAction(new ServerboundPlayerActionPacket(type, pos, blockFace(action), sequence));
+        player.connection.handlePlayerAction(new ServerboundPlayerActionPacket(type, pos, blockFace(action), this.nextPacketSequence(player)));
+    }
+
+    private void sendPlayerAction(ServerPlayer player, ServerboundPlayerActionPacket.Action type) {
+        player.connection.handlePlayerAction(new ServerboundPlayerActionPacket(type, BlockPos.ZERO, Direction.DOWN, this.nextPacketSequence(player)));
+    }
+
+    private int nextPacketSequence(ServerPlayer player) {
+        int sequence = this.packetSequences.getOrDefault(player.getUUID(), 0);
+        this.packetSequences.put(player.getUUID(), sequence == Integer.MAX_VALUE ? 0 : sequence + 1);
+        return sequence;
     }
 
     static BlockPos blockPos(JsonObject action) {
@@ -340,6 +381,10 @@ public final class AgentActionExecutor {
             case "east" -> Direction.EAST;
             default -> Direction.UP;
         };
+    }
+
+    static InteractionHand handFor(JsonObject action) {
+        return stringField(action, "hand").equals("off") ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
     }
 
     static Input inputFor(JsonObject action, String type) {

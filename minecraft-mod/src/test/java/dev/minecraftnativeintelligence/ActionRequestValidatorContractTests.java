@@ -7,6 +7,7 @@ import java.util.Set;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
 
 /** Dependency-free executable contract checks; these do not start Minecraft. */
 public final class ActionRequestValidatorContractTests {
@@ -18,6 +19,7 @@ public final class ActionRequestValidatorContractTests {
         checkEveryActionVariant();
         checkControlInputMapping();
         checkMiningTargetMapping();
+        checkEatHandMapping();
         checkOutcomeSerialization();
         equal("malformed_request", validateRaw(envelope("-1", "{\"type\":\"jump\"}")).reasonCode(), "negative observation sequence");
         equal("malformed_request", validateRaw(envelope("999999999999999999999999999999", "{\"type\":\"jump\"}")).reasonCode(), "overflow observation sequence");
@@ -28,7 +30,7 @@ public final class ActionRequestValidatorContractTests {
         equal("unsupported_capability", validateRaw(envelope("4", "{\"type\":\"eat\",\"hand\":\"main\"}")).reasonCode(), "unsupported action capability");
         equal("inventory_precondition_failed", validateRaw(envelope("4", "{\"type\":\"drop\",\"slot\":0,\"count\":1,\"whole_stack\":true}")).reasonCode(), "whole-stack count mismatch");
         equal("malformed_request", ActionRequestValidator.validate("{", context()).reasonCode(), "malformed JSON");
-        System.out.println("Native action contract checks passed (38 cases)");
+        System.out.println("Native action contract checks passed (40 cases)");
     }
 
     private static void checkControlInputMapping() {
@@ -59,6 +61,15 @@ public final class ActionRequestValidatorContractTests {
         equal(new BlockPos(2, 64, -3), AgentActionExecutor.blockPos(target), "mining block position");
         equal(Direction.NORTH, AgentActionExecutor.blockFace(target), "mining target face");
         equal(Direction.UP, AgentActionExecutor.blockFace(new JsonObject()), "default mining face");
+    }
+
+    private static void checkEatHandMapping() {
+        equal(InteractionHand.MAIN_HAND,
+                AgentActionExecutor.handFor(JsonParser.parseString("{\"hand\":\"main\"}").getAsJsonObject()),
+                "main-hand use mapping");
+        equal(InteractionHand.OFF_HAND,
+                AgentActionExecutor.handFor(JsonParser.parseString("{\"hand\":\"off\"}").getAsJsonObject()),
+                "off-hand use mapping");
     }
 
     private static void checkEveryActionVariant() {
