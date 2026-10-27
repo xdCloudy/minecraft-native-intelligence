@@ -7,7 +7,7 @@ the mod, runs `ActionRequestValidator`, applies one-action-at-a-time arbitration
 and emits correlated `action-outcome.v0` records with per-agent sequence and
 world game tick.
 
-This slice executes `move`, `look`, `jump`, `mine`, `eat`, and `select_slot`,
+This slice executes `move`, `look`, `jump`, `mine`, `eat`, `select_slot`, and `drop`,
 and can cancel the currently active action for that player. Movement and jump
 controls are translated into Minecraft's `Input` value and passed through the
 player's `ServerGamePacketListenerImpl.handlePlayerInput`; look uses its
@@ -38,6 +38,12 @@ carried-item handler and completes only after the player's selected slot
 matches the requested slot. Vanilla handles stopping a main-hand use when the
 selection changes.
 
+Dropping sends `ServerboundContainerClickPacket` with vanilla's `THROW` input
+through the player's active container handler. Partial drops remove one item
+per server tick; whole-stack drops use the ordinary stack-throw click. The
+executor maps the observed inventory slot through the active menu and completes
+only after the authoritative source stack reaches the requested count.
+
 The silent player has no client to acknowledge initial loading. The executor
 waits for vanilla's 60-tick client-load timeout before dispatching movement,
 look, mining, and item-use controls because their packet handlers gate those
@@ -47,8 +53,8 @@ Malformed requests without usable request and trace IDs return a deterministic
 submission error but cannot be represented as a correlated schema outcome.
 
 Other valid schema actions currently fail closed with
-`executor_action_unsupported`. Combat, placement, inventory, crafting,
-block/entity interaction, pickup, and chat still need executor paths and
+`executor_action_unsupported`. Combat, placement, crafting, block/entity
+interaction, pickup, and chat still need executor paths and
 ordinary-mechanics conformance evidence. The outcome sink is currently the
 mod log; `MniMod.submitAgentAction` is an ingress seam, not a network transport.
 Its caller must construct the context from current authoritative state and
@@ -57,8 +63,8 @@ session-scoped agent ID; persistent identity binding remains future work.
 
 `actionContractTest` covers request validation, control-value translation,
 mining-target, hand, and hotbar-slot mapping, and outcome serialization.
-GameTests cover vanilla-timed food consumption and carried-item selection
-through the executor, but CI only compiles them.
+GameTests cover vanilla-timed food consumption, carried-item selection, and
+counted drops through the executor, but CI only compiles them.
 CI compiles the GameTest sources but does not launch a Minecraft server. The
 runtime control path therefore remains unverified until an operator runs the
 GameTest server under the project's EULA opt-in procedure.

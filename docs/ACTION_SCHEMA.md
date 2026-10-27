@@ -70,7 +70,8 @@ a transport adapter.
 
 The initial server-side control executor is documented in
 [`NATIVE_ACTION_EXECUTION.md`](NATIVE_ACTION_EXECUTION.md); it currently
-supports movement, look, jump, mining, eating, and cancellation intentions.
+supports movement, look, jump, mining, eating, hotbar selection, dropping,
+and cancellation intentions.
 
 Examples: [request](actions/example-action-request.v0.json),
 [started outcome](actions/example-action-outcome.v0.json).

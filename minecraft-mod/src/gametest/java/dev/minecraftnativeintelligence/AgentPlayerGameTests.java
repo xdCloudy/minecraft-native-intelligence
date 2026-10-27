@@ -12,6 +12,7 @@ import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Input;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -139,6 +140,72 @@ public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
         executor.removeAgent(player);
         manager.remove(server, player.getUUID());
         helper.succeed();
+    }
+
+    @GameTest
+    public void dropActionUsesVanillaContainerClickAndHonorsCount(GameTestHelper helper) {
+        AgentPlayerManager manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        var position = helper.absolutePos(new BlockPos(1, 1, 1));
+        ServerPlayer player = manager.spawn(server, level, "MniDropAgent",
+                position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
+        player.getInventory().setItem(0, new ItemStack(Items.BREAD, 3));
+        var outcomes = new ArrayList<AgentActionExecutor.Outcome>();
+        AgentActionExecutor executor = new AgentActionExecutor(manager, outcomes::add);
+        String agentId = player.getGameProfile().id().toString();
+        ActionValidationContext context = new ActionValidationContext(agentId, 1, 0, level.getGameTime(), 0,
+                41, false, Set.of(ActionValidationContext.actionCapability("drop")), Set.of("drop"),
+                Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(),
+                Map.of(0, new ActionValidationContext.ItemState("minecraft:bread", 3, true, false, "")), Map.of());
+        var submission = executor.submit(player,
+                "{\"schema_version\":\"action-request.v0\",\"agent_id\":\"" + agentId
+                        + "\",\"session_epoch\":1,\"request_id\":\"drop-1\",\"based_on_observation_seq\":0,"
+                        + "\"trace_id\":\"drop-trace-1\",\"action\":{\"type\":\"drop\",\"slot\":0,\"count\":2}}",
+                context);
+        helper.assertTrue(submission.accepted(), "valid partial drop request is accepted");
+        executor.startServerTick(server);
+        executor.endServerTick(server);
+        helper.assertTrue(player.getInventory().getItem(0).getCount() == 2,
+                "first vanilla throw click drops one item during its tick");
+
+        helper.runAtTickTime(1, () -> {
+            executor.startServerTick(server);
+            executor.endServerTick(server);
+            helper.assertTrue(player.getInventory().getItem(0).getCount() == 1,
+                    "second vanilla throw click honors the requested total count");
+            int droppedBread = level.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4.0)).stream()
+                    .filter(item -> item.getItem().is(Items.BREAD))
+                    .mapToInt(item -> item.getItem().getCount())
+                    .sum();
+            helper.assertTrue(droppedBread == 2, "vanilla spawned exactly the requested dropped quantity");
+            helper.assertTrue(outcomes.stream().anyMatch(outcome -> outcome.status().equals("completed")),
+                    "drop completes after the requested inventory count is removed");
+            player.getInventory().setItem(1, new ItemStack(Items.APPLE, 4));
+            ActionValidationContext wholeStackContext = new ActionValidationContext(agentId, 1, 1,
+                    level.getGameTime(), 0, 41, false,
+                    Set.of(ActionValidationContext.actionCapability("drop")), Set.of("drop"),
+                    Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(),
+                    Map.of(1, new ActionValidationContext.ItemState("minecraft:apple", 4, true, false, "")), Map.of());
+            var wholeStackSubmission = executor.submit(player,
+                    "{\"schema_version\":\"action-request.v0\",\"agent_id\":\"" + agentId
+                            + "\",\"session_epoch\":1,\"request_id\":\"drop-2\",\"based_on_observation_seq\":1,"
+                            + "\"trace_id\":\"drop-trace-2\",\"action\":{\"type\":\"drop\",\"slot\":1,\"count\":4,\"whole_stack\":true}}",
+                    wholeStackContext);
+            helper.assertTrue(wholeStackSubmission.accepted(), "valid whole-stack drop is accepted");
+            executor.startServerTick(server);
+            executor.endServerTick(server);
+            helper.assertTrue(player.getInventory().getItem(1).isEmpty(),
+                    "vanilla stack-throw click removes the full requested stack");
+            int droppedApples = level.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4.0)).stream()
+                    .filter(item -> item.getItem().is(Items.APPLE))
+                    .mapToInt(item -> item.getItem().getCount())
+                    .sum();
+            helper.assertTrue(droppedApples == 4, "vanilla spawned the whole dropped stack");
+            executor.removeAgent(player);
+            manager.remove(server, player.getUUID());
+            helper.succeed();
+        });
     }
 
     private static void tickEatingAction(GameTestHelper helper, AgentActionExecutor executor,

@@ -3,6 +3,7 @@ package dev.minecraftnativeintelligence;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,16 +12,19 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemPacket;
+import net.minecraft.network.HashedStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Input;
+import net.minecraft.world.inventory.ContainerInput;
 
 /**
  * Server-thread action ingress and control executor for an owned AI player.
@@ -79,7 +83,7 @@ public final class AgentActionExecutor {
             boolean started,
             boolean stopSent,
             int startingFoodLevel,
-            int startingHandCount,
+            int startingStackCount,
             int ticksApplied) {}
 
     private record SessionKey(UUID agentUuid, long sessionEpoch) {}
@@ -147,20 +151,37 @@ public final class AgentActionExecutor {
         if (this.active.containsKey(player.getUUID())) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "action_conflict");
         }
-        if (!Set.of("move", "look", "jump", "mine", "eat", "select_slot").contains(type)) {
+        if (!Set.of("move", "look", "jump", "mine", "eat", "select_slot", "drop").contains(type)) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "executor_action_unsupported");
         }
         boolean hasInput = type.equals("move") || type.equals("jump");
         Input input = hasInput ? inputFor(action, type) : Input.EMPTY;
-        int durationTicks = type.equals("move")
+        int durationTicks = type.equals("drop")
+                ? (action.has("whole_stack") && action.get("whole_stack").getAsBoolean()
+                        ? 1 : action.get("count").getAsInt())
+                : type.equals("move")
                 ? optionalInt(action, "duration_ticks", 1)
                 : type.equals("jump") ? optionalInt(action, "hold_ticks", 1) : 1;
         long deadline = optionalLong(request, "deadline_game_tick", Long.MAX_VALUE);
-        int startingFoodLevel = type.equals("eat") ? player.getFoodData().getFoodLevel() : -1;
-        int startingHandCount = type.equals("eat") ? player.getItemInHand(handFor(action)).getCount() : -1;
+        int startingFoodLevel = -1;
+        int startingStackCount = -1;
+        if (type.equals("eat")) {
+            startingFoodLevel = player.getFoodData().getFoodLevel();
+            startingStackCount = player.getItemInHand(handFor(action)).getCount();
+        } else if (type.equals("drop")) {
+            int slot = action.get("slot").getAsInt();
+            ActionValidationContext.ItemState observed = context.inventory().get(slot);
+            if (slot >= player.getInventory().getContainerSize() || observed == null) {
+                return this.reject(player, context.sessionEpoch(), requestId, traceId, "inventory_precondition_failed");
+            }
+            startingStackCount = player.getInventory().getItem(slot).getCount();
+            if (startingStackCount != observed.count()) {
+                return this.reject(player, context.sessionEpoch(), requestId, traceId, "inventory_precondition_failed");
+            }
+        }
         this.active.put(player.getUUID(), new ActiveControl(player, authoritativeAgentId, context.sessionEpoch(),
                 requestId, traceId, type, action, deadline, durationTicks, input, hasInput, false, false,
-                startingFoodLevel, startingHandCount, 0));
+                startingFoodLevel, startingStackCount, 0));
         this.emit(player, authoritativeAgentId, context.sessionEpoch(), requestId, traceId, "accepted", null);
         return new Submission(true, "accepted");
     }
@@ -187,10 +208,13 @@ public final class AgentActionExecutor {
             if (control.actionType().equals("eat") && control.started()) continue;
             // Vanilla ignores most gameplay packets until the initial client-load
             // timeout expires; carried-slot selection does not use that packet gate.
-            if (!control.actionType().equals("select_slot") && !player.connection.hasClientLoaded()) continue;
+            if (!Set.of("select_slot", "drop").contains(control.actionType()) && !player.connection.hasClientLoaded()) continue;
 
             try {
-                if (control.actionType().equals("select_slot")) {
+                if (control.actionType().equals("drop")) {
+                    this.executeDrop(control);
+                    continue;
+                } else if (control.actionType().equals("select_slot")) {
                     int slot = hotbarSlot(control.action());
                     player.connection.handleSetCarriedItem(new ServerboundSetCarriedItemPacket(slot));
                     if (player.getInventory().getSelectedSlot() != slot) {
@@ -236,7 +260,7 @@ public final class AgentActionExecutor {
                         control.requestId(), control.traceId(), control.actionType(), control.action(),
                         control.deadlineGameTick(), control.durationTicks(), control.input(), control.hasInput(), true,
                         control.actionType().equals("mine") ? (control.started() || control.stopSent()) : control.stopSent(),
-                        control.startingFoodLevel(), control.startingHandCount(),
+                        control.startingFoodLevel(), control.startingStackCount(),
                         control.ticksApplied() + 1));
             } catch (RuntimeException failure) {
                 this.finishRejected(control, "action_execution_failed");
@@ -258,7 +282,7 @@ public final class AgentActionExecutor {
                 if (!control.started() || control.player().isUsingItem()) continue;
                 int foodLevel = control.player().getFoodData().getFoodLevel();
                 int handCount = control.player().getItemInHand(handFor(control.action())).getCount();
-                if (foodLevel > control.startingFoodLevel() || handCount < control.startingHandCount()) {
+                if (foodLevel > control.startingFoodLevel() || handCount < control.startingStackCount()) {
                     this.finishCompleted(control);
                 } else {
                     this.finishRejected(control, "use_had_no_effect");
@@ -376,6 +400,52 @@ public final class AgentActionExecutor {
         int sequence = this.packetSequences.getOrDefault(player.getUUID(), 0);
         this.packetSequences.put(player.getUUID(), sequence == Integer.MAX_VALUE ? 0 : sequence + 1);
         return sequence;
+    }
+
+    private void executeDrop(ActiveControl control) {
+        ServerPlayer player = control.player();
+        int inventorySlot = control.action().get("slot").getAsInt();
+        int requestedCount = control.action().get("count").getAsInt();
+        boolean wholeStack = control.action().has("whole_stack")
+                && control.action().get("whole_stack").getAsBoolean();
+        var menu = player.containerMenu;
+        if (!menu.getCarried().isEmpty()) {
+            this.finishRejected(control, "cursor_not_empty");
+            return;
+        }
+        int menuSlot = menu.findSlot(player.getInventory(), inventorySlot).orElse(-1);
+        if (menuSlot < 0) {
+            this.finishRejected(control, "inventory_slot_unavailable");
+            return;
+        }
+        int currentCount = player.getInventory().getItem(inventorySlot).getCount();
+        int expectedBefore = control.startingStackCount() - control.ticksApplied();
+        if (currentCount != expectedBefore || currentCount <= 0) {
+            this.finishRejected(control, "inventory_changed_during_drop");
+            return;
+        }
+
+        byte button = (byte) (wholeStack ? 1 : 0);
+        player.connection.handleContainerClick(new ServerboundContainerClickPacket(
+                menu.containerId, menu.getStateId(), (short) menuSlot, button, ContainerInput.THROW,
+                Int2ObjectMaps.emptyMap(), HashedStack.EMPTY));
+        int afterCount = player.getInventory().getItem(inventorySlot).getCount();
+        int expectedAfter = wholeStack ? 0 : currentCount - 1;
+        if (afterCount != expectedAfter) {
+            this.finishRejected(control, control.started() ? "drop_interrupted" : "drop_had_no_effect");
+            return;
+        }
+        if (!control.started()) {
+            this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
+        }
+        if (wholeStack || control.startingStackCount() - afterCount >= requestedCount) {
+            this.finishCompleted(control);
+            return;
+        }
+        this.active.put(player.getUUID(), new ActiveControl(player, control.agentId(), control.sessionEpoch(),
+                control.requestId(), control.traceId(), control.actionType(), control.action(),
+                control.deadlineGameTick(), control.durationTicks(), control.input(), control.hasInput(), true,
+                control.stopSent(), control.startingFoodLevel(), control.startingStackCount(), control.ticksApplied() + 1));
     }
 
     static BlockPos blockPos(JsonObject action) {
