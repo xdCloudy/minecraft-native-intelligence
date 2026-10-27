@@ -63,6 +63,14 @@ class ComparisonRetryIntegrityTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "nonnegative integer"):
                     trial_histories(run([trial(attempt, "failed")]))
 
+    def test_colliding_variant_and_seed_identifiers_fail_closed(self):
+        first = trial(0, "failed", "b|c")
+        first["variant_id"] = "a"
+        second = trial(0, "completed", "c")
+        second["variant_id"] = "a|b"
+        with self.assertRaisesRegex(ValueError, "ambiguous logical trial key"):
+            trial_histories(run([first, second]))
+
     def test_compare_does_not_mutate_source_trials(self):
         a = run([trial(1, "completed"), trial(0, "failed")])
         saved = copy.deepcopy(a)
