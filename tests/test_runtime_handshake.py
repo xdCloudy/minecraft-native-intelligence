@@ -59,6 +59,11 @@ class RuntimeNegotiationTests(unittest.TestCase):
         with self.assertRaises(HandshakeError):
             self.negotiate()
 
+    def test_reject_boolean_major(self):
+        self.worker["protocol"]["major"] = False
+        with self.assertRaises(HandshakeError):
+            self.negotiate()
+
     def test_reject_incompatible_minor(self):
         with self.assertRaisesRegex(HandshakeError, "minor"):
             negotiate(self.mod, self.worker, approved_checkpoint_sha256=SHA, minimum_minor=2)
@@ -95,8 +100,9 @@ class RuntimeNegotiationTests(unittest.TestCase):
             self.negotiate()
 
     def test_reject_capability_absent_on_other_peer(self):
+        self.worker["supported_capabilities"].append("action-authority")
         self.worker["required_capabilities"] = ["action-authority"]
-        with self.assertRaises(HandshakeError):
+        with self.assertRaisesRegex(HandshakeError, "Minecraft missing"):
             self.negotiate()
 
     def test_reject_self_inconsistent_requirements(self):
