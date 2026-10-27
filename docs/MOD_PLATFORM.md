@@ -282,7 +282,7 @@ No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
 
 | Gate | Evidence status |
 | --- | --- |
-| Java 25 Gradle compile and build JAR | Pending CI result |
+| Java 25 Gradle compile and build JAR | **Build passed** in [GitHub Actions run 64](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40604852954), using JDK 25.0.4 and Loom 1.19.3; Java test task had NO-SOURCE |
 | Dedicated logical-server launch and mod event | Untested |
 | Integrated single-player/LAN logical-server launch | Untested |
 | Vanilla-client compatibility and profile/tab-list presentation | Untested |
