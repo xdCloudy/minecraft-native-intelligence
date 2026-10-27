@@ -6,7 +6,9 @@
     "defaultBranchRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
     "assessedBranch": "main",
     "sourceRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
-    "historicalMainRevisions": ["000c37b7fa9e016b7f2be34d36cb28233f2ef687"],
+    "historicalMainRevisions": [
+      "000c37b7fa9e016b7f2be34d36cb28233f2ef687"
+    ],
     "note": "Reviewed main at 8622b139 after documentation-only PRs #130-#132. No Minecraft-native agent implementation was merged. All eight previously audited PRs #122-#129 were closed without merging and remain preserved as historical unmerged evidence; 101 previously open issues were closed administratively, not completed. Historic source revisions remain pinned in evidence and history. No closed issue or PR is credited as implemented, shipped, experimentally effective or validated on main."
   },
   "githubState": {
@@ -325,6 +327,54 @@
       "title": "Domain randomization research paper",
       "kind": "paper",
       "url": "https://arxiv.org/abs/1703.06907"
+    },
+    {
+      "id": "jarvis1",
+      "title": "JARVIS-1 memory-augmented multimodal Minecraft agent paper",
+      "kind": "paper",
+      "url": "https://arxiv.org/abs/2311.05997"
+    },
+    {
+      "id": "jarvis1_code",
+      "title": "JARVIS-1 official released repository (partial components)",
+      "kind": "repository",
+      "url": "https://github.com/CraftJarvis/JARVIS-1"
+    },
+    {
+      "id": "minestudio",
+      "title": "MineStudio Minecraft embodied policy research framework",
+      "kind": "repository",
+      "url": "https://github.com/CraftJarvis/MineStudio"
+    },
+    {
+      "id": "mineflayer",
+      "title": "Mineflayer external Minecraft bot reference implementation",
+      "kind": "repository",
+      "url": "https://github.com/PrismarineJS/mineflayer"
+    },
+    {
+      "id": "speculative_decoding",
+      "title": "Fast Inference from Transformers via Speculative Decoding",
+      "kind": "paper",
+      "url": "https://proceedings.mlr.press/v202/leviathan23a.html"
+    },
+    {
+      "id": "constrained_decoding",
+      "title": "Structured output constraint benchmark and studies",
+      "kind": "paper",
+      "url": "https://arxiv.org/abs/2501.10868"
+    },
+    {
+      "id": "inverse_rl",
+      "title": "Apprenticeship learning via inverse reinforcement learning",
+      "kind": "paper",
+      "url": "https://mlanthology.org/icml/2004/abbeel2004icml-apprenticeship/"
+    },
+    {
+      "id": "gnn_inductive_bias",
+      "title": "Relational inductive biases, deep learning, and graph networks",
+      "kind": "paper",
+      "url": "https://arxiv.org/abs/1806.01261"
     }
   ],
   "domains": [
@@ -2380,6 +2430,85 @@
           "remainingWork": [
             "Build and pin the experiment for navigate identical rooms from rotated headings with partial field of view; register egocentric geometry embedding versus world-relative symbolic local map and instrument orientation error, collision rate and goal reach under rotated starts.",
             "Run boundary trials for mirrored layouts, unseen exits, elevation differences and forbidden absolute coordinates; review raw failures, limitations and legal-action/observation access before updating research state."
+          ]
+        },
+        {
+          "id": "PE-014",
+          "title": "Active sensing and viewpoint selection under partial observability",
+          "objective": "Test active sensing and viewpoint selection under partial observability in the following native Minecraft case: In a cave with occluded junctions and identical-looking landmarks, let an agent choose legal camera turns and exploratory steps before selecting the return route.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against fixed-frequency observation polling and a passive belief-state policy with the same observation budget.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "refs",
+            "eval",
+            "mineflayer"
+          ],
+          "dependencies": [
+            "PE-007",
+            "AC-007"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by correct route selection, observation count, movement cost and dangerous blind-corner entries, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; camera occlusion, stale chunk events and adversarially mirrored landmarks must not reveal unsensed blocks.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: In a cave with occluded junctions and identical-looking landmarks, let an agent choose legal camera turns and exploratory steps before selecting the return route. Comparator: fixed-frequency observation polling and a passive belief-state policy with the same observation budget. Outcomes: correct route selection, observation count, movement cost and dangerous blind-corner entries. Falsifier: camera occlusion, stale chunk events and adversarially mirrored landmarks must not reveal unsensed blocks.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: In a cave with occluded junctions and identical-looking landmarks, let an agent choose legal camera turns and exploratory steps before selecting the return route.",
+            "Publish matched comparator trials against fixed-frequency observation polling and a passive belief-state policy with the same observation budget, including correct route selection, observation count, movement cost and dangerous blind-corner entries.",
+            "Exercise the negative boundary: camera occlusion, stale chunk events and adversarially mirrored landmarks must not reveal unsensed blocks.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "refs",
+            "eval",
+            "mineflayer"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over fixed-frequency observation polling and a passive belief-state policy with the same observation budget?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.7",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "perception",
+          "category": "active perception",
+          "description": "Active sensing and viewpoint selection under partial observability. Proposed native-game fixture: In a cave with occluded junctions and identical-looking landmarks, let an agent choose legal camera turns and exploratory steps before selecting the return route..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: In a cave with occluded junctions and identical-looking landmarks, let an agent choose legal camera turns and exploratory steps before selecting the return route.",
+            "Pre-register metric and adverse trial: correct route selection, observation count, movement cost and dangerous blind-corner entries; camera occlusion, stale chunk events and adversarially mirrored landmarks must not reveal unsensed blocks."
           ]
         }
       ],
@@ -4834,6 +4963,323 @@
             "Build and pin the experiment for run multiple persistent agents through navigation and chat episodes; register shared frozen foundation plus isolated state versus per-agent model copies and instrument behavior divergence, isolation failures, aggregate VRAM and serving latency.",
             "Run boundary trials for shared-cache cross-talk, one agent restart and update skew across replicas; review raw failures, limitations and legal-action/observation access before updating research state."
           ]
+        },
+        {
+          "id": "MO-018",
+          "title": "Grammar-constrained native action generation",
+          "objective": "Test grammar-constrained native action generation in the following native Minecraft case: Generate typed move, interact and inventory-action candidates from identical native state snapshots including malformed and ambiguous item references.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against unconstrained autoregressive action JSON followed by identical server-side validation and a deterministic legal-action baseline.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "constrained_decoding",
+            "actions",
+            "eval"
+          ],
+          "dependencies": [
+            "AC-004",
+            "AC-005",
+            "IN-005"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by schema-valid proposal rate, server acceptance, semantic action correctness, p95 latency and retry tokens, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; valid JSON carrying illegal reach, wrong ownership or stale entity IDs must remain rejected by the authoritative validator.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Generate typed move, interact and inventory-action candidates from identical native state snapshots including malformed and ambiguous item references. Comparator: unconstrained autoregressive action JSON followed by identical server-side validation and a deterministic legal-action baseline. Outcomes: schema-valid proposal rate, server acceptance, semantic action correctness, p95 latency and retry tokens. Falsifier: valid JSON carrying illegal reach, wrong ownership or stale entity IDs must remain rejected by the authoritative validator.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Generate typed move, interact and inventory-action candidates from identical native state snapshots including malformed and ambiguous item references.",
+            "Publish matched comparator trials against unconstrained autoregressive action JSON followed by identical server-side validation and a deterministic legal-action baseline, including schema-valid proposal rate, server acceptance, semantic action correctness, p95 latency and retry tokens.",
+            "Exercise the negative boundary: valid JSON carrying illegal reach, wrong ownership or stale entity IDs must remain rejected by the authoritative validator.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "constrained_decoding",
+            "actions",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over unconstrained autoregressive action JSON followed by identical server-side validation and a deterministic legal-action baseline?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.10",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "models",
+          "category": "structured decoding",
+          "description": "Grammar-constrained native action generation. Proposed native-game fixture: Generate typed move, interact and inventory-action candidates from identical native state snapshots including malformed and ambiguous item references..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Generate typed move, interact and inventory-action candidates from identical native state snapshots including malformed and ambiguous item references.",
+            "Pre-register metric and adverse trial: schema-valid proposal rate, server acceptance, semantic action correctness, p95 latency and retry tokens; valid JSON carrying illegal reach, wrong ownership or stale entity IDs must remain rejected by the authoritative validator."
+          ]
+        },
+        {
+          "id": "MO-019",
+          "title": "Speculative decoding, prefix reuse and KV-cache efficiency",
+          "objective": "Test speculative decoding, prefix reuse and kv-cache efficiency in the following native Minecraft case: Replay 1, 4 and 16 concurrent agents with alternating short reflex and long deliberation requests over fixed observation timelines.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against non-speculative decoding with isolated full prefixes and no cache reuse on the same checkpoint and hardware.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "speculative_decoding",
+            "scaling",
+            "runtime"
+          ],
+          "dependencies": [
+            "IN-005",
+            "IN-006",
+            "MA-007"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by accepted draft-token ratio, p50/p95/p99 decision latency, tokens per second, peak VRAM and cancelled-request recovery, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; cross-agent cache reuse, cancellation during verification or tight VRAM pressure must never contaminate another individual.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Replay 1, 4 and 16 concurrent agents with alternating short reflex and long deliberation requests over fixed observation timelines. Comparator: non-speculative decoding with isolated full prefixes and no cache reuse on the same checkpoint and hardware. Outcomes: accepted draft-token ratio, p50/p95/p99 decision latency, tokens per second, peak VRAM and cancelled-request recovery. Falsifier: cross-agent cache reuse, cancellation during verification or tight VRAM pressure must never contaminate another individual.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Replay 1, 4 and 16 concurrent agents with alternating short reflex and long deliberation requests over fixed observation timelines.",
+            "Publish matched comparator trials against non-speculative decoding with isolated full prefixes and no cache reuse on the same checkpoint and hardware, including accepted draft-token ratio, p50/p95/p99 decision latency, tokens per second, peak VRAM and cancelled-request recovery.",
+            "Exercise the negative boundary: cross-agent cache reuse, cancellation during verification or tight VRAM pressure must never contaminate another individual.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "speculative_decoding",
+            "scaling",
+            "runtime"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over non-speculative decoding with isolated full prefixes and no cache reuse on the same checkpoint and hardware?"
+          ],
+          "milestones": [
+            "v0.10",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "models",
+          "category": "inference acceleration",
+          "description": "Speculative decoding, prefix reuse and KV-cache efficiency. Proposed native-game fixture: Replay 1, 4 and 16 concurrent agents with alternating short reflex and long deliberation requests over fixed observation timelines..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Replay 1, 4 and 16 concurrent agents with alternating short reflex and long deliberation requests over fixed observation timelines.",
+            "Pre-register metric and adverse trial: accepted draft-token ratio, p50/p95/p99 decision latency, tokens per second, peak VRAM and cancelled-request recovery; cross-agent cache reuse, cancellation during verification or tight VRAM pressure must never contaminate another individual."
+          ]
+        },
+        {
+          "id": "MO-020",
+          "title": "Budget-aware specialist routing versus shared generalist policy",
+          "objective": "Test budget-aware specialist routing versus shared generalist policy in the following native Minecraft case: Route mixed combat, crafting, dialogue and navigation episodes through available expert policies at a fixed total GPU memory ceiling.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against single generalist and static expert dispatch with equivalent action budget and model/data provenance.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "research",
+            "scaling"
+          ],
+          "dependencies": [
+            "MO-014",
+            "IN-005",
+            "MA-008"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by per-domain held-out task success, routing errors, tail latency, model load costs and peak combined RAM/VRAM, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; ambiguous task classifications, unavailable experts and route oscillation must fall back safely without losing agent state.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Route mixed combat, crafting, dialogue and navigation episodes through available expert policies at a fixed total GPU memory ceiling. Comparator: single generalist and static expert dispatch with equivalent action budget and model/data provenance. Outcomes: per-domain held-out task success, routing errors, tail latency, model load costs and peak combined RAM/VRAM. Falsifier: ambiguous task classifications, unavailable experts and route oscillation must fall back safely without losing agent state.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Route mixed combat, crafting, dialogue and navigation episodes through available expert policies at a fixed total GPU memory ceiling.",
+            "Publish matched comparator trials against single generalist and static expert dispatch with equivalent action budget and model/data provenance, including per-domain held-out task success, routing errors, tail latency, model load costs and peak combined RAM/VRAM.",
+            "Exercise the negative boundary: ambiguous task classifications, unavailable experts and route oscillation must fall back safely without losing agent state.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "research",
+            "scaling"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over single generalist and static expert dispatch with equivalent action budget and model/data provenance?"
+          ],
+          "milestones": [
+            "v0.7",
+            "v0.10",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "models",
+          "category": "model routing",
+          "description": "Budget-aware specialist routing versus shared generalist policy. Proposed native-game fixture: Route mixed combat, crafting, dialogue and navigation episodes through available expert policies at a fixed total GPU memory ceiling..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Route mixed combat, crafting, dialogue and navigation episodes through available expert policies at a fixed total GPU memory ceiling.",
+            "Pre-register metric and adverse trial: per-domain held-out task success, routing errors, tail latency, model load costs and peak combined RAM/VRAM; ambiguous task classifications, unavailable experts and route oscillation must fall back safely without losing agent state."
+          ]
+        },
+        {
+          "id": "MO-021",
+          "title": "Graph-neural relational scene and world-state encoding",
+          "objective": "Compare graph-network relation updates against voxel attention and flat symbolic features for village trades, portal links and moving entities on held-out Minecraft world graphs.",
+          "approaches": [
+            "Typed entity/place/region graph networks with edge updates from native observations.",
+            "Matched controls: flattened symbolic features and voxel/transformer scene encoders.",
+            "Ablate graph structure, edge staleness and message-passing depth under fixed training/inference budgets."
+          ],
+          "priorWork": [
+            "gnn_inductive_bias",
+            "refs",
+            "obs"
+          ],
+          "dependencies": [
+            "PE-005",
+            "PE-011",
+            "ME-017"
+          ],
+          "benefit": "Potential relational generalization to new structures, item/entity relations and village/portal networks at lower dense-context cost.",
+          "limitations": "MNI has no graph-network results; graph building, dynamic updates and privacy filtering may cost more than they save. Source paper is general, not Minecraft performance proof.",
+          "computationalRequirements": "Unmeasured. Report training accelerators, graph sizes, per-tick construction cost, CPU/GPU/VRAM/RAM, policy p95/p99 and server MSPT.",
+          "implementationRequirements": "Versioned legal native observations, stable entity relation identities, stale-edge rules, graph feature schema and same policy/action head as comparators.",
+          "methodology": "Fixture: learn 3 worlds with changing villager workstation links, entity movement and portal connectivity, then evaluate unseen layouts. Compare dynamic typed graph networks to flat and voxel-attention encoders with matched action/compute budgets. Measure task success, graph update cost, cross-map transfer, p95 latency and hallucinated relation rate. Falsify with stale chunk boundaries and renamed entities.",
+          "acceptanceCriteria": [
+            "Publish typed graph feature/edge ontology with permission and version boundaries; use only sensed world state.",
+            "Evaluate three distinct dynamic worlds and held-out layouts against flat symbolic and voxel-attention controls with identical legal actions.",
+            "Report graph build/update CPU time, GPU memory, policy p95/p99, relation errors and downstream task completion with confidence intervals.",
+            "Inject stale edges, duplicated entity names and chunk unload; never treat unseen relations as known truth."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "gnn_inductive_bias",
+            "refs",
+            "obs"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Do graph inductive biases help generalization over unseen layouts after accounting for graph construction and update cost?",
+            "How should uncertain, contradictory and temporal edges be represented without privileged entity/world access?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.7",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "models",
+          "category": "graph neural representations",
+          "description": "Evaluate dynamically updated entity, block-region, item and place relations as graph-neural inputs to a legal-action policy.",
+          "scope": "Bounded representation hypothesis. World topology and relations available only through legal sensing; no oracle graph or unseen chunk access.",
+          "priority": 3,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Define a native-game, versioned graph fixture and relation schema with privacy restrictions.",
+            "Pre-register held-out environments, compute budget, edge staleness and legal action outcome comparisons."
+          ]
         }
       ],
       "description": "Shared foundation model candidates, modalities, objectives, training data, inference and personalization; no architecture is selected.",
@@ -6595,6 +7041,167 @@
             "Build and pin the experiment for monitor sustained task failure and trigger optional bounded learning update; register explicit opt-in checkpoint gate versus automatic background update and instrument false update triggers, validated skill gain and rollback frequency.",
             "Run boundary trials for poisoned demonstrations, update during unsafe action and missing consent; review raw failures, limitations and legal-action/observation access before updating research state."
           ]
+        },
+        {
+          "id": "LR-023",
+          "title": "Inverse reinforcement learning from native Survival demonstrations",
+          "objective": "Test inverse reinforcement learning from native survival demonstrations in the following native Minecraft case: Collect consented wood-to-shelter expert trajectories with variable risk and resource constraints, then infer reward preferences from allowed state features.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against behavior cloning and hand-specified reward features on identical train/held-out world splits.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "inverse_rl",
+            "minerl",
+            "data_governance",
+            "minestudio"
+          ],
+          "dependencies": [
+            "DP-001",
+            "DP-006",
+            "LR-004",
+            "SG-010"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by held-out policy task success, inferred preference alignment, unsafe shortcut frequency and demonstration efficiency, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; spurious reward inferred from demonstrator equipment or hidden world state must fail provenance and transfer tests.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Collect consented wood-to-shelter expert trajectories with variable risk and resource constraints, then infer reward preferences from allowed state features. Comparator: behavior cloning and hand-specified reward features on identical train/held-out world splits. Outcomes: held-out policy task success, inferred preference alignment, unsafe shortcut frequency and demonstration efficiency. Falsifier: spurious reward inferred from demonstrator equipment or hidden world state must fail provenance and transfer tests.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Collect consented wood-to-shelter expert trajectories with variable risk and resource constraints, then infer reward preferences from allowed state features.",
+            "Publish matched comparator trials against behavior cloning and hand-specified reward features on identical train/held-out world splits, including held-out policy task success, inferred preference alignment, unsafe shortcut frequency and demonstration efficiency.",
+            "Exercise the negative boundary: spurious reward inferred from demonstrator equipment or hidden world state must fail provenance and transfer tests.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "inverse_rl",
+            "minerl",
+            "data_governance",
+            "minestudio"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over behavior cloning and hand-specified reward features on identical train/held-out world splits?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.8",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "learning",
+          "category": "inverse reinforcement learning",
+          "description": "Inverse reinforcement learning from native Survival demonstrations. Proposed native-game fixture: Collect consented wood-to-shelter expert trajectories with variable risk and resource constraints, then infer reward preferences from allowed state features..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 3,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Collect consented wood-to-shelter expert trajectories with variable risk and resource constraints, then infer reward preferences from allowed state features.",
+            "Pre-register metric and adverse trial: held-out policy task success, inferred preference alignment, unsafe shortcut frequency and demonstration efficiency; spurious reward inferred from demonstrator equipment or hidden world state must fail provenance and transfer tests."
+          ]
+        },
+        {
+          "id": "LR-024",
+          "title": "Active preference queries for build and safety trade-offs",
+          "objective": "Test active preference queries for build and safety trade-offs in the following native Minecraft case: Present paired legally constructible shelter alternatives differing in lighting, resource expenditure and terrain damage for opt-in comparison judgments.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against passive preference labels and static weighted objectives with matched human-query cost.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "data_governance",
+            "eval"
+          ],
+          "dependencies": [
+            "DP-010",
+            "LR-015",
+            "BU-012",
+            "SG-009"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by query efficiency, held-out preference consistency, build feasibility, annotator disagreement and reward-hacking incidence, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; contradictory ratings, private annotator information and unsafe highly rated designs must not silently override survival constraints.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Present paired legally constructible shelter alternatives differing in lighting, resource expenditure and terrain damage for opt-in comparison judgments. Comparator: passive preference labels and static weighted objectives with matched human-query cost. Outcomes: query efficiency, held-out preference consistency, build feasibility, annotator disagreement and reward-hacking incidence. Falsifier: contradictory ratings, private annotator information and unsafe highly rated designs must not silently override survival constraints.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Present paired legally constructible shelter alternatives differing in lighting, resource expenditure and terrain damage for opt-in comparison judgments.",
+            "Publish matched comparator trials against passive preference labels and static weighted objectives with matched human-query cost, including query efficiency, held-out preference consistency, build feasibility, annotator disagreement and reward-hacking incidence.",
+            "Exercise the negative boundary: contradictory ratings, private annotator information and unsafe highly rated designs must not silently override survival constraints.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "data_governance",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over passive preference labels and static weighted objectives with matched human-query cost?"
+          ],
+          "milestones": [
+            "v0.8",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "learning",
+          "category": "active preference learning",
+          "description": "Active preference queries for build and safety trade-offs. Proposed native-game fixture: Present paired legally constructible shelter alternatives differing in lighting, resource expenditure and terrain damage for opt-in comparison judgments..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 3,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Present paired legally constructible shelter alternatives differing in lighting, resource expenditure and terrain damage for opt-in comparison judgments.",
+            "Pre-register metric and adverse trial: query efficiency, held-out preference consistency, build feasibility, annotator disagreement and reward-hacking incidence; contradictory ratings, private annotator information and unsafe highly rated designs must not silently override survival constraints."
+          ]
         }
       ],
       "description": "Online learning, imitation, reinforcement, exploration, retention and safe update policy.",
@@ -7781,6 +8388,83 @@
             "Build and pin the experiment for supply a novel obstacle requiring combinations of blocks and tools; register adaptive tool-use search versus fixed recipe/macro library and instrument novel solution discovery, resource efficiency and constraint satisfaction.",
             "Run boundary trials for illegal inventory shortcuts, destructive griefing and repeating invalid attempts; review raw failures, limitations and legal-action/observation access before updating research state."
           ]
+        },
+        {
+          "id": "CO-016",
+          "title": "Belief-state contingent planning and risk-sensitive tree search",
+          "objective": "Test belief-state contingent planning and risk-sensitive tree search in the following native Minecraft case: Navigate an unknown ravine crossing where bridge resources, hostile entities and safe detours are revealed only through ordinary exploration.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against deterministic shortest path, receding-horizon replanning and no-search learned policy under matched action and compute budgets.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "research",
+            "eval"
+          ],
+          "dependencies": [
+            "PE-03",
+            "CO-006",
+            "AC-006"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by completion and survival rates, regret under newly revealed obstacles, node expansions, server ticks and replanning cost, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; hallucinated paths, impossible branches and privileged map knowledge must not improve reported planning success.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Navigate an unknown ravine crossing where bridge resources, hostile entities and safe detours are revealed only through ordinary exploration. Comparator: deterministic shortest path, receding-horizon replanning and no-search learned policy under matched action and compute budgets. Outcomes: completion and survival rates, regret under newly revealed obstacles, node expansions, server ticks and replanning cost. Falsifier: hallucinated paths, impossible branches and privileged map knowledge must not improve reported planning success.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Navigate an unknown ravine crossing where bridge resources, hostile entities and safe detours are revealed only through ordinary exploration.",
+            "Publish matched comparator trials against deterministic shortest path, receding-horizon replanning and no-search learned policy under matched action and compute budgets, including completion and survival rates, regret under newly revealed obstacles, node expansions, server ticks and replanning cost.",
+            "Exercise the negative boundary: hallucinated paths, impossible branches and privileged map knowledge must not improve reported planning success.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "research",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over deterministic shortest path, receding-horizon replanning and no-search learned policy under matched action and compute budgets?"
+          ],
+          "milestones": [
+            "v0.7",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "cognition",
+          "category": "planning under uncertainty",
+          "description": "Belief-state contingent planning and risk-sensitive tree search. Proposed native-game fixture: Navigate an unknown ravine crossing where bridge resources, hostile entities and safe detours are revealed only through ordinary exploration..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Navigate an unknown ravine crossing where bridge resources, hostile entities and safe detours are revealed only through ordinary exploration.",
+            "Pre-register metric and adverse trial: completion and survival rates, regret under newly revealed obstacles, node expansions, server ticks and replanning cost; hallucinated paths, impossible branches and privileged map knowledge must not improve reported planning success."
+          ]
         }
       ],
       "description": "Reactive control, working context, planning, goal arbitration, self-initiation and temporal hierarchy.",
@@ -8961,6 +9645,241 @@
           "remainingWork": [
             "Build and pin the experiment for compare house designs across biomes for function and originality; register blinded novelty rating plus functional score versus block-overlap heuristic and instrument design diversity, human agreement and shelter usability.",
             "Run boundary trials for cosmetic random noise, copied templates and nonfunctional novelty; review raw failures, limitations and legal-action/observation access before updating research state."
+          ]
+        },
+        {
+          "id": "BU-016",
+          "title": "Natural-language-to-voxel build specification and clarification",
+          "objective": "Test natural-language-to-voxel build specification and clarification in the following native Minecraft case: Translate ambiguous requests such as a two-storey mob-safe spruce house with a cellar into constraints, dimensions, materials and a preview before any block placement.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against fixed template selection and language-only plan without structured constraint checks.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "refs",
+            "eval",
+            "mindcraft"
+          ],
+          "dependencies": [
+            "BU-004",
+            "BU-006",
+            "LS-005"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by constraint satisfaction, feasible material bill, clarification quality and plan-to-built discrepancy, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; contradictory height/material constraints and protected build locations must produce explicit questions or safe infeasibility reports.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Translate ambiguous requests such as a two-storey mob-safe spruce house with a cellar into constraints, dimensions, materials and a preview before any block placement. Comparator: fixed template selection and language-only plan without structured constraint checks. Outcomes: constraint satisfaction, feasible material bill, clarification quality and plan-to-built discrepancy. Falsifier: contradictory height/material constraints and protected build locations must produce explicit questions or safe infeasibility reports.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Translate ambiguous requests such as a two-storey mob-safe spruce house with a cellar into constraints, dimensions, materials and a preview before any block placement.",
+            "Publish matched comparator trials against fixed template selection and language-only plan without structured constraint checks, including constraint satisfaction, feasible material bill, clarification quality and plan-to-built discrepancy.",
+            "Exercise the negative boundary: contradictory height/material constraints and protected build locations must produce explicit questions or safe infeasibility reports.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "refs",
+            "eval",
+            "mindcraft"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over fixed template selection and language-only plan without structured constraint checks?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.7",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "construction",
+          "category": "natural-language building",
+          "description": "Natural-language-to-voxel build specification and clarification. Proposed native-game fixture: Translate ambiguous requests such as a two-storey mob-safe spruce house with a cellar into constraints, dimensions, materials and a preview before any block placement..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Translate ambiguous requests such as a two-storey mob-safe spruce house with a cellar into constraints, dimensions, materials and a preview before any block placement.",
+            "Pre-register metric and adverse trial: constraint satisfaction, feasible material bill, clarification quality and plan-to-built discrepancy; contradictory height/material constraints and protected build locations must produce explicit questions or safe infeasibility reports."
+          ]
+        },
+        {
+          "id": "BU-017",
+          "title": "Image- and example-conditioned structure reconstruction",
+          "objective": "Test image- and example-conditioned structure reconstruction in the following native Minecraft case: Infer a Minecraft-valid 3D exterior from one reference screenshot and a partial in-world view with unseen rear walls.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against literal visible-block tracing and a geometric primitive baseline with the same permitted inputs.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "refs",
+            "eval"
+          ],
+          "dependencies": [
+            "BU-004",
+            "PE-013",
+            "BU-010"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by visible-surface voxel agreement, occluded-region uncertainty calibration, Survival placement feasibility and final build edit distance, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; unobserved interiors and hidden rear materials must be labeled as hypotheses, not claimed as observed source facts.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Infer a Minecraft-valid 3D exterior from one reference screenshot and a partial in-world view with unseen rear walls. Comparator: literal visible-block tracing and a geometric primitive baseline with the same permitted inputs. Outcomes: visible-surface voxel agreement, occluded-region uncertainty calibration, Survival placement feasibility and final build edit distance. Falsifier: unobserved interiors and hidden rear materials must be labeled as hypotheses, not claimed as observed source facts.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Infer a Minecraft-valid 3D exterior from one reference screenshot and a partial in-world view with unseen rear walls.",
+            "Publish matched comparator trials against literal visible-block tracing and a geometric primitive baseline with the same permitted inputs, including visible-surface voxel agreement, occluded-region uncertainty calibration, Survival placement feasibility and final build edit distance.",
+            "Exercise the negative boundary: unobserved interiors and hidden rear materials must be labeled as hypotheses, not claimed as observed source facts.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "refs",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over literal visible-block tracing and a geometric primitive baseline with the same permitted inputs?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.7",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "construction",
+          "category": "vision-grounded building",
+          "description": "Image- and example-conditioned structure reconstruction. Proposed native-game fixture: Infer a Minecraft-valid 3D exterior from one reference screenshot and a partial in-world view with unseen rear walls..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Infer a Minecraft-valid 3D exterior from one reference screenshot and a partial in-world view with unseen rear walls.",
+            "Pre-register metric and adverse trial: visible-surface voxel agreement, occluded-region uncertainty calibration, Survival placement feasibility and final build edit distance; unobserved interiors and hidden rear materials must be labeled as hypotheses, not claimed as observed source facts."
+          ]
+        },
+        {
+          "id": "BU-018",
+          "title": "Versioned blueprint execution state and design revision",
+          "objective": "Test versioned blueprint execution state and design revision in the following native Minecraft case: Resume a partially placed bridge and house after world reload, block destruction and a player-requested room extension.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against stateless reconstruct-from-blueprint execution with equivalent action limits.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "embed",
+            "eval"
+          ],
+          "dependencies": [
+            "BU-008",
+            "BU-010",
+            "ME-015"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by idempotent placements, resource ledger error, correction actions, completion rate and rollback consistency, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; out-of-date plan versions, obstructed foundations and destructive edits to another player property must fail safely.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Resume a partially placed bridge and house after world reload, block destruction and a player-requested room extension. Comparator: stateless reconstruct-from-blueprint execution with equivalent action limits. Outcomes: idempotent placements, resource ledger error, correction actions, completion rate and rollback consistency. Falsifier: out-of-date plan versions, obstructed foundations and destructive edits to another player property must fail safely.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Resume a partially placed bridge and house after world reload, block destruction and a player-requested room extension.",
+            "Publish matched comparator trials against stateless reconstruct-from-blueprint execution with equivalent action limits, including idempotent placements, resource ledger error, correction actions, completion rate and rollback consistency.",
+            "Exercise the negative boundary: out-of-date plan versions, obstructed foundations and destructive edits to another player property must fail safely.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "embed",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over stateless reconstruct-from-blueprint execution with equivalent action limits?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "construction",
+          "category": "construction state",
+          "description": "Versioned blueprint execution state and design revision. Proposed native-game fixture: Resume a partially placed bridge and house after world reload, block destruction and a player-requested room extension..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Resume a partially placed bridge and house after world reload, block destruction and a player-requested room extension.",
+            "Pre-register metric and adverse trial: idempotent placements, resource ledger error, correction actions, completion rate and rollback consistency; out-of-date plan versions, obstructed foundations and destructive edits to another player property must fail safely."
           ]
         }
       ],
@@ -10251,6 +11170,88 @@
           "remainingWork": [
             "Build and pin the experiment for teach a new tool skill after several stable movement and crafting skills; register gated adaptation with replay versus naive finetune and instrument old-task retention, new-task gain and rollback correctness.",
             "Run boundary trials for distribution shift, replay collapse and overadaptation; review raw failures, limitations and legal-action/observation access before updating research state."
+          ]
+        },
+        {
+          "id": "ME-017",
+          "title": "Knowledge-graph relations and temporally scoped world beliefs",
+          "objective": "Test knowledge-graph relations and temporally scoped world beliefs in the following native Minecraft case: Remember a village trading hall after workstation reassignment, villager migration and changed portal links across sessions.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against document-only retrieval and flat key-value memory with equal storage and observation access.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "research",
+            "eval",
+            "jarvis1",
+            "jarvis1_code"
+          ],
+          "dependencies": [
+            "ME-006",
+            "ME-010",
+            "ME-012"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by relation retrieval precision, contradiction resolution, stale-belief rate, update cost and downstream action success, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; obsolete villager trades, duplicated entity names and unobserved world changes must not be promoted to ground truth.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Remember a village trading hall after workstation reassignment, villager migration and changed portal links across sessions. Comparator: document-only retrieval and flat key-value memory with equal storage and observation access. Outcomes: relation retrieval precision, contradiction resolution, stale-belief rate, update cost and downstream action success. Falsifier: obsolete villager trades, duplicated entity names and unobserved world changes must not be promoted to ground truth.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Remember a village trading hall after workstation reassignment, villager migration and changed portal links across sessions.",
+            "Publish matched comparator trials against document-only retrieval and flat key-value memory with equal storage and observation access, including relation retrieval precision, contradiction resolution, stale-belief rate, update cost and downstream action success.",
+            "Exercise the negative boundary: obsolete villager trades, duplicated entity names and unobserved world changes must not be promoted to ground truth.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "research",
+            "eval",
+            "jarvis1",
+            "jarvis1_code"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over document-only retrieval and flat key-value memory with equal storage and observation access?"
+          ],
+          "milestones": [
+            "v0.4",
+            "v0.7",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "memory",
+          "category": "structured memory",
+          "description": "Knowledge-graph relations and temporally scoped world beliefs. Proposed native-game fixture: Remember a village trading hall after workstation reassignment, villager migration and changed portal links across sessions..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 3,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Remember a village trading hall after workstation reassignment, villager migration and changed portal links across sessions.",
+            "Pre-register metric and adverse trial: relation retrieval precision, contradiction resolution, stale-belief rate, update cost and downstream action success; obsolete villager trades, duplicated entity names and unobserved world changes must not be promoted to ground truth."
           ]
         }
       ],
@@ -12265,6 +13266,83 @@
             "Build and pin the experiment for replay seeded headless Minecraft episodes at normal and accelerated pacing; register exact-state deterministic replay versus approximate offline simulator and instrument action/event divergence, reproduction rate and speedup.",
             "Run boundary trials for nondeterministic mob AI, different tick ordering and plugin interference; review raw failures, limitations and legal-action/observation access before updating research state."
           ]
+        },
+        {
+          "id": "IN-016",
+          "title": "Per-agent KV-cache lifecycle, eviction and contamination isolation",
+          "objective": "Test per-agent kv-cache lifecycle, eviction and contamination isolation in the following native Minecraft case: Interleave loaded, paused, dead and respawned individuals across shared inference workers while forcing context truncation and cache eviction.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against no-cache stateless serving plus an isolated cache-per-agent reference.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "runtime",
+            "scaling"
+          ],
+          "dependencies": [
+            "IN-005",
+            "IN-009",
+            "MA-007"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by cross-identity response contamination, cache hit rate, memory peak, p99 inference delay and recovery correctness, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; identity reuse, model hot-swap and stale-cache resumption must never expose private episodic tokens to another agent.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Interleave loaded, paused, dead and respawned individuals across shared inference workers while forcing context truncation and cache eviction. Comparator: no-cache stateless serving plus an isolated cache-per-agent reference. Outcomes: cross-identity response contamination, cache hit rate, memory peak, p99 inference delay and recovery correctness. Falsifier: identity reuse, model hot-swap and stale-cache resumption must never expose private episodic tokens to another agent.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Interleave loaded, paused, dead and respawned individuals across shared inference workers while forcing context truncation and cache eviction.",
+            "Publish matched comparator trials against no-cache stateless serving plus an isolated cache-per-agent reference, including cross-identity response contamination, cache hit rate, memory peak, p99 inference delay and recovery correctness.",
+            "Exercise the negative boundary: identity reuse, model hot-swap and stale-cache resumption must never expose private episodic tokens to another agent.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "runtime",
+            "scaling"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over no-cache stateless serving plus an isolated cache-per-agent reference?"
+          ],
+          "milestones": [
+            "v0.10",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "infrastructure",
+          "category": "context and cache isolation",
+          "description": "Per-agent KV-cache lifecycle, eviction and contamination isolation. Proposed native-game fixture: Interleave loaded, paused, dead and respawned individuals across shared inference workers while forcing context truncation and cache eviction..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Interleave loaded, paused, dead and respawned individuals across shared inference workers while forcing context truncation and cache eviction.",
+            "Pre-register metric and adverse trial: cross-identity response contamination, cache hit rate, memory peak, p99 inference delay and recovery correctness; identity reuse, model hot-swap and stale-cache resumption must never expose private episodic tokens to another agent."
+          ]
         }
       ],
       "description": "Runtime bridge, scheduling, shared inference, persistence, operations, observability and compute scaling.",
@@ -13615,6 +14693,160 @@
           "remainingWork": [
             "Build and pin the experiment for reproduce failed navigation and crafting cases with blinded independent seeds; register preregistered negative-case suite versus developer-only cherry-picked successes and instrument failure category recall, reproducibility and fix regression rates.",
             "Run boundary trials for unreproduced flaky bug, skipped failed run and unreported negative result; review raw failures, limitations and legal-action/observation access before updating research state."
+          ]
+        },
+        {
+          "id": "EV-018",
+          "title": "Separate blueprint planning, material delivery and in-world construction success",
+          "objective": "Test separate blueprint planning, material delivery and in-world construction success in the following native Minecraft case: Evaluate the same three staged builds after blueprint generation, procurement, placement, inspection and interrupted recovery.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against plan-only scoring and template-build scripting as disclosed non-learned controls.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "eval",
+            "embed"
+          ],
+          "dependencies": [
+            "BU-016",
+            "BU-018",
+            "EV-008"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by plan validity, material fulfilment, exact legal placements, structural checks, total recovery cost and completed-project rate, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; an excellent blueprint followed by zero placements, creative-mode item injection or post-hoc evaluator repair must not count as a built structure.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Evaluate the same three staged builds after blueprint generation, procurement, placement, inspection and interrupted recovery. Comparator: plan-only scoring and template-build scripting as disclosed non-learned controls. Outcomes: plan validity, material fulfilment, exact legal placements, structural checks, total recovery cost and completed-project rate. Falsifier: an excellent blueprint followed by zero placements, creative-mode item injection or post-hoc evaluator repair must not count as a built structure.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Evaluate the same three staged builds after blueprint generation, procurement, placement, inspection and interrupted recovery.",
+            "Publish matched comparator trials against plan-only scoring and template-build scripting as disclosed non-learned controls, including plan validity, material fulfilment, exact legal placements, structural checks, total recovery cost and completed-project rate.",
+            "Exercise the negative boundary: an excellent blueprint followed by zero placements, creative-mode item injection or post-hoc evaluator repair must not count as a built structure.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "eval",
+            "embed"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over plan-only scoring and template-build scripting as disclosed non-learned controls?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "evaluation",
+          "category": "construction evaluation",
+          "description": "Separate blueprint planning, material delivery and in-world construction success. Proposed native-game fixture: Evaluate the same three staged builds after blueprint generation, procurement, placement, inspection and interrupted recovery..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Evaluate the same three staged builds after blueprint generation, procurement, placement, inspection and interrupted recovery.",
+            "Pre-register metric and adverse trial: plan validity, material fulfilment, exact legal placements, structural checks, total recovery cost and completed-project rate; an excellent blueprint followed by zero placements, creative-mode item injection or post-hoc evaluator repair must not count as a built structure."
+          ]
+        },
+        {
+          "id": "EV-019",
+          "title": "Tail-latency and Minecraft TPS co-evaluation under inference load",
+          "objective": "Test tail-latency and minecraft tps co-evaluation under inference load in the following native Minecraft case: Run fixed multiplayer navigation and mining traces under one, four and sixteen cognition schedules with injected slow model responses.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against inference disabled, single-agent serving and unrestricted synchronous request scheduling as a negative control.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "runtime",
+            "eval"
+          ],
+          "dependencies": [
+            "MI-010",
+            "IN-006",
+            "EV-013"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by server MSPT/TPS, action-deadline misses, p50/p95/p99 decision latency, queue unfairness and recovery count, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; stalled inference must never block the game tick thread or silently skip legal action verification.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Run fixed multiplayer navigation and mining traces under one, four and sixteen cognition schedules with injected slow model responses. Comparator: inference disabled, single-agent serving and unrestricted synchronous request scheduling as a negative control. Outcomes: server MSPT/TPS, action-deadline misses, p50/p95/p99 decision latency, queue unfairness and recovery count. Falsifier: stalled inference must never block the game tick thread or silently skip legal action verification.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Run fixed multiplayer navigation and mining traces under one, four and sixteen cognition schedules with injected slow model responses.",
+            "Publish matched comparator trials against inference disabled, single-agent serving and unrestricted synchronous request scheduling as a negative control, including server MSPT/TPS, action-deadline misses, p50/p95/p99 decision latency, queue unfairness and recovery count.",
+            "Exercise the negative boundary: stalled inference must never block the game tick thread or silently skip legal action verification.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "runtime",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over inference disabled, single-agent serving and unrestricted synchronous request scheduling as a negative control?"
+          ],
+          "milestones": [
+            "v0.10",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "evaluation",
+          "category": "performance evaluation",
+          "description": "Tail-latency and Minecraft TPS co-evaluation under inference load. Proposed native-game fixture: Run fixed multiplayer navigation and mining traces under one, four and sixteen cognition schedules with injected slow model responses..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Run fixed multiplayer navigation and mining traces under one, four and sixteen cognition schedules with injected slow model responses.",
+            "Pre-register metric and adverse trial: server MSPT/TPS, action-deadline misses, p50/p95/p99 decision latency, queue unfairness and recovery count; stalled inference must never block the game tick thread or silently skip legal action verification."
           ]
         }
       ],
@@ -15932,6 +17164,83 @@
           "remainingWork": [
             "What shared batching and scheduling policy meets server tick and per-agent latency budgets?",
             "At what population size do inference, memory, identity persistence or the Minecraft server become limiting?"
+          ]
+        },
+        {
+          "id": "MA-015",
+          "title": "Shared-resource contention and cooperative deadlock recovery",
+          "objective": "Test shared-resource contention and cooperative deadlock recovery in the following native Minecraft case: Assign four AI players overlapping chest access, furnace queues and scaffold positions on a joint build.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against independent uncoordinated policies and scripted centralized allocation with legal actions.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "priorWork": [
+            "scaling",
+            "eval"
+          ],
+          "dependencies": [
+            "MA-007",
+            "LS-009",
+            "GP-048"
+          ],
+          "benefit": "May improve agent capability or efficiency measured by deadlock incidence, mean wait ticks, fairness, task throughput and contested-resource corruption, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; permanent waiting cycles, stale reservation after death and one agent accessing another private memory must be detected and recovered.",
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "methodology": "Fixture: Assign four AI players overlapping chest access, furnace queues and scaffold positions on a joint build. Comparator: independent uncoordinated policies and scripted centralized allocation with legal actions. Outcomes: deadlock incidence, mean wait ticks, fairness, task throughput and contested-resource corruption. Falsifier: permanent waiting cycles, stale reservation after death and one agent accessing another private memory must be detected and recovered.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Assign four AI players overlapping chest access, furnace queues and scaffold positions on a joint build.",
+            "Publish matched comparator trials against independent uncoordinated policies and scripted centralized allocation with legal actions, including deadlock incidence, mean wait ticks, fairness, task throughput and contested-resource corruption.",
+            "Exercise the negative boundary: permanent waiting cycles, stale reservation after death and one agent accessing another private memory must be detected and recovered.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "evidence": [
+            "scaling",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over independent uncoordinated policies and scripted centralized allocation with legal actions?"
+          ],
+          "milestones": [
+            "v0.9",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "workstream": "multi-agent-infrastructure",
+          "category": "cooperative scheduling",
+          "description": "Shared-resource contention and cooperative deadlock recovery. Proposed native-game fixture: Assign four AI players overlapping chest access, furnace queues and scaffold positions on a joint build..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Assign four AI players overlapping chest access, furnace queues and scaffold positions on a joint build.",
+            "Pre-register metric and adverse trial: deadlock incidence, mean wait ticks, fairness, task throughput and contested-resource corruption; permanent waiting cycles, stale reservation after death and one agent accessing another private memory must be detected and recovered."
           ]
         }
       ]
@@ -20918,6 +22227,170 @@
             "failureBoundary": "Unseen recipes, biomes, hazards or players expose limitations rather than cached answer lookup.",
             "evidenceRequired": "Pinned in-game Survival trials including no-privilege checks and seed/version generalization."
           }
+        },
+        {
+          "id": "GP-061",
+          "title": "Build a structure from ambiguous natural-language intent",
+          "benefit": "May improve agent capability or efficiency measured by clarification count, requirement satisfaction, legal block placements, final structural completeness and time cost, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; missing resources, unclear floor height or spawn-protected land must not be bypassed or scored as success when only a plan exists.",
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "objective": "Test build a structure from ambiguous natural-language intent in the following native Minecraft case: Given a player request for a 7-by-9 two-floor shelter with a safe staircase, ask needed clarifications, gather legal materials, and finish a Survival build.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against fixed blueprint and template-following builder with equivalent inventory, seed and time limit.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Given a player request for a 7-by-9 two-floor shelter with a safe staircase, ask needed clarifications, gather legal materials, and finish a Survival build.",
+            "Publish matched comparator trials against fixed blueprint and template-following builder with equivalent inventory, seed and time limit, including clarification count, requirement satisfaction, legal block placements, final structural completeness and time cost.",
+            "Exercise the negative boundary: missing resources, unclear floor height or spawn-protected land must not be bypassed or scored as success when only a plan exists.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "dependencies": [
+            "BU-016",
+            "AC-008"
+          ],
+          "evidence": [
+            "goal",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over fixed blueprint and template-following builder with equivalent inventory, seed and time limit?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "methodology": "Fixture: Given a player request for a 7-by-9 two-floor shelter with a safe staircase, ask needed clarifications, gather legal materials, and finish a Survival build. Comparator: fixed blueprint and template-following builder with equivalent inventory, seed and time limit. Outcomes: clarification count, requirement satisfaction, legal block placements, final structural completeness and time cost. Falsifier: missing resources, unclear floor height or spawn-protected land must not be bypassed or scored as success when only a plan exists.",
+          "priorWork": [
+            "goal",
+            "eval"
+          ],
+          "workstream": "gameplay-competencies",
+          "category": "Construction and automation",
+          "description": "Build a structure from ambiguous natural-language intent. Proposed native-game fixture: Given a player request for a 7-by-9 two-floor shelter with a safe staircase, ask needed clarifications, gather legal materials, and finish a Survival build..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 5,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Given a player request for a 7-by-9 two-floor shelter with a safe staircase, ask needed clarifications, gather legal materials, and finish a Survival build.",
+            "Pre-register metric and adverse trial: clarification count, requirement satisfaction, legal block placements, final structural completeness and time cost; missing resources, unclear floor height or spawn-protected land must not be bypassed or scored as success when only a plan exists."
+          ],
+          "competency": {
+            "group": "Construction and automation",
+            "scenario": "Given a player request for a 7-by-9 two-floor shelter with a safe staircase, ask needed clarifications, gather legal materials, and finish a Survival build.",
+            "failureBoundary": "missing resources, unclear floor height or spawn-protected land must not be bypassed or scored as success when only a plan exists.",
+            "evidenceRequired": "Survival-mode, held-out in-game trials with legality parity and unmodified raw action/outcome logs. Score built artifact independently from planning."
+          }
+        },
+        {
+          "id": "GP-062",
+          "title": "Build from an incomplete visual structure reference",
+          "benefit": "May improve agent capability or efficiency measured by visible voxel agreement, geometry plausibility, material cost, inferred-section error and survival-completed build rate, subject to trials and feasibility.",
+          "limitations": "Uninvestigated in MNI. Minecraft/loader-specific execution, model availability and prior-work transfer are unverified; ambiguous back-wall geometry, lighting artifacts and inaccessible blocks must trigger uncertainty or correction, not fabricated scene certainty.",
+          "status": {
+            "research": "not_investigated",
+            "experimentalOutcome": "not_assessed",
+            "implementation": "not_implemented",
+            "validation": "untested",
+            "productionReadiness": "not_assessed"
+          },
+          "objective": "Test build from an incomplete visual structure reference in the following native Minecraft case: Reconstruct a small house from front and side reference screenshots, then inspect and complete it through legal Survival actions in an unseen terrain seed.",
+          "approaches": [
+            "Experiment candidate; no architecture selected until matched controls, resource budgets and negative trials are evaluated.",
+            "Compare against coordinate-traced visible facade and full-known-blueprint execution as separately labeled controls.",
+            "Use identical legal action and allowed observation budgets across trials."
+          ],
+          "computationalRequirements": "No measurements yet. Record CPU/GPU model, peak RAM/VRAM, game MSPT/TPS, per-agent inference rate and total wall-clock time; compare at a bounded fixed budget.",
+          "implementationRequirements": "Native observation/action contracts, version-pinned Java Edition environment or explicitly labelled isolated harness, deterministic trace capture, cancellation and failure recording.",
+          "acceptanceCriteria": [
+            "Reproduce the fixture: Reconstruct a small house from front and side reference screenshots, then inspect and complete it through legal Survival actions in an unseen terrain seed.",
+            "Publish matched comparator trials against coordinate-traced visible facade and full-known-blueprint execution as separately labeled controls, including visible voxel agreement, geometry plausibility, material cost, inferred-section error and survival-completed build rate.",
+            "Exercise the negative boundary: ambiguous back-wall geometry, lighting artifacts and inaccessible blocks must trigger uncertainty or correction, not fabricated scene certainty.",
+            "Record scenario/checkpoint versions, held-out seeds, legal action and observation parity, raw traces, failure taxonomy, hardware budget and uncertainty. A negative result can conclude the research, not implement the capability."
+          ],
+          "dependencies": [
+            "BU-017",
+            "BU-010"
+          ],
+          "evidence": [
+            "goal",
+            "eval"
+          ],
+          "conclusion": "Candidate only. No MNI experiment, integration, verification or in-game success evidence exists.",
+          "openQuestions": [
+            "Can this technique improve its declared metrics while satisfying the negative and legal-information boundary?",
+            "Is its extra compute, data collection, operator burden or integration complexity justified over coordinate-traced visible facade and full-known-blueprint execution as separately labeled controls?"
+          ],
+          "milestones": [
+            "v0.5",
+            "v0.11"
+          ],
+          "relatedCommits": [],
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "methodology": "Fixture: Reconstruct a small house from front and side reference screenshots, then inspect and complete it through legal Survival actions in an unseen terrain seed. Comparator: coordinate-traced visible facade and full-known-blueprint execution as separately labeled controls. Outcomes: visible voxel agreement, geometry plausibility, material cost, inferred-section error and survival-completed build rate. Falsifier: ambiguous back-wall geometry, lighting artifacts and inaccessible blocks must trigger uncertainty or correction, not fabricated scene certainty.",
+          "priorWork": [
+            "goal",
+            "eval"
+          ],
+          "workstream": "gameplay-competencies",
+          "category": "Construction and automation",
+          "description": "Build from an incomplete visual structure reference. Proposed native-game fixture: Reconstruct a small house from front and side reference screenshots, then inspect and complete it through legal Survival actions in an unseen terrain seed..",
+          "scope": "Scoped independent comparison (no in-game evidence); requires the named fixture, comparator, adverse trial and downstream legal-action checks.",
+          "priority": 4,
+          "relatedIssues": [],
+          "relatedPRs": [],
+          "lastAssessment": "2026-10-27",
+          "history": [
+            {
+              "date": "2026-10-27",
+              "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+              "change": "Added a distinct, proposed research/engineering scope relative to this audited baseline; no implementation or positive result claimed."
+            }
+          ],
+          "completionCriteria": {
+            "research": "Complete only after the predeclared question, relevant alternatives and prior work are reviewed, planned experiments/evaluations are conducted where needed, evidence is reproducible or independently assessed, and a bounded conclusion with remaining uncertainty is recorded.",
+            "implementation": "Complete only when the named capability works against its functional acceptance criteria on the assessed main revision; documentation, schemas, prototypes and unmerged PRs alone do not qualify.",
+            "validation": "Complete only when all validation stages required by acceptance criteria pass on a reproducible setup; in-game claims require in-game evidence.",
+            "productionReadiness": "Complete only when declared compatibility, stability, performance, security, privacy, operator, recovery, installation and documentation gates pass."
+          },
+          "remainingWork": [
+            "Develop the legal native-state fixture for: Reconstruct a small house from front and side reference screenshots, then inspect and complete it through legal Survival actions in an unseen terrain seed.",
+            "Pre-register metric and adverse trial: visible voxel agreement, geometry plausibility, material cost, inferred-section error and survival-completed build rate; ambiguous back-wall geometry, lighting artifacts and inaccessible blocks must trigger uncertainty or correction, not fabricated scene certainty."
+          ],
+          "competency": {
+            "group": "Construction and automation",
+            "scenario": "Reconstruct a small house from front and side reference screenshots, then inspect and complete it through legal Survival actions in an unseen terrain seed.",
+            "failureBoundary": "ambiguous back-wall geometry, lighting artifacts and inaccessible blocks must trigger uncertainty or correction, not fabricated scene certainty.",
+            "evidenceRequired": "Survival-mode, held-out in-game trials with legality parity and unmodified raw action/outcome logs. Score built artifact independently from planning."
+          }
         }
       ]
     },
@@ -24091,7 +25564,8 @@
         "ME-013",
         "ME-014",
         "ME-015",
-        "ME-016"
+        "ME-016",
+        "ME-017"
       ],
       "items": [
         "ME-01",
@@ -24109,7 +25583,8 @@
         "ME-013",
         "ME-014",
         "ME-015",
-        "ME-016"
+        "ME-016",
+        "ME-017"
       ]
     },
     {
@@ -24267,7 +25742,17 @@
         "DP-002",
         "DP-003",
         "DP-004",
-        "DP-006"
+        "DP-006",
+        "PE-014",
+        "MO-018",
+        "LR-023",
+        "BU-016",
+        "BU-017",
+        "BU-018",
+        "EV-018",
+        "GP-061",
+        "GP-062",
+        "MO-021"
       ],
       "items": [
         "PE-01",
@@ -24444,7 +25929,18 @@
         "DP-004",
         "DP-006",
         "TM-20",
-        "TM-21"
+        "TM-21",
+        "PE-014",
+        "MO-018",
+        "LR-023",
+        "BU-016",
+        "BU-017",
+        "BU-018",
+        "EV-018",
+        "GP-061",
+        "GP-062",
+        "TM-22",
+        "MO-021"
       ]
     },
     {
@@ -24608,7 +26104,14 @@
         "DP-007",
         "DP-008",
         "DP-009",
-        "DP-011"
+        "DP-011",
+        "PE-014",
+        "MO-020",
+        "CO-016",
+        "BU-016",
+        "BU-017",
+        "ME-017",
+        "MO-021"
       ],
       "items": [
         "LR-01",
@@ -24718,7 +26221,14 @@
         "DP-009",
         "DP-011",
         "TM-20",
-        "TM-21"
+        "TM-21",
+        "PE-014",
+        "MO-020",
+        "CO-016",
+        "BU-016",
+        "BU-017",
+        "ME-017",
+        "MO-021"
       ]
     },
     {
@@ -24798,7 +26308,9 @@
         "ME-013",
         "ME-014",
         "ME-015",
-        "ME-016"
+        "ME-016",
+        "LR-023",
+        "LR-024"
       ],
       "items": [
         "MO-01",
@@ -24897,7 +26409,11 @@
         "TM-18",
         "TM-19",
         "TM-20",
-        "TM-21"
+        "TM-21",
+        "LR-023",
+        "LR-024",
+        "TM-22",
+        "TM-23"
       ]
     },
     {
@@ -25012,7 +26528,8 @@
         "GP-052",
         "GP-059",
         "DP-010",
-        "DP-012"
+        "DP-012",
+        "MA-015"
       ],
       "items": [
         "LR-01",
@@ -25126,7 +26643,8 @@
         "DP-010",
         "DP-012",
         "TM-20",
-        "TM-21"
+        "TM-21",
+        "MA-015"
       ]
     },
     {
@@ -25195,7 +26713,12 @@
         "MA-011",
         "MA-012",
         "MA-013",
-        "MA-014"
+        "MA-014",
+        "MO-018",
+        "MO-019",
+        "MO-020",
+        "IN-016",
+        "EV-019"
       ],
       "items": [
         "MO-01",
@@ -25259,7 +26782,12 @@
         "MC-18",
         "MC-19",
         "MC-20",
-        "MC-21"
+        "MC-21",
+        "MO-018",
+        "MO-019",
+        "MO-020",
+        "IN-016",
+        "EV-019"
       ]
     },
     {
@@ -25549,7 +27077,25 @@
         "DP-009",
         "DP-010",
         "DP-011",
-        "DP-012"
+        "DP-012",
+        "PE-014",
+        "MO-018",
+        "MO-019",
+        "MO-020",
+        "LR-023",
+        "LR-024",
+        "CO-016",
+        "BU-016",
+        "BU-017",
+        "BU-018",
+        "ME-017",
+        "IN-016",
+        "EV-018",
+        "EV-019",
+        "MA-015",
+        "GP-061",
+        "GP-062",
+        "MO-021"
       ],
       "items": [
         "MI-01",
@@ -25861,7 +27407,27 @@
         "DP-011",
         "DP-012",
         "TM-20",
-        "TM-21"
+        "TM-21",
+        "PE-014",
+        "MO-018",
+        "MO-019",
+        "MO-020",
+        "LR-023",
+        "LR-024",
+        "CO-016",
+        "BU-016",
+        "BU-017",
+        "BU-018",
+        "ME-017",
+        "IN-016",
+        "EV-018",
+        "EV-019",
+        "MA-015",
+        "GP-061",
+        "GP-062",
+        "TM-22",
+        "TM-23",
+        "MO-021"
       ]
     },
     {
@@ -26935,6 +28501,12 @@
       "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "event": "Refreshed the main evidence baseline after documentation PRs #130-#132 and recorded the administrative closure of 101 issues and eight unmerged PRs.",
       "scopeChange": "No new functional Minecraft agent capabilities or research completions; unmerged PR head/check evidence stays historical."
+    },
+    {
+      "date": "2026-10-27",
+      "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+      "event": "Expanded the unproven inventory with 18 independently falsifiable research/gameplay/engineering avenues and two training-method candidates.",
+      "scopeChange": "Statuses and evidence-based completion percentages unchanged; all new rows remain proposed and untested."
     }
   ],
   "branchAudit": {
@@ -28640,6 +30212,167 @@
         "reproducible evaluation harness"
       ],
       "title": "Domain-randomized policy training"
+    },
+    {
+      "id": "TM-22",
+      "name": "Inverse reinforcement learning from demonstrations",
+      "objective": "Infer latent human choices over danger, food, time and materials from permitted demonstrations instead of accepting reward functions as given.",
+      "priorWork": [
+        "inverse_rl",
+        "data_governance"
+      ],
+      "alternatives": [
+        "Compare feature-matched maximum-entropy/inverse reward candidates with behavior cloning and explicit reward engineering on held-out shelter and mining tasks."
+      ],
+      "dataAndCompute": "Unmeasured on MNI; Demonstrations must be consented, align native observations/actions, and exclude hidden state; vary demonstrator preferences to test identifiability. Track GPU/CPU memory, annotation hours and throughput against baselines.",
+      "methodology": "Compare feature-matched maximum-entropy/inverse reward candidates with behavior cloning and explicit reward engineering on held-out shelter and mining tasks.",
+      "evaluation": [
+        "Held-out task or build-completion success with legal Survival actions",
+        "Inferred preference/reward consistency and uncertainty across seeds",
+        "Annotation efficiency, privacy and licensing provenance",
+        "Reward hacking, unsafe decisions and reproducible failure cases"
+      ],
+      "status": {
+        "research": "not_investigated",
+        "experimentalOutcome": "not_assessed",
+        "implementation": "not_implemented",
+        "validation": "untested",
+        "productionReadiness": "not_assessed"
+      },
+      "evidence": [
+        "inverse_rl",
+        "data_governance"
+      ],
+      "dependencies": [
+        "DP-001",
+        "DP-006",
+        "LR-023"
+      ],
+      "conclusion": "Candidate only; no MNI experiments executed or positive result reported.",
+      "openQuestions": [
+        "Can the inferred objective transfer across worlds and players without hidden-state leakage?",
+        "Does the learned method outperform simpler alternatives after human-query and training-compute cost?"
+      ],
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+      "workstream": "learning",
+      "category": "training method",
+      "description": "Infer latent human choices over danger, food, time and materials from permitted demonstrations instead of accepting reward functions as given.",
+      "scope": "Compare feature-matched maximum-entropy/inverse reward candidates with behavior cloning and explicit reward engineering on held-out shelter and mining tasks.",
+      "priority": 3,
+      "milestones": [
+        "v0.5",
+        "v0.8",
+        "v0.11"
+      ],
+      "acceptanceCriteria": [
+        "Pre-register a native Minecraft training/evaluation protocol: Compare feature-matched maximum-entropy/inverse reward candidates with behavior cloning and explicit reward engineering on held-out shelter and mining tasks.",
+        "Record permitted data provenance, privacy, compute, held-out seeds, uncertainty, objective alignment and transfer failures.",
+        "Publish reproducible checkpoints and raw results or a documented negative feasibility conclusion; do not imply learned skill from a proposal."
+      ],
+      "relatedIssues": [],
+      "relatedPRs": [],
+      "relatedCommits": [],
+      "limitations": "No direct MNI research result; preference inference can be unidentifiable, biased and reward-hackable.",
+      "remainingWork": "Collect lawful demonstrations or comparison data, implement matched baselines, quantify uncertainty and run held-out evaluation.",
+      "lastAssessment": "2026-10-27",
+      "history": [
+        {
+          "date": "2026-10-27",
+          "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "change": "Added as a research candidate; no training or in-game validation completed."
+        }
+      ],
+      "completionCriteria": {
+        "research": "Complete after method alternatives, data rights, feasibility, comparative experiments and limitations are recorded.",
+        "implementation": "Complete only after a reproducible training pipeline or inference-time adaptation mechanism is integrated and passes acceptance criteria.",
+        "validation": "Complete after held-out task, generalization, retention, reproducibility and safety checks pass.",
+        "productionReadiness": "Complete only after governed data, compute, rollback, monitoring, privacy and release constraints pass."
+      },
+      "dependencyNotes": [
+        "native observation and action parity",
+        "consented versioned training/evaluation datasets"
+      ],
+      "title": "Inverse reinforcement learning from demonstrations"
+    },
+    {
+      "id": "TM-23",
+      "name": "Active human preference learning",
+      "objective": "Select informative comparisons between legal Minecraft construction plans without treating user ratings as permission to bypass Survival restrictions.",
+      "priorWork": [
+        "data_governance",
+        "eval"
+      ],
+      "alternatives": [
+        "Compare active uncertainty-based queries against passive random pair sampling and fixed handcrafted aesthetics/safety weights."
+      ],
+      "dataAndCompute": "Unmeasured on MNI; Govern opt-in ratings and disagreement, predeclare total human-query budget and test survival/lighting safety after preference optimization. Track GPU/CPU memory, annotation hours and throughput against baselines.",
+      "methodology": "Compare active uncertainty-based queries against passive random pair sampling and fixed handcrafted aesthetics/safety weights.",
+      "evaluation": [
+        "Held-out task or build-completion success with legal Survival actions",
+        "Inferred preference/reward consistency and uncertainty across seeds",
+        "Annotation efficiency, privacy and licensing provenance",
+        "Reward hacking, unsafe decisions and reproducible failure cases"
+      ],
+      "status": {
+        "research": "not_investigated",
+        "experimentalOutcome": "not_assessed",
+        "implementation": "not_implemented",
+        "validation": "untested",
+        "productionReadiness": "not_assessed"
+      },
+      "evidence": [
+        "data_governance",
+        "eval"
+      ],
+      "dependencies": [
+        "DP-010",
+        "LR-024",
+        "BU-012"
+      ],
+      "conclusion": "Candidate only; no MNI experiments executed or positive result reported.",
+      "openQuestions": [
+        "Can the inferred objective transfer across worlds and players without hidden-state leakage?",
+        "Does the learned method outperform simpler alternatives after human-query and training-compute cost?"
+      ],
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+      "workstream": "learning",
+      "category": "training method",
+      "description": "Select informative comparisons between legal Minecraft construction plans without treating user ratings as permission to bypass Survival restrictions.",
+      "scope": "Compare active uncertainty-based queries against passive random pair sampling and fixed handcrafted aesthetics/safety weights.",
+      "priority": 3,
+      "milestones": [
+        "v0.8",
+        "v0.11"
+      ],
+      "acceptanceCriteria": [
+        "Pre-register a native Minecraft training/evaluation protocol: Compare active uncertainty-based queries against passive random pair sampling and fixed handcrafted aesthetics/safety weights.",
+        "Record permitted data provenance, privacy, compute, held-out seeds, uncertainty, objective alignment and transfer failures.",
+        "Publish reproducible checkpoints and raw results or a documented negative feasibility conclusion; do not imply learned skill from a proposal."
+      ],
+      "relatedIssues": [],
+      "relatedPRs": [],
+      "relatedCommits": [],
+      "limitations": "No direct MNI research result; preference inference can be unidentifiable, biased and reward-hackable.",
+      "remainingWork": "Collect lawful demonstrations or comparison data, implement matched baselines, quantify uncertainty and run held-out evaluation.",
+      "lastAssessment": "2026-10-27",
+      "history": [
+        {
+          "date": "2026-10-27",
+          "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+          "change": "Added as a research candidate; no training or in-game validation completed."
+        }
+      ],
+      "completionCriteria": {
+        "research": "Complete after method alternatives, data rights, feasibility, comparative experiments and limitations are recorded.",
+        "implementation": "Complete only after a reproducible training pipeline or inference-time adaptation mechanism is integrated and passes acceptance criteria.",
+        "validation": "Complete after held-out task, generalization, retention, reproducibility and safety checks pass.",
+        "productionReadiness": "Complete only after governed data, compute, rollback, monitoring, privacy and release constraints pass."
+      },
+      "dependencyNotes": [
+        "native observation and action parity",
+        "consented versioned training/evaluation datasets"
+      ],
+      "title": "Active human preference learning"
     }
   ]
 }

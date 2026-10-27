@@ -137,6 +137,9 @@ jobs:
       - name: Check generated progress documentation is current
         run: python tools/progress.py check
 
+      - name: Check local Markdown file links and anchors
+        run: python tools/check_doc_links.py
+
       - name: Test progress validation and deterministic generation
         run: python -m unittest discover -s tests -p 'test_*.py'
 
@@ -208,7 +211,8 @@ jobs:
         uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
         with:
           distribution: temurin
-          java-version: "21"
+          # Proposed 26.3 baseline requires Java 25 (ADR-0008); revisit with any platform ADR.
+          java-version: "25"
       - name: Require and execute the Minecraft Gradle wrapper
         shell: bash
         run: |

@@ -337,6 +337,31 @@ Every persisted artifact referenced by a result uses:
 Git commit IDs are used for source revisions where applicable. Mutable branch
 names are not sufficient provenance.
 
+## Construction evaluation: plans are not finished structures
+
+Construction studies (see `BU-016`–`BU-018`, `GP-061`–`GP-062` and `EV-018`)
+must record distinct artifacts and outcomes at each stage. A policy may succeed
+at one stage and fail at another; no roll-up may turn plan-only success into an
+in-world construction claim.
+
+| Gate | Observable evidence | Failure examples |
+| --- | --- | --- |
+| Specification | Parsed intent, dimensions, constraints, clarification log, rejected impossible requests | Hallucinated material availability or ignored contradictory player intent |
+| Blueprint | Versioned block palette, 3D coordinates/orientation, construction dependencies, uncertainty labels for hidden geometry | Impossible placements, invalid palette, unseen image regions presented as known |
+| Procurement | Legal inventory/container transactions, measured bill of materials, reserved resources | Missing materials, duplicated items, creative-mode injection, unauthorized withdrawals |
+| Placement | Server-accepted player-equivalent placement/removal actions with ticks and outcomes | Out-of-reach writes, failed placement counted as success, destructively bypassed claims |
+| Verification | Independent world-state comparison to constraints and declared ground truth, safety/lighting/access checks | Cosmetic render passes while physical structure is incomplete or inaccessible |
+| Recovery | Persisted plan/action ledger, disturbance log, resume/repair actions, final checked structure | Repeated placement after restart, loss of design version, uncontrolled terrain edits |
+
+Compare the same objectives on held-out seeds and distinguish reference-image
+fidelity from unobservable geometry guesses. If evaluator-only voxel ground
+truth is used for scoring, keep it outside the agent's observation interface.
+Report the fraction of requested projects *actually completed by legal in-game
+actions*, in addition to blueprint quality, survival duration, materials,
+action counts, repair cost, p95/p99 decision latency and server MSPT/TPS where
+applicable. Include plan-only and template-script controls with their
+non-learned contribution disclosed. No test is claimed executed here.
+
 ## CI and execution strategy
 
 Issue #52 owns the concrete GitHub Actions implementation. The evaluation

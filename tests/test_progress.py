@@ -27,7 +27,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_canonical_inventory_is_exhaustive_and_scored(self):
         items, _, milestones = self.validate()
-        self.assertEqual(len(items), 310)
+        self.assertEqual(len(items), 330)
         self.assertEqual(len(BASE['domains']), 15)
         self.assertEqual(len(milestones), 12)
         self.assertEqual(progress.metrics(BASE)['researchCoverage'], 1.0)
@@ -35,7 +35,7 @@ class ProgressTests(unittest.TestCase):
     def test_gameplay_competencies_have_independent_in_game_gates(self):
         self.validate()
         competencies = progress.gameplay_competencies(BASE)
-        self.assertEqual(len(competencies), 60)
+        self.assertEqual(len(competencies), 62)
         self.assertEqual({row['competency']['group'] for _, row in competencies}, progress.COMPETENCY_GROUPS)
         for _, row in competencies:
             self.assertTrue(row['dependencies'])
@@ -62,10 +62,26 @@ class ProgressTests(unittest.TestCase):
     def test_new_scope_maps_into_existing_milestones_without_credit(self):
         self.validate()
         mapped = {ident for m in BASE['milestones'] for ident in m['items']}
-        for ident in ['GP-001','GP-027','GP-037','GP-060','DP-001','DP-012','TM-20','TM-21']:
+        for ident in ['GP-001','GP-027','GP-037','GP-060','GP-061','GP-062','DP-001','DP-012','TM-20','TM-21','TM-22','TM-23']:
             self.assertIn(ident, mapped)
             self.assertEqual(item(BASE, ident)['status']['implementation'], 'not_implemented')
         self.assertEqual(progress.metrics(BASE)['demonstratedCapabilities'], 0.0)
+
+    def test_new_scope_has_negative_boundaries_and_no_status_promotion(self):
+        added_ids = ['PE-014','MO-018','MO-019','MO-020','MO-021','LR-023','LR-024',
+                     'CO-016','BU-016','BU-017','BU-018','ME-017','IN-016',
+                     'EV-018','EV-019','MA-015','GP-061','GP-062','TM-22','TM-23']
+        self.validate()
+        for ident in added_ids:
+            row = item(BASE, ident)
+            self.assertTrue(row['dependencies'], ident)
+            self.assertGreaterEqual(len(row['acceptanceCriteria']), 3, ident)
+            self.assertEqual(row['status']['research'], 'not_investigated', ident)
+            self.assertEqual(row['status']['experimentalOutcome'], 'not_assessed', ident)
+            self.assertEqual(row['status']['implementation'], 'not_implemented', ident)
+            self.assertEqual(row['status']['validation'], 'untested', ident)
+        for ident in ('GP-061','GP-062'):
+            self.assertIn('Survival', item(BASE, ident)['competency']['evidenceRequired'])
 
     def test_unexplored_catalogue_is_not_research_completion(self):
         self.assertEqual(item(BASE, 'MI-01')['status']['research'], 'not_investigated')

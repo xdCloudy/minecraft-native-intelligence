@@ -42,7 +42,14 @@ records live in [progress.json](progress/progress.json), not in generated Markdo
   focused progress tests and documentation CI. Never hand-edit the generated
   competency matrix or README percentage.
 
-The initial set covers Survival progression, combat/entities,
+The 2026-10-27 inventory contains 62 independently scoped scenarios. The new
+`GP-061` and `GP-062` rows separately test instructions-to-finished-build and
+incomplete-image-reference-to-finished-build, with blocked/protected-area
+negative cases; neither is satisfied by blueprint generation alone. Use the
+[construction scoring protocol](EVALUATION.md#construction-evaluation-plans-are-not-finished-structures)
+for staged, in-world evidence.
+
+The catalogue covers Survival progression, combat/entities,
 world dimensions and traversal, construction/automation, and multiplayer
 world lifecycle. Other variants may arise from player testing, platform
 changes, mod interactions and independent research. Such discoveries expand
