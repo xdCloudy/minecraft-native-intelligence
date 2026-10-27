@@ -205,7 +205,7 @@
       "id": "continual_rl",
       "title": "Continual reinforcement learning review",
       "kind": "paper",
-      "url": "https://jair.org/index.php/jair/article/view/14173"
+      "url": "https://doi.org/10.1613/jair.1.13673"
     },
     {
       "id": "rnd",
@@ -20530,6 +20530,12 @@
       "event": "Refreshed open PR 129 branch audit to the exact post-expansion head and latest completed checks.",
       "revision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "scopeChange": "Updated branch provenance, changed-file audit and check snapshot; unmerged feature work remains excluded from integrated, shipped and demonstrated capability scores."
+    },
+    {
+      "date": "2026-10-27",
+      "event": "Corrected the canonical continual reinforcement learning survey reference after CI link validation.",
+      "revision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "scopeChange": "Changed one literature evidence URL to the publisher DOI; scope and progress scores are unchanged."
     }
   ],
   "branchAudit": {
