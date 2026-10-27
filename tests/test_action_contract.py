@@ -1,8 +1,10 @@
 """T1/T2/T6 action protocol regressions; no Minecraft capability claims."""
 from __future__ import annotations
 
-import copy
+import subprocess
+import sys
 import unittest
+from pathlib import Path
 
 from scripts.validate_action_contract import (
     ACTION_SCHEMA,
@@ -28,7 +30,7 @@ def example_action() -> dict:
 
 def preflight(action: dict, supported: set[str] | None = None) -> str | None:
     return validate_request(
-        action, supported_actions=supported or {"move", "chat", "stop", "attack"},
+        action, supported_actions=supported if supported is not None else {"move", "chat", "stop", "attack"},
         agent_id="agent-1", session_epoch=3,
         latest_observation_seq=42, current_tick=101,
     )
@@ -97,7 +99,7 @@ class ActionContractTests(unittest.TestCase):
         action = example_action()
         action["submitted_tick"] = 100
         action["expires_tick"] = 99
-        self.assertEqual("expired", preflight(action))
+        self.assertEqual("invalid_schema", preflight(action))
 
     def test_negotiation_fails_closed(self):
         action = example_action()
@@ -141,6 +143,14 @@ class ActionContractTests(unittest.TestCase):
         self.assertEqual([], validate_outcome(outcome))
         outcome["phase"] = "completed"
         self.assertTrue(validate_outcome(outcome))
+
+    def test_direct_cli_accepts_golden_fixture(self):
+        root = Path(__file__).resolve().parents[1]
+        result = subprocess.run(
+            [sys.executable, "scripts/validate_action_contract.py", "docs/actions/example-action.v0.json"],
+            cwd=root, capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stderr)
 
     def test_bool_is_not_integer_tick(self):
         action = example_action()
