@@ -1,5 +1,9 @@
 # Research and development progress workflow
 
+This is the maintainer guide for the canonical tracker and generated matrices.
+For a reading path through the project, start at the [documentation guide](README.md);
+for current results, use the [progress dashboard](PROGRESS.md).
+
 ## Canonical data and generated views
 
 [`progress/progress.json`](progress/progress.json) is the sole manually maintained progress dataset. Its versioned structure is [`progress/progress.schema.json`](progress/progress.schema.json). [`tools/progress.py`](../tools/progress.py) validates local and cross-record invariants, calculates transparent indicators, and deterministically generates:

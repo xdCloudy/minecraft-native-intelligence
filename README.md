@@ -1,30 +1,26 @@
 # Minecraft Native Intelligence
 
-> **Experimental, early-stage research project.** No intelligent agent has been implemented or demonstrated yet. This repository currently defines the research programme, interfaces, constraints, and staged engineering work needed to test feasibility.
+> **Research-stage project.** There is no installable AI-player mod or demonstrated Minecraft-native intelligence on `main` yet. The repository currently contains research plans, interface contracts, evaluation tooling, and an evidence-tracked engineering roadmap.
 
-Minecraft Native Intelligence investigates persistent, autonomous intelligence whose perceived world is Minecraft itself. The intended agent learns and acts through native game state and legal game actions, develops an individual history and behavioural tendencies, communicates with other players, and pursues activities without existing only as a command-following assistant.
+Minecraft Native Intelligence (MNI) investigates persistent, autonomous agents that experience Minecraft as their world. The long-term goal is for agents to learn through legal in-game actions, remember their own histories, communicate with players, and pursue goals beyond externally assigned tasks.
 
-This is **not** an LLM wrapper, a screenshot-to-keyboard agent, a prompted Mineflayer bot, a scripted NPC, or “ChatGPT inside Minecraft.” Language models may be studied as components, but they are neither the project definition nor a substitute for grounded perception, action, memory, learning, and evaluation.
+**Start here:** [Project goal](docs/GOAL.md) · [Documentation guide](docs/README.md) · [Architecture](ARCHITECTURE.md) · [Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md)
 
-## Native reality
+## What makes it different
 
-The agent-facing ontology should be grounded in blocks, entities, items, terrain, motion, health, hunger, danger, time, places, communication, relationships, and remembered experience. It should not require concepts such as operating systems, model APIs, or a human “user.” Developers and server operators, however, must retain transparent oversight and must identify AI players where policy requires it.
+MNI is not intended to be an LLM command wrapper, a screenshot-to-keyboard controller, a prompted Mineflayer bot, or a scripted NPC. Those approaches may serve as clearly labelled research baselines, but they do not define the project.
 
-## System direction
+The guiding requirements are:
 
-- An easy-to-install Java Edition mod runs on the logical server (integrated single-player/LAN or dedicated server), exposes bounded native state, and validates ordinary in-game actions—without hidden information, teleportation, inventory editing, or other cheats.
-- An authorized operator creates a persistent AI player with `/spawn ai-agent <username>`. It is represented through the normal player-facing systems—entity tracking, nameplate, chat, locator maps, player lists, scoreboards, death/respawn, and compatible integrations wherever technically possible.
-- New agents start in Survival with ordinary health, hunger, inventory, crafting, equipment/armour, effects, damage, death, pickup/drop, movement, reach, cooldown, and world-interaction rules. The integration drives player actions; it does not mutate outcomes directly.
-- On first creation, the mod assigns a random skin from a curated, distributable catalog and stores its immutable skin reference with that agent. The same skin returns after unload, restart, or respawn unless an authorized operator deliberately changes it.
-- A shared foundation model provides reusable world and behavioural competence without loading a full independent model per agent.
-- Each agent owns separate persistent identity, episodic/semantic/procedural/spatial memory, relationships, goals, preferences, and—only if evidence supports it—small personal learning modules.
-- Learning begins with durable state and memory, not continuous retraining. Later work may test replay, consolidation, adapters, and other continual-learning techniques against catastrophic forgetting.
-- Human and AI players use the same grounded communication pathway and appear to the agent as other intelligent beings in its world.
-- Multi-agent behaviour should emerge from learned policies and interaction, not hardcoded friendships, rivalries, professions, or stories.
+- **Native grounding:** agents receive bounded game-state observations and perform player-equivalent actions, without privileged world access or direct state manipulation.
+- **Persistent individuals:** identity, memory, relationships, goals, and behaviour continue across sessions and world events.
+- **Autonomy and learning:** research distinguishes acquired competence from scripts, prompts, preloaded knowledge, and short-lived demonstrations.
+- **Shared intelligence, separate lives:** models may be shared, but personal state must remain isolated and scalable across agents.
+- **Reproducible evidence:** claims require controlled Minecraft trials, failure cases, held-out worlds, and explicit limitations.
 
-See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) for scope and uncertainty.
+The intended integration is a server-authoritative **Minecraft: Java Edition mod** for single-player/LAN and dedicated servers. An authorized operator would create a persistent Survival-mode AI player with `/spawn ai-agent <username>`, including a stable profile and skin. **That command is a future requirement, not a working feature.** See [integration design](docs/INTEGRATION.md) and the [decision log](docs/DECISIONS.md).
 
-## Status and roadmap
+## Current status
 
 <!-- MNI_PROGRESS_START -->
 ### Live research and engineering progress
@@ -51,51 +47,22 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 [Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Minecraft competency matrix](docs/MINECRAFT_COMPETENCY_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)
 <!-- MNI_PROGRESS_END -->
 
-See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
+The percentages describe evidence against the *declared* scope, not an estimate of human-level intelligence. In particular, 100% catalog metadata completeness does **not** mean the research or implementation is complete. See the [roadmap](ROADMAP.md) and [scoring rules](docs/PROGRESS_WORKFLOW.md).
 
-## Documentation
+## Explore the project
 
-| Start here | Purpose |
+| Looking for… | Go to |
 | --- | --- |
-| [Goal](docs/GOAL.md) | Ultimate goal, near-term objective, and non-goals |
-| [Vision](docs/VISION.md) and [Principles](docs/PRINCIPLES.md) | Product direction and invariants |
-| [Architecture](ARCHITECTURE.md) | Proposed system boundaries and timescales |
-| [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
-| [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
-| [Prior research and external frameworks](docs/RESEARCH_REFERENCES.md) | Reproducibility limits, reuse decisions, Minecraft baselines, and additional hypotheses |
-| [Evaluation](docs/EVALUATION.md) and [experiments](docs/EXPERIMENTS.md) | Scenario/result evidence contracts and reproducible execution |
-| [Testing](docs/TESTING.md) and [CI](docs/CI.md) | Test tiers, local checks, and stack-aware remote verification |
-| [Data governance](docs/DATA_GOVERNANCE.md) | Licensing, consent, privacy, retention, and deletion gates |
-| [Runtime boundary](docs/RUNTIME_BOUNDARY.md) | Java ↔ research-runtime process and protocol boundary |
-| [Roadmap](ROADMAP.md) | Milestones, dependencies, and exit criteria |
-| [Safety](docs/SAFETY.md) and [Security](SECURITY.md) | Minecraft-specific operational safeguards |
-| [Decision log](docs/DECISIONS.md) | Accepted decisions and unresolved ADRs |
-| [Glossary](docs/GLOSSARY.md) | Canonical terminology |
-
-Focused design notes live under [`docs/`](docs/).
-
-## Contributor path
-
-For a first contribution:
-
-1. Read the [authoritative goal](docs/GOAL.md) and current [roadmap](ROADMAP.md).
-2. Pick an issue in the current milestone with `status:ready`; do not silently
-   work around a listed blocker.
-3. Read the issue discussion, [decision log](docs/DECISIONS.md), and the focused
-   subsystem document linked by the issue.
-4. Follow [testing](docs/TESTING.md), [local/CI checks](docs/CI.md), and—when
-   relevant—[evaluation](docs/EVALUATION.md),
-   [experiment](docs/EXPERIMENTS.md), and
-   [data-governance](docs/DATA_GOVERNANCE.md) rules.
-5. Keep one coherent change/PR and record what was actually validated.
-
-[CONTRIBUTING.md](CONTRIBUTING.md) contains the issue-template and first-task
-workflow.
+| A reading order and the full document map | [Documentation guide](docs/README.md) |
+| Intended behaviour, constraints, and system boundaries | [Goal](docs/GOAL.md) · [Architecture](ARCHITECTURE.md) |
+| Research directions and external comparisons | [Research programme](RESEARCH.md) · [References](docs/RESEARCH_REFERENCES.md) |
+| Tracked requirements, results, and blockers | [Progress dashboard](docs/PROGRESS.md) · [Capability matrices](docs/README.md#matrices-and-progress) |
+| How to propose, verify, or review changes | [Contributing](CONTRIBUTING.md) · [Testing](docs/TESTING.md) |
 
 ## Contributing
 
-Contributions are welcome at the design, research, tooling, and documentation stages. Read [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) before substantial work. Claims of capability require reproducible evidence; experiments must remain distinguishable from proposed production architecture.
+Research, engineering, documentation, and evaluation contributions are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); coding agents should also read [AGENTS.md](AGENTS.md). There is no end-user installation guide yet because the mod is not implemented.
 
 ## License
 
-Code and documentation are licensed under [Apache License 2.0](LICENSE). Datasets, Minecraft assets, model weights, and third-party artifacts require separate provenance and license review; inclusion in this repository does not automatically place them under Apache-2.0.
+Repository code and documentation use [Apache License 2.0](LICENSE). Model weights, datasets, Minecraft assets, and other third-party material require separate rights and provenance review.

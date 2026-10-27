@@ -1,6 +1,8 @@
 # Proposed Architecture
 
-This is a hypothesis to organize interfaces and experiments, **not a validated implementation**. Focused details live in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+> **Conceptual architecture, not a working implementation.** Boundaries and interactions below organise research and experiments; the unresolved choices remain subject to comparison and ADRs.
+
+The [detailed architecture](docs/ARCHITECTURE.md) and [documentation guide](docs/README.md) provide subsystem-level reading paths.
 
 ```mermaid
 flowchart TD
@@ -21,7 +23,7 @@ flowchart TD
     MC -->|outcomes| IF
 ```
 
-The foundation layer may eventually combine world understanding, planning/reasoning, behavioural policy, and language; whether these are one model, multiple models, or hybrid components is unresolved. The runtime binds shared competence to one persistent life. Personal adapters are optional research, not a v0.3 requirement.
+The diagram shows the intended boundaries and feedback loop, not a validated data flow. The foundation layer may combine world understanding, planning, behaviour, and language, but a single model, multiple models, and hybrid components remain competing hypotheses. The runtime binds shared competence to individual persistent lives; personal adapters are optional research rather than a v0.3 requirement.
 
 The mod is server-authoritative and must work with both the integrated server used by single-player/LAN and a dedicated server. Its AI avatar should use the closest maintainable `ServerPlayer`-compatible representation so vanilla clients and other mods observe a player, not a custom humanoid mob. Exact compatibility hooks and whether clients also need the mod remain loader/version research questions. See [`docs/INTEGRATION.md`](docs/INTEGRATION.md).
 
@@ -49,3 +51,5 @@ These loops must exchange versioned messages without forcing one cadence. Sleepi
 ## Open decisions
 
 Fabric embodiment validation, exact player-entity hooks, observation encoding, model family, training framework, persistence store, inference runtime implementation, skin-catalog source, and personal adaptation technique remain unresolved. Each needs an issue, experiment, and ADR before commitment.
+
+See the [decision log](docs/DECISIONS.md) for accepted constraints and proposed platform choices, the [research matrix](docs/RESEARCH_MATRIX.md) for alternative methods, and the [roadmap](ROADMAP.md) for dependency order.
