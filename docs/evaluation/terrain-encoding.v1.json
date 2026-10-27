@@ -129,7 +129,7 @@
     },
     {
       "id": "encode_latency",
-      "definition": "Median wall-clock duration of seven in-process encode calls for one case.",
+      "definition": "Median wall-clock duration of seven encode-plus-compact-JSON-serialization calls for one case.",
       "unit": "nanoseconds",
       "direction": "lower",
       "role": "secondary",
@@ -139,7 +139,7 @@
     },
     {
       "id": "decode_latency",
-      "definition": "Median wall-clock duration of seven in-process decode calls for one case.",
+      "definition": "Median wall-clock duration of seven compact-JSON-parsing-plus-decode calls for one case.",
       "unit": "nanoseconds",
       "direction": "lower",
       "role": "secondary",

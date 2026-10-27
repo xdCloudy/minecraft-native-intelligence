@@ -28,7 +28,8 @@ block map remains evaluator-only and is never passed to an encoder. A
 noninterference check changes block identities outside both visible windows and
 requires byte-identical output.
 
-The benchmark reports compact JSON payload bytes, median encode/decode time,
+The benchmark reports compact JSON payload bytes, median encode-plus-serialize
+and parse-plus-decode time,
 exact visible-sample reconstruction, exact visible-material counts, nearest
 visible gold distance error, lookup of an evaluator-selected visible sample,
 visible adjacency

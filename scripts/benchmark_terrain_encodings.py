@@ -448,10 +448,16 @@ def measure_case(terrain: str, seed: int, encoder_id: str) -> dict[str, Any]:
                     if position not in current_visible and position not in previous_visible}
     encoder = ENCODE[encoder_id]
     encoder(current, previous if encoder_id == "change_events" else None)
-    encode_time, encoded = median_ns(lambda: encoder(current, previous if encoder_id == "change_events" else None))
-    encoded_bytes = len(json.dumps(encoded, sort_keys=True, separators=(",", ":")).encode("utf-8"))
-    decode(encoded, previous if encoder_id == "change_events" else None)
-    decode_time, decoded = median_ns(lambda: decode(encoded, previous if encoder_id == "change_events" else None))
+    def serialize_encoding() -> tuple[dict[str, Any], str]:
+        value = encoder(current, previous if encoder_id == "change_events" else None)
+        return value, json.dumps(value, sort_keys=True, separators=(",", ":"))
+    encode_time, (encoded, wire_text) = median_ns(serialize_encoding)
+    wire_bytes = wire_text.encode("utf-8")
+    encoded_bytes = len(wire_bytes)
+    decode(json.loads(wire_text), previous if encoder_id == "change_events" else None)
+    decode_time, decoded = median_ns(
+        lambda: decode(json.loads(wire_text), previous if encoder_id == "change_events" else None)
+    )
 
     if encoder_id == "chunk_features":
         original_hist, decoded_hist = histogram(current["items"]), chunk_histogram(encoded)
