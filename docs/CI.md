@@ -62,6 +62,7 @@ It performs:
 - JSON parsing under `docs/` and `experiments/`;
 - information-access rule/reference/conformance integrity;
 - observation schema/field-registry/compatibility validation;
+- sensed entity identity contract and deterministic synthetic conformance cases;
 - the deterministic experiment-runner smoke;
 - failure/retry preservation assertions;
 - artifact hash checks;

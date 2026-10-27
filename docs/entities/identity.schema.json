@@ -117,7 +117,7 @@
           "uniqueItems": true,
           "items": {
             "type": "string",
-            "pattern": "^(observation|policy)\\.[a-z0-9_.*]+$"
+            "pattern": "^(observation|policy)\\.[a-z0-9_.*\\[\\]]+$"
           }
         },
         "outputs": {
@@ -147,6 +147,7 @@
               "tracked",
               "occluded_hypothesis",
               "reassociated",
+              "not_sensed_in_scope",
               "retired"
             ]
           },
@@ -322,7 +323,7 @@
                             "type": "string",
                             "enum": ["ambiguous", "plausible", "strong", "certain"]
                           },
-                          "aggregate": { "type": "number", "minimum": 0, "maximum": 130 }
+                          "aggregate": { "type": "number", "minimum": 0, "maximum": 100 }
                       }
                     }
                   },

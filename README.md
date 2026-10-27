@@ -37,6 +37,7 @@ See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 | [Goal](docs/GOAL.md) | Ultimate goal, near-term objective, and non-goals |
 | [Vision](docs/VISION.md) and [Principles](docs/PRINCIPLES.md) | Product direction and invariants |
 | [Architecture](ARCHITECTURE.md) | Proposed system boundaries and timescales |
+| [Entity identity](docs/ENTITY_IDENTITY.md) | Sensed entity continuity and uncertainty proposal |
 | [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
 | [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
 | [Evaluation](docs/EVALUATION.md) and [experiments](docs/EXPERIMENTS.md) | Scenario/result evidence contracts and reproducible execution |
