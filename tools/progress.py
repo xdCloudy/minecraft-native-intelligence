@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Validate, score and deterministically generate the MNI progress system."""
+"""Validate, score and deterministically generate the MNI progress system.
+
+The declared scope is deliberately extensible; catalog completion is not capability completion.
+"""
 from __future__ import annotations
 
 import argparse
@@ -25,6 +28,10 @@ STATUS = {
 }
 IMPLEMENTED_MAIN={'integrated','regression_tested','production_validated'}
 IN_GAME_VALIDATION={'in_game_tested','reproducibly_benchmarked','independently_verified'}
+COMPETENCY_GROUPS={
+ 'Survival and progression','Combat and entities','Dimensions and traversal',
+ 'Construction and automation','Multiplayer and world lifecycle',
+}
 
 class InvalidProgress(ValueError): pass
 
@@ -126,6 +133,14 @@ def validate(data,schema):
    need(item['status']['experimentalOutcome']=='positive',f'{item["id"]}: production validated requires a positive recorded outcome')
   for mid in item['milestones']: need(mid in {m['id'] for m in data['milestones']},f'{item["id"]}: unknown milestone {mid}')
   for hist in item['history']: need(hist['revision']==data['assessment']['defaultBranchRevision'] or hist['revision'] in {p['headRevision'] for p in data['unmergedWork']},f'{item["id"]}: history revision is not audited')
+  if 'competency' in item:
+   c=item['competency']
+   need(kind=='avenue' and item['id'].startswith('GP-'),f'{item["id"]}: gameplay competency must be a tracked gameplay avenue')
+   need(c.get('group') in COMPETENCY_GROUPS,f'{item["id"]}: invalid competency group')
+   for field in ('scenario','failureBoundary','evidenceRequired'):
+    need(isinstance(c.get(field),str) and len(c[field].strip())>=20,f'{item["id"]}: missing competency {field}')
+  if item['id'].startswith('GP-'):
+   need('competency' in item,f'{item["id"]}: gameplay avenue lacks independently testable competency gate')
  # Every experiment outcome needs a matching provenance record. A branch record may remain pending independent assessment.
  deps={ident:item['dependencies'] for ident,(_,item,_) in items.items()}
  for ident,(_dom,item,_kind) in items.items():
@@ -144,6 +159,8 @@ def validate(data,schema):
  for candidate in data['modelCandidates']:
   need(candidate['decisionStatus'] in {'candidate_only','reference_only','project_hypothesis','rejected'},f'{candidate["id"]}: invalid decisionStatus')
   for ref in candidate['evidence']: pass
+ model_names=[candidate['name'].casefold().strip() for candidate in data['modelCandidates']]
+ need(len(set(model_names))==len(model_names),'duplicated model architecture candidate names; explain distinct hypotheses')
  for cell in data['compatibilityCells']:
   unique(cell,'compatibility cell')
   for ref in cell['evidence']: need(ref in evidence,f'{cell["id"]}: unknown evidence {ref}')
@@ -243,6 +260,9 @@ def milestone_score(data,m):
 def section_score(data,workstream,dimension='researchCompletion'):
  return score(data,dimension,lambda d,x,k:d['id']==workstream)
 
+def gameplay_competencies(data):
+ return [(dom,item) for dom,item in all_avenues(data) if 'competency' in item]
+
 def update_marked(original,start,end,content,label):
  need(original.count(start)==1 and original.count(end)==1,f'{label}: expected exactly one generated marker pair')
  left=original.index(start)+len(start);right=original.index(end);need(left<=right,f'{label}: markers reversed')
@@ -270,8 +290,9 @@ def render(data):
  for pr in data['unmergedWork']:
   checks='; '.join(f'{c["name"]}: {c["conclusion"]}' for c in pr['checks'])
   overview.append(f'| [#{pr["id"][3:]}]({pr["url"]}) {"draft" if pr["draft"] else "ready"} | `{pr["head"]}` | `{pr["base"]}` → `{pr["headRevision"][:8]}` | {checks} | excluded |')
- overview+=['','## Detailed matrices','','- [Feature and engineering matrix](FEATURE_MATRIX.md) — every scoped subsystem item and its five independent status dimensions.','- [Research inventory](RESEARCH_MATRIX.md) — full questions, alternatives, prior work, methods, evidence and open issues.','- [Model architectures and training methods](MODEL_TRAINING_MATRIX.md) — candidate-by-candidate research and measured unknowns.','- [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.','- [Progress maintenance workflow](PROGRESS_WORKFLOW.md).','']
+ overview+=['','## Detailed matrices','','- [Feature and engineering matrix](FEATURE_MATRIX.md) — every scoped subsystem item and its five independent status dimensions.','- [Minecraft gameplay competency matrix](MINECRAFT_COMPETENCY_MATRIX.md) — concrete legal Survival scenarios and negative tests.','- [Research inventory](RESEARCH_MATRIX.md) — full questions, alternatives, prior work, methods, evidence and open issues.','- [Model architectures and training methods](MODEL_TRAINING_MATRIX.md) — candidate-by-candidate research and measured unknowns.','- [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.','- [Progress maintenance workflow](PROGRESS_WORKFLOW.md).','']
 
+ overview+=['',f"**Minecraft-specific competency scenarios inventoried: {len(gameplay_competencies(data))}.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.",'']
  feature=['# Feature and engineering matrix','','This is the implementation and validation view of every canonical item. Its 0% capability-oriented baseline does not erase the project’s documented v0.1 foundation; it indicates that documentation and contracts are not implemented Minecraft-native agent capabilities.','', '| ID / capability | Workstream / category | Description and scope | Dependencies / milestones | Implementation | Validation | Production readiness | Priority | Evidence / issues / PRs / main revision |','|---|---|---|---|---|---|---|---:|---|']
  for dom,item,kind in rows:
   deps=', '.join(f'`{d}`' for d in item['dependencies']) or '—'; milestones=', '.join(item['milestones'])
@@ -280,6 +301,18 @@ def render(data):
   prs=', '.join(f'[{x}]({next(p["url"] for p in data["unmergedWork"] if p["id"]==x)})' for x in item['relatedPRs']) or '—'
   feature.append(f'| <a id="{item["id"].lower()}"></a>`{item["id"]}` {item["title"]} | {dom["name"]}<br>{item["category"]} | {item["description"]}<br>**Scope:** {item["scope"]} | **Depends:** {deps}<br>**Milestones:** {milestones} | {item["status"]["implementation"]} | {item["status"]["validation"]} | {item["status"]["productionReadiness"]} | {item["priority"]} | {refs}<br>Issues: {issues}<br>PRs (unmerged): {prs}<br>Main revision `{item["lastVerifiedRevision"]}` |')
  feature.append('')
+
+ competency=['# Minecraft-specific competency matrix','',
+  'Every listed scenario is a research and engineering target, not a demonstrated native-game skill. A generic movement or crafting interface does not establish competence on these mechanics.','']
+ for group in sorted(COMPETENCY_GROUPS):
+  competency += [f'## {group}','','| Item | Research objective | Acceptance scenario | Failure and legality boundary | Prerequisite / milestone | Research / implementation / validation | Evidence requirements |','|---|---|---|---|---|---|---|']
+  for dom,item in gameplay_competencies(data):
+   if item['competency']['group']!=group: continue
+   gate=item['competency']
+   refs=', '.join(linked_evidence(x,sources) for x in item['evidence'])
+   competency.append(f'| [`{item["id"]}`](FEATURE_MATRIX.md#{item["id"].lower()}) {item["title"]} | {item["objective"]} | {gate["scenario"]} | {gate["failureBoundary"]} | {", ".join(item["dependencies"]) or "none"} / {", ".join(item["milestones"])} | {item["status"]["research"]} / {item["status"]["implementation"]} / {item["status"]["validation"]} | {gate["evidenceRequired"]}<br>{refs}<br>{item["limitations"]} |')
+  competency.append('')
+ competency+=['## Completion rule','','Require pinned Java Edition and loader versions, world seeds, ordinary Survival action outcomes, no-privilege instrumentation, raw successes and failures, and held-out generalization. Completing a parent item does not automatically complete individual mechanics.','']
 
  research=['# Research inventory','','Every avenue is independently scoped. “Not investigated” is used when a question is merely named or supported by contextual literature links. External papers are prior-work references, not MNI experimental outcomes.','']
  for dom in data['domains']:
@@ -321,7 +354,7 @@ def render(data):
   readiness.append(f'| [#{pr["id"][3:]}]({pr["url"]}) `{pr["head"]}` (draft={str(pr["draft"]).lower()}) | `{pr["base"]}` `{pr["baseRevision"]}` → `{pr["headRevision"]}` | {pr["changeSummary"]}<br>{files} | {", ".join(f"`{x}`" for x in pr["affectedAvenues"])} | run `{pr["latestCheckRun"]}` at {pr["checkSnapshotAt"]}: {checks}<br>Integrated: no; shipped: no |')
 
  return {
-  ROOT/'docs/PROGRESS.md':'\n'.join(overview),ROOT/'docs/FEATURE_MATRIX.md':'\n'.join(feature),ROOT/'docs/RESEARCH_MATRIX.md':'\n'.join(research),ROOT/'docs/MODEL_TRAINING_MATRIX.md':'\n'.join(model),ROOT/'docs/PRODUCTION_READINESS.md':'\n'.join(readiness),
+  ROOT/'docs/PROGRESS.md':'\n'.join(overview),ROOT/'docs/FEATURE_MATRIX.md':'\n'.join(feature),ROOT/'docs/MINECRAFT_COMPETENCY_MATRIX.md':'\n'.join(competency),ROOT/'docs/RESEARCH_MATRIX.md':'\n'.join(research),ROOT/'docs/MODEL_TRAINING_MATRIX.md':'\n'.join(model),ROOT/'docs/PRODUCTION_READINESS.md':'\n'.join(readiness),
   ROOT/'README.md':None,ROOT/'ROADMAP.md':None
  }
 
@@ -329,7 +362,7 @@ def final_outputs(data,outputs):
  readme=ROOT/'README.md';road=ROOT/'ROADMAP.md';m=metrics(data);current=current_milestone(data)
  dash=['### Live research and engineering progress','',f"**{len(data['domains'])} workstreams · {len(all_items(data))} tracked research/engineering items · current milestone: {current['id']} {current['name']}.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.",'','| Progress dimension | Current |','|---|---:|']
  for key,label in [('researchCoverage','Research coverage'),('researchCompletion','Research completion'),('modelResearch','Model architecture research'),('trainingResearch','Training-method research'),('experimentalEffectiveness','Experimental effectiveness'),('demonstratedCapabilities','Demonstrated capabilities'),('implementationMaturity','Implementation maturity'),('validationCoverage','Validation coverage'),('productionReadiness','Production readiness'),('overallScopedProgress','Overall scoped progress')]:dash.append(f'| {label} | {pct(m[key])} |')
- dash+=['','**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Open PR work is displayed separately and does not count as integrated.','', '[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)','']
+ dash+=['',f"**Minecraft-specific competency scenarios inventoried: {len(gameplay_competencies(data))}.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.",'','**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Open PR work is displayed separately and does not count as integrated.','', '[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Minecraft competency matrix](docs/MINECRAFT_COMPETENCY_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)','']
  outputs[readme]=update_marked(readme.read_text(encoding='utf-8'),README_START,README_END,'\n'.join(dash),'README')
  roadmap_lines=['','| Milestone | Status | Gate progress | Evidence gates met |','|---|---|---:|---:|']
  for mile in data['milestones']:

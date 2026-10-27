@@ -6,6 +6,7 @@
 
 - [`PROGRESS.md`](PROGRESS.md), the project dashboard.
 - [`FEATURE_MATRIX.md`](FEATURE_MATRIX.md), every feature and engineering item.
+- [`MINECRAFT_COMPETENCY_MATRIX.md`](MINECRAFT_COMPETENCY_MATRIX.md), independently falsifiable legal-gameplay scenarios, mechanic groups and failure boundaries.
 - [`RESEARCH_MATRIX.md`](RESEARCH_MATRIX.md), the research questions, alternative approaches, prior work and conclusions.
 - [`MODEL_TRAINING_MATRIX.md`](MODEL_TRAINING_MATRIX.md), architecture candidates and training/learning methods.
 - [`PRODUCTION_READINESS.md`](PRODUCTION_READINESS.md), experiment records, compatibility, readiness gates, rejected approaches, open questions and branch audit.
@@ -62,6 +63,22 @@ Roadmap gate percentages are calculated from evidence-backed criterion states (`
 5. Run `validate`, `generate`, inspect the generated diff, then run `check` and the focused unit tests listed above.
 6. Update authoritative subsystem/research documents when conclusions change; generated matrices summarize the canonical data and do not replace those documents.
 
+## Minecraft gameplay coverage and scope changes
+
+The [`gameplay coverage protocol`](COMPETENCY_COVERAGE.md) defines independent
+success, failure, parity and held-out-world requirements. Every GP- item needs
+its own scenario and failure boundary in the canonical JSON. A broad parent
+mechanic or a passing synthetic unit test cannot complete individual cases.
+Data/experiment workflow items (DP-) and training-method candidates (TM-)
+remain research plans until evidence is reproduced. New Minecraft versions,
+modded content and independently discovered methods must expand the scope when
+needed, even when this lowers a percentage.
+
+Do not interpret the catalog completeness percentage as proof that every
+Minecraft mechanic, training method or research avenue has been identified.
+The independent gameplay matrix measures declared, falsifiable cases, not a
+closed universal checklist.
+
 ## Current assessment limits
 
-The initial taxonomy contains 13 workstreams, 196 feature/research avenues, 21 model candidates and 19 training methods. Naming an avenue does not mean it has been investigated. The assessed main revision has no integrated Minecraft agent mod or demonstrated intelligent Minecraft-native behavior. Model architecture remains undecided. Project-specific training compute, inference latency, throughput, generalization and grounding remain unmeasured. The terrain-encoding experiment is synthetic and branch-only; it does not establish in-game perception quality.
+The expanded taxonomy contains 15 workstreams, 268 feature/research avenues (including 60 concrete gameplay mechanics and 12 data lifecycle items), 21 model candidates and 21 training methods: 310 tracked items. Naming an avenue does not mean it has been investigated. The assessed main snapshot has no integrated Minecraft agent mod or demonstrated intelligent Minecraft-native behavior. Model architecture remains undecided. Project-specific training compute, inference latency, throughput, generalization and grounding remain unmeasured. The terrain-encoding experiment is synthetic and branch-only; it does not establish in-game perception quality.

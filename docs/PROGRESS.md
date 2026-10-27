@@ -1,6 +1,6 @@
 # Research and development progress
 
-Assessment: `2026-10-27` · main `000c37b7fa9e016b7f2be34d36cb28233f2ef687` · 13 workstreams · 236 tracked features, research candidates and methods.
+Assessment: `2026-10-27` · main `000c37b7fa9e016b7f2be34d36cb28233f2ef687` · 15 workstreams · 310 tracked features, research candidates and methods.
 
 > The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Open PRs and their checks are recorded separately and receive no integrated or shipped credit.
 
@@ -24,7 +24,7 @@ Research coverage and completion are distinct. Expanding scope can lower complet
 ### Model and training research
 
 - Model architecture research completion: **0.0%** across 21 candidates.
-- Training and learning research completion: **0.0%** across 19 methods.
+- Training and learning research completion: **0.0%** across 21 methods.
 
 ### Workstream view
 
@@ -34,7 +34,7 @@ Research coverage and completion are distinct. Expanding scope can lower complet
 | Perception and information access | 13 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Action, control and legality | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Model architectures and training | 38 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Learning and adaptation | 41 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Learning and adaptation | 43 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Cognition and autonomy | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Construction and spatial creativity | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Memory and identity | 16 | 0.0% | 0.0% | 0.0% | 0.0% |
@@ -43,6 +43,8 @@ Research coverage and completion are distinct. Expanding scope can lower complet
 | Evaluation and evidence | 17 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Safety, security and data governance | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Multi-agent infrastructure and population scaling | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Minecraft-specific gameplay competencies | 60 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Training data and experiment lifecycle | 12 | 0.0% | 0.0% | 0.0% | 0.0% |
 
 ## Main blockers
 
@@ -89,7 +91,11 @@ Gate percentage is calculated from each milestone’s evidence-reviewed criteria
 ## Detailed matrices
 
 - [Feature and engineering matrix](FEATURE_MATRIX.md) — every scoped subsystem item and its five independent status dimensions.
+- [Minecraft gameplay competency matrix](MINECRAFT_COMPETENCY_MATRIX.md) — concrete legal Survival scenarios and negative tests.
 - [Research inventory](RESEARCH_MATRIX.md) — full questions, alternatives, prior work, methods, evidence and open issues.
 - [Model architectures and training methods](MODEL_TRAINING_MATRIX.md) — candidate-by-candidate research and measured unknowns.
 - [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.
 - [Progress maintenance workflow](PROGRESS_WORKFLOW.md).
+
+
+**Minecraft-specific competency scenarios inventoried: 60.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.

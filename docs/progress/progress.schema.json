@@ -4,28 +4,543 @@
   "title": "Minecraft Native Intelligence canonical research and engineering progress v3",
   "description": "Structural schema for the canonical dataset. Cross-record provenance, dependency DAGs, status semantics and scoring invariants are enforced by tools/progress.py.",
   "type": "object",
-  "required": ["schemaVersion", "assessment", "statusDefinitions", "scoring", "evidence", "domains", "modelCandidates", "trainingMethods", "milestones", "experimentRecords", "compatibilityCells", "rejectedApproaches", "unmergedWork", "branchAudit", "history"],
+  "required": [
+    "schemaVersion",
+    "assessment",
+    "statusDefinitions",
+    "scoring",
+    "evidence",
+    "domains",
+    "modelCandidates",
+    "trainingMethods",
+    "milestones",
+    "experimentRecords",
+    "compatibilityCells",
+    "rejectedApproaches",
+    "unmergedWork",
+    "branchAudit",
+    "history"
+  ],
   "properties": {
-    "schemaVersion": {"const": 3},
-    "assessment": {"type": "object", "required": ["date", "baseline", "defaultBranchRevision", "assessedBranch", "sourceRevision", "note"], "properties": {"date": {"type": "string", "format": "date"}, "baseline": {"const": "main"}, "defaultBranchRevision": {"$ref": "#/$defs/sha"}, "assessedBranch": {"type": "string", "minLength": 1}, "sourceRevision": {"$ref": "#/$defs/sha"}, "note": {"type": "string", "minLength": 1}}, "additionalProperties": true},
-    "statusDefinitions": {"type": "object", "required": ["research", "experimentalOutcome", "implementation", "validation", "productionReadiness"], "additionalProperties": {"type": "array", "items": {"type": "string"}}},
-    "scoring": {"type": "object", "required": ["version", "researchCoverage", "researchCompletion", "experimentalEffectiveness", "implementationMaturity", "validationCoverage", "productionReadiness", "overallScopedProgress"], "additionalProperties": true},
-    "evidence": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["id", "title", "kind", "url"], "properties": {"id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}, "title": {"type": "string", "minLength": 1}, "kind": {"enum": ["repository", "paper", "official_docs", "experiment", "implementation"]}, "url": {"type": "string", "minLength": 1}}, "additionalProperties": true}},
-    "domains": {"type": "array", "minItems": 13, "items": {"type": "object", "required": ["id", "name", "weight", "avenues"], "properties": {"id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 1}, "weight": {"type": "integer", "minimum": 1, "maximum": 5}, "avenues": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/trackedItem"}}}, "additionalProperties": true}},
-    "modelCandidates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/trackedItem"}},
-    "trainingMethods": {"type": "array", "minItems": 10, "items": {"$ref": "#/$defs/trackedItem"}},
-    "milestones": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"type": "object", "required": ["id", "name", "status", "dependsOn", "criteria", "avenues", "items"], "properties": {"id": {"type": "string", "minLength": 1}, "name": {"type": "string", "minLength": 1}, "status": {"type": "string", "minLength": 1}, "dependsOn": {"type": "array", "items": {"type": "string"}}, "criteria": {"type": "array", "minItems": 1}, "avenues": {"type": "array", "items": {"type": "string"}}, "items": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": true}},
-    "experimentRecords": {"type": "array", "items": {"type": "object", "required": ["id", "trackedItemId", "status", "outcome", "revision", "environment", "minecraftVersion", "modelVersion", "datasetVersion", "configuration", "seeds", "hardware", "methodology", "rawResults", "reproduction", "limitations", "evidence"], "properties": {"id": {"type": "string", "minLength": 1}, "trackedItemId": {"type": "string", "minLength": 1}, "revision": {"$ref": "#/$defs/sha"}, "seeds": {"type": "array", "items": {"type": "integer"}}, "evidence": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": true}},
-    "compatibilityCells": {"type": "array", "items": {"type": "object", "required": ["id", "status", "evidence"]}},
-    "rejectedApproaches": {"type": "array", "items": {"type": "object", "required": ["id", "approach", "status", "reason"]}},
-    "unmergedWork": {"type": "array", "items": {"type": "object", "required": ["id", "title", "url", "state", "base", "baseRevision", "head", "headRevision", "integrated", "countsAsShipped", "affectedAvenues", "checks"]}},
-    "branchAudit": {"type": "object", "required": ["checkedAt", "defaultBranch", "defaultBranchRevision", "method", "integratedRule", "scope"]},
-    "history": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["date", "event", "revision", "scopeChange"]}}
+    "schemaVersion": {
+      "const": 3
+    },
+    "assessment": {
+      "type": "object",
+      "required": [
+        "date",
+        "baseline",
+        "defaultBranchRevision",
+        "assessedBranch",
+        "sourceRevision",
+        "note"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "baseline": {
+          "const": "main"
+        },
+        "defaultBranchRevision": {
+          "$ref": "#/$defs/sha"
+        },
+        "assessedBranch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRevision": {
+          "$ref": "#/$defs/sha"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "statusDefinitions": {
+      "type": "object",
+      "required": [
+        "research",
+        "experimentalOutcome",
+        "implementation",
+        "validation",
+        "productionReadiness"
+      ],
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "required": [
+        "version",
+        "researchCoverage",
+        "researchCompletion",
+        "experimentalEffectiveness",
+        "implementationMaturity",
+        "validationCoverage",
+        "productionReadiness",
+        "overallScopedProgress"
+      ],
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "kind",
+          "url"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "repository",
+              "paper",
+              "official_docs",
+              "experiment",
+              "implementation"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "domains": {
+      "type": "array",
+      "minItems": 13,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "weight",
+          "avenues"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "avenues": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/trackedItem"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "modelCandidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/trackedItem"
+      }
+    },
+    "trainingMethods": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/trackedItem"
+      }
+    },
+    "milestones": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "status",
+          "dependsOn",
+          "criteria",
+          "avenues",
+          "items"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "criteria": {
+            "type": "array",
+            "minItems": 1
+          },
+          "avenues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "experimentRecords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "trackedItemId",
+          "status",
+          "outcome",
+          "revision",
+          "environment",
+          "minecraftVersion",
+          "modelVersion",
+          "datasetVersion",
+          "configuration",
+          "seeds",
+          "hardware",
+          "methodology",
+          "rawResults",
+          "reproduction",
+          "limitations",
+          "evidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trackedItemId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "revision": {
+            "$ref": "#/$defs/sha"
+          },
+          "seeds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "compatibilityCells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "evidence"
+        ]
+      }
+    },
+    "rejectedApproaches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "approach",
+          "status",
+          "reason"
+        ]
+      }
+    },
+    "unmergedWork": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "url",
+          "state",
+          "base",
+          "baseRevision",
+          "head",
+          "headRevision",
+          "integrated",
+          "countsAsShipped",
+          "affectedAvenues",
+          "checks"
+        ]
+      }
+    },
+    "branchAudit": {
+      "type": "object",
+      "required": [
+        "checkedAt",
+        "defaultBranch",
+        "defaultBranchRevision",
+        "method",
+        "integratedRule",
+        "scope"
+      ]
+    },
+    "history": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "date",
+          "event",
+          "revision",
+          "scopeChange"
+        ]
+      }
+    }
   },
   "additionalProperties": false,
   "$defs": {
-    "sha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
-    "status": {"type": "object", "required": ["research", "experimentalOutcome", "implementation", "validation", "productionReadiness"], "properties": {"research": {"enum": ["not_investigated", "prior_art_reviewed", "hypothesis_established", "feasibility_evaluated", "experiment_designed", "experiment_conducted", "baselines_compared", "reproducibility_validated", "research_concluded"]}, "experimentalOutcome": {"enum": ["not_assessed", "positive", "negative", "inconclusive", "infeasible", "superseded"]}, "implementation": {"enum": ["not_implemented", "experimental", "prototype", "functional", "locally_tested", "integrated", "regression_tested", "production_validated"]}, "validation": {"enum": ["untested", "unit_tested", "integration_tested", "in_game_tested", "reproducibly_benchmarked", "independently_verified"]}, "productionReadiness": {"enum": ["not_assessed", "experimental", "locally_validated", "ci_validated", "integrated_into_main", "release_validated", "production_validated"]}}, "additionalProperties": false},
-    "trackedItem": {"type": "object", "required": ["id", "workstream", "category", "description", "scope", "objective", "priority", "dependencies", "status", "acceptanceCriteria", "evidence", "relatedIssues", "relatedPRs", "relatedCommits", "limitations", "remainingWork", "lastAssessment", "history", "completionCriteria", "milestones", "lastVerifiedRevision"], "properties": {"id": {"type": "string", "minLength": 1}, "workstream": {"type": "string", "minLength": 1}, "priority": {"type": "integer", "minimum": 1, "maximum": 5}, "status": {"$ref": "#/$defs/status"}, "evidence": {"type": "array", "items": {"type": "string"}}, "dependencies": {"type": "array", "items": {"type": "string"}}, "relatedIssues": {"type": "array", "items": {"type": "string"}}, "relatedPRs": {"type": "array", "items": {"type": "string"}}, "relatedCommits": {"type": "array", "items": {"type": "string"}}, "milestones": {"type": "array", "items": {"type": "string"}}, "lastVerifiedRevision": {"$ref": "#/$defs/sha"}}, "additionalProperties": true}
+    "sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "status": {
+      "type": "object",
+      "required": [
+        "research",
+        "experimentalOutcome",
+        "implementation",
+        "validation",
+        "productionReadiness"
+      ],
+      "properties": {
+        "research": {
+          "enum": [
+            "not_investigated",
+            "prior_art_reviewed",
+            "hypothesis_established",
+            "feasibility_evaluated",
+            "experiment_designed",
+            "experiment_conducted",
+            "baselines_compared",
+            "reproducibility_validated",
+            "research_concluded"
+          ]
+        },
+        "experimentalOutcome": {
+          "enum": [
+            "not_assessed",
+            "positive",
+            "negative",
+            "inconclusive",
+            "infeasible",
+            "superseded"
+          ]
+        },
+        "implementation": {
+          "enum": [
+            "not_implemented",
+            "experimental",
+            "prototype",
+            "functional",
+            "locally_tested",
+            "integrated",
+            "regression_tested",
+            "production_validated"
+          ]
+        },
+        "validation": {
+          "enum": [
+            "untested",
+            "unit_tested",
+            "integration_tested",
+            "in_game_tested",
+            "reproducibly_benchmarked",
+            "independently_verified"
+          ]
+        },
+        "productionReadiness": {
+          "enum": [
+            "not_assessed",
+            "experimental",
+            "locally_validated",
+            "ci_validated",
+            "integrated_into_main",
+            "release_validated",
+            "production_validated"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "trackedItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "workstream",
+        "category",
+        "description",
+        "scope",
+        "objective",
+        "priority",
+        "dependencies",
+        "status",
+        "acceptanceCriteria",
+        "evidence",
+        "relatedIssues",
+        "relatedPRs",
+        "relatedCommits",
+        "limitations",
+        "remainingWork",
+        "lastAssessment",
+        "history",
+        "completionCriteria",
+        "milestones",
+        "lastVerifiedRevision"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workstream": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relatedIssues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relatedPRs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relatedCommits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lastVerifiedRevision": {
+          "$ref": "#/$defs/sha"
+        },
+        "competency": {
+          "type": "object",
+          "required": [
+            "group",
+            "scenario",
+            "failureBoundary",
+            "evidenceRequired"
+          ],
+          "properties": {
+            "group": {
+              "enum": [
+                "Survival and progression",
+                "Combat and entities",
+                "Dimensions and traversal",
+                "Construction and automation",
+                "Multiplayer and world lifecycle"
+              ]
+            },
+            "scenario": {
+              "type": "string",
+              "minLength": 20
+            },
+            "failureBoundary": {
+              "type": "string",
+              "minLength": 20
+            },
+            "evidenceRequired": {
+              "type": "string",
+              "minLength": 20
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    }
   }
 }
