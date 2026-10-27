@@ -45,7 +45,7 @@ def trial_histories(run: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     ordered: dict[str, list[dict[str, Any]]] = {}
     for key, attempts in histories.items():
         indices = sorted(attempts)
-        if indices != list(range(indices[-1] + 1)):
+        if indices[0] != 0 or any(right != left + 1 for left, right in zip(indices, indices[1:])):
             raise ValueError(f"{key}: missing attempt in retry history {indices}")
         history = [attempts[index] for index in indices]
         if any(item.get("status") == "completed" for item in history[:-1]):
