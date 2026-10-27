@@ -19,12 +19,38 @@ def load(path: Path) -> dict[str, Any]:
     return value
 
 
-def final_trials(run: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    result: dict[str, dict[str, Any]] = {}
-    for trial in run.get("trials", []):
+def trial_histories(run: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    """Index every attempt deterministically; never discard failed retries."""
+    histories: dict[str, dict[int, dict[str, Any]]] = {}
+    trials = run.get("trials", [])
+    if not isinstance(trials, list):
+        raise ValueError("trials must be a list")
+    for trial in trials:
+        if not isinstance(trial, dict):
+            raise ValueError("trial must be an object")
         key = f"{trial['variant_id']}|{trial['seed']}|{trial['repetition_index']}"
-        result[key] = trial
-    return result
+        attempt = trial["attempt"]
+        if type(attempt) is not int or attempt < 0:
+            raise ValueError(f"{key}: attempt must be a nonnegative integer")
+        attempts = histories.setdefault(key, {})
+        if attempt in attempts:
+            raise ValueError(f"{key}: duplicate attempt {attempt}")
+        attempts[attempt] = trial
+
+    ordered: dict[str, list[dict[str, Any]]] = {}
+    for key, attempts in histories.items():
+        indices = sorted(attempts)
+        if indices != list(range(indices[-1] + 1)):
+            raise ValueError(f"{key}: missing attempt in retry history {indices}")
+        history = [attempts[index] for index in indices]
+        if any(item.get("status") == "completed" for item in history[:-1]):
+            raise ValueError(f"{key}: retry after a completed attempt")
+        ordered[key] = history
+    return ordered
+
+
+def final_trials(run: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return {key: history[-1] for key, history in trial_histories(run).items()}
 
 
 def dict_diff(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
@@ -39,8 +65,10 @@ def dict_diff(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
 
 
 def compare(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
-    af = final_trials(a)
-    bf = final_trials(b)
+    ah = trial_histories(a)
+    bh = trial_histories(b)
+    af = {key: history[-1] for key, history in ah.items()}
+    bf = {key: history[-1] for key, history in bh.items()}
     keys = sorted(set(af) | set(bf))
     trial_changes = []
     for key in keys:
@@ -50,6 +78,12 @@ def compare(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
         right_status = None if right is None else right.get("status")
         if left_status != right_status:
             trial_changes.append({"logical_trial": key, "left_status": left_status, "right_status": right_status})
+    histories_changed = []
+    for key in keys:
+        left = [{"attempt": t["attempt"], "status": t.get("status")} for t in ah.get(key, [])]
+        right = [{"attempt": t["attempt"], "status": t.get("status")} for t in bh.get(key, [])]
+        if left != right:
+            histories_changed.append({"logical_trial": key, "left_attempts": left, "right_attempts": right})
     return {
         "schema_version": "experiment.comparison.v1",
         "left_run_id": a.get("run_id"),
@@ -61,7 +95,8 @@ def compare(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
         "environment_changes": dict_diff(a.get("environment", {}), b.get("environment", {})),
         "summary_changes": dict_diff(a.get("summary", {}), b.get("summary", {})),
         "logical_trial_status_changes": trial_changes,
-        "note": "Provenance/status comparison only; this tool does not rank experimental variants or interpret capability metrics."
+        "logical_trial_attempt_history_changes": histories_changed,
+        "note": "Provenance/status/retry history comparison only; this tool does not rank experimental variants or interpret capability metrics."
     }
 
 
