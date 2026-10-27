@@ -1,8 +1,8 @@
 # Research and development progress
 
-Assessment: `2026-10-27` · main `000c37b7fa9e016b7f2be34d36cb28233f2ef687` · 15 workstreams · 310 tracked features, research candidates and methods.
+Assessment: `2026-10-27` · assessed main `8622b139da2db7782525faec3ee4dac623acb1ba` · 15 workstreams · 310 tracked features, research candidates and methods.
 
-> The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Open PRs and their checks are recorded separately and receive no integrated or shipped credit.
+> The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Unmerged PRs and their historical checks are recorded separately and receive no integrated or shipped credit.
 
 | Dimension | Progress | Percent | Interpretation |
 |---|---|---:|---|
@@ -75,18 +75,24 @@ Gate percentage is calculated from each milestone’s evidence-reviewed criteria
 | v0.11 — Integrated Research Prototype | future | 0.0% | 0/1 |
 | v1.0 — Native Intelligence Research Release | future | 0.0% | 0/1 |
 
-## Open PR snapshot
+## GitHub workflow audit
 
-| PR | Branch | Base → head | Checks | Integrated credit |
-|---:|---|---|---|---|
-| [#122](https://github.com/xdCloudy/minecraft-native-intelligence/pull/122) draft | `feat/sensed-entity-identity` | `main` → `b8ac08a8` | PowerShell syntax: skipped; Documentation: success; Python and JSON tooling: success; Detect changed stacks: success | excluded |
-| [#123](https://github.com/xdCloudy/minecraft-native-intelligence/pull/123) ready | `research/terrain-encoding-prototype` | `main` → `59695fc6` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
-| [#124](https://github.com/xdCloudy/minecraft-native-intelligence/pull/124) ready | `feat/native-action-schema-v0` | `main` → `7886c4be` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
-| [#125](https://github.com/xdCloudy/minecraft-native-intelligence/pull/125) draft | `spike/server-player-embodiment` | `feat/sensed-entity-identity` → `d177480a` | Python and JSON tooling: success; PowerShell syntax: success; Minecraft mod compile: success; Documentation: success; Detect changed stacks: success | excluded |
-| [#126](https://github.com/xdCloudy/minecraft-native-intelligence/pull/126) draft | `feat/persistent-agent-identity` | `main` → `28713c16` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
-| [#127](https://github.com/xdCloudy/minecraft-native-intelligence/pull/127) draft | `feat/environment-protocol-compatibility` | `feat/native-action-schema-v0` → `9d26898d` | PowerShell syntax: skipped; Documentation: success; Python and JSON tooling: success; Detect changed stacks: success | excluded |
-| [#128](https://github.com/xdCloudy/minecraft-native-intelligence/pull/128) draft | `feat/legal-action-validator` | `spike/server-player-embodiment` → `2231a03b` | Python and JSON tooling: success; Documentation: success; PowerShell syntax: success; Minecraft mod compile: success; Detect changed stacks: success | excluded |
-| [#129](https://github.com/xdCloudy/minecraft-native-intelligence/pull/129) draft | `feat/native-action-executor` | `feat/legal-action-validator` → `25272d72` | Python and JSON tooling: skipped; PowerShell syntax: skipped; Documentation: success; Minecraft mod compile: success; Detect changed stacks: success | excluded |
+Checked: 2026-10-27T12:50:17Z · open issues: **0** · open PRs: **0** · issues closed administratively: **101**.
+
+GitHub issues and PRs are tracked as workflow state, not capability evidence. The 101 issue closures and eight unmerged PR closures do not meet any acceptance criteria.
+
+## Unmerged PR history (including closed PRs)
+
+| PR / state | Branch | Base → head | Historical checks | Integrated credit |
+|---|---|---|---|---|
+| [#122](https://github.com/xdCloudy/minecraft-native-intelligence/pull/122) closed | `feat/sensed-entity-identity` | `main` → `b8ac08a8` | PowerShell syntax: skipped; Documentation: success; Python and JSON tooling: success; Detect changed stacks: success | excluded |
+| [#123](https://github.com/xdCloudy/minecraft-native-intelligence/pull/123) closed | `research/terrain-encoding-prototype` | `main` → `59695fc6` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
+| [#124](https://github.com/xdCloudy/minecraft-native-intelligence/pull/124) closed | `feat/native-action-schema-v0` | `main` → `7886c4be` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
+| [#125](https://github.com/xdCloudy/minecraft-native-intelligence/pull/125) closed | `spike/server-player-embodiment` | `feat/sensed-entity-identity` → `d177480a` | Python and JSON tooling: success; PowerShell syntax: success; Minecraft mod compile: success; Documentation: success; Detect changed stacks: success | excluded |
+| [#126](https://github.com/xdCloudy/minecraft-native-intelligence/pull/126) closed | `feat/persistent-agent-identity` | `main` → `28713c16` | PowerShell syntax: skipped; Python and JSON tooling: success; Documentation: success; Detect changed stacks: success | excluded |
+| [#127](https://github.com/xdCloudy/minecraft-native-intelligence/pull/127) closed | `feat/environment-protocol-compatibility` | `feat/native-action-schema-v0` → `9d26898d` | PowerShell syntax: skipped; Documentation: success; Python and JSON tooling: success; Detect changed stacks: success | excluded |
+| [#128](https://github.com/xdCloudy/minecraft-native-intelligence/pull/128) closed | `feat/legal-action-validator` | `spike/server-player-embodiment` → `2231a03b` | Python and JSON tooling: success; Documentation: success; PowerShell syntax: success; Minecraft mod compile: success; Detect changed stacks: success | excluded |
+| [#129](https://github.com/xdCloudy/minecraft-native-intelligence/pull/129) closed | `feat/native-action-executor` | `feat/legal-action-validator` → `25272d72` | Python and JSON tooling: skipped; PowerShell syntax: skipped; Documentation: success; Minecraft mod compile: success; Detect changed stacks: success | excluded |
 
 ## Detailed matrices
 

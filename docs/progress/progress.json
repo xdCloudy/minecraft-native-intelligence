@@ -3,10 +3,21 @@
   "assessment": {
     "date": "2026-10-27",
     "baseline": "main",
-    "defaultBranchRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+    "defaultBranchRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
     "assessedBranch": "main",
-    "sourceRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
-    "note": "Audited the public default branch and the eight open PR heads listed below. This dataset is authored on a clean main-based assessment; no unmerged branch work is credited as integrated, shipped or validated on main. Research taxonomy and previous seed progress states were normalized to conservative main-only status definitions. Model/training candidates are now included in scored research scope."
+    "sourceRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+    "historicalMainRevisions": ["000c37b7fa9e016b7f2be34d36cb28233f2ef687"],
+    "note": "Reviewed main at 8622b139 after documentation-only PRs #130-#132. No Minecraft-native agent implementation was merged. All eight previously audited PRs #122-#129 were closed without merging and remain preserved as historical unmerged evidence; 101 previously open issues were closed administratively, not completed. Historic source revisions remain pinned in evidence and history. No closed issue or PR is credited as implemented, shipped, experimentally effective or validated on main."
+  },
+  "githubState": {
+    "repository": "xdCloudy/minecraft-native-intelligence",
+    "checkedAt": "2026-10-27T12:50:17Z",
+    "openIssueCount": 0,
+    "openPullRequestCount": 0,
+    "openIssueNumbers": [],
+    "openPullRequestNumbers": [],
+    "issuesClosedAdministratively": 101,
+    "note": "GitHub issues and PRs are tracked as workflow state, not capability evidence. The 101 issue closures and eight unmerged PR closures do not meet any acceptance criteria."
   },
   "statusDefinitions": {
     "research": [
@@ -281,7 +292,7 @@
     },
     {
       "id": "terrain_run_pr123",
-      "title": "Terrain-encoding synthetic benchmark summary on open PR #123",
+      "title": "Terrain-encoding synthetic benchmark summary on historically unmerged PR #123",
       "kind": "experiment",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/blob/59695fc66442b3628fccfd4051fa3117191f7959/experiments/terrain-encoding/results/geometry-local-encoding-v1_20261027T072802Z_53756ae112/summary.json"
     },
@@ -367,7 +378,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Version-pinned loader GameTests and dedicated/integrated server compatibility matrix.",
           "priorWork": [
             "embed",
@@ -444,7 +455,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Build reproducible JARs; smoke-test clean client/server installations and upgrade paths.",
           "priorWork": [
             "roadmap",
@@ -520,7 +531,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Action-by-action GameTests for movement, mining, use, eat, inventory, death and permissions.",
           "priorWork": [
             "actions",
@@ -608,7 +619,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Loader and game-version compatibility policy: test boot, save, reload and upgrade a minimal logical-server player mod across pinned Java Edition builds and compare Fabric versus NeoForge plus an unsupported-version control.",
@@ -689,7 +700,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Dedicated-server and integrated-server parity: test repeat spawn, player tracking, inventory save and respawn in single-player LAN and a headless dedicated server and compare integrated-server versus dedicated-server execution of identical mod and fixture.",
@@ -769,7 +780,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Persistent player lifecycle, spawn, death, respawn and unload: test spawn one named agent, unload its chunk, kill it, restart and rejoin across sessions and compare persistent ServerPlayer-compatible lifecycle versus fresh-profile reconstruction.",
@@ -850,7 +861,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Ordinary inventory, crafting, mining, combat and equipment parity: test execute ore mining, recipe crafting, equipment swap and combat in Survival with matched human trials and compare server-mediated legal player actions versus direct world mutation as invalid negative control.",
@@ -928,7 +939,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Multiplayer server compatibility and vanilla-client presentation: test join from unmodified clients while agent walks, chats, sleeps, dies and respawns and compare vanilla client observation versus modded debug client, both connected to authoritative server.",
@@ -1008,7 +1019,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Third-party mod compatibility and graceful capability negotiation: test add a mix of inventory, permissions, claim and gameplay-extension mods around the agent and compare declared capability negotiation versus optimistic unsupported action dispatch.",
@@ -1086,7 +1097,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Tick isolation, server-thread safety and performance budgets: test issue simultaneous movement and model-response requests during entity-heavy 20 TPS server load and compare tick-thread synchronous inference versus bounded async queue with main-thread application.",
@@ -1164,7 +1175,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Agent consent, operator visibility and identity disclosure: test create an agent on a multiplayer server and inspect user-facing/operator visibility over its lifetime and compare explicit operator consent and AI identity disclosure versus undisclosed setup as negative control.",
@@ -1242,7 +1253,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Skin, name, player-list and vanilla presentation parity: test spawn two agents with persistent distinct profile IDs and licensed catalog skins and compare pinned approved skin mapping versus randomized-on-restart skin assignment.",
@@ -1320,7 +1331,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "minecraft-interface",
           "category": "minecraft-interface",
           "description": "Runtime communication protocol and bounded recovery: test connect runtime to server, deliver ordered action requests and force connection loss mid-action and compare versioned acknowledged transport with replay protection versus fire-and-forget messages.",
@@ -1413,7 +1424,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Per-field conformance tests against visibility, occlusion, distance, ownership and client availability rules.",
           "priorWork": [
             "access",
@@ -1489,7 +1500,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Replay controlled scenarios; measure detection, latency, bandwidth and missed-event rates.",
           "priorWork": [
             "obs",
@@ -1566,7 +1577,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Occlusion, unload/reload, world-change and contradictory-evidence experiments with calibration metrics.",
           "priorWork": [
             "access",
@@ -1648,7 +1659,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reproduce the seven encoding comparison across six synthetic terrain patterns and five fixed seeds, inspect raw trials, then repeat on server-generated visible observations.",
           "priorWork": [
             "obs",
@@ -1734,7 +1745,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Entity tracking, identity continuity and occlusion: test observe two similar mobs crossing line-of-sight and disappearing behind terrain before reappearing and compare ephemeral sight-local identifiers versus provenance-limited re-identification.",
@@ -1812,7 +1823,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Sound, vibration, chat and event-driven perception: test trigger footsteps, hostile mob sounds, nearby chat and sculk vibration from controlled locations and compare event-driven native cues versus sampled-only polling at equal rate budget.",
@@ -1888,7 +1899,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Partial observability and information-access equivalence: test hide ores and entities behind walls while loading their chunks and supplying evaluator labels and compare access-filtered observation versus privileged chunk query used only as negative control.",
@@ -1964,7 +1975,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Multimodal sensor fusion across structured state and rendered cues: test present visible mobs, sound cues and chat referring to the same moving entity and compare structured-only versus access-matched visual/event fusion.",
@@ -2040,7 +2051,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Learned visual or symbolic representation versus native structured state: test learn a navigation-relevant representation using permitted view samples and structured observations and compare learned embedding versus hand-coded visible-surface symbols under equal training samples.",
@@ -2116,7 +2127,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Observation compression, bandwidth and aliasing trade-offs: test stream fast-changing terrain observations under several fixed bandwidth caps and compare dense visible voxels versus sparse delta/event encodings.",
@@ -2192,7 +2203,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "World-state estimation under stale, missing and contradictory events: test observe bridge removal, chunk unload/reload and inconsistent entity cues across time and compare timestamped probabilistic belief update versus last-value cache.",
@@ -2268,7 +2279,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Dynamic terrain, weather, light and time representation: test cross day-night, rain, light changes and block updates while remaining access-limited and compare event-linked temporal terrain updates versus periodic complete visible refresh.",
@@ -2344,7 +2355,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "perception",
           "category": "perception",
           "description": "Visual and egocentric spatial awareness versus native symbolic observations: test navigate identical rooms from rotated headings with partial field of view and compare egocentric geometry embedding versus world-relative symbolic local map.",
@@ -2438,7 +2449,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Contract validation plus deterministic GameTests across success, rejection, interruption and timeout.",
           "priorWork": [
             "actions",
@@ -2518,7 +2529,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Standardized locomotion/aim tasks with success, damage, distance, latency and robustness metrics.",
           "priorWork": [
             "actions",
@@ -2598,7 +2609,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Inject blocked paths, missing resources, damage, timeouts and world changes; measure recovery.",
           "priorWork": [
             "actions",
@@ -2681,7 +2692,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Typed versioned action schema and protocol evolution: test send action messages from current and previous client schema revisions and compare typed version negotiation versus permissive untyped action dictionaries.",
@@ -2760,7 +2771,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Server-authoritative legality validation and fail-closed semantics: test attempt mining outside reach, attacking protected players and crafting without ingredients and compare central server legality gate versus client-side-only validation as negative control.",
@@ -2838,7 +2849,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Path planning and navigation in dynamic terrain: test route across gravel, water, cliffs and doors that change after planning and compare online receding-horizon navigator versus static waypoint A-star at equal sensing.",
@@ -2914,7 +2925,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Fine-grained movement, look, jump, sneak and interaction control: test approach a narrow ledge, turn to a moving target, crouch and activate reachable block and compare continuous fine-grained action ticks versus fixed-step macro motions.",
@@ -2993,7 +3004,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Mining, placement, crafting, combat and inventory motor primitives: test mine a block, place its drop, craft with obtained items and engage an enemy and compare explicit legal low-level action primitives versus one opaque high-level command.",
@@ -3071,7 +3082,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Asynchronous action scheduling, cancellation and timeouts: test start a long mining action then interrupt with danger and runtime restart and compare interruptible action state machine versus single uninterruptible queue.",
@@ -3147,7 +3158,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Outcome acknowledgment, action verification and retry semantics: test submit an action at the edge of reach then drop its response packet and compare idempotent request/receipt tracking versus blind optimistic retry.",
@@ -3223,7 +3234,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Human-equivalent reach, cooldown, physics and resource constraints: test compare jump, attack, mine and sprint around vanilla legality thresholds and compare native player mechanics versus unrestricted shortcut executor as invalid control.",
@@ -3299,7 +3310,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Hierarchical skills, options and reusable motor programs: test repeatedly assemble path, mine and craft sequences after terrain perturbation and compare reusable learned options versus hand-scripted macros and flat low-level policy.",
@@ -3375,7 +3386,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Obstacle avoidance under partial observability: test traverse a corridor where mobs, doors and liquids intermittently block visibility and compare reactive local avoidance versus static path-following at same field of view.",
@@ -3451,7 +3462,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "action",
           "category": "action",
           "description": "Inventory manipulation and equipment action policy: test move stacks between slots and equip selected items while crafting and taking damage and compare atomic slot-operation policy versus batched speculative inventory updates.",
@@ -3551,7 +3562,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Compare matched data budgets, held-out seeds/tasks, native telemetry alignment and ablations.",
           "priorWork": [
             "vpt",
@@ -3632,7 +3643,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Matched seeds, observation/action budgets and compute; score prediction calibration and downstream behavior separately.",
           "priorWork": [
             "dreamerv3",
@@ -3712,7 +3723,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Longitudinal multi-agent ablations measuring retention, behavioral divergence, privacy and compute.",
           "priorWork": [
             "arch",
@@ -3796,7 +3807,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Transformer policies for temporally grounded action: test train policies on identical legal observation-action sequences with long delayed dependencies and compare transformer history attention versus recurrent policy with matched parameter/compute budget.",
@@ -3873,7 +3884,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "State-space models for long histories and efficient sequence inference: test replay lengthy Minecraft episodes that require remembering early landmarks and compare selective state-space policy versus transformer with matched active memory and data.",
@@ -3950,7 +3961,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Recurrent policies with explicit hidden-state reset and persistence: test stop, persist and resume a recurrent agent in the middle of multi-step navigation and compare recurrent hidden-state checkpoint versus cold reset and stateless feed-forward baseline.",
@@ -4027,7 +4038,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Mixture-of-experts routing and active-parameter efficiency: test batch heterogeneous navigation, crafting and social tasks over shared model serving and compare sparse expert router versus dense baseline at matched quality and training compute.",
@@ -4104,7 +4115,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Latent world models and predictive state-space learning: test learn Minecraft visible-state transitions under mining and movement episodes and compare predictive latent dynamics versus model-free policy at same interaction budget.",
@@ -4181,7 +4192,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Actor-critic and policy-gradient architectures: test collect bounded Survival trajectories with sparse resource rewards and compare actor-critic versus behavior-cloning and reward-free baseline with matched samples.",
@@ -4258,7 +4269,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Diffusion or flow-matching action policies: test generate continuous look/movement trajectories for obstacle and target alignment and compare diffusion/flow action sampler versus autoregressive legal-action policy.",
@@ -4335,7 +4346,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Planning-oriented search, tree expansion and model-predictive control: test plan multi-stage gather-craft-build tasks with dynamic resource costs and compare tree search or MPC versus reactive policy using equally available observations.",
@@ -4412,7 +4423,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Multimodal representation models for language, vision and game state: test resolve a nearby player verbal request requiring terrain, item and gesture cues and compare jointly trained language/visible-state representation versus separate unimodal encoders.",
@@ -4489,7 +4500,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Hybrid neural and symbolic planning: test plan a shelter using uncertain learned resource estimates and symbolic constraints and compare neural-symbolic planner versus pure neural policy and fixed rule planner.",
@@ -4566,7 +4577,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Small specialist models versus shared generalist foundation: test evaluate navigation, combat and crafting on a fixed shared-task suite and compare specialist policies with skill routing versus one generalist shared model at equal serving budget.",
@@ -4643,7 +4654,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Parameter count, active parameters and memory budget comparison: test sweep model sizes and active parameters on a bounded hardware matrix and compare small dense versus sparse MoE versus recurrent candidates.",
@@ -4720,7 +4731,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Quantisation, CPU inference and edge deployment feasibility: test deploy the same policy with CPU and GPU backends at several quantization levels and compare full precision GPU versus quantized CPU/GPU using identical observation logs.",
@@ -4797,7 +4808,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "models",
           "category": "models",
           "description": "Shared foundation model versus isolated per-agent models: test run multiple persistent agents through navigation and chat episodes and compare shared frozen foundation plus isolated state versus per-agent model copies.",
@@ -4904,7 +4915,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Baselines with matched exposure, held-out worlds, ablations and learned-versus-scripted accounting.",
           "priorWork": [
             "minerl",
@@ -4986,7 +4997,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Open-ended worlds with no task prompt; measure goal diversity, progress, safety and persistence.",
           "priorWork": [
             "rnd",
@@ -5068,7 +5079,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Sequential task/world shifts with retention curves, rollback tests and agent data isolation checks.",
           "priorWork": [
             "continual_rl",
@@ -5153,7 +5164,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Behaviour cloning from permissioned human demonstrations: test capture consented player demonstrations aligned to legal movement, craft and inventory outcomes and compare cloned policy versus matched scripted baseline and shuffled-action negative control.",
@@ -5231,7 +5242,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Online reinforcement learning under native survival constraints: test train an agent to survive nights and gather food on held-out server seeds and compare online PPO-style updates versus frozen imitation with same environment steps.",
@@ -5309,7 +5320,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Offline reinforcement learning from governed gameplay datasets: test learn to gather materials from an immutable licensed episode dataset and compare conservative offline policy versus cloned actions with matched transition access.",
@@ -5387,7 +5398,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Model-based reinforcement learning and learned dynamics: test predict block, mob and inventory changes following legal action sequences and compare learned model-predictive policy versus model-free policy.",
@@ -5465,7 +5476,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Self-supervised prediction of events, state and affordances: test mask visible block changes and action outcomes in recorded Minecraft episodes and compare next-event prediction versus reconstruction-only self-supervision.",
@@ -5543,7 +5554,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Contrastive or goal-conditioned representation learning: test train representation of visible terrain and goal-conditioned destination cues and compare contrastive positive/negative pairs versus supervised state features.",
@@ -5621,7 +5632,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Curriculum learning and task-distribution design: test sequence wood gathering, shelter craft and hostile-night survival tasks by difficulty and compare adaptive success-based curriculum versus fixed task mix with equal transitions.",
@@ -5699,7 +5710,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Skill discovery and unsupervised option learning: test discover reusable mine, climb and approach behaviors without named labels and compare unsupervised option discovery versus random latent skill and scripted options.",
@@ -5777,7 +5788,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Transfer, meta-learning and rapid adaptation to unseen worlds: test train in one set of biomes and transfer to unseen biomes and recipes and compare meta-learned adaptation versus frozen foundation and retraining from scratch.",
@@ -5856,7 +5867,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Continual learning, replay, consolidation and forgetting control: test introduce a new recipe after navigation/survival skills have stabilized and compare replay and gated consolidation versus naive online finetuning and frozen policy.",
@@ -5934,7 +5945,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Self-play and multi-agent reinforcement learning: test coordinate two agents to collect resources while one hostile actor competes and compare shared/multi-agent reinforcement learning versus independent learners with same compute.",
@@ -6012,7 +6023,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Reward modelling, preference learning and objective misspecification: test collect authorized preferences for safe shelter placement and resource choices and compare reward-model preference training versus hand-crafted objective and direct preference policy.",
@@ -6090,7 +6101,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Distillation from expensive teachers into compact policies: test use a strong teacher to label legal actions across navigation and crafting episodes and compare student distillation versus student imitation of original dataset alone.",
@@ -6168,7 +6179,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Experience replay, prioritisation and temporal credit assignment: test record sparse rewards after long mining-to-crafting chains and compare prioritized replay versus uniform replay with matching sampling budget.",
@@ -6246,7 +6257,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Synthetic data, simulators, replay and sim-to-real transfer: test train in headless synthetic terrain and validate on native Java Edition server seeds and compare simulation-domain randomization versus narrow simulator-only policy.",
@@ -6324,7 +6335,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Gradient updates versus retrieval, memory and inference-time adaptation: test learn a new resource location once, revisit days later and perform an unfamiliar task and compare finetuning versus retrieval-only memory versus context-only adaptation.",
@@ -6402,7 +6413,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Per-agent adapters, shared updates and identity-safe training: test adapt two agents with conflicting tool preferences on a shared foundation and compare isolated personal adapters versus shared finetune and immutable base.",
@@ -6480,7 +6491,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Imitation learning versus behavior cloning and preference-conditioned imitation: test collect correction trajectories for mistakes in gathering and navigation and compare static behavior cloning versus interactive DAgger and preference-conditioned imitation.",
@@ -6558,7 +6569,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "learning",
           "category": "learning",
           "description": "Autonomous learning triggers and safe update control: test monitor sustained task failure and trigger optional bounded learning update and compare explicit opt-in checkpoint gate versus automatic background update.",
@@ -6663,7 +6674,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Latency/load tests and paired behavior experiments with delayed/failed planner calls.",
           "priorWork": [
             "arch",
@@ -6742,7 +6753,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Transfer across changed terrain, resources and task variants; audit skill provenance and termination.",
           "priorWork": [
             "options",
@@ -6823,7 +6834,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Longitudinal unprompted scenarios, perturbations, counterfactual ablations and goal provenance review.",
           "priorWork": [
             "goal",
@@ -6907,7 +6918,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Autonomous goal generation from needs, opportunities and history: test let an agent choose activities after hunger, nearby structures and long-term memories change and compare needs-conditioned learned goal proposal versus fixed priority list.",
@@ -6983,7 +6994,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Goal arbitration under conflicting priorities and limited resources: test offer limited food, iron and daylight against conflicting shelter and travel goals and compare learned goal utility arbitration versus static weighted priorities.",
@@ -7059,7 +7070,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Long-horizon planning with state uncertainty and irreversible actions: test craft an enchantment setup over multiple nights with unobserved resource costs and compare contingent long-horizon planning versus greedy next-action policy.",
@@ -7135,7 +7146,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Causal reasoning and counterfactual prediction: test remove a bridge after first observation and ask agent to predict alternate outcomes and compare learned causal intervention model versus observational correlation baseline.",
@@ -7211,7 +7222,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Curiosity, novelty and safe intrinsic motivation: test explore unfamiliar caves with hazards and optional rewards and compare intrinsic novelty learning versus random exploration and extrinsic-only policy.",
@@ -7287,7 +7298,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Exploration strategy and information gain: test uncover a terrain region using only visible exploration history and compare expected-information-gain planning versus frontier random walk.",
@@ -7363,7 +7374,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Resource, hunger, health, time and risk budgeting: test schedule food, armor and travel before night and against limited inventory and compare explicit uncertainty-aware budgets versus greedy resource use.",
@@ -7439,7 +7450,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Dynamic replanning after environmental change: test mutate terrain and remove planned material mid-construction and compare event-triggered replanning versus fixed plan and periodic replanner.",
@@ -7515,7 +7526,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Failure diagnosis, recovery and learning from errors: test cause tool breakage and partially failed crafting in multi-step tasks and compare diagnosis-guided retry policy versus blind replay and fixed fallback.",
@@ -7591,7 +7602,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Self-evaluation, confidence calibration and reflective updates: test predict confidence before action then review measured legal outcomes and compare calibrated metacognitive update versus uncalibrated self-score.",
@@ -7668,7 +7679,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Open-ended project creation without external instruction: test give persistent agent an empty instruction queue across weeks of simulated time and compare self-originated project policy versus scripted activity sampler.",
@@ -7744,7 +7755,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "cognition",
           "category": "cognition",
           "description": "Creative problem solving and tool-use discovery: test supply a novel obstacle requiring combinations of blocks and tools and compare adaptive tool-use search versus fixed recipe/macro library.",
@@ -7845,7 +7856,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Spatial relation and change-detection tasks under occlusion/unloading with calibrated uncertainty.",
           "priorWork": [
             "obs",
@@ -7925,7 +7936,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Seeded terrains/resource budgets; measure design fit, material accuracy, completion, recovery and survival cost.",
           "priorWork": [
             "htn_building",
@@ -8005,7 +8016,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Pre-registered build sets, retrieval/copy baselines, functional scoring and blinded expert review.",
           "priorWork": [
             "goal",
@@ -8088,7 +8099,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "3D spatial reasoning, geometry and relative coordinates: test reason about hidden and visible 3D structure with stairs, overhangs and rotated frames and compare egocentric voxel-relative planner versus 2D map projection.",
@@ -8164,7 +8175,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Blueprint copying versus adaptation and original design: test reproduce a provided small house then adapt to a hillside and novel material palette and compare blueprint copy policy versus constraint-based redesign.",
@@ -8240,7 +8251,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Resource estimation, procurement and construction dependency plans: test estimate blocks needed for a multilevel house then acquire them legally and compare dependency-aware bill of materials versus on-demand gathering.",
@@ -8316,7 +8327,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Terrain-aware architecture, orientation and environmental adaptation: test place a shelter on slope near water under hostile-night pressure and compare terrain-adaptive layout optimization versus flat-ground default.",
@@ -8392,7 +8403,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Multi-stage project scheduling and persistent progress tracking: test pause and restart a three-stage farm-and-house build after death and compare durable project graph versus ephemeral in-memory checklist.",
@@ -8469,7 +8480,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Structural integrity, access, lighting and functional verification: test complete a house with door, torch, roof and navigable path and compare functional verification versus geometry-only completion check.",
@@ -8545,7 +8556,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Placement outcome checking and recovery from partial failure: test interrupt a block-placement stream with occupied coordinates and connection loss and compare observed block-state reconciliation versus optimistic placement counter.",
@@ -8621,7 +8632,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Learned construction skills and reusable design abstractions: test learn reusable bridge, staircase and wall construction sequences and compare skill-composition policy versus fixed blueprint macros.",
@@ -8697,7 +8708,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Aesthetic preference learning and iterative improvement: test iterate shelter designs from consented player feedback and functional measurements and compare learned preference updater versus static style templates.",
@@ -8773,7 +8784,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Autonomous construction goal selection and project initiation: test provide unassigned materials in a persistent world and observe projects the agent initiates and compare autonomous construction motivation versus externally requested design tasks.",
@@ -8849,7 +8860,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Cooperative multi-agent building, division and reconciliation: test have three agents divide gathering, placement and verification of a bridge and compare distributed construction plan versus independent unguided builders.",
@@ -8925,7 +8936,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "construction",
           "category": "construction",
           "description": "Novelty, utility and design-diversity measurement: test compare house designs across biomes for function and originality and compare blinded novelty rating plus functional score versus block-overlap heuristic.",
@@ -9027,7 +9038,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Longitudinal recall, source tracing, contradiction resolution and bounded-storage studies.",
           "priorWork": [
             "research",
@@ -9106,7 +9117,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Restart, clone, migration, corruption, deletion and adversarial multi-agent isolation tests.",
           "priorWork": [
             "goal",
@@ -9190,7 +9201,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Revisit changed locations and reuse skills under controlled terrain/resource variation.",
           "priorWork": [
             "research",
@@ -9275,7 +9286,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Working memory limits, refresh and attentional selection: test present simultaneous combat threat, navigation cue and social message and compare learned working-memory attention versus FIFO state window.",
@@ -9353,7 +9364,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Episodic event storage with source and time provenance: test record a witnessed player exchange and revisit it across game sessions and compare timestamped episodes versus summary-only storage.",
@@ -9431,7 +9442,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Semantic memory extraction and belief maintenance: test learn and revise a belief about a recipe or location after contradictory experiences and compare confidence-tagged semantic extraction versus append-only fact store.",
@@ -9509,7 +9520,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Spatial maps, landmarks, routes and place memory: test travel to resource cave, leave, rotate spawn and return after restart and compare landmark-based spatial memory versus absolute waypoint list.",
@@ -9587,7 +9598,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Procedural memory and skill reliability tracking: test store a multi-step farming skill then reuse after time and altered terrain and compare skill memory with outcome history versus bare action macro.",
@@ -9665,7 +9676,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Temporal reasoning, event ordering and duration: test reconstruct order and duration of a mining trip interrupted by sleep/death and compare event-time and world-time model versus ingestion-order log.",
@@ -9743,7 +9754,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Retrieval quality, relevance, recency and confidence: test retrieve remembered safe paths among similar place and player episodes and compare relevance/recency/confidence scoring versus nearest-vector-only retrieval.",
@@ -9821,7 +9832,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Consolidation, abstraction, forgetting and storage budgets: test consolidate weeks of episodic activity under finite storage and compare provenance-preserving summarization versus raw-only retention.",
@@ -9899,7 +9910,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Contradiction detection, belief revision and uncertainty: test update beliefs after player denial of prior promise and contradictory world evidence and compare confidence-weighted revision versus newest-statement-wins.",
@@ -9977,7 +9988,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Identity continuity across restarts, death and world transitions: test save, die, respawn, reload and transfer world instance of a named agent and compare durable identity lineage versus recreated anonymous runtime.",
@@ -10057,7 +10068,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Individual preferences, personality divergence and relationship state: test expose two otherwise-identical agents to different companions and rewards and compare personal memory preference learning versus fixed personality seed script.",
@@ -10135,7 +10146,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Cross-session persistence, migration and schema evolution: test upgrade memory schema after hundreds of sessions and restore from old snapshot and compare explicit migrations versus best-effort deserialization.",
@@ -10215,7 +10226,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "memory",
           "category": "memory",
           "description": "Catastrophic forgetting prevention during adaptation: test teach a new tool skill after several stable movement and crafting skills and compare gated adaptation with replay versus naive finetune.",
@@ -10318,7 +10329,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reference grounding, delayed recall, truth checking, instruction arbitration and causal ablations.",
           "priorWork": [
             "research",
@@ -10397,7 +10408,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Matched-start longitudinal cohorts, cross-situation consistency and save/load ablations.",
           "priorWork": [
             "goal",
@@ -10477,7 +10488,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Controlled social dilemmas and open-ended world cohorts; vary incentives, communication and memory.",
           "priorWork": [
             "multiagent",
@@ -10560,7 +10571,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Grounded language generation conditioned on observation and memory: test ask an agent about a just-seen creeper and a previously visited cave and compare observation-and-memory-grounded dialogue versus language-only response.",
@@ -10636,7 +10647,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Referential accuracy for entities, locations, items and plans: test refer to one of several similar nearby chests, mobs or landmarks in chat and compare grounded reference resolver versus literal keyword matcher.",
@@ -10712,7 +10723,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Dialogue context, turn-taking and long-term conversational memory: test hold multi-turn conversations separated by mining and server restart and compare turn-state plus episodic conversation memory versus short-context-only policy.",
@@ -10788,7 +10799,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Human-agent communication under shared world context: test have a human ask for materials while the agent lacks some inventory knowledge and compare shared-world grounded messaging versus text-only scripted replies.",
@@ -10864,7 +10875,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Agent-agent communication protocols and semantics: test let two agents negotiate where to meet without operator message injection and compare grounded event/chat channel versus structured privileged shared state.",
@@ -10940,7 +10951,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Cooperation, task allocation and joint intention: test have two agents collect wood and iron for a joint shelter and compare joint goal/intention tracking versus independent task policies.",
@@ -11016,7 +11027,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Negotiation, conflict resolution and resource sharing: test distribute scarce food and diamonds among competing agents and compare explicit consentful negotiation versus fixed equal split.",
@@ -11092,7 +11103,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Social learning from observed and experienced interaction: test let novice agent observe skilled player safely construct a bridge and compare behavior adaptation from observation versus instruction-only or fixed imitation.",
@@ -11168,7 +11179,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Trust, reputation, relationships and privacy boundaries: test exchange favors across multiple sessions with players under consent limits and compare provenance-aware trust update versus uniform trust and recent-message heuristic.",
@@ -11244,7 +11255,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Multi-agent knowledge exchange without identity leakage: test communicate a discovered route from agent A to agent B and compare permissioned shareable knowledge versus copied private episodic store.",
@@ -11320,7 +11331,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Group coordination, population dynamics and emergent behavior: test simulate a population interacting over food scarcity and construction projects and compare learned decentralized coordination versus scripted social role baselines.",
@@ -11396,7 +11407,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "language-social",
           "category": "language-social",
           "description": "Social behavior evaluation without scripted demonstrations: test observe agent conversations and collaborative tasks over unseen groups and compare blinded social benchmark with ablations versus rule-scripted dialogue.",
@@ -11498,7 +11509,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Fault injection, timeout, restart and throughput tests with protocol versioning.",
           "priorWork": [
             "arch",
@@ -11581,7 +11592,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Long-duration crash/restart drills, retention/deletion checks and operator audit review.",
           "priorWork": [
             "experiments",
@@ -11668,7 +11679,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Runtime architecture and isolated cognition/control processes: test connect mod tick callbacks to independent cognition/memory workers under load and compare async bounded message bridge versus synchronous in-tick inference.",
@@ -11748,7 +11759,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Model serving APIs, failure handling and version pinning: test swap model versions during legal action requests and induce inference failures and compare versioned serving protocol with circuit breaker versus direct unversioned RPC.",
@@ -11828,7 +11839,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Quantized inference and throughput/latency trade-offs: test replay identical observations through quantized and full-precision policies and compare quantization sweep with pinned GPU/CPU backend versus reference FP model.",
@@ -11908,7 +11919,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Context window allocation and memory compaction: test interleave multi-day dialogue, action history and map memory under fixed context and compare relevance-ordered memory compaction versus naive tail truncation.",
@@ -11988,7 +11999,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Durable persistence, backups and crash recovery: test terminate server during inventory transfer and restore backup snapshots and compare atomic journal/snapshot recovery versus direct overwrite saves.",
@@ -12068,7 +12079,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Monitoring, tracing, profiling and per-agent diagnostics: test trace ten simultaneous agents as actions and inference requests interleave and compare structured per-agent spans versus raw console logs.",
@@ -12148,7 +12159,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Inference latency, action deadlines and graceful degradation: test throttle inference service while player approaches lava and compare local safe deadline fallback versus indefinite remote inference wait.",
@@ -12228,7 +12239,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "infrastructure",
           "category": "infrastructure",
           "description": "Replayable simulation, headless servers and accelerated evaluation: test replay seeded headless Minecraft episodes at normal and accelerated pacing and compare exact-state deterministic replay versus approximate offline simulator.",
@@ -12331,7 +12342,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Pre-register seeds, baselines, success criteria, run counts, intervals and failure taxonomy.",
           "priorWork": [
             "eval",
@@ -12411,7 +12422,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Ablate scripts, prompts, tools, privileged channels, seed memorization and scaffolds.",
           "priorWork": [
             "eval",
@@ -12492,7 +12503,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Pre-registered multi-day runs with snapshots, matched controls, retention and privacy checks.",
           "priorWork": [
             "goal",
@@ -12576,7 +12587,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Reproducible experiment manifests, seeds and environment pinning: test rerun a mining-to-crafting benchmark on different machines from saved manifest and compare pinned experiment schema/runner versus ad hoc shell logs.",
@@ -12653,7 +12664,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Controlled baselines and information-access parity: test compare agents on exactly the same hostile cave without hidden map access and compare matched legal-observation baseline versus privileged-oracle negative control.",
@@ -12731,7 +12742,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Survival, resource collection and crafting task benchmarks: test benchmark wood, stone, iron, food and crafting progression in true Survival and compare pretrained policy versus no-learning controls with equivalent starter items.",
@@ -12808,7 +12819,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Navigation, exploration and generalization to unseen terrain: test evaluate routes across held-out hills, caves and forests after unseen changes and compare learned navigator versus scripted pathfinder with matched perception.",
@@ -12885,7 +12896,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Construction quality, originality and adaptation benchmarks: test score creative shelters built on unknown biome topology using legal blocks and compare adaptive builder versus template-placement baseline with blind human raters.",
@@ -12963,7 +12974,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Long-horizon goal completion and autonomous activity evaluation: test observe a week of unprompted gather-build-explore projects and compare durable autonomous planner versus randomized/scripted activity scheduler.",
@@ -13040,7 +13051,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Skill retention, transfer and continual-learning evaluation: test teach one recipe then test old navigation/combat skills after new tasks and compare continual learner versus fixed policy and naive finetuned control.",
@@ -13117,7 +13128,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Grounded-language, reference and dialogue evaluation: test ask agents to identify and discuss recent visible events with players and compare grounded dialogue policy versus text-only and memory-disabled baselines.",
@@ -13194,7 +13205,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Social cooperation, coordination and trust evaluation: test require a group to share resources and complete bridge while one agent has less information and compare emergent coordination policy versus scripted fixed-role team.",
@@ -13271,7 +13282,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Multi-agent scaling, throughput and interference measurement: test scale 1, 4, 16 and 64 agents in comparable fixed-size worlds and compare batched shared inference versus per-agent serial serving.",
@@ -13348,7 +13359,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Ablations, statistical power, confidence intervals and effect sizes: test evaluate a held-out Survival goal across preregistered seeds and repeated stochastic policies and compare paired ablations with power calculation versus single-run showcase.",
@@ -13425,7 +13436,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Learned-versus-scripted behavior attribution and privilege audit: test disable memory, scripted macros and privileged fields one at a time and compare feature-removal ablations versus matched scripted-only and access-oracle controls.",
@@ -13502,7 +13513,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Longitudinal identity, memory and behavioral change studies: test record persistent agent progress over repeated deaths, world restarts and social seasons and compare longitudinal identity-linked trials versus stateless and scripted-personality baselines.",
@@ -13579,7 +13590,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "evaluation",
           "category": "evaluation",
           "description": "Failure analysis, negative results and independent replication: test reproduce failed navigation and crafting cases with blinded independent seeds and compare preregistered negative-case suite versus developer-only cherry-picked successes.",
@@ -13680,7 +13691,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Adversarial content suite, sandbox escape review and permission-boundary tests.",
           "priorWork": [
             "safety",
@@ -13755,7 +13766,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Per-source provenance/licence review, data minimization, deletion and access-control verification.",
           "priorWork": [
             "safety",
@@ -13834,7 +13845,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Operator acceptance and fault tests for spawn, pause, stop, export/delete and disclosure.",
           "priorWork": [
             "goal",
@@ -13917,7 +13928,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Action legality, exploit resistance and adversarial world inputs: test submit crafted actions against protected claims, mob combat and inventory transfers and compare server-side legality gate versus client-only request checks.",
@@ -13993,7 +14004,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Information leakage and privileged-state prevention: test place hidden resources next to loaded chunks and include evaluator-only debug labels and compare strict field-level access policy versus raw authoritative server-state baseline.",
@@ -14069,7 +14080,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Multiplayer safety, griefing limits and resource restrictions: test stage multiplayer building with protected player houses and limited shared resources and compare operator-granted zone/action policies versus unrestricted agent policy.",
@@ -14145,7 +14156,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Operator oversight, emergency stop and transparent controls: test stop an agent during an irreversible action and inspect operator commands and compare authenticated stop/suspend/revoke channel versus world chat command impersonation.",
@@ -14221,7 +14232,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Runtime sandboxing and process isolation: test feed untrusted chat payloads while cognition worker runs near host filesystem and compare isolated least-privilege process versus ambient file/network privileges.",
@@ -14297,7 +14308,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Player privacy, consent, minimization and deletion: test collect, export and delete messages involving a consenting and nonconsenting player and compare data-minimized consent ledger versus unrestricted chat logging.",
@@ -14373,7 +14384,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Training-data provenance, licensing and redistribution checks: test import candidate player demonstrations with mixed license and asset provenance and compare manifest-enforced intake versus unverified dataset scraper.",
@@ -14449,7 +14460,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Adversarial robustness, prompt injection and untrusted text: test expose the agent to signs and chat instructing it to ignore safety rules and compare untrusted-text boundary enforcement versus unfiltered instruction ingestion.",
@@ -14525,7 +14536,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Fault containment, rollback and reproducible recovery: test inject inference crash, corrupt snapshot and network partition during agent action and compare isolated failure recovery with checkpoints versus shared-process restart.",
@@ -14601,7 +14612,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Audit logging and incident review: test investigate unauthorized action and leaked conversation using structured provenance logs and compare signed structured audit events versus unstructured text logs.",
@@ -14677,7 +14688,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Release engineering, versioning, rollback and installation acceptance: test install, upgrade and downgrade mod release on supported server builds and compare pinned signed release with reversible migration versus unversioned JAR replacement.",
@@ -14753,7 +14764,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "safety-governance",
           "category": "safety-governance",
           "description": "Configuration, operator documentation and supportability gates: test configure operator limits and diagnose blocked agent startup from docs alone and compare documented validated config versus hidden defaults and manual developer intervention.",
@@ -14865,7 +14876,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Load sweep across world complexity and cohort sizes; report latency percentiles, fairness, memory and behavior.",
           "priorWork": [
             "arch",
@@ -14951,7 +14962,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "shared serving and scale",
           "description": "Shared inference batching and fair scheduling: test serve one urgent combat agent alongside several idle builders with batched requests and compare deadline-aware fair batching versus FIFO single queue.",
@@ -15029,7 +15040,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "shared serving and scale",
           "description": "CPU/GPU utilization, memory footprint and cost budgets: test increase agent count from 1 to 64 on fixed CPU, GPU and memory limits and compare shared sparse serving versus copied dense models with equal capability suite.",
@@ -15107,7 +15118,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "shared serving and scale",
           "description": "Agent concurrency, backpressure and population scaling: test spawn increasing concurrent agents as world tick and inference load approach cap and compare bounded backpressure and adaptive cognition cadence versus unbounded queues.",
@@ -15185,7 +15196,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "shared serving and scale",
           "description": "Distributed execution and network partition behavior: test partition runtime nodes hosting separate agents while Minecraft server continues ticking and compare lease-based reconciliation versus independent speculative writes.",
@@ -15264,7 +15275,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Concurrent player identities and lifecycle isolation. Assess concurrent player identities and lifecycle isolation without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15343,7 +15354,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Per-agent persistent state isolation and cross-agent leakage tests. Assess per-agent persistent state isolation and cross-agent leakage tests without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15422,7 +15433,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Multi-agent batching, queueing and fairness policies. Assess multi-agent batching, queueing and fairness policies without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15501,7 +15512,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "CPU/GPU allocation and memory budgets per shared-agent population. Assess cpu/gpu allocation and memory budgets per shared-agent population without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15580,7 +15591,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Runtime fault tolerance and per-agent recovery. Assess runtime fault tolerance and per-agent recovery without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15659,7 +15670,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Population-scale simulation, replay and accelerated evaluation. Assess population-scale simulation, replay and accelerated evaluation without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15738,7 +15749,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Distributed multi-agent execution and network failure behavior. Assess distributed multi-agent execution and network failure behavior without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15817,7 +15828,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Cross-agent memory and knowledge-exchange boundaries. Assess cross-agent memory and knowledge-exchange boundaries without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15896,7 +15907,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "workstream": "multi-agent-infrastructure",
           "category": "multi-agent-infrastructure",
           "description": "Shared inference versus independently served agent control. Assess shared inference versus independently served agent control without identity leakage, starvation, server-thread blocking or hidden state.",
@@ -15974,7 +15985,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Craft a previously unseen target requiring at least three legal intermediate recipes and reconcile ingredient consumption. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16057,7 +16068,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Produce a requested processed material with measured fuel and elapsed ticks using applicable furnace types. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16140,7 +16151,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Finish varied mining tasks without invalid tool use and compare wear and replacement costs. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16223,7 +16234,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Survive a held-out multi-day expedition with legal food procurement, cooking and consumption. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16306,7 +16317,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Establish and maintain a crop plot across multiple harvests with verified yields. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16389,7 +16400,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Build an enclosure and sustain a lawful breeding cycle across restarts. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16472,7 +16483,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Earn, compare and complete trade chains without reading unpublished offers or inventory. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16555,7 +16566,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete repeated fishing and underwater gathering tasks with measured success and time. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16638,7 +16649,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Upgrade equipment using only legitimately earned XP and accessible enchantments. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16721,7 +16732,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Craft, store and use an appropriate potion, confirming actual timed status effects. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16804,7 +16815,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Retrieve and deliver specified items across multiple storage sites without duplication. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16887,7 +16898,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete a held-out progression chain with every intermediate action attributable to legal play. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -16970,7 +16981,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Set a valid respawn point, sleep where allowed and verify later respawn. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17053,7 +17064,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "After a seeded death, navigate to and recover reachable drops within game rules. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17136,7 +17147,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Discover and loot unfamiliar structures across held-out seeds under survival constraints. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17219,7 +17230,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Produce a rare equipment or construction objective from scratch on held-out worlds. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17302,7 +17313,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete survival combat encounters with varied hostile mobs and record damage taken. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17385,7 +17396,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Hit moving targets at varied distances while accounting for ammunition and cooldown. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17468,7 +17479,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Survive held-out melee and ranged encounters with measured block timings and armour wear. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17551,7 +17562,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete declared boss scenarios using legally acquired equipment and measured retries. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17634,7 +17645,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Interact, tame or transport eligible mobs without unnecessary aggression or forced state mutation. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17717,7 +17728,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete hazard courses with varied health and equipment without death or privileged map knowledge. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17800,7 +17811,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Choose and validate tactics for encounters with altered effects or gear. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17883,7 +17894,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Replan journeys and camp choices across held-out climates and night cycles. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -17966,7 +17977,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete a legal Nether resource expedition and return through a reachable portal. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18049,7 +18060,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reach and explore End areas and return or respawn according to game mechanics. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18132,7 +18143,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Traverse and revisit cross-dimensional waypoints without hardcoded portal positions. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18215,7 +18226,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reach submerged objectives with oxygen and visibility limits comparable to human players. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18298,7 +18309,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Transport supplies over a seeded water route using legal boarding and steering. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18381,7 +18392,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Finish varied mounted routes without using entity teleport or direct velocity edits. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18464,7 +18475,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Construct or use a rail route and verify arrival and cargo transfer. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18547,7 +18558,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete aerial routes with measured height, health and equipment constraints. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18630,7 +18641,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Cross held-out obstacle courses with legal player physics and minimal unnecessary blocks. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18713,7 +18724,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Discover and revisit a multi-level cave target while keeping a legal return route. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18796,7 +18807,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Resume a route after chunk unload/reload without omniscient tracking or duplicated actions. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18879,7 +18890,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reach a goal after runtime terrain changes and report every block operation. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -18962,7 +18973,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Build and test a previously unseen combination of logical switches and outputs. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19045,7 +19056,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Assemble an automated collection or sorting mechanism and test output over time. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19128,7 +19139,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Demonstrate sustained farm yield across multiple cycles without direct item insertion. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19211,7 +19222,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Fit a functional interior in an unfamiliar footprint with walkable access. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19294,7 +19305,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Transform a seeded landscape against geometric and preservation constraints. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19377,7 +19388,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Repair and expand held-out builds while preserving defined protected elements. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19460,7 +19471,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Generate and build different designs satisfying blind style and novelty evaluations. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19543,7 +19554,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete a multi-building settlement plan across sessions without losing progress. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19626,7 +19637,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Construct access between dispersed locations with measured coverage and safety. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19709,7 +19720,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Repair seeded circuit faults without viewing hidden evaluator wiring or applying edits directly. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19792,7 +19803,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete or meaningfully adapt a build under random resource restrictions. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19875,7 +19886,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Construct a shared design with delegated regions and independently measured rework. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -19958,7 +19969,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Operate in protected and public regions without prohibited edits or repeated spam. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20041,7 +20052,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete cooperative resource tasks without touching explicitly private containers. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20124,7 +20135,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Negotiate and execute fair item exchange using ordinary player actions. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20207,7 +20218,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete held-out modded scenarios using declared observation/action capabilities. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20290,7 +20301,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Resume a long-running project through controlled shutdown and restart, preserving world outcomes. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20373,7 +20384,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Resume after offline intervals without inventing growth, movement or events. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20456,7 +20467,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete matched survival tasks across declared difficulty and gamerule combinations. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20538,7 +20549,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Replay comparable scenarios across pinned supported versions and identify behavioural drift. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20620,7 +20631,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Restore a test world from backup and reconcile agent identity, memory and inventory correctly. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20703,7 +20714,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Respect declared no-grief, no-combat and interaction rules during held-out tests. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20786,7 +20797,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Run a multi-day world with self-chosen goals, measurable progress and no scripted task schedule. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20868,7 +20879,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Complete compositional held-out tasks combining three or more previously trained mechanics. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "goal",
@@ -20958,7 +20969,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Record consenting play sessions with reproducible consent, schema, tick and entity-lifecycle metadata. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21033,7 +21044,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reconstruct ordered legal action/observation trajectories under artificial jitter and dropped packets. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21108,7 +21119,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Reproduce segmentation labels from versioned rules and audit ambiguous examples with independent review. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21183,7 +21194,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Trace a sample back from model output to exact source and block withdrawn/unlicensed records in future training. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21259,7 +21270,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Test interactive correction on held-out game states against behaviour cloning with equal labels and compute. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21335,7 +21346,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Audit held-out worlds, structures, seeds and human demonstrator identities for overlap and near-duplicates. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21410,7 +21421,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Round-trip multiple supported schema versions and compare action/state semantics before and after. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21486,7 +21497,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Evaluate randomized training against fixed-world training on held-out distributions and identical budgets. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21562,7 +21573,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Build adversarial scenarios where maximizing a proxy conflicts with true legal task outcomes. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21637,7 +21648,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Compare repeatable blinded evaluations for creative builds and measure annotator disagreement. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21712,7 +21723,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Replay matched behavior on synthetic fixtures and live game state, comparing causal outcomes and policy violations. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21787,7 +21798,7 @@
             "v0.11"
           ],
           "relatedCommits": [],
-          "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+          "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
           "methodology": "Promote then roll back a model candidate on reproducible worlds with per-agent state continuity checks. Predeclare controls, metrics, seeds, permitted observations and stopping rules.",
           "priorWork": [
             "data_governance",
@@ -21861,7 +21872,7 @@
         "AC-01",
         "SG-02"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -21944,7 +21955,7 @@
         "AC-01",
         "EV-01"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22029,7 +22040,7 @@
         "EV-01",
         "SG-02"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22113,7 +22124,7 @@
         "SG-01",
         "EV-02"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "reference_only",
       "status": {
         "research": "not_investigated",
@@ -22198,7 +22209,7 @@
         "CO-01",
         "EV-02"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22285,7 +22296,7 @@
         "AC-01",
         "EV-01"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "project_hypothesis",
       "status": {
         "research": "not_investigated",
@@ -22371,7 +22382,7 @@
         "ME-02",
         "IN-02"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "project_hypothesis",
       "status": {
         "research": "not_investigated",
@@ -22457,7 +22468,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22543,7 +22554,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22629,7 +22640,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22715,7 +22726,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22801,7 +22812,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22887,7 +22898,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -22973,7 +22984,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23059,7 +23070,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23145,7 +23156,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23231,7 +23242,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23318,7 +23329,7 @@
         "ME-03",
         "EV-005"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23409,7 +23420,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23495,7 +23506,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -23581,7 +23592,7 @@
         "v0.2",
         "v0.5"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "decisionStatus": "candidate_only",
       "status": {
         "research": "not_investigated",
@@ -26275,7 +26286,7 @@
       "id": "PR-122",
       "title": "feat: define entity identity contract (issue #5)",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/122",
-      "state": "open",
+      "state": "closed",
       "base": "main",
       "baseRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "head": "feat/sensed-entity-identity",
@@ -26315,7 +26326,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Entity identity schemas and validation, identity documentation, observation identity guidance and fixtures.",
       "reviewedFiles": [
         "docs/ENTITY_IDENTITY.md",
@@ -26328,7 +26339,7 @@
       "id": "PR-123",
       "title": "research: benchmark local terrain encodings (#6)",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/123",
-      "state": "open",
+      "state": "closed",
       "base": "main",
       "baseRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "head": "research/terrain-encoding-prototype",
@@ -26367,7 +26378,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "A controlled terrain-encoding experiment with five seeds across dense, chunk, egocentric-slice, graph and octree representations; result artifact is branch-only.",
       "reviewedFiles": [
         "docs/TERRAIN_ENCODING.md",
@@ -26380,7 +26391,7 @@
       "id": "PR-124",
       "title": "feat: define native action schema v0 (#4)",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/124",
-      "state": "open",
+      "state": "closed",
       "base": "main",
       "baseRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "head": "feat/native-action-schema-v0",
@@ -26420,7 +26431,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Versioned typed native action request/outcome schemas, examples and contract validator; no server-side enforcement on main.",
       "reviewedFiles": [
         "docs/ACTION_SCHEMA.md",
@@ -26433,7 +26444,7 @@
       "id": "PR-125",
       "title": "feat: prototype server player embodiment (#56)",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/125",
-      "state": "open",
+      "state": "closed",
       "base": "feat/sensed-entity-identity",
       "baseRevision": "b8ac08a8b257532812cd998442bfa9bdf428066d",
       "head": "spike/server-player-embodiment",
@@ -26483,7 +26494,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Fabric server-player embodiment spike, manager/lifecycle, mod packaging and GameTests; branch-only compile/GameTest work.",
       "reviewedFiles": [
         "minecraft-mod/build.gradle",
@@ -26497,7 +26508,7 @@
       "id": "PR-126",
       "title": "feat: define persistent agent identity record (#9)",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/126",
-      "state": "open",
+      "state": "closed",
       "base": "main",
       "baseRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "head": "feat/persistent-agent-identity",
@@ -26538,7 +26549,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Persistent agent identity record schema/example and validator; data contract only, not integrated agent persistence.",
       "reviewedFiles": [
         "docs/AGENT_IDENTITY.md",
@@ -26551,7 +26562,7 @@
       "id": "PR-127",
       "title": "feat: define environment protocol compatibility (#61)",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/127",
-      "state": "open",
+      "state": "closed",
       "base": "feat/native-action-schema-v0",
       "baseRevision": "7886c4be1795a7abbe9da7dceb1d07cb35486c06",
       "head": "feat/environment-protocol-compatibility",
@@ -26593,7 +26604,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Producer/consumer protocol manifests, compatibility rules and validators; compatibility matrix is branch-only.",
       "reviewedFiles": [
         "docs/PROTOCOL_COMPATIBILITY.md",
@@ -26607,7 +26618,7 @@
       "id": "PR-128",
       "title": "feat: add fail-closed action validation core",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/128",
-      "state": "open",
+      "state": "closed",
       "base": "spike/server-player-embodiment",
       "baseRevision": "d177480a8a498888a008319adbb036f00e4af040",
       "head": "feat/legal-action-validator",
@@ -26653,7 +26664,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Fail-closed action request validation core, validation context and unit contract tests; server compile pass on branch.",
       "reviewedFiles": [
         "minecraft-mod/src/main/java/dev/minecraftnativeintelligence/ActionRequestValidator.java",
@@ -26666,7 +26677,7 @@
       "id": "PR-129",
       "title": "feat: expand native action executor slice",
       "url": "https://github.com/xdCloudy/minecraft-native-intelligence/pull/129",
-      "state": "open",
+      "state": "closed",
       "base": "feat/legal-action-validator",
       "baseRevision": "2231a03b5348b01c7dd927176b4444fe5c6cbbe3",
       "head": "feat/native-action-executor",
@@ -26714,7 +26725,7 @@
       ],
       "integrated": false,
       "countsAsShipped": false,
-      "note": "Open PR snapshot only. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
+      "note": "Closed unmerged PR retained as historical evidence. Its code, experiment artifacts and successful checks are not credited as integrated on main.",
       "changeSummary": "Server-thread native action executor: vanilla movement, mining, eating, hotbar selection, counted drops, equipment swap/recovery and placement with live server legality checks; correlated outcomes and cancellation.",
       "reviewedFiles": [
         "docs/ACTION_SCHEMA.md",
@@ -26819,7 +26830,7 @@
       "hardware": "Windows 10 AMD64, Intel64 Family 6 Model 183 Stepping 1 CPU; GPU not used or recorded.",
       "methodology": "Compare lossless/local visible-sample terrain encodings on synthetic geometry cases for fidelity, payload size, and encode/decode median latency; hidden-world perturbation checks are included.",
       "rawResults": "https://github.com/xdCloudy/minecraft-native-intelligence/blob/59695fc66442b3628fccfd4051fa3117191f7959/experiments/terrain-encoding/results/geometry-local-encoding-v1_20261027T072802Z_53756ae112/summary.json",
-      "reproduction": "Open PR #123 at exact reviewed head 59695fc66442b3628fccfd4051fa3117191f7959; use experiments/terrain-encoding/experiment.json and the referenced committed result bundle. The run itself records source revision 0c0558f651acd2d2905a3658b11677fcfda8902e.",
+      "reproduction": "Closed unmerged PR #123 at exact reviewed head 59695fc66442b3628fccfd4051fa3117191f7959; use experiments/terrain-encoding/experiment.json and the referenced committed result bundle. The run itself records source revision 0c0558f651acd2d2905a3658b11677fcfda8902e.",
       "limitations": "Synthetic geometry only; no Minecraft chunks, live player observations, agent policy, downstream navigation/building outcome, or generalization result. Thirty terrain cases and five seeds do not establish statistical superiority. Dense and several encodings reconstruct supplied visible samples exactly; chunk-features are lossy. Similar low position-overlap metrics across variants indicate this run does not establish representation quality for agent capability. Branch result has not merged and is not credited as an integrated feature.",
       "evidence": [
         "terrain_run_pr123"
@@ -26840,7 +26851,7 @@
         "fabric",
         "roadmap"
       ],
-      "notes": "Only compatibility investigated on main counts. Mod compile checks on open PR heads are listed separately."
+      "notes": "Only compatibility investigated on main counts. Mod compile checks on historical unmerged PR heads are listed separately."
     },
     {
       "id": "COMP-002",
@@ -26918,15 +26929,21 @@
       "revision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
       "event": "Replaced all 150 inherited boilerplate avenue plans with item-specific comparative protocols, measurable outcomes and adverse cases. This is a scoped research plan only; no experiments were run or statuses promoted.",
       "scopeChange": "Refined evidence and acceptance specificity for existing stable IDs; no added/removed items, score adjustments or historical main-branch capability claims."
+    },
+    {
+      "date": "2026-10-27",
+      "revision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+      "event": "Refreshed the main evidence baseline after documentation PRs #130-#132 and recorded the administrative closure of 101 issues and eight unmerged PRs.",
+      "scopeChange": "No new functional Minecraft agent capabilities or research completions; unmerged PR head/check evidence stays historical."
     }
   ],
   "branchAudit": {
-    "checkedAt": "2026-10-27T09:08:00Z",
+    "checkedAt": "2026-10-27T12:50:17Z",
     "defaultBranch": "main",
-    "defaultBranchRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
-    "method": "GitHub REST pull request metadata and check-runs queried at each exact open PR head. Older feature branches without open PR are not treated as integrated unless their content is present on main.",
-    "integratedRule": "Only changes present on assessed main revision can count as integrated; open PRs and stacked descendants are pending.",
-    "scope": "Inspected PR metadata, changed-file manifests, exact head revisions and latest check runs for all eight open PRs. PR #125/#127/#128/#129 are stacked; descendant check success does not mean their base features merged. Open branch changes remain represented only in PR snapshots and branch-level experiment records; avenue implementation statuses are main-only."
+    "defaultBranchRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
+    "method": "GitHub REST pull request state and issue searches refreshed on 2026-10-27. Check runs and source revisions remain preserved as historical observations of the eight closed, unmerged PRs.",
+    "integratedRule": "Only changes present on the assessed main revision count as integrated. Closing issues or PRs does not complete engineering or research criteria.",
+    "scope": "Verified zero open issues and zero open PRs after administratively closing 101 issues and PRs #122-#129. All eight PRs remain unmerged, with historical changed-file, head and checks snapshots retained. Stacked branch checks do not establish parent or descendant main integration."
   },
   "trainingMethods": [
     {
@@ -26968,7 +26985,7 @@
         "When does behavior cloning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Demonstrations → supervised actions",
@@ -27049,7 +27066,7 @@
         "When does offline reinforcement learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Fixed trajectories → value/policy improvement",
@@ -27131,7 +27148,7 @@
         "When does online reinforcement learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Native interaction → policy updates",
@@ -27211,7 +27228,7 @@
         "When does model-based reinforcement learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Learn dynamics → imagined planning",
@@ -27293,7 +27310,7 @@
         "When does self-supervised prediction improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Events/state sequences → predictive representations",
@@ -27373,7 +27390,7 @@
         "When does contrastive goal learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Observation-goal pairs → shared embedding",
@@ -27455,7 +27472,7 @@
         "When does curriculum learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Staged task distributions",
@@ -27537,7 +27554,7 @@
         "When does hierarchical reinforcement learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Temporal abstraction and learned options",
@@ -27617,7 +27634,7 @@
         "When does unsupervised skill discovery improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Unlabelled trajectories → reusable skills",
@@ -27697,7 +27714,7 @@
         "When does transfer and meta-learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Task variation → rapid adaptation",
@@ -27777,7 +27794,7 @@
         "When does continual learning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Sequential tasks → retention and adaptation",
@@ -27857,7 +27874,7 @@
         "When does self-play and multi-agent rl improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Joint interaction → policies/communication",
@@ -27937,7 +27954,7 @@
         "When does reward/preference modeling improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Human/agent rankings → learned objective",
@@ -28017,7 +28034,7 @@
         "When does teacher-student distillation improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Expensive policy → compact policy",
@@ -28097,7 +28114,7 @@
         "When does experience replay and prioritization improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Recorded transitions → reuse and credit assignment",
@@ -28177,7 +28194,7 @@
         "When does synthetic / simulated training improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Generated transitions/worlds → scalable learning",
@@ -28257,7 +28274,7 @@
         "When does memory/retrieval adaptation improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Experience store → retrieval-time personalization",
@@ -28337,7 +28354,7 @@
         "When does per-agent adapter fine-tuning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Shared weights + isolated small updates",
@@ -28419,7 +28436,7 @@
         "When does shared foundation updates improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Multi-agent experience → shared model competence",
@@ -28501,7 +28518,7 @@
         "When does behavior cloning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Compare DAgger-style expert corrections against fixed offline demonstrations on held-out native Minecraft gameplay.",
@@ -28582,7 +28599,7 @@
         "When does behavior cloning improve native capability over durable memory or simpler baselines?",
         "What privacy, licensing, scaling or safety constraints apply?"
       ],
-      "lastVerifiedRevision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
+      "lastVerifiedRevision": "8622b139da2db7782525faec3ee4dac623acb1ba",
       "workstream": "learning",
       "category": "training method",
       "description": "Test whether controlled world/difficulty randomization improves held-out native policy robustness without leaking privileged state.",

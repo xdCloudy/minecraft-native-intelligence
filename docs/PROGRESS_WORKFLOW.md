@@ -18,10 +18,24 @@ Run the standard-library-only CLI from the repository root:
 python tools/progress.py validate
 python tools/progress.py generate
 python tools/progress.py check
-python -m unittest discover -s tests -p test_progress.py
+python -m unittest discover -s tests -p 'test_*.py'
+python tools/check_github_state.py
 ```
 
 `generate` writes deterministic Markdown and changes only the README/ROADMAP content inside their markers. `check` is read-only and fails if generated files are missing or stale. CI runs validation, freshness checking and tests; it never writes generated documentation. `scripts/generate_progress.py` remains a compatibility entry point.
+
+The separate read-only GitHub check compares the canonical snapshot's **exact**
+open issue and PR number sets to live GitHub REST results; API errors cause a
+distinct failure rather than a false pass. It runs on main pushes, daily and
+on manual workflow dispatch. PR CI verifies deterministic progress, tests and
+links without self-reporting an open PR as already integrated.
+
+The repository currently has **no Minecraft mod/Gradle wrapper on main**.
+Changing Minecraft/Gradle inputs activates a Java 21 Gradle build-and-unit-test
+gate; the gate fails if a buildable wrapper is missing. This is not a GameTest,
+vanilla-client, dedicated-server, gameplay-parity or autonomy validation pass.
+Those stages require an implemented mod and pinned in-game harness before
+production-readiness evidence can advance.
 
 ## Independent status dimensions
 
@@ -51,8 +65,10 @@ Roadmap gate percentages are calculated from evidence-backed criterion states (`
 - Link evidence to repository files or external primary sources. Distinguish prior work from project evidence; a design document does not prove implementation.
 - Record exact revisions and the assessed main SHA. For experiments, record environment/hardware, Minecraft version or why not applicable, model and dataset versions, configuration, seeds, methodology, raw artifact/results, reproduction steps and limitations.
 - Preserve negative, inconclusive and rejected approaches. Do not convert a missing experiment into a negative result or claim an unmeasured latency, throughput, memory, license or capability.
-- Record open PR base/head revisions, affected items and latest checks separately. Stacked PR checks do not integrate their parents. Never credit unmerged work as shipped or present on main.
-- Refresh PR state and checks when refreshing the assessment date or source SHA; do not silently carry stale branch snapshots forward.
+- Record current and historical unmerged PR base/head revisions, affected items, state and latest checks separately. Stacked PR checks do not integrate their parents. Closing PRs does not advance any capability.
+- Record current open GitHub issue and PR numbers in `githubState`. Issue closure is an administrative state and must not set any research, implementation, validation or readiness gate to complete.
+- Refresh GitHub issue/PR state and checks when refreshing the assessment date or source SHA; preserve exact historical head/base revisions and past review/experiment evidence.
+- Treat the assessed main SHA as a versioned evidence baseline, not a moving `HEAD` alias. Tracker-only commits can follow it without creating gameplay evidence. Review subsequent main changes before claiming a new baseline.
 
 ## Updating the tracker in a feature or research PR
 
@@ -62,6 +78,7 @@ Roadmap gate percentages are calculated from evidence-backed criterion states (`
 4. Update milestone maps and gates from their evidence; keep open-branch outcomes attributed to their source revision.
 5. Run `validate`, `generate`, inspect the generated diff, then run `check` and the focused unit tests listed above.
 6. Update authoritative subsystem/research documents when conclusions change; generated matrices summarize the canonical data and do not replace those documents.
+7. When GitHub drift checking fails, query live issue/PR state, update `githubState` and unmerged PR records, validate, regenerate and re-run the checks. Do not automatically close/reopen issues or PRs to make a snapshot pass.
 
 ## Minecraft gameplay coverage and scope changes
 

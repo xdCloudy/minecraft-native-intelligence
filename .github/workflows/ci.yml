@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -15,12 +18,14 @@ permissions:
 jobs:
   changes:
     name: Detect changed stacks
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     outputs:
       docs: ${{ steps.filter.outputs.docs }}
       python: ${{ steps.filter.outputs.python }}
       powershell: ${{ steps.filter.outputs.powershell }}
+      minecraft: ${{ steps.filter.outputs.minecraft }}
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -48,6 +53,7 @@ jobs:
           docs=false
           python=false
           powershell=false
+          minecraft=false
 
           while IFS= read -r file; do
             case "$file" in
@@ -68,16 +74,24 @@ jobs:
                 ;;
             esac
 
+            case "$file" in
+              *.java|*.kt|*.gradle|*.gradle.kts|gradlew|gradlew.bat|gradle/*|fabric.mod.json)
+                minecraft=true
+                ;;
+            esac
+
             if [[ "$file" == ".github/workflows/ci.yml" ]]; then
               docs=true
               python=true
               powershell=true
+              minecraft=true
             fi
           done < <(git diff --name-only "$base" "$head")
 
           echo "docs=$docs" >> "$GITHUB_OUTPUT"
           echo "python=$python" >> "$GITHUB_OUTPUT"
           echo "powershell=$powershell" >> "$GITHUB_OUTPUT"
+          echo "minecraft=$minecraft" >> "$GITHUB_OUTPUT"
 
   documentation:
     name: Documentation
@@ -103,7 +117,7 @@ jobs:
   python:
     name: Python and JSON tooling
     needs: changes
-    if: needs.changes.outputs.python == 'true'
+    if: needs.changes.outputs.python == 'true' || needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -125,7 +139,7 @@ jobs:
         run: python tools/progress.py check
 
       - name: Test progress validation and deterministic generation
-        run: python -m unittest discover -s tests -p test_progress.py
+        run: python -m unittest discover -s tests -p 'test_*.py'
 
       - name: Upload failure diagnostics
         if: failure()
@@ -168,3 +182,41 @@ jobs:
           if ($failed) {
             exit 1
           }
+
+  github-state:
+    name: Live GitHub tracking
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check issue and PR state against canonical snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/check_github_state.py
+
+  minecraft:
+    name: Minecraft mod compile and unit tests
+    needs: changes
+    if: needs.changes.outputs.minecraft == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Require and execute the Minecraft Gradle wrapper
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f gradlew ]]; then
+            echo "::error::Minecraft sources/build inputs changed, but no root Gradle wrapper exists."
+            exit 1
+          fi
+          chmod +x gradlew
+          ./gradlew --no-daemon --stacktrace build test
