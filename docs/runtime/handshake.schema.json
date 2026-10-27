@@ -45,7 +45,8 @@
       ],
       "properties": {
         "major": {
-          "const": 0
+          "const": 0,
+          "type": "integer"
         },
         "minor": {
           "type": "integer",
