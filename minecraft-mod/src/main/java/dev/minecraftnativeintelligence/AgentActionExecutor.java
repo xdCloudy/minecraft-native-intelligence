@@ -11,7 +11,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Input;
@@ -31,7 +34,13 @@ public final class AgentActionExecutor {
             long sequence,
             long gameTick,
             String status,
-            String reasonCode) {
+            String reasonCode,
+            String targetRequestId) {
+        public Outcome(String agentId, long sessionEpoch, String requestId, String traceId,
+                long sequence, long gameTick, String status, String reasonCode) {
+            this(agentId, sessionEpoch, requestId, traceId, sequence, gameTick, status, reasonCode, null);
+        }
+
         public JsonObject toJson() {
             JsonObject json = new JsonObject();
             json.addProperty("schema_version", "action-outcome.v0");
@@ -43,6 +52,11 @@ public final class AgentActionExecutor {
             json.addProperty("game_tick", this.gameTick);
             json.addProperty("status", this.status);
             if (this.reasonCode != null) json.addProperty("reason_code", this.reasonCode);
+            if (this.targetRequestId != null) {
+                JsonObject result = new JsonObject();
+                result.addProperty("target_request_id", this.targetRequestId);
+                json.add("result", result);
+            }
             return json;
         }
     }
@@ -60,6 +74,7 @@ public final class AgentActionExecutor {
             Input input,
             boolean hasInput,
             boolean started,
+            boolean stopSent,
             int ticksApplied) {}
 
     private record SessionKey(UUID agentUuid, long sessionEpoch) {}
@@ -69,6 +84,7 @@ public final class AgentActionExecutor {
     private final Map<UUID, ActiveControl> active = new HashMap<>();
     private final Map<SessionKey, Set<String>> seenRequestIds = new HashMap<>();
     private final Map<UUID, Long> outcomeSequences = new HashMap<>();
+    private final Map<UUID, Integer> blockActionSequences = new HashMap<>();
 
     public AgentActionExecutor(AgentPlayerManager players, Consumer<Outcome> outcomeSink) {
         this.players = players;
@@ -103,7 +119,13 @@ public final class AgentActionExecutor {
 
         Set<String> seen = new HashSet<>(context.seenRequestIds());
         seen.addAll(this.seenRequestIds.getOrDefault(sessionKey, Set.of()));
-        ActionValidationContext requestContext = copyWithSeenIds(context, seen);
+        Set<String> activeIds = new HashSet<>(context.activeRequestIds());
+        ActiveControl current = this.active.get(player.getUUID());
+        if (current != null && current.agentId().equals(context.agentId())
+                && current.sessionEpoch() == context.sessionEpoch()) {
+            activeIds.add(current.requestId());
+        }
+        ActionValidationContext requestContext = copyWithRequestState(context, seen, activeIds);
         ActionRequestValidator.Result validation = ActionRequestValidator.validate(request, requestContext);
         if (!requestId.isBlank()) {
             this.seenRequestIds.computeIfAbsent(sessionKey, ignored -> new HashSet<>()).add(requestId);
@@ -111,23 +133,26 @@ public final class AgentActionExecutor {
         if (!validation.accepted()) {
             return this.reject(player, context.sessionEpoch(), validation.requestId(), validation.traceId(), validation.reasonCode());
         }
+        JsonObject action = request.getAsJsonObject("action");
+        String type = stringField(action, "type");
+        if (type.equals("cancel")) {
+            return this.cancelActive(player, context.sessionEpoch(), requestId, traceId,
+                    stringField(action, "target_request_id"));
+        }
         if (this.active.containsKey(player.getUUID())) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "action_conflict");
         }
-
-        JsonObject action = request.getAsJsonObject("action");
-        String type = stringField(action, "type");
-        if (!Set.of("move", "look", "jump").contains(type)) {
+        if (!Set.of("move", "look", "jump", "mine").contains(type)) {
             return this.reject(player, context.sessionEpoch(), requestId, traceId, "executor_action_unsupported");
         }
-        boolean hasInput = !type.equals("look");
-        Input input = inputFor(action, type);
+        boolean hasInput = type.equals("move") || type.equals("jump");
+        Input input = hasInput ? inputFor(action, type) : Input.EMPTY;
         int durationTicks = type.equals("move")
                 ? optionalInt(action, "duration_ticks", 1)
                 : type.equals("jump") ? optionalInt(action, "hold_ticks", 1) : 1;
         long deadline = optionalLong(request, "deadline_game_tick", Long.MAX_VALUE);
         this.active.put(player.getUUID(), new ActiveControl(player, authoritativeAgentId, context.sessionEpoch(),
-                requestId, traceId, type, action, deadline, durationTicks, input, hasInput, false, 0));
+                requestId, traceId, type, action, deadline, durationTicks, input, hasInput, false, false, 0));
         this.emit(player, authoritativeAgentId, context.sessionEpoch(), requestId, traceId, "accepted", null);
         return new Submission(true, "accepted");
     }
@@ -146,12 +171,30 @@ public final class AgentActionExecutor {
                 this.finishRejected(control, "deadline_expired");
                 continue;
             }
+            if (control.actionType().equals("mine") && control.started()
+                    && player.level().getBlockState(blockPos(control.action())).isAir()) {
+                this.finishCompleted(control);
+                continue;
+            }
             // Vanilla ignores most gameplay packets until the initial client-load
             // timeout expires. The silent server-owned player has no client ack.
             if (!player.connection.hasClientLoaded()) continue;
 
             try {
-                if (control.actionType().equals("look")) {
+                if (control.actionType().equals("mine")) {
+                    BlockPos pos = blockPos(control.action());
+                    if (!player.isWithinBlockInteractionRange(pos, 1.0)) {
+                        this.sendBlockAction(player, pos, control.action(), ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK);
+                        this.finishRejected(control, "target_out_of_reach");
+                        continue;
+                    }
+                    if (!control.started()) {
+                        this.sendBlockAction(player, pos, control.action(), ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK);
+                        this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
+                    } else if (!control.stopSent()) {
+                        this.sendBlockAction(player, pos, control.action(), ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK);
+                    }
+                } else if (control.actionType().equals("look")) {
                     player.connection.handleMovePlayer(new ServerboundMovePlayerPacket.Rot(
                             (float) control.action().get("yaw_degrees").getAsDouble(),
                             (float) control.action().get("pitch_degrees").getAsDouble(),
@@ -159,12 +202,13 @@ public final class AgentActionExecutor {
                 } else {
                     player.connection.handlePlayerInput(new ServerboundPlayerInputPacket(control.input()));
                 }
-                if (!control.started()) {
+                if (!control.started() && !control.actionType().equals("mine")) {
                     this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
                 }
                 this.active.put(player.getUUID(), new ActiveControl(player, control.agentId(), control.sessionEpoch(),
                         control.requestId(), control.traceId(), control.actionType(), control.action(),
                         control.deadlineGameTick(), control.durationTicks(), control.input(), control.hasInput(), true,
+                        control.actionType().equals("mine") ? (control.started() || control.stopSent()) : control.stopSent(),
                         control.ticksApplied() + 1));
             } catch (RuntimeException failure) {
                 this.finishRejected(control, "action_execution_failed");
@@ -176,6 +220,12 @@ public final class AgentActionExecutor {
     public void endServerTick(MinecraftServer server) {
         requireServerThread(server);
         for (ActiveControl control : new ArrayList<>(this.active.values())) {
+            if (control.actionType().equals("mine")) {
+                if (control.started() && control.player().level().getBlockState(blockPos(control.action())).isAir()) {
+                    this.finishCompleted(control);
+                }
+                continue;
+            }
             if (!control.started() || control.ticksApplied() < control.durationTicks()) continue;
             if (control.hasInput() && control.player().connection != null) {
                 control.player().connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
@@ -190,6 +240,7 @@ public final class AgentActionExecutor {
         if (control != null) this.finishRejected(control, "agent_unavailable");
         this.seenRequestIds.keySet().removeIf(key -> key.agentUuid().equals(player.getUUID()));
         this.outcomeSequences.remove(player.getUUID());
+        this.blockActionSequences.remove(player.getUUID());
     }
 
     public void stop(MinecraftServer server) {
@@ -199,6 +250,7 @@ public final class AgentActionExecutor {
         }
         this.seenRequestIds.clear();
         this.outcomeSequences.clear();
+        this.blockActionSequences.clear();
     }
 
     private Submission reject(ServerPlayer player, long epoch, String requestId, String traceId, String reason) {
@@ -209,11 +261,20 @@ public final class AgentActionExecutor {
     }
 
     private void finishRejected(ActiveControl control, String reason) {
+        if (control.actionType().equals("mine") && control.started() && control.player().connection != null) {
+            this.sendBlockAction(control.player(), blockPos(control.action()), control.action(),
+                    ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK);
+        }
         if (control.hasInput() && control.player().connection != null) {
             control.player().connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
         }
         this.active.remove(control.player().getUUID());
         this.emit(control.player(), control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "rejected", reason);
+    }
+
+    private void finishCompleted(ActiveControl control) {
+        this.active.remove(control.player().getUUID());
+        this.emit(control.player(), control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "completed", null);
     }
 
     private void emit(ServerPlayer player, String agentId, long epoch, String requestId, String traceId, String status, String reason) {
@@ -223,12 +284,62 @@ public final class AgentActionExecutor {
                 player.level().getGameTime(), status, reason));
     }
 
-    private static ActionValidationContext copyWithSeenIds(ActionValidationContext c, Set<String> seenIds) {
+    private static ActionValidationContext copyWithRequestState(
+            ActionValidationContext c, Set<String> seenIds, Set<String> activeRequestIds) {
         return new ActionValidationContext(c.agentId(), c.sessionEpoch(), c.observationSequence(), c.gameTick(),
                 c.maxObservationLag(), c.inventorySize(), c.hungry(), c.supportedCapabilities(), c.permittedActions(),
                 c.visibleEntityRefs(), c.reachableEntityRefs(), c.visibleBlockRefs(), c.reachableBlockRefs(),
-                c.mineableBlockRefs(), c.availableRecipeIds(), c.activeRequestIds(), seenIds,
+                c.mineableBlockRefs(), c.availableRecipeIds(), activeRequestIds, seenIds,
                 c.blockedCooldowns(), c.inventory(), c.heldItems());
+    }
+
+    private Submission cancelActive(ServerPlayer player, long epoch, String requestId, String traceId, String targetRequestId) {
+        ActiveControl target = this.active.get(player.getUUID());
+        if (target == null || target.sessionEpoch() != epoch
+                || !target.agentId().equals(player.getGameProfile().id().toString())
+                || !target.requestId().equals(targetRequestId)) {
+            return this.reject(player, epoch, requestId, traceId, "cancel_target_not_active");
+        }
+        if (target.actionType().equals("mine") && target.started()) {
+            this.sendBlockAction(player, blockPos(target.action()), target.action(),
+                    ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK);
+        } else if (target.hasInput() && player.connection != null) {
+            player.connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
+        }
+        this.active.remove(player.getUUID());
+        this.emitCancelled(player, target.agentId(), epoch, requestId, traceId, targetRequestId);
+        return new Submission(true, "cancelled");
+    }
+
+    private void emitCancelled(ServerPlayer player, String agentId, long epoch, String requestId,
+            String traceId, String targetRequestId) {
+        long sequence = this.outcomeSequences.getOrDefault(player.getUUID(), 0L);
+        this.outcomeSequences.put(player.getUUID(), sequence + 1);
+        this.outcomeSink.accept(new Outcome(agentId, epoch, requestId, traceId, sequence,
+                player.level().getGameTime(), "cancelled", null, targetRequestId));
+    }
+
+    private void sendBlockAction(ServerPlayer player, BlockPos pos, JsonObject action,
+            ServerboundPlayerActionPacket.Action type) {
+        int sequence = this.blockActionSequences.getOrDefault(player.getUUID(), 0);
+        this.blockActionSequences.put(player.getUUID(), sequence == Integer.MAX_VALUE ? 0 : sequence + 1);
+        player.connection.handlePlayerAction(new ServerboundPlayerActionPacket(type, pos, blockFace(action), sequence));
+    }
+
+    static BlockPos blockPos(JsonObject action) {
+        JsonObject target = action.getAsJsonObject("target");
+        return new BlockPos(target.get("x").getAsInt(), target.get("y").getAsInt(), target.get("z").getAsInt());
+    }
+
+    static Direction blockFace(JsonObject action) {
+        return switch (stringField(action, "face")) {
+            case "down" -> Direction.DOWN;
+            case "north" -> Direction.NORTH;
+            case "south" -> Direction.SOUTH;
+            case "west" -> Direction.WEST;
+            case "east" -> Direction.EAST;
+            default -> Direction.UP;
+        };
     }
 
     static Input inputFor(JsonObject action, String type) {

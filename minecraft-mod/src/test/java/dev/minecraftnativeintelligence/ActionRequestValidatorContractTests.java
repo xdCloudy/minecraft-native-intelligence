@@ -5,6 +5,8 @@ import com.google.gson.JsonParser;
 import java.util.Map;
 import java.util.Set;
 import net.minecraft.world.entity.player.Input;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 
 /** Dependency-free executable contract checks; these do not start Minecraft. */
 public final class ActionRequestValidatorContractTests {
@@ -15,6 +17,7 @@ public final class ActionRequestValidatorContractTests {
         equal("duplicate_request_id", ActionRequestValidator.validate(valid, contextWithSeenId()).reasonCode(), "duplicate ID");
         checkEveryActionVariant();
         checkControlInputMapping();
+        checkMiningTargetMapping();
         checkOutcomeSerialization();
         equal("malformed_request", validateRaw(envelope("-1", "{\"type\":\"jump\"}")).reasonCode(), "negative observation sequence");
         equal("malformed_request", validateRaw(envelope("999999999999999999999999999999", "{\"type\":\"jump\"}")).reasonCode(), "overflow observation sequence");
@@ -25,7 +28,7 @@ public final class ActionRequestValidatorContractTests {
         equal("unsupported_capability", validateRaw(envelope("4", "{\"type\":\"eat\",\"hand\":\"main\"}")).reasonCode(), "unsupported action capability");
         equal("inventory_precondition_failed", validateRaw(envelope("4", "{\"type\":\"drop\",\"slot\":0,\"count\":1,\"whole_stack\":true}")).reasonCode(), "whole-stack count mismatch");
         equal("malformed_request", ActionRequestValidator.validate("{", context()).reasonCode(), "malformed JSON");
-        System.out.println("Native action contract checks passed (34 cases)");
+        System.out.println("Native action contract checks passed (38 cases)");
     }
 
     private static void checkControlInputMapping() {
@@ -46,6 +49,16 @@ public final class ActionRequestValidatorContractTests {
                 "accepted", null).toJson();
         equal(false, accepted.has("reason_code"), "non-rejection omits reason");
         equal(13L, accepted.get("sequence").getAsLong(), "outcome sequence");
+        var cancelled = new AgentActionExecutor.Outcome("agent-1", 3, "cancel-1", "trace-3", 14, 102,
+                "cancelled", null, "req-2").toJson();
+        equal("req-2", cancelled.getAsJsonObject("result").get("target_request_id").getAsString(), "cancel target correlation");
+    }
+
+    private static void checkMiningTargetMapping() {
+        JsonObject target = JsonParser.parseString("{\"target\":{\"x\":2,\"y\":64,\"z\":-3},\"face\":\"north\"}").getAsJsonObject();
+        equal(new BlockPos(2, 64, -3), AgentActionExecutor.blockPos(target), "mining block position");
+        equal(Direction.NORTH, AgentActionExecutor.blockFace(target), "mining target face");
+        equal(Direction.UP, AgentActionExecutor.blockFace(new JsonObject()), "default mining face");
     }
 
     private static void checkEveryActionVariant() {
