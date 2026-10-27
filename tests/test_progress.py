@@ -222,6 +222,8 @@ class ProgressTests(unittest.TestCase):
         rendered = progress.render(BASE)
         feature = rendered[ROOT / 'docs/FEATURE_MATRIX.md']
         readiness = rendered[ROOT / 'docs/PRODUCTION_READINESS.md']
+        self.assertNotIn('\n\n\n', feature)
+        self.assertNotIn('\n\n\n', readiness)
         blocker_section = readiness.split('## Open questions and blockers\n', 1)[1].split('## Historical unmerged pull requests\n', 1)[0]
         for domain in BASE['domains']:
             self.assertEqual(feature.count(f'## {domain["name"]}\n'), 1)
