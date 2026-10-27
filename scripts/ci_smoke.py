@@ -17,6 +17,7 @@ PYTHON_FILES = [
     ROOT / "scripts" / "ci_smoke.py",
     ROOT / "scripts" / "validate_information_access.py",
     ROOT / "scripts" / "validate_observation_contract.py",
+    ROOT / "scripts" / "benchmark_terrain_encodings.py",
     ROOT / "experiments" / "smoke" / "trial_fixture.py",
 ]
 
@@ -48,6 +49,10 @@ def check_information_access() -> None:
 
 def check_observation_contract() -> None:
     run([sys.executable, "scripts/validate_observation_contract.py"])
+
+
+def check_terrain_encoders() -> None:
+    run([sys.executable, "scripts/benchmark_terrain_encodings.py", "--self-check"])
 
 
 def check_smoke() -> Path:
@@ -112,12 +117,14 @@ def main() -> int:
     json_count = check_json()
     check_information_access()
     check_observation_contract()
+    check_terrain_encoders()
     run_dir = check_smoke()
     check_dirty_refusal()
     print(f"python compile: ok ({len(PYTHON_FILES)} files)")
     print(f"json parse: ok ({json_count} files)")
     print("information-access contract: ok")
     print("observation contract: ok")
+    print("terrain encoders: ok")
     print(f"experiment smoke: ok ({run_dir.name})")
     print("dirty-tree refusal: ok")
     return 0

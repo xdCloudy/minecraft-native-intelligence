@@ -1,0 +1,20 @@
+{
+  "schema_version": "experiment.v1",
+  "experiment_id": "geometry-local-encoding-v1",
+  "scenario_path": "docs/evaluation/terrain-encoding.v1.json",
+  "allow_dirty": false,
+  "default_wall_timeout_seconds": 120,
+  "environment_capture": {
+    "environment_variables": []
+  },
+  "variants": [
+    {"id": "dense", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "dense"}, "working_directory": ".", "config_refs": ["fixture://geometry/dense"], "notes": "Dense bounded voxel cells; null means unknown or not sampled."},
+    {"id": "sparse", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "sparse"}, "working_directory": ".", "config_refs": ["fixture://geometry/sparse"], "notes": "Sparse visible sample records."},
+    {"id": "octree", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "octree"}, "working_directory": ".", "config_refs": ["fixture://geometry/octree"], "notes": "Sparse octree whose missing branches mean unknown or not sampled."},
+    {"id": "graph", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "graph"}, "working_directory": ".", "config_refs": ["fixture://geometry/graph"], "notes": "Visible sample nodes with geometric adjacency edges."},
+    {"id": "egocentric-slices", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "egocentric_slices"}, "working_directory": ".", "config_refs": ["fixture://geometry/egocentric-slices"], "notes": "Y-layer and Z-row grouping in the agent-local frame."},
+    {"id": "chunk-features", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "chunk_features"}, "working_directory": ".", "config_refs": ["fixture://geometry/chunk-features"], "notes": "Lossy 4-by-4-by-4 summaries of visible samples only."},
+    {"id": "change-events", "executable": "{python}", "arguments": ["scripts/benchmark_terrain_encodings.py"], "environment": {"MNI_ENCODER": "change_events"}, "working_directory": ".", "config_refs": ["fixture://geometry/change-events"], "notes": "Difference between current and prior policy-visible collections; removal means no longer in this observation collection, not world absence."}
+  ],
+  "notes": "Run from a clean exact commit. The script emits per-terrain measurements to each trial artifact directory."
+}

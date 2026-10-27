@@ -355,7 +355,8 @@ This is not a radius dump.
 
 Only legitimately visible surfaces enter the collection.
 
-Issue #6 may later propose dense/sparse/graph/multiscale encodings. A replacement must
+Issue #6 compares candidate dense/sparse/graph/multiscale encodings in a
+synthetic, bounded research prototype. Any replacement must
 preserve #7 access semantics and either:
 
 - define a new representation capability; or

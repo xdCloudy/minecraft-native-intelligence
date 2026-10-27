@@ -40,6 +40,7 @@ See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 | [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
 | [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
 | [Evaluation](docs/EVALUATION.md) and [experiments](docs/EXPERIMENTS.md) | Scenario/result evidence contracts and reproducible execution |
+| [Terrain encoding](docs/TERRAIN_ENCODING.md) | Local geometry representation comparison |
 | [Testing](docs/TESTING.md) and [CI](docs/CI.md) | Test tiers, local checks, and stack-aware remote verification |
 | [Data governance](docs/DATA_GOVERNANCE.md) | Licensing, consent, privacy, retention, and deletion gates |
 | [Runtime boundary](docs/RUNTIME_BOUNDARY.md) | Java ↔ research-runtime process and protocol boundary |
