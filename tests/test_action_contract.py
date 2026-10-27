@@ -152,6 +152,12 @@ class ActionContractTests(unittest.TestCase):
         )
         self.assertEqual(0, result.returncode, result.stderr)
 
+    def test_nonfinite_numeric_input_rejected(self):
+        for value in (float("nan"), float("inf"), -float("inf")):
+            action = example_action()
+            action["intent"]["forward"] = value
+            self.assertEqual("invalid_schema", preflight(action))
+
     def test_bool_is_not_integer_tick(self):
         action = example_action()
         action["submitted_tick"] = True
