@@ -71,6 +71,27 @@ class ProgressTests(unittest.TestCase):
         self.assertEqual(item(BASE, 'MI-01')['status']['research'], 'not_investigated')
         self.assertEqual(progress.metrics(BASE)['researchCompletion'], 0.0)
 
+    def test_legacy_research_protocols_have_distinct_falsifiable_trials(self):
+        self.validate()
+        avenues = [row for domain in BASE['domains'] for row in domain['avenues']]
+        protocols = [row for row in avenues if 'Reproduce: ' in row['methodology']]
+        self.assertEqual(len(protocols), 150)
+        self.assertEqual(len({row['methodology'] for row in protocols}), 150)
+        for row in protocols:
+            self.assertIn('Compare: ', row['methodology'])
+            self.assertIn('Record: ', row['methodology'])
+            self.assertIn('Inject boundary: ', row['methodology'])
+            self.assertGreaterEqual(len(row['acceptanceCriteria']), 4)
+            self.assertTrue(any('boundary trials' in task for task in row['remainingWork']))
+            self.assertEqual(row['status']['research'], 'not_investigated')
+            self.assertEqual(row['status']['validation'], 'untested')
+
+    def test_reintroduced_generic_avenue_template_is_rejected(self):
+        data = copy.deepcopy(BASE)
+        item(data, 'MI-004')['methodology'] = 'Define a falsifiable protocol for a generic project.'
+        with self.assertRaisesRegex(progress.InvalidProgress, 'generic research boilerplate'):
+            self.validate(data)
+
     def test_each_status_dimension_is_scored_independently(self):
         data = copy.deepcopy(BASE)
         row = item(data, 'MI-01')

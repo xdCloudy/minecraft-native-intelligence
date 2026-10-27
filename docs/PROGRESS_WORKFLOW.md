@@ -79,6 +79,36 @@ Minecraft mechanic, training method or research avenue has been identified.
 The independent gameplay matrix measures declared, falsifiable cases, not a
 closed universal checklist.
 
+## Legacy research protocol specificity
+
+The inherited research inventory contained **150** placeholder plans (an earlier
+estimate of 141 omitted nine). Each now records an independently identifiable
+Minecraft/server experiment fixture, an actual comparison/control, named metrics
+and a failure or safety boundary, reflected in the generated feature and
+research matrices. These are **proposed protocols**, not experiments performed
+or proof that any architecture is effective.
+
+When editing an existing avenue or adding a new one:
+
+1. Name the exact game-state setup, player-equivalent actions or dataset trial.
+2. Identify at least one legitimate comparator. A privileged oracle or scripted
+   policy can be an explicitly invalid/negative control, never a claimed native
+   agent achievement.
+3. Record the primary observable outcome and its units/metric definition before
+   the experiment; include all failures, seeds or deterministic fault schedules.
+4. Specify an adverse case that could disprove the claim, violate privacy or
+   game legality, or invalidate a performance comparison.
+5. Link in-game outcomes to relevant GP-/DP- cases where a broad avenue spans
+   multiple mechanics. Completing a parent study does not complete its children.
+6. Preserve the existing five status dimensions until actual reproducible
+   evidence on the assessed main revision warrants promotion.
+
+The validator rejects previously used boilerplate patterns, and regression tests
+guard all 150 audited rows against accidental reversion to generic templates.
+This research-plan enrichment does not change the declared item count or any
+progress percentage; the dashboard remains tied to the separately recorded
+main-branch assessment revision.
+
 ## Current assessment limits
 
 The expanded taxonomy contains 15 workstreams, 268 feature/research avenues (including 60 concrete gameplay mechanics and 12 data lifecycle items), 21 model candidates and 21 training methods: 310 tracked items. Naming an avenue does not mean it has been investigated. The assessed main snapshot has no integrated Minecraft agent mod or demonstrated intelligent Minecraft-native behavior. Model architecture remains undecided. Project-specific training compute, inference latency, throughput, generalization and grounding remain unmeasured. The terrain-encoding experiment is synthetic and branch-only; it does not establish in-game perception quality.

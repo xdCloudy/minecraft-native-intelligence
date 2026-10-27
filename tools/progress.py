@@ -32,6 +32,16 @@ COMPETENCY_GROUPS={
  'Survival and progression','Combat and entities','Dimensions and traversal',
  'Construction and automation','Multiplayer and world lifecycle',
 }
+LEGACY_PLACEHOLDERS=(
+ 'Determine whether and how ',
+ 'Determine whether ',
+ 'Define a falsifiable protocol for ',
+ 'Design and run a falsifiable comparison for ',
+ 'Pre-register task distribution and metrics for ',
+ 'Pre-register measurable success and failure criteria for ',
+ 'Which approach, if any, measurably improves ',
+ 'Which approach, if any, improves ',
+)
 
 class InvalidProgress(ValueError): pass
 
@@ -103,6 +113,12 @@ def validate(data,schema):
  for dom in data['domains']:
   unique(dom,'workstream'); domains[dom['id']]=dom
   need(1<=dom['weight']<=5,f'{dom["id"]}: workstream weight must be 1..5')
+  for av in dom['avenues']:
+   for field in ('objective','methodology'):
+    value=av.get(field,'')
+    need(not any(value.startswith(phrase) for phrase in LEGACY_PLACEHOLDERS),f'{av["id"]}: generic research boilerplate in {field}; define a domain-specific scenario, comparator, measurement and failure boundary')
+   for field in ('acceptanceCriteria','openQuestions','remainingWork'):
+    need(not any(text.startswith(phrase) for text in av.get(field,[]) for phrase in LEGACY_PLACEHOLDERS),f'{av["id"]}: generic research boilerplate in {field}')
  items={}
  for dom,item,kind in all_items(data):
   unique(item,kind); items[item['id']]=(dom,item,kind)

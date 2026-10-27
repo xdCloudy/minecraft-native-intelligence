@@ -58,6 +58,7 @@ The stack is intentionally open. Apply the native formatter, linter, static/type
 - Read [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for status definitions, scoring and evidence requirements.
 - For gameplay work, check the generated [`Minecraft competency matrix`](docs/MINECRAFT_COMPETENCY_MATRIX.md) and [`coverage protocol`](docs/COMPETENCY_COVERAGE.md). Extend stable-ID cases when mechanics, versions or failure boundaries are not independently tracked.
 - A broad parent such as crafting, construction or navigation does not complete its distinct mechanics. Prove each claimed skill through legal Survival actions, held-out seeds, negative cases and reproducible outcomes.
+- For every research avenue, preserve a concrete Minecraft-native fixture, a valid comparator or control, measurable outcomes, and an adverse/falsification boundary. Do not reintroduce title-substitution templates or credit a proposed protocol as an executed experiment; see [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md).
 
 ## Pull request checklist
 
