@@ -453,3 +453,19 @@ A new evaluation is ready to run only when:
 - [ ] required raw artifacts are declared;
 - [ ] data/privacy restrictions are satisfied; and
 - [ ] runner output will preserve failed and inconclusive attempts.
+
+## Retry-history integrity in offline run comparisons
+
+`scripts/compare_experiment_runs.py` preserves **every** trial attempt by the
+logical variant/seed/repetition identifier and numeric attempt index. The
+highest attempt index determines the final outcome, independent of JSON record
+order. Missing or duplicate retry indices, or retries after a completed attempt,
+fail the comparison rather than silently overwriting evidence.
+
+In addition to final-status changes, comparison output reports
+`logical_trial_attempt_history_changes` so two runs with identical successful
+final outcomes but different failures/timeouts remain distinguishable. This is
+provenance/error accounting only, **not** a statistical capability result.
+It does not establish baseline parity, unbiased sampling, confidence intervals,
+or Minecraft-native benchmark execution. Issue #192 remains open until those
+independent gates are evidenced.
