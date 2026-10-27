@@ -1,15 +1,20 @@
 # Contributing
 
-This project welcomes research, design, documentation, evaluation, tooling, and—when milestones reach it—implementation contributions. It is early-stage: discuss large architectural work in an issue before investing heavily.
+Contributions to research, design, documentation, evaluation, and tooling are welcome. Minecraft mod and agent implementation work must respect the staged roadmap; the project has no working AI-player release yet.
+
+**New here?** Read the [documentation guide](docs/README.md) and [project goal](docs/GOAL.md) first. The [documentation style guide](docs/STYLE_GUIDE.md) covers writing and generated files.
 
 ## Before starting
 
-Read [`docs/GOAL.md`](docs/GOAL.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`ROADMAP.md`](ROADMAP.md), and [`AGENTS.md`](AGENTS.md). Select or open a scoped issue with a milestone, area, type, and priority. Research work should state its question, evidence plan, expected artifact, and decision it can unblock.
+Read the [goal](docs/GOAL.md), [architecture](ARCHITECTURE.md), [roadmap](ROADMAP.md), and [agent instructions](AGENTS.md). For substantial architecture changes, open a design issue before implementing. State the question, evidence plan, expected artifact, and decision the work could unblock.
 
 ## Finding and choosing work
 
 Use [ROADMAP.md](ROADMAP.md) to identify the current milestone, then prefer an
-issue labelled `status:ready`.
+issue labelled `status:ready`. If none is available, propose a scoped issue;
+administratively closed issues do not mean their engineering requirements have
+been completed. Check the [feature matrix](docs/FEATURE_MATRIX.md) for current
+evidence state.
 
 Before starting:
 
@@ -45,6 +50,11 @@ uses [docs/DATA_GOVERNANCE.md](docs/DATA_GOVERNANCE.md).
 4. Use the ecosystem's standard formatter/linter once a stack exists.
 5. Update docs and `docs/DECISIONS.md` when contracts or architecture change.
 6. Submit the pull-request template completely, including learned-versus-scripted and data/privacy sections.
+
+For documentation-only changes, keep terminology and reading paths consistent
+with the [style guide](docs/STYLE_GUIDE.md). Edit the human-maintained source
+page, not a generated matrix. If a link or heading changes, update referring
+pages and validate local anchors.
 
 ### Progress data is part of the change
 

@@ -32,6 +32,7 @@ Read the focused document for the subsystem you touch and check [`docs/DECISIONS
 - Document assumptions, nondeterminism, seeds, data versions, model/checkpoint versions, environment versions, hardware, and commands needed to reproduce experiments.
 - Separate experimental code and conclusions from candidate production architecture.
 - Update affected documentation when interfaces or architecture change. Add an ADR entry to `docs/DECISIONS.md` for material decisions.
+- Follow [`docs/STYLE_GUIDE.md`](docs/STYLE_GUIDE.md) for Markdown structure, navigation, source ownership, and evidence language. Keep [`docs/README.md`](docs/README.md) current when adding or moving substantive pages.
 - Reference GitHub issues in commits and pull requests when appropriate.
 - Never commit credentials, private player data, unlicensed datasets, or generated artifacts without provenance.
 

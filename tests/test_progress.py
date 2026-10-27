@@ -218,6 +218,25 @@ class ProgressTests(unittest.TestCase):
         self.assertIn(ROOT / 'docs/MINECRAFT_COMPETENCY_MATRIX.md', first)
         self.assertEqual(progress.apply_outputs(first, check=True), [])
 
+    def test_large_matrices_are_navigable_without_losing_stable_item_links(self):
+        rendered = progress.render(BASE)
+        feature = rendered[ROOT / 'docs/FEATURE_MATRIX.md']
+        readiness = rendered[ROOT / 'docs/PRODUCTION_READINESS.md']
+        self.assertNotIn('\n\n\n', feature)
+        self.assertNotIn('\n\n\n', readiness)
+        blocker_section = readiness.split('## Open questions and blockers\n', 1)[1].split('## Historical unmerged pull requests\n', 1)[0]
+        for domain in BASE['domains']:
+            self.assertEqual(feature.count(f'## {domain["name"]}\n'), 1)
+            pending = any(
+                row['remainingWork'] or row['openQuestions']
+                for dom, row, _ in progress.all_items(BASE) if dom['id'] == domain['id']
+            )
+            self.assertEqual(readiness.count(f'### {domain["name"]}\n'), int(pending))
+        for _, tracked, _ in progress.all_items(BASE):
+            self.assertEqual(feature.count(f'<a id="{tracked["id"].lower()}"></a>'), 1)
+            if tracked['remainingWork'] or tracked['openQuestions']:
+                self.assertEqual(blocker_section.count(f'| `{tracked["id"]}` |'), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

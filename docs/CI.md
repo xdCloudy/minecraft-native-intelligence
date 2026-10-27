@@ -3,6 +3,11 @@
 The repository uses one stack-aware GitHub Actions workflow:
 `.github/workflows/ci.yml`.
 
+For documentation edits, follow the [style guide](STYLE_GUIDE.md) and
+[documentation index](README.md). The local link checker covers repository
+navigation; the hosted link checker covers external URLs and can report remote
+service timeouts independently of broken local references.
+
 ## Goals
 
 CI should:

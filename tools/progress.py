@@ -323,14 +323,17 @@ def render(data):
  overview+=['','## Detailed matrices','','- [Feature and engineering matrix](FEATURE_MATRIX.md) — every scoped subsystem item and its five independent status dimensions.','- [Minecraft gameplay competency matrix](MINECRAFT_COMPETENCY_MATRIX.md) — concrete legal Survival scenarios and negative tests.','- [Research inventory](RESEARCH_MATRIX.md) — full questions, alternatives, prior work, methods, evidence and open issues.','- [Model architectures and training methods](MODEL_TRAINING_MATRIX.md) — candidate-by-candidate research and measured unknowns.','- [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.','- [Progress maintenance workflow](PROGRESS_WORKFLOW.md).','']
 
  overview+=[f"**Minecraft-specific competency scenarios inventoried: {len(gameplay_competencies(data))}.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.",'']
- feature=['# Feature and engineering matrix','','This is the implementation and validation view of every canonical item. Its 0% capability-oriented baseline does not erase the project’s documented v0.1 foundation; it indicates that documentation and contracts are not implemented Minecraft-native agent capabilities. Administratively closed issues and closed unmerged PRs are historical links, not completed acceptance criteria.','', '| ID / capability | Workstream / category | Description and scope | Dependencies / milestones | Implementation | Validation | Production readiness | Priority | Evidence / issues / PRs / main revision |','|---|---|---|---|---|---|---|---:|---|']
- for dom,item,kind in rows:
-  deps=', '.join(f'`{d}`' for d in item['dependencies']) or '—'; milestones=', '.join(item['milestones'])
-  refs=', '.join(linked_evidence(x,sources) for x in item['evidence']) or '—'
-  issues=', '.join(f'[#'+x[1:]+'](https://github.com/xdCloudy/minecraft-native-intelligence/issues/'+x[1:]+')' for x in item['relatedIssues']) or '—'
-  prs=', '.join(f'[{x}]({next(p["url"] for p in data["unmergedWork"] if p["id"]==x)}) ({next(p["state"] for p in data["unmergedWork"] if p["id"]==x)})' for x in item['relatedPRs']) or '—'
-  feature.append(f'| <a id="{item["id"].lower()}"></a>`{item["id"]}` {item["title"]} | {dom["name"]}<br>{item["category"]} | {item["description"]}<br>**Scope:** {item["scope"]} | **Depends:** {deps}<br>**Milestones:** {milestones} | {item["status"]["implementation"]} | {item["status"]["validation"]} | {item["status"]["productionReadiness"]} | {item["priority"]} | {refs}<br>Issues: {issues}<br>PRs (unmerged): {prs}<br>Main revision `{item["lastVerifiedRevision"]}` |')
- feature.append('')
+ feature=['# Feature and engineering matrix','','This is the implementation and validation view of every canonical item. Its 0% capability-oriented baseline does not erase the project’s documented v0.1 foundation; it indicates that documentation and contracts are not implemented Minecraft-native agent capabilities. Administratively closed issues and closed unmerged PRs are historical links, not completed acceptance criteria.','', 'Items are grouped by workstream for navigation. Every item retains its stable ID and direct-link anchor.','']
+ for workstream in data['domains']:
+  feature += [f'## {workstream["name"]}','','| ID / capability | Workstream / category | Description and scope | Dependencies / milestones | Implementation | Validation | Production readiness | Priority | Evidence / issues / PRs / main revision |','|---|---|---|---|---|---|---|---:|---|']
+  for dom,item,kind in rows:
+   if dom['id'] != workstream['id']: continue
+   deps=', '.join(f'`{d}`' for d in item['dependencies']) or '—'; milestones=', '.join(item['milestones'])
+   refs=', '.join(linked_evidence(x,sources) for x in item['evidence']) or '—'
+   issues=', '.join(f'[#'+x[1:]+'](https://github.com/xdCloudy/minecraft-native-intelligence/issues/'+x[1:]+')' for x in item['relatedIssues']) or '—'
+   prs=', '.join(f'[{x}]({next(p["url"] for p in data["unmergedWork"] if p["id"]==x)}) ({next(p["state"] for p in data["unmergedWork"] if p["id"]==x)})' for x in item['relatedPRs']) or '—'
+   feature.append(f'| <a id="{item["id"].lower()}"></a>`{item["id"]}` {item["title"]} | {dom["name"]}<br>{item["category"]} | {item["description"]}<br>**Scope:** {item["scope"]} | **Depends:** {deps}<br>**Milestones:** {milestones} | {item["status"]["implementation"]} | {item["status"]["validation"]} | {item["status"]["productionReadiness"]} | {item["priority"]} | {refs}<br>Issues: {issues}<br>PRs (unmerged): {prs}<br>Main revision `{item["lastVerifiedRevision"]}` |')
+  feature.append('')
 
  competency=['# Minecraft-specific competency matrix','',
   'Every listed scenario is a research and engineering target, not a demonstrated native-game skill. A generic movement or crafting interface does not establish competence on these mechanics.','']
@@ -373,12 +376,16 @@ def render(data):
  for title,req in [('Packaging and installation','Installable release artifact, pinned compatibility matrix and clean install/update/uninstall tests.'),('Integrated/dedicated servers and clients','In-game tests on each declared server mode and compatible vanilla client presentation.'),('Survival and information parity','Server-authoritative tests for movement, reach, inventory, crafting, damage, death/respawn and no hidden-state access.'),('Security, privacy, consent and licensing','Threat cases, operator controls, data provenance/consent/deletion and dependency/model/dataset licence audit.'),('Reliability, monitoring and recovery','Long-run restarts, fault containment, backups, resource/tick budgets, metrics and recovery drills.'),('Agent capability','Reproducible held-out Minecraft scenarios showing acquired behavior and excluding scripted/privileged execution.')]:readiness.append(f'| {title} | No production-ready Minecraft-native agent capability recorded on main. | {req} |')
  readiness+=['','## Rejected, deferred and out-of-scope approaches','','| ID | Approach | Decision | Evidence-based rationale |','|---|---|---|---|']
  for r in data['rejectedApproaches']:readiness.append(f'| `{r["id"]}` | {r["approach"]} | {r["status"]} | {r["reason"]} |')
- readiness+=['','## Open questions and blockers','','| ID | Remaining question/work | Workstream | Dependencies | Acceptance criteria |','|---|---|---|---|---|']
- for dom,item,kind in rows:
-  if item['remainingWork'] or item['openQuestions']:
+ readiness+=['','## Open questions and blockers','','Outstanding questions are grouped by workstream; these rows describe future work, not verified capability.','']
+ for workstream in data['domains']:
+  workstream_blockers=[(dom,item) for dom,item,kind in rows if dom['id']==workstream['id'] and (item['remainingWork'] or item['openQuestions'])]
+  if not workstream_blockers: continue
+  readiness += [f'### {workstream["name"]}','','| ID | Remaining question/work | Workstream | Dependencies | Acceptance criteria |','|---|---|---|---|---|']
+  for dom,item in workstream_blockers:
    question='; '.join(item.get('openQuestions',[])[:2])
    readiness.append(f'| `{item["id"]}` | {item["remainingWork"]}; {question} | {dom["name"]} | {", ".join(item["dependencies"]) or "—"} | {"; ".join(item["acceptanceCriteria"])} |')
- readiness+=['','## Historical unmerged pull requests','',f"Audited main {data['assessment']['defaultBranchRevision']}. {sum(pr['state']=='open' for pr in data['unmergedWork'])} tracked PRs remain open; {sum(pr['state']=='closed' for pr in data['unmergedWork'])} were closed without merging. Historical head/base revisions, reviewed paths and check snapshots are preserved. Stacked-branch success does not imply main integration. All records are excluded from shipped capability credit.",'', '| PR / state / branch | Historical base → head | Review summary and files | Affected items | Historical check snapshot |','|---|---|---|---|---|']
+  readiness.append('')
+ readiness+=['## Historical unmerged pull requests','',f"Audited main {data['assessment']['defaultBranchRevision']}. {sum(pr['state']=='open' for pr in data['unmergedWork'])} tracked PRs remain open; {sum(pr['state']=='closed' for pr in data['unmergedWork'])} were closed without merging. Historical head/base revisions, reviewed paths and check snapshots are preserved. Stacked-branch success does not imply main integration. All records are excluded from shipped capability credit.",'', '| PR / state / branch | Historical base → head | Review summary and files | Affected items | Historical check snapshot |','|---|---|---|---|---|']
  for pr in data['unmergedWork']:
   files='<br>'.join(f'`{f}`' for f in pr['reviewedFiles']); checks='; '.join(f'{c["name"]}: {c["conclusion"]} ({c["completedAt"]})' for c in pr['checks'])
   readiness.append(f'| [#{pr["id"][3:]}]({pr["url"]}) {pr["state"]} `{pr["head"]}` (draft={str(pr["draft"]).lower()}) | `{pr["base"]}` `{pr["baseRevision"]}` → `{pr["headRevision"]}` | {pr["changeSummary"]}<br>{files} | {", ".join(f"`{x}`" for x in pr["affectedAvenues"])} | run `{pr["latestCheckRun"]}` at {pr["checkSnapshotAt"]}: {checks}<br>Integrated: no; shipped: no |')
