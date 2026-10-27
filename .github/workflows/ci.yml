@@ -118,6 +118,15 @@ jobs:
       - name: Run deterministic tooling smoke
         run: python scripts/ci_smoke.py
 
+      - name: Validate canonical progress source
+        run: python tools/progress.py validate
+
+      - name: Check generated progress documentation is current
+        run: python tools/progress.py check
+
+      - name: Test progress validation and deterministic generation
+        run: python -m unittest discover -s tests -p test_progress.py
+
       - name: Upload failure diagnostics
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

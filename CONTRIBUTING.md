@@ -46,6 +46,29 @@ uses [docs/DATA_GOVERNANCE.md](docs/DATA_GOVERNANCE.md).
 5. Update docs and `docs/DECISIONS.md` when contracts or architecture change.
 6. Submit the pull-request template completely, including learned-versus-scripted and data/privacy sections.
 
+### Progress data is part of the change
+
+For every meaningful feature or research PR, update the canonical dataset at
+[`docs/progress/progress.json`](docs/progress/progress.json) with evidence-backed
+status changes, stable IDs, acceptance criteria, limitations, remaining work,
+history, dependencies and milestone mappings. Keep research, experimental
+outcome, implementation, validation and production readiness independent.
+Update affected architecture and training candidates when relevant. Do not
+credit work on an open branch as integrated on main. Generate the dashboard and
+matrices; do not edit their generated Markdown by hand.
+
+Before submitting, run:
+
+```sh
+python tools/progress.py validate
+python tools/progress.py generate
+python tools/progress.py check
+python -m unittest discover -s tests -p test_progress.py
+```
+
+See [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for scoring,
+status definitions and evidence rules.
+
 ## Before opening a pull request
 
 1. Run the relevant local checks from [docs/CI.md](docs/CI.md).

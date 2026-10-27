@@ -26,7 +26,28 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 
 ## Status and roadmap
 
-The **v0.1 — Project Foundation** baseline is complete. Current work moves into **v0.2 — Minecraft Native Interface**: validating the proposed Fabric/Minecraft baseline through player-compatible embodiment, then implementing and testing the native observation/action, information-access, Survival-parity, packaging, and compatibility boundaries. Later milestones progress through runtime and memory prototypes, behavioural and language grounding, autonomy, lifelong learning, multi-agent scaling, and an integrated research platform. They are research stages—not promises of human-level intelligence.
+<!-- MNI_PROGRESS_START -->
+### Live research and engineering progress
+
+**13 workstreams · 236 tracked research/engineering items · current milestone: v0.2 Minecraft Native Interface.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.
+
+| Progress dimension | Current |
+|---|---:|
+| Research coverage | 100.0% |
+| Research completion | 0.0% |
+| Model architecture research | 0.0% |
+| Training-method research | 0.0% |
+| Experimental effectiveness | 0.0% |
+| Demonstrated capabilities | 0.0% |
+| Implementation maturity | 0.0% |
+| Validation coverage | 0.0% |
+| Production readiness | 0.0% |
+| Overall scoped progress | 0.0% |
+
+**Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Open PR work is displayed separately and does not count as integrated.
+
+[Full progress dashboard](docs/PROGRESS.md) · [Feature matrix](docs/FEATURE_MATRIX.md) · [Research inventory](docs/RESEARCH_MATRIX.md) · [Model and training matrices](docs/MODEL_TRAINING_MATRIX.md) · [Experiment and production readiness](docs/PRODUCTION_READINESS.md) · [Scoring and maintenance workflow](docs/PROGRESS_WORKFLOW.md)
+<!-- MNI_PROGRESS_END -->
 
 See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 
