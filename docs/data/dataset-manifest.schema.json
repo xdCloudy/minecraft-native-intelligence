@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:dataset-manifest:v0",
+  "title": "MNI dataset and derived-artifact rights manifest v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "origin",
+    "source",
+    "consent",
+    "review",
+    "personal_data",
+    "retention",
+    "lineage"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "dataset-manifest.v0"
+    },
+    "artifact_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "origin": {
+      "enum": [
+        "synthetic",
+        "human_gameplay",
+        "third_party",
+        "derived"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference",
+        "version",
+        "sha256",
+        "rights_holder",
+        "license_or_permission_ref"
+      ],
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "rights_holder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license_or_permission_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "record_id",
+        "permitted_uses"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "not_required",
+            "granted",
+            "withdrawn",
+            "unknown"
+          ]
+        },
+        "record_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "permitted_uses": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "collect",
+              "store",
+              "inspect",
+              "train",
+              "evaluate",
+              "derive",
+              "publish",
+              "redistribute_raw",
+              "redistribute_derived",
+              "release_weights"
+            ]
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewer",
+        "reviewed_at",
+        "approved_uses"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "approved",
+            "rejected",
+            "pending"
+          ]
+        },
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_uses": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "collect",
+              "store",
+              "inspect",
+              "train",
+              "evaluate",
+              "derive",
+              "publish",
+              "redistribute_raw",
+              "redistribute_derived",
+              "release_weights"
+            ]
+          }
+        }
+      }
+    },
+    "personal_data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contains_identifiers",
+        "contains_chat",
+        "chat_opt_in"
+      ],
+      "properties": {
+        "contains_identifiers": {
+          "type": "boolean"
+        },
+        "contains_chat": {
+          "type": "boolean"
+        },
+        "chat_opt_in": {
+          "type": "boolean"
+        }
+      }
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expires_at",
+        "deletion_requested",
+        "deleted_at"
+      ],
+      "properties": {
+        "expires_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deletion_requested": {
+          "type": "boolean"
+        },
+        "deleted_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ids",
+        "transformation_ref"
+      ],
+      "properties": {
+        "source_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+          }
+        },
+        "transformation_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
