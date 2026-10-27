@@ -16,7 +16,7 @@ See [SECURITY.md](../SECURITY.md) for vulnerability boundaries and reporting, an
 ## Experimental operator stop fence (issue #197)
 
 `scripts/operator_stop_contract.py` defines a small **offline reference model**
-for operator pause, resume, emergency stop and explicit owner reset. An
+for operator pause, resume, emergency stop and explicit owner reset. A new control state defaults to **paused** after process startup; an
 out-of-band, server-verified role is required; untrusted chat, signs, books,
 world data or model/runtime messages never supply operator authority. A stop
 advances a per-agent epoch and fences queued actions. Stopped agents cannot
