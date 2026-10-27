@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
-from scripts.validate_observation_contract import validate_json_schema
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scripts.validate_observation_contract import validate_json_schema
 ACTION_SCHEMA = ROOT / "docs" / "actions" / "action.schema.json"
 OUTCOME_SCHEMA = ROOT / "docs" / "actions" / "outcome.schema.json"
 
@@ -50,10 +52,10 @@ def validate_request(
         return "wrong_session"
     if request["observation_seq"] != latest_observation_seq:
         return "stale_observation"
-    if request["submitted_tick"] > current_tick or request["expires_tick"] < current_tick:
-        return "expired"
     if request["expires_tick"] < request["submitted_tick"]:
         return "invalid_schema"
+    if request["submitted_tick"] > current_tick or request["expires_tick"] < current_tick:
+        return "expired"
     kind = request["intent"]["type"]
     if kind not in supported_actions:
         return "unsupported_action"
