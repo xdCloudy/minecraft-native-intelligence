@@ -18,6 +18,7 @@ PYTHON_FILES = [
     ROOT / "scripts" / "validate_information_access.py",
     ROOT / "scripts" / "validate_observation_contract.py",
     ROOT / "scripts" / "benchmark_terrain_encodings.py",
+    ROOT / "scripts" / "summarize_terrain_encoding_run.py",
     ROOT / "experiments" / "smoke" / "trial_fixture.py",
 ]
 

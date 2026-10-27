@@ -30,7 +30,8 @@ requires byte-identical output.
 
 The benchmark reports compact JSON payload bytes, median encode/decode time,
 exact visible-sample reconstruction, exact visible-material counts, nearest
-visible gold distance error, local block lookup, visible adjacency
+visible gold distance error, lookup of an evaluator-selected visible sample,
+visible adjacency
 preservation, and hidden-state conformance. Timing uses seven in-process
 measurements per terrain case; raw case results are retained in each trial's
 `terrain-encoding.json` artifact.

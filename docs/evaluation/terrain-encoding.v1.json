@@ -98,7 +98,7 @@
       "id": "spatial_query_evaluator",
       "type": "oracle",
       "owner": "evaluator",
-      "influence": "Calculates material counts, nearest visible target distance, and local lookup reference answers from visible samples.",
+      "influence": "Calculates material counts, nearest visible target distance, adjacency, and lookup reference answers from visible samples; it selects the lookup coordinate after encoding and never supplies evaluator answers to an encoder.",
       "active_when": "After encoding/decoding.",
       "encodes_solution": false,
       "accounting": "Evaluator references are never passed to encoders."
@@ -181,7 +181,7 @@
     },
     {
       "id": "local_block_query_exact",
-      "definition": "Whether the representation returns the exact observed block ID (or no sample) at relative position (0,0,0).",
+      "definition": "Whether the representation returns the exact observed block ID at an evaluator-selected coordinate known to contain a visible sample.",
       "unit": "boolean",
       "direction": "higher",
       "role": "secondary",

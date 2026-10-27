@@ -293,7 +293,20 @@ def decode(encoded: dict[str, Any], previous: dict[str, Any] | None) -> list[dic
     if kind == "egocentric_slices":
         return [entry["sample"] for layer in encoded["layers"] for row in layer["rows"] for entry in row["items"]]
     if kind == "chunk_features":
-        return []
+        result = []
+        for chunk in encoded["chunks"]:
+            for block, count in chunk["visible_block_histogram"].items():
+                result.append({
+                    "sample_id": f"aggregate-{chunk['chunk'][0]}-{chunk['chunk'][1]}-{chunk['chunk'][2]}-{block}",
+                    "relative_block": dict(zip(("x", "y", "z"), chunk["visible_position_centroid_by_block"][block])),
+                    "block_id": block,
+                    "visible_properties": {},
+                    "visible_faces": [],
+                    "fluid_id": None,
+                    "visibility_quality": None,
+                    "source_count": count,
+                })
+        return result
     if kind == "change_events":
         if previous is None or encoded["base_sequence"] != previous["sequence"]:
             raise ValueError("change-event base sequence mismatch")
@@ -359,7 +372,8 @@ def chunk_nearest_gold(encoded: dict[str, Any]) -> float | None:
 
 
 def local_block(samples: list[dict[str, Any]], position: tuple[int, int, int] = (0, 0, 0)) -> str | None:
-    return next((sample["block_id"] for sample in samples if pos_key(sample) == position), None)
+    return next((sample["block_id"] for sample in samples
+                 if pos_key(sample) == position and sample.get("source_count", 1) == 1), None)
 
 
 def visible_adjacencies(samples: list[dict[str, Any]]) -> list[tuple[str, str]]:
@@ -450,8 +464,10 @@ def measure_case(terrain: str, seed: int, encoder_id: str) -> dict[str, Any]:
         nearest = nearest_gold(decoded)
     reference_nearest = nearest_gold(current["items"])
     nearest_error = None if reference_nearest is None or nearest is None else abs(reference_nearest - nearest)
-    local_expected = local_block(current["items"])
-    local_actual = local_block(reconstructed)
+    query_sample = current["items"][len(current["items"]) // 2] if current["items"] else None
+    query_position = pos_key(query_sample) if query_sample else (0, 0, 0)
+    local_expected = local_block(current["items"], query_position)
+    local_actual = local_block(reconstructed, query_position)
     local_exact = local_expected == local_actual
     roundtrip = sorted(map(exact_key, decoded)) == sorted(map(exact_key, current["items"])) if encoder_id != "chunk_features" else False
     adjacency_exact = (encoder_id != "chunk_features"
