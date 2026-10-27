@@ -118,6 +118,23 @@ class DataRightsTests(unittest.TestCase):
         self.assertEqual("invalid_manifest", allowed({"synthetic-001": invalid})[1])
         self.assertEqual("invalid_manifest", allowed({"other-001": item}, "other-001")[1])
 
+    def test_human_retention_must_be_bounded(self):
+        item = manifest()
+        item["origin"] = "human_gameplay"
+        item["consent"] = {"status": "granted", "record_id": "v1", "permitted_uses": ["train"]}
+        item["retention"]["expires_at"] = None
+        self.assertEqual("retention_expired_or_invalid", allowed({item["artifact_id"]: item})[1])
+
+    def test_adversarial_lineage_depth_is_bounded(self):
+        items = {}
+        for index in range(66):
+            identifier = f"item-{index:03d}"
+            source = manifest(identifier)
+            source["origin"] = "derived" if index < 65 else "synthetic"
+            source["lineage"]["source_ids"] = [f"item-{index + 1:03d}"] if index < 65 else []
+            items[identifier] = source
+        self.assertEqual("lineage_depth_exceeded", allowed(items, "item-000")[1])
+
     def test_no_unknown_permissions(self):
         item = manifest()
         self.assertEqual("unsupported_use", allowed({item["artifact_id"]: item}, purpose="execute_code")[1])
