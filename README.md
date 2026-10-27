@@ -29,7 +29,7 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 <!-- MNI_PROGRESS_START -->
 ### Live research and engineering progress
 
-**15 workstreams · 310 tracked research/engineering items · current milestone: v0.2 Minecraft Native Interface.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.
+**15 workstreams · 330 tracked research/engineering items · current milestone: v0.2 Minecraft Native Interface.** The dashboard reflects evidence on the assessed main revision. No intelligent Minecraft-native agent has been demonstrated.
 
 | Progress dimension | Current |
 |---|---:|
@@ -44,7 +44,7 @@ See [the authoritative goal](docs/GOAL.md) and [architecture](ARCHITECTURE.md) f
 | Production readiness | 0.0% |
 | Overall scoped progress | 0.0% |
 
-**Minecraft-specific competency scenarios inventoried: 60.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.
+**Minecraft-specific competency scenarios inventoried: 62.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.
 
 **Main gaps:** no integrated Minecraft agent mod, player embodiment, Survival-parity in-game validation, selected foundation architecture or demonstrated learning/autonomy. Historical unmerged PRs are displayed separately and do not count as integrated.
 
@@ -62,6 +62,7 @@ See [ROADMAP.md](ROADMAP.md) for dependencies and success gates.
 | [Architecture](ARCHITECTURE.md) | Proposed system boundaries and timescales |
 | [Java mod integration](docs/INTEGRATION.md) | Installation, spawning, player embodiment, skins, and lifecycle |
 | [Research programme](RESEARCH.md) | Questions, experimental method, and evidence standards |
+| [Prior research and external frameworks](docs/RESEARCH_REFERENCES.md) | Reproducibility limits, reuse decisions, Minecraft baselines, and additional hypotheses |
 | [Evaluation](docs/EVALUATION.md) and [experiments](docs/EXPERIMENTS.md) | Scenario/result evidence contracts and reproducible execution |
 | [Testing](docs/TESTING.md) and [CI](docs/CI.md) | Test tiers, local checks, and stack-aware remote verification |
 | [Data governance](docs/DATA_GOVERNANCE.md) | Licensing, consent, privacy, retention, and deletion gates |

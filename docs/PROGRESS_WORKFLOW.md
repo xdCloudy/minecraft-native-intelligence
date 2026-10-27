@@ -31,7 +31,7 @@ on manual workflow dispatch. PR CI verifies deterministic progress, tests and
 links without self-reporting an open PR as already integrated.
 
 The repository currently has **no Minecraft mod/Gradle wrapper on main**.
-Changing Minecraft/Gradle inputs activates a Java 21 Gradle build-and-unit-test
+Changing Minecraft/Gradle inputs activates a Java 25 Gradle build-and-unit-test
 gate; the gate fails if a buildable wrapper is missing. This is not a GameTest,
 vanilla-client, dedicated-server, gameplay-parity or autonomy validation pass.
 Those stages require an implemented mod and pinned in-game harness before
@@ -128,4 +128,6 @@ main-branch assessment revision.
 
 ## Current assessment limits
 
-The expanded taxonomy contains 15 workstreams, 268 feature/research avenues (including 60 concrete gameplay mechanics and 12 data lifecycle items), 21 model candidates and 21 training methods: 310 tracked items. Naming an avenue does not mean it has been investigated. The assessed main snapshot has no integrated Minecraft agent mod or demonstrated intelligent Minecraft-native behavior. Model architecture remains undecided. Project-specific training compute, inference latency, throughput, generalization and grounding remain unmeasured. The terrain-encoding experiment is synthetic and branch-only; it does not establish in-game perception quality.
+The 2026-10-27 scope audit extends the taxonomy to **15 workstreams, 286 feature/research avenues (including 62 independently testable gameplay scenarios and 12 data lifecycle items), 21 model candidates and 23 training methods: 330 tracked items**. It adds 18 avenues and two method candidates; existing stable IDs and prior evidence states are preserved. The eight new primary-source records are not project experimental results. Scope expansion does not increase the 0% implementation, demonstrated-capability, validation or readiness values. The 100% *research coverage* indicator means metadata fields are populated for the **declared 330 records**, not that all future ideas, Minecraft mechanics or methods have been discovered or studied.
+
+Naming an avenue does not mean it has been investigated. The assessed main snapshot has no integrated Minecraft agent mod or demonstrated intelligent Minecraft-native behavior. Model architecture remains undecided. Project-specific training compute, inference latency, throughput, generalization and grounding remain unmeasured. The terrain-encoding experiment is synthetic and branch-only; it does not establish in-game perception quality. New examples and alternatives are documented in [research references](RESEARCH_REFERENCES.md); the new [construction scoring gates](EVALUATION.md#construction-evaluation-plans-are-not-finished-structures) prevent confusing a build plan with a completed in-world structure.

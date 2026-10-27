@@ -63,7 +63,8 @@ Before submitting, run:
 python tools/progress.py validate
 python tools/progress.py generate
 python tools/progress.py check
-python -m unittest discover -s tests -p test_progress.py
+python tools/check_doc_links.py
+python -m unittest discover -s tests -p 'test_*.py'
 ```
 
 See [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for scoring,

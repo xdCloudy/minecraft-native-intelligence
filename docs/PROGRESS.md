@@ -1,6 +1,6 @@
 # Research and development progress
 
-Assessment: `2026-10-27` · assessed main `8622b139da2db7782525faec3ee4dac623acb1ba` · 15 workstreams · 310 tracked features, research candidates and methods.
+Assessment: `2026-10-27` · assessed main `8622b139da2db7782525faec3ee4dac623acb1ba` · 15 workstreams · 330 tracked features, research candidates and methods.
 
 > The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Unmerged PRs and their historical checks are recorded separately and receive no integrated or shipped credit.
 
@@ -24,26 +24,26 @@ Research coverage and completion are distinct. Expanding scope can lower complet
 ### Model and training research
 
 - Model architecture research completion: **0.0%** across 21 candidates.
-- Training and learning research completion: **0.0%** across 21 methods.
+- Training and learning research completion: **0.0%** across 23 methods.
 
 ### Workstream view
 
 | Workstream | Items | Research | Implementation | Validation | Readiness |
 |---|---:|---:|---:|---:|---:|
 | Minecraft integration and embodiment | 13 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Perception and information access | 13 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Perception and information access | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Action, control and legality | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Model architectures and training | 38 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Learning and adaptation | 43 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Cognition and autonomy | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Construction and spatial creativity | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Memory and identity | 16 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Model architectures and training | 42 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Learning and adaptation | 47 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Cognition and autonomy | 16 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Construction and spatial creativity | 18 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Memory and identity | 17 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Language, relationships and social behavior | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Infrastructure, runtime and scaling | 10 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Evaluation and evidence | 17 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Infrastructure, runtime and scaling | 11 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Evaluation and evidence | 19 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Safety, security and data governance | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Multi-agent infrastructure and population scaling | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Minecraft-specific gameplay competencies | 60 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Multi-agent infrastructure and population scaling | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Minecraft-specific gameplay competencies | 62 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Training data and experiment lifecycle | 12 | 0.0% | 0.0% | 0.0% | 0.0% |
 
 ## Main blockers
@@ -51,10 +51,10 @@ Research coverage and completion are distinct. Expanding scope can lower complet
 | Item | Workstream | Main status | Acceptance evidence still needed |
 |---|---|---|---|
 | [`AC-01` Legal action interface and outcome contract](FEATURE_MATRIX.md#ac-01) | Action, control and legality | not_implemented / untested | Each action has validated preconditions, bounded duration, stable outcome and no direct world mutation. |
+| [`BU-016` Natural-language-to-voxel build specification and clarification](FEATURE_MATRIX.md#bu-016) | Construction and spatial creativity | not_implemented / untested | Reproduce the fixture: Translate ambiguous requests such as a two-storey mob-safe spruce house with a cellar into constraints, dimensions, materials and a preview before any block placement. |
+| [`BU-018` Versioned blueprint execution state and design revision](FEATURE_MATRIX.md#bu-018) | Construction and spatial creativity | not_implemented / untested | Reproduce the fixture: Resume a partially placed bridge and house after world reload, block destruction and a player-requested room extension. |
 | [`BU-02` Terrain-aware planning, materials and execution](FEATURE_MATRIX.md#bu-02) | Construction and spatial creativity | not_implemented / untested | All changes via legal actions; plan adapts to perturbations and incomplete resources; artifacts reproducible. |
 | [`CO-03` Autonomous goal generation and arbitration](FEATURE_MATRIX.md#co-03) | Cognition and autonomy | not_implemented / untested | Goal persistence/revision is causally linked to experience; scripts and operator prompts are disclosed. |
-| [`LR-01` Learning from interaction and feedback](FEATURE_MATRIX.md#lr-01) | Learning and adaptation | not_implemented / untested | Statistically supported improvement on held-out tasks without regressions to protected capabilities. |
-| [`ME-01` Working, episodic and semantic memory lifecycle](FEATURE_MATRIX.md#me-01) | Memory and identity | not_implemented / untested | Retrieved memories retain provenance/confidence and improve future behavior over no-memory baseline. |
 
 ## Roadmap progress
 
@@ -103,4 +103,4 @@ GitHub issues and PRs are tracked as workflow state, not capability evidence. Th
 - [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.
 - [Progress maintenance workflow](PROGRESS_WORKFLOW.md).
 
-**Minecraft-specific competency scenarios inventoried: 60.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.
+**Minecraft-specific competency scenarios inventoried: 62.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.
