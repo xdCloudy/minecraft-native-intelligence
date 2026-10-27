@@ -63,6 +63,8 @@ def authorize_use(
             return "lineage_cycle"
         if identifier in visited:
             return None
+        if len(active) >= 64:
+            return "lineage_depth_exceeded"
         manifest = manifests.get(identifier)
         if manifest is None:
             return "missing_lineage"
@@ -86,6 +88,8 @@ def authorize_use(
         human = (manifest["origin"] == "human_gameplay"
                  or manifest["personal_data"]["contains_identifiers"]
                  or manifest["personal_data"]["contains_chat"])
+        if human and retention["expires_at"] is None:
+            return "retention_expired_or_invalid"
         if human and (consent["status"] != "granted" or not consent["record_id"]):
             return "consent_unavailable"
         if consent["status"] == "granted" and purpose not in consent["permitted_uses"]:
