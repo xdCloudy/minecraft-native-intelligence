@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://minecraft-native-intelligence.dev/schemas/action-outcome.v0.json",
+  "title": "Minecraft Native Action Outcome v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "agent_id", "session_epoch", "request_id", "trace_id", "sequence", "game_tick", "status"],
+  "properties": {
+    "schema_version": {"const": "action-outcome.v0"},
+    "agent_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "session_epoch": {"type": "integer", "minimum": 0},
+    "request_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "trace_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "sequence": {"type": "integer", "minimum": 0},
+    "game_tick": {"type": "integer", "minimum": 0},
+    "status": {"enum": ["accepted", "rejected", "started", "cancelled", "completed"]},
+    "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,63}$"},
+    "message": {"type": "string", "maxLength": 512},
+    "result": {"type": "object", "additionalProperties": true}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "rejected"}}, "required": ["status"]}, "then": {"required": ["reason_code"]}}
+  ]
+}

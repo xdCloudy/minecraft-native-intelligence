@@ -1,0 +1,14 @@
+{
+  "schema_version": "action-request.v0",
+  "agent_id": "agent:example-001",
+  "session_epoch": 4,
+  "request_id": "action:4:000042",
+  "based_on_observation_seq": 108,
+  "trace_id": "trace:example-4-42",
+  "deadline_game_tick": 9081,
+  "action": {
+    "type": "mine",
+    "target": {"x": 14, "y": 63, "z": -8},
+    "face": "north"
+  }
+}

@@ -146,6 +146,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Expose server UUID/entity IDs; use display names as unique keys; omit all cross-observation hypotheses; make screenshot tracking the primary interface.
 - **Consequences:** The observation v0 contract stays unchanged. Synthetic conformance fixtures exercise spawn/first sighting, occlusion, similar entities, mounts/projectiles, and information loss. Runtime integration and the heuristic parameters still require controlled evaluation before they can support a capability claim.
 
+## ADR-0018 — Versioned typed action envelopes precede legality implementation
+
+- **Date:** 2026-10-27
+- **Status:** proposed
+- **Context:** The v0.2 interface needs a typed action request and correlated outcome format before an authoritative validator or Minecraft adapter can be implemented. Issue #4 and #8 had a circular dependency: the validator needs the action contract, while the action-schema issue listed the validator as a prerequisite.
+- **Decision:** Define strict `action-request.v0` and `action-outcome.v0` JSON contracts first. Each request carries agent/session identity, request and trace IDs, observation sequence, optional game-tick deadline, and exactly one typed action. Outcomes correlate back to the request and carry a monotonic sequence, authoritative game tick, lifecycle status, and stable rejection reason when rejected. Unknown fields/actions fail closed.
+- **Alternatives:** Free-form commands; direct state mutation; wait for Minecraft adapter implementation before specifying the wire contract.
+- **Consequences:** The legal-action validator (#8) can now validate this schema and enforce observation freshness, capability, visibility, and vanilla preconditions. The schemas do not implement game legality, scheduling, or transport. See [ACTION_SCHEMA.md](ACTION_SCHEMA.md).
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
