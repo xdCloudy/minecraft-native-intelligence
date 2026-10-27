@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -21,9 +22,20 @@ def load(path: Path) -> dict[str, Any]:
         return json.load(stream)
 
 
+def contains_nonfinite(value: Any) -> bool:
+    if isinstance(value, float):
+        return not math.isfinite(value)
+    if isinstance(value, list):
+        return any(contains_nonfinite(item) for item in value)
+    if isinstance(value, dict):
+        return any(contains_nonfinite(item) for item in value.values())
+    return False
+
+
 def schema_errors(value: Any, schema_path: Path) -> list[str]:
     schema = load(schema_path)
-    return validate_json_schema(value, schema, schema)
+    return (["non-finite numeric value"] if contains_nonfinite(value)
+            else validate_json_schema(value, schema, schema))
 
 
 def validate_request(
