@@ -11,6 +11,8 @@ import net.minecraft.world.InteractionHand;
 
 /** Dependency-free executable contract checks; these do not start Minecraft. */
 public final class ActionRequestValidatorContractTests {
+    private static int checks;
+
     private ActionRequestValidatorContractTests() {}
 
     public static void main(String[] args) {
@@ -21,6 +23,7 @@ public final class ActionRequestValidatorContractTests {
         checkMiningTargetMapping();
         checkEatHandMapping();
         checkHotbarSlotMapping();
+        checkEquipmentSlotMapping();
         checkOutcomeSerialization();
         equal("malformed_request", validateRaw(envelope("-1", "{\"type\":\"jump\"}")).reasonCode(), "negative observation sequence");
         equal("malformed_request", validateRaw(envelope("999999999999999999999999999999", "{\"type\":\"jump\"}")).reasonCode(), "overflow observation sequence");
@@ -31,7 +34,7 @@ public final class ActionRequestValidatorContractTests {
         equal("unsupported_capability", validateRaw(envelope("4", "{\"type\":\"eat\",\"hand\":\"main\"}")).reasonCode(), "unsupported action capability");
         equal("inventory_precondition_failed", validateRaw(envelope("4", "{\"type\":\"drop\",\"slot\":0,\"count\":1,\"whole_stack\":true}")).reasonCode(), "whole-stack count mismatch");
         equal("malformed_request", ActionRequestValidator.validate("{", context()).reasonCode(), "malformed JSON");
-        System.out.println("Native action contract checks passed (42 cases)");
+        System.out.println("Native action contract checks passed (" + checks + " assertions)");
     }
 
     private static void checkControlInputMapping() {
@@ -78,6 +81,24 @@ public final class ActionRequestValidatorContractTests {
                 "first hotbar slot mapping");
         equal(8, AgentActionExecutor.hotbarSlot(JsonParser.parseString("{\"hotbar_slot\":8}").getAsJsonObject()),
                 "last hotbar slot mapping");
+    }
+
+    private static void checkEquipmentSlotMapping() {
+        equal(net.minecraft.world.entity.EquipmentSlot.HEAD,
+                AgentActionExecutor.equipmentSlot(JsonParser.parseString("{\"slot\":\"head\"}").getAsJsonObject()),
+                "head equipment mapping");
+        equal(net.minecraft.world.entity.EquipmentSlot.CHEST,
+                AgentActionExecutor.equipmentSlot(JsonParser.parseString("{\"slot\":\"chest\"}").getAsJsonObject()),
+                "chest equipment mapping");
+        equal(net.minecraft.world.entity.EquipmentSlot.LEGS,
+                AgentActionExecutor.equipmentSlot(JsonParser.parseString("{\"slot\":\"legs\"}").getAsJsonObject()),
+                "legs equipment mapping");
+        equal(net.minecraft.world.entity.EquipmentSlot.FEET,
+                AgentActionExecutor.equipmentSlot(JsonParser.parseString("{\"slot\":\"feet\"}").getAsJsonObject()),
+                "feet equipment mapping");
+        equal(net.minecraft.world.entity.EquipmentSlot.OFFHAND,
+                AgentActionExecutor.equipmentSlot(JsonParser.parseString("{\"slot\":\"off_hand\"}").getAsJsonObject()),
+                "offhand equipment mapping");
     }
 
     private static void checkEveryActionVariant() {
@@ -148,6 +169,7 @@ public final class ActionRequestValidatorContractTests {
     }
 
     private static void equal(Object expected, Object actual, String label) {
+        checks++;
         if (!expected.equals(actual)) throw new AssertionError(label + ": expected " + expected + ", got " + actual);
     }
 

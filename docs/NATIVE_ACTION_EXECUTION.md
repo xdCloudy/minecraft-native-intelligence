@@ -7,9 +7,9 @@ the mod, runs `ActionRequestValidator`, applies one-action-at-a-time arbitration
 and emits correlated `action-outcome.v0` records with per-agent sequence and
 world game tick.
 
-This slice executes `move`, `look`, `jump`, `mine`, `eat`, `select_slot`, and `drop`,
-and can cancel the currently active action for that player. Movement and jump
-controls are translated into Minecraft's `Input` value and passed through the
+This slice executes `move`, `look`, `jump`, `mine`, `place`, `equip`, `eat`,
+`select_slot`, and `drop`, and can cancel the currently active action for that
+player. Movement and jump controls are translated into Minecraft's `Input` value and passed through the
 player's `ServerGamePacketListenerImpl.handlePlayerInput`; look uses its
 ordinary rotation packet handler. A tick-bounded control is started from
 `START_SERVER_TICK`, consumed by the ordinary player tick, and released at
@@ -44,16 +44,35 @@ per server tick; whole-stack drops use the ordinary stack-throw click. The
 executor maps the observed inventory slot through the active menu and completes
 only after the authoritative source stack reaches the requested count.
 
+Equipping uses ordinary `PICKUP` clicks in the player's active `InventoryMenu`.
+The executor checks the live source stack and its equipment slot, rejects a
+nonempty cursor or a different active menu, moves the requested stack through
+the cursor, and returns displaced equipment to that same source slot. It
+reports completion only after the requested item is equipped, the previous
+equipment is recovered, and the cursor is empty.
+
+Placement builds the requested face hit and calls vanilla
+`ServerPlayerGameMode.useItemOn` with the held hand. Before invoking it, the
+server rechecks item feature enablement, block interaction reach, build height,
+spawn protection, and `level.mayInteract`; the vanilla game mode retains
+replaceability, collision, item, and placement mechanics. The packet handler
+cannot be used for this action because it also requires an initial client
+teleport acknowledgement that the silent player cannot send. This path does
+not create a connection or synthesize protocol acknowledgements. The executor
+reports completion only if the clicked/adjacent block state or held stack
+changes.
+
 The silent player has no client to acknowledge initial loading. The executor
 waits for vanilla's 60-tick client-load timeout before dispatching movement,
-look, mining, and item-use controls because their packet handlers gate those
-actions on that state. Hotbar selection uses a handler without this gate. A
-request deadline can expire during the wait and produces a rejection outcome.
+look, mining, and eating controls because their packet handlers gate those
+actions on that state. Hotbar selection, dropping, and the bounded placement
+adapter do not wait for this timeout. A request deadline can expire during a
+gated action's wait and produces a rejection outcome.
 Malformed requests without usable request and trace IDs return a deterministic
 submission error but cannot be represented as a correlated schema outcome.
 
 Other valid schema actions currently fail closed with
-`executor_action_unsupported`. Combat, placement, crafting, block/entity
+`executor_action_unsupported`. Combat, crafting, block/entity
 interaction, pickup, and chat still need executor paths and
 ordinary-mechanics conformance evidence. The outcome sink is currently the
 mod log; `MniMod.submitAgentAction` is an ingress seam, not a network transport.
@@ -63,8 +82,11 @@ session-scoped agent ID; persistent identity binding remains future work.
 
 `actionContractTest` covers request validation, control-value translation,
 mining-target, hand, and hotbar-slot mapping, and outcome serialization.
-GameTests cover vanilla-timed food consumption, carried-item selection, and
-counted drops through the executor, but CI only compiles them.
+GameTests cover vanilla-timed food consumption, carried-item selection, counted
+drops, equipment swaps through inventory clicks, placement through the
+executor's vanilla `ServerPlayerGameMode` path, and rejection when the
+validated reach set contains a block outside the player's live interaction
+range. CI only compiles these GameTests.
 CI compiles the GameTest sources but does not launch a Minecraft server. The
 runtime control path therefore remains unverified until an operator runs the
 GameTest server under the project's EULA opt-in procedure.

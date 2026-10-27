@@ -10,11 +10,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
     @GameTest
@@ -205,6 +207,148 @@ public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
             executor.removeAgent(player);
             manager.remove(server, player.getUUID());
             helper.succeed();
+        });
+    }
+
+    @GameTest
+    public void equipActionUsesVanillaInventoryClicksAndReturnsReplacedEquipment(GameTestHelper helper) {
+        AgentPlayerManager manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        var position = helper.absolutePos(new BlockPos(1, 1, 1));
+        ServerPlayer player = manager.spawn(server, level, "MniEquipAgent",
+                position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
+        player.getInventory().setItem(9, new ItemStack(Items.IRON_HELMET, 1));
+        player.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET, 1));
+        var outcomes = new ArrayList<AgentActionExecutor.Outcome>();
+        AgentActionExecutor executor = new AgentActionExecutor(manager, outcomes::add);
+        String agentId = player.getGameProfile().id().toString();
+        ActionValidationContext context = new ActionValidationContext(agentId, 1, 0,
+                level.getGameTime(), 0, 41, false,
+                Set.of(ActionValidationContext.actionCapability("equip")), Set.of("equip"),
+                Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(),
+                Map.of(9, new ActionValidationContext.ItemState("minecraft:iron_helmet", 1, false, false, "head")),
+                Map.of());
+        var submission = executor.submit(player,
+                "{\"schema_version\":\"action-request.v0\",\"agent_id\":\"" + agentId
+                        + "\",\"session_epoch\":1,\"request_id\":\"equip-1\",\"based_on_observation_seq\":0,"
+                        + "\"trace_id\":\"equip-trace-1\",\"action\":{\"type\":\"equip\",\"slot\":\"head\","
+                        + "\"inventory_slot\":9}}",
+                context);
+        helper.assertTrue(submission.accepted(), "legal equipment request is accepted");
+
+        executor.startServerTick(server);
+        helper.assertTrue(player.getItemBySlot(EquipmentSlot.HEAD).is(Items.IRON_HELMET),
+                "vanilla inventory clicks equip the requested helmet");
+        helper.assertTrue(player.getInventory().getItem(9).is(Items.LEATHER_HELMET),
+                "the displaced helmet returns to the source inventory slot");
+        helper.assertTrue(player.inventoryMenu.getCarried().isEmpty(),
+                "the equip sequence leaves the cursor empty");
+        helper.assertTrue(outcomes.stream().anyMatch(outcome -> outcome.requestId().equals("equip-1")
+                        && outcome.status().equals("completed")),
+                "equip completes after vanilla equipment and inventory state changes");
+
+        executor.removeAgent(player);
+        manager.remove(server, player.getUUID());
+        helper.succeed();
+    }
+
+    @GameTest
+    public void placeActionUsesVanillaGameModeAfterPacketEquivalentChecks(GameTestHelper helper) {
+        AgentPlayerManager manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        BlockPos target = helper.absolutePos(new BlockPos(2, 1, 3));
+        level.setBlock(target, Blocks.STONE.defaultBlockState(), 3);
+        ServerPlayer player = manager.spawn(server, level, "MniPlaceAgent",
+                target.getX() + 0.5, target.getY() + 1.0, target.getZ() - 2.0);
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIRT, 1));
+        var outcomes = new ArrayList<AgentActionExecutor.Outcome>();
+        AgentActionExecutor executor = new AgentActionExecutor(manager, outcomes::add);
+        String agentId = player.getGameProfile().id().toString();
+        String blockRef = target.getX() + "," + target.getY() + "," + target.getZ();
+        ActionValidationContext context = new ActionValidationContext(agentId, 1, 0, level.getGameTime(), 0,
+                41, false, Set.of(ActionValidationContext.actionCapability("place")), Set.of("place"),
+                Set.of(), Set.of(), Set.of(blockRef), Set.of(blockRef), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(),
+                Map.of(), Map.of("main", new ActionValidationContext.ItemState("minecraft:dirt", 1, false, true, "")));
+        var submission = executor.submit(player,
+                "{\"schema_version\":\"action-request.v0\",\"agent_id\":\"" + agentId
+                        + "\",\"session_epoch\":1,\"request_id\":\"place-1\",\"based_on_observation_seq\":0,"
+                        + "\"trace_id\":\"place-trace-1\",\"action\":{\"type\":\"place\",\"target\":{\"x\":"
+                        + target.getX() + ",\"y\":" + target.getY() + ",\"z\":" + target.getZ()
+                        + "},\"face\":\"up\",\"hand\":\"main\"}}",
+                context);
+        helper.assertTrue(submission.accepted(), "legal placement request is accepted");
+        tickPlacementAction(helper, executor, server, player, manager, outcomes, target, 1);
+    }
+
+    @GameTest
+    public void placeActionRechecksLiveReachBeforeChangingWorld(GameTestHelper helper) {
+        AgentPlayerManager manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        BlockPos target = helper.absolutePos(new BlockPos(2, 1, 3));
+        level.setBlock(target, Blocks.STONE.defaultBlockState(), 3);
+        ServerPlayer player = manager.spawn(server, level, "MniPlaceReachAgent",
+                target.getX() + 0.5, target.getY() + 1.0, target.getZ() - 5.0);
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIRT, 1));
+        var outcomes = new ArrayList<AgentActionExecutor.Outcome>();
+        AgentActionExecutor executor = new AgentActionExecutor(manager, outcomes::add);
+        String agentId = player.getGameProfile().id().toString();
+        String blockRef = target.getX() + "," + target.getY() + "," + target.getZ();
+        ActionValidationContext reportedReachContext = new ActionValidationContext(agentId, 1, 0,
+                level.getGameTime(), 0, 41, false,
+                Set.of(ActionValidationContext.actionCapability("place")), Set.of("place"),
+                Set.of(), Set.of(), Set.of(blockRef), Set.of(blockRef), Set.of(), Set.of(), Set.of(), Set.of(), Set.of(),
+                Map.of(), Map.of("main", new ActionValidationContext.ItemState("minecraft:dirt", 1, false, true, "")));
+        var submission = executor.submit(player,
+                "{\"schema_version\":\"action-request.v0\",\"agent_id\":\"" + agentId
+                        + "\",\"session_epoch\":1,\"request_id\":\"place-out-of-reach\",\"based_on_observation_seq\":0,"
+                        + "\"trace_id\":\"place-out-of-reach-trace\",\"action\":{\"type\":\"place\",\"target\":{\"x\":"
+                        + target.getX() + ",\"y\":" + target.getY() + ",\"z\":" + target.getZ()
+                        + "},\"face\":\"up\",\"hand\":\"main\"}}",
+                reportedReachContext);
+        helper.assertTrue(submission.accepted(), "validated observation declares the block reachable");
+
+        executor.startServerTick(server);
+        helper.assertTrue(outcomes.stream().anyMatch(outcome -> outcome.requestId().equals("place-out-of-reach")
+                        && outcome.status().equals("rejected") && "target_out_of_reach".equals(outcome.reasonCode())),
+                "executor rejects a block that is outside the player's live interaction range");
+        helper.assertTrue(level.getBlockState(target.above()).isAir(),
+                "out-of-reach placement does not change the world");
+        helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getCount() == 1,
+                "out-of-reach placement does not consume the held item");
+
+        manager.remove(server, player.getUUID());
+        helper.succeed();
+    }
+
+    private static void tickPlacementAction(GameTestHelper helper, AgentActionExecutor executor,
+            net.minecraft.server.MinecraftServer server, ServerPlayer player, AgentPlayerManager manager,
+            ArrayList<AgentActionExecutor.Outcome> outcomes, BlockPos target, int tick) {
+        helper.runAtTickTime(tick, () -> {
+            executor.startServerTick(server);
+            executor.endServerTick(server);
+            var completion = outcomes.stream()
+                    .filter(outcome -> outcome.requestId().equals("place-1"))
+                    .filter(outcome -> outcome.status().equals("completed"))
+                    .findFirst();
+            if (completion.isPresent()) {
+                helper.assertTrue(player.level().getBlockState(target.above()).is(Blocks.DIRT),
+                        "vanilla placed the held block on the requested face");
+                helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(),
+                        "vanilla consumed the placed item");
+                executor.removeAgent(player);
+                manager.remove(server, player.getUUID());
+                helper.succeed();
+            } else if (tick >= 99 || outcomes.stream().anyMatch(outcome ->
+                    outcome.requestId().equals("place-1") && outcome.status().equals("rejected"))) {
+                executor.removeAgent(player);
+                manager.remove(server, player.getUUID());
+                helper.fail("placement did not complete through vanilla game-mode interaction");
+            } else {
+                tickPlacementAction(helper, executor, server, player, manager, outcomes, target, tick + 1);
+            }
         });
     }
 
