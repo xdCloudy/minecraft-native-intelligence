@@ -77,9 +77,9 @@ Gate percentage is calculated from each milestone’s evidence-reviewed criteria
 
 ## GitHub workflow audit
 
-Checked: 2026-10-27T12:50:17Z · open issues: **0** · open PRs: **0** · issues closed administratively: **101**.
+Checked: 2026-10-27T19:33:21Z · open issues: **80** · open PRs: **0** · issues closed administratively: **101**.
 
-GitHub issues and PRs are tracked as workflow state, not capability evidence. The 101 issue closures and eight unmerged PR closures do not meet any acceptance criteria.
+80 new open issues now map every canonical research/engineering item into 15 workstream epics and 65 actionable packages. These are execution plans, not capability evidence. The previous 101 administrative issue closures and eight unmerged PR closures meet no implementation acceptance criteria.
 
 ## Unmerged PR history (including closed PRs)
 

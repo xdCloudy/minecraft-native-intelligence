@@ -1,0 +1,55 @@
+name: Backlog coverage and ready-work audit
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  push:
+    branches: [main]
+    paths:
+      - docs/backlog/**
+      - docs/progress/progress.json
+      - tools/backlog.py
+  schedule:
+    - cron: "31 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+concurrency:
+  group: backlog-audit
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Verify issue coverage and recalculate execution queue
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate package coverage and graph
+        run: python tools/backlog.py
+
+      - name: Audit GitHub issue state and produce queue
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python tools/backlog.py --live --json --require-complete > "$RUNNER_TEMP/backlog-queue.json"
+          python tools/backlog.py --live
+
+      - name: Upload read-only queue and audit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: backlog-queue-${{ github.run_id }}
+          path: ${{ runner.temp }}/backlog-queue.json
+          if-no-files-found: ignore
+          retention-days: 7

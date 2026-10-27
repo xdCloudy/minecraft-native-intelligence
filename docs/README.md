@@ -61,6 +61,7 @@ The [roadmap](../ROADMAP.md) defines milestone order and exit gates. The [progre
 ## Contributing and maintenance
 
 - [Contributor guide](../CONTRIBUTING.md) — issue selection, PR expectations, and first changes.
+- [Engineering backlog and critical path](BACKLOG.md) — issue coverage, blocker dependencies, ranked ready work, and the continuous contributor loop.
 - [Documentation style](STYLE_GUIDE.md) — writing, links, generated-file rules, and evidence language.
 - [Testing](TESTING.md) and [CI](CI.md) — verification tiers, supported tools, and local checks.
 - [Security policy](../SECURITY.md) and [code of conduct](../CODE_OF_CONDUCT.md) — responsible disclosure and community conduct.
