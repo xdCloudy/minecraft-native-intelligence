@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://minecraft-native-intelligence.dev/schemas/action-request.v0.json",
+  "title": "Minecraft Native Action Request v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "agent_id", "session_epoch", "request_id", "based_on_observation_seq", "trace_id", "action"],
+  "properties": {
+    "schema_version": {"const": "action-request.v0"},
+    "agent_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "session_epoch": {"type": "integer", "minimum": 0},
+    "request_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "based_on_observation_seq": {"type": "integer", "minimum": 0},
+    "trace_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "deadline_game_tick": {"type": "integer", "minimum": 0},
+    "action": {
+      "oneOf": [
+        {"$ref": "#/$defs/move"}, {"$ref": "#/$defs/look"}, {"$ref": "#/$defs/jump"},
+        {"$ref": "#/$defs/attack"}, {"$ref": "#/$defs/mine"}, {"$ref": "#/$defs/place"},
+        {"$ref": "#/$defs/interact"}, {"$ref": "#/$defs/select_slot"}, {"$ref": "#/$defs/drop"},
+        {"$ref": "#/$defs/pickup"}, {"$ref": "#/$defs/craft"}, {"$ref": "#/$defs/equip"},
+        {"$ref": "#/$defs/eat"}, {"$ref": "#/$defs/chat"}, {"$ref": "#/$defs/cancel"}
+      ]
+    }
+  },
+  "$defs": {
+    "target": {"type": "object", "additionalProperties": false, "required": ["x", "y", "z"], "properties": {"x": {"type": "integer"}, "y": {"type": "integer"}, "z": {"type": "integer"}}},
+    "base": {"type": "object", "required": ["type"], "properties": {"type": {"type": "string"}}},
+    "move": {"allOf": [{"$ref": "#/$defs/base"}, {"type": "object", "additionalProperties": false, "required": ["type", "forward", "strafe"], "properties": {"type": {"const": "move"}, "forward": {"type": "number", "minimum": -1, "maximum": 1}, "strafe": {"type": "number", "minimum": -1, "maximum": 1}, "sprint": {"type": "boolean"}, "sneak": {"type": "boolean"}, "duration_ticks": {"type": "integer", "minimum": 1, "maximum": 20}}}]},
+    "look": {"type": "object", "additionalProperties": false, "required": ["type", "yaw_degrees", "pitch_degrees"], "properties": {"type": {"const": "look"}, "yaw_degrees": {"type": "number"}, "pitch_degrees": {"type": "number", "minimum": -90, "maximum": 90}}},
+    "jump": {"type": "object", "additionalProperties": false, "required": ["type"], "properties": {"type": {"const": "jump"}, "hold_ticks": {"type": "integer", "minimum": 1, "maximum": 20}}},
+    "attack": {"type": "object", "additionalProperties": false, "required": ["type", "target_entity_id"], "properties": {"type": {"const": "attack"}, "target_entity_id": {"type": "string", "minLength": 1, "maxLength": 128}}},
+    "mine": {"type": "object", "additionalProperties": false, "required": ["type", "target"], "properties": {"type": {"const": "mine"}, "target": {"$ref": "#/$defs/target"}, "face": {"enum": ["down", "up", "north", "south", "west", "east"]}}},
+    "place": {"type": "object", "additionalProperties": false, "required": ["type", "target", "face"], "properties": {"type": {"const": "place"}, "target": {"$ref": "#/$defs/target"}, "face": {"enum": ["down", "up", "north", "south", "west", "east"]}, "hand": {"enum": ["main", "off"]}}},
+    "interact": {"oneOf": [
+      {"type": "object", "additionalProperties": false, "required": ["type", "target_kind", "target_block"], "properties": {"type": {"const": "interact"}, "target_kind": {"const": "block"}, "target_block": {"$ref": "#/$defs/target"}, "hand": {"enum": ["main", "off"]}}},
+      {"type": "object", "additionalProperties": false, "required": ["type", "target_kind", "target_entity_id"], "properties": {"type": {"const": "interact"}, "target_kind": {"const": "entity"}, "target_entity_id": {"type": "string", "minLength": 1, "maxLength": 128}, "hand": {"enum": ["main", "off"]}}}
+    ]},
+    "select_slot": {"type": "object", "additionalProperties": false, "required": ["type", "hotbar_slot"], "properties": {"type": {"const": "select_slot"}, "hotbar_slot": {"type": "integer", "minimum": 0, "maximum": 8}}},
+    "drop": {"type": "object", "additionalProperties": false, "required": ["type", "slot", "count"], "properties": {"type": {"const": "drop"}, "slot": {"type": "integer", "minimum": 0}, "count": {"type": "integer", "minimum": 1}, "whole_stack": {"type": "boolean"}}},
+    "pickup": {"type": "object", "additionalProperties": false, "required": ["type", "item_entity_id"], "properties": {"type": {"const": "pickup"}, "item_entity_id": {"type": "string", "minLength": 1, "maxLength": 128}}},
+    "craft": {"type": "object", "additionalProperties": false, "required": ["type", "recipe_id"], "properties": {"type": {"const": "craft"}, "recipe_id": {"type": "string", "minLength": 1, "maxLength": 256}, "times": {"type": "integer", "minimum": 1, "maximum": 64}}},
+    "equip": {"type": "object", "additionalProperties": false, "required": ["type", "slot", "inventory_slot"], "properties": {"type": {"const": "equip"}, "slot": {"enum": ["head", "chest", "legs", "feet", "off_hand"]}, "inventory_slot": {"type": "integer", "minimum": 0}}},
+    "eat": {"type": "object", "additionalProperties": false, "required": ["type", "hand"], "properties": {"type": {"const": "eat"}, "hand": {"enum": ["main", "off"]}}},
+    "chat": {"type": "object", "additionalProperties": false, "required": ["type", "message"], "properties": {"type": {"const": "chat"}, "message": {"type": "string", "minLength": 1, "maxLength": 256}}},
+    "cancel": {"type": "object", "additionalProperties": false, "required": ["type", "target_request_id"], "properties": {"type": {"const": "cancel"}, "target_request_id": {"type": "string", "minLength": 1, "maxLength": 128}}}
+  }
+}

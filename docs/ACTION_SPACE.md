@@ -2,6 +2,8 @@
 
 Actions express player capabilities directly: move, look, jump, attack, mine, place, use/interact, select/equip, manipulate inventory, craft, eat, and communicate. They should be typed, temporally explicit, interruptible where appropriate, and report accepted/rejected/completed outcomes.
 
+The transport-neutral request and correlated outcome formats are specified in [ACTION_SCHEMA.md](ACTION_SCHEMA.md), with machine-readable schemas in `docs/actions/`.
+
 The integration remains authoritative for reach, collision, cooldowns, inventory contents, recipes, block hardness, permissions, health, and tick timing. An action request never teleports, edits inventory, bypasses mining duration, or accesses commands unavailable to an ordinary player.
 
 AI-controlled players spawn in Survival by default. Health, hunger/saturation, air, experience, inventory slots, crafting, armour/equipment, status effects, damage, knockback, pickup/drop, block breaking/placement, attack cooldowns, death, drops, and respawn must flow through the same server mechanics used for human players. The agent policy emits intentions or input-equivalent actions; it never directly sets the resulting inventory, position, health, or crafted output.

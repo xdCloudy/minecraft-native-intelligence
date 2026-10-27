@@ -1,0 +1,10 @@
+{
+  "schema_version": "action-outcome.v0",
+  "agent_id": "agent:example-001",
+  "session_epoch": 4,
+  "request_id": "action:4:000042",
+  "trace_id": "trace:example-4-42",
+  "sequence": 109,
+  "game_tick": 9076,
+  "status": "started"
+}

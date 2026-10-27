@@ -137,6 +137,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** One omniscient server-state object passed to the runtime; free-form JSON dictionaries; policy exposure of sequence/tick/profile metadata; radius-based block/entity dumps; assign persistent server UUIDs to sensed entities immediately.
 - **Consequences:** Every core field has a source, units/frame, access-rule mapping, visibility status, precision and unknown/absence semantics in `fields.v0.json`. #5 can now research re-identification without a server-UUID shortcut, #6 can compare richer geometry encodings under the same access rules, #61 can build full protocol negotiation, and #64 can define cadence/backpressure without changing unknown-versus-absent meaning. See [OBSERVATION_SCHEMA.md](OBSERVATION_SCHEMA.md) and `docs/observations/`.
 
+## ADR-0018 — Versioned typed action envelopes precede legality implementation
+
+- **Date:** 2026-10-27
+- **Status:** proposed
+- **Context:** The v0.2 interface needs a typed action request and correlated outcome format before an authoritative validator or Minecraft adapter can be implemented. Issue #4 and #8 had a circular dependency: the validator needs the action contract, while the action-schema issue listed the validator as a prerequisite.
+- **Decision:** Define strict `action-request.v0` and `action-outcome.v0` JSON contracts first. Each request carries agent/session identity, request and trace IDs, observation sequence, optional game-tick deadline, and exactly one typed action. Outcomes correlate back to the request and carry a monotonic sequence, authoritative game tick, lifecycle status, and stable rejection reason when rejected. Unknown fields/actions fail closed.
+- **Alternatives:** Free-form commands; direct state mutation; wait for Minecraft adapter implementation before specifying the wire contract.
+- **Consequences:** The legal-action validator (#8) can now validate this schema and enforce observation freshness, capability, visibility, and vanilla preconditions. The schemas do not implement game legality, scheduling, or transport. See [ACTION_SCHEMA.md](ACTION_SCHEMA.md).
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.
