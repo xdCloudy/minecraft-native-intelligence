@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraft-native-intelligence",
+  "version": "${version}",
+  "name": "Minecraft Native Intelligence - platform spike",
+  "description": "Experimental server-authoritative Fabric bootstrap; no AI player implementation.",
+  "authors": [
+    "xdCloudy"
+  ],
+  "contact": {
+    "sources": "https://github.com/xdCloudy/minecraft-native-intelligence"
+  },
+  "license": "Apache-2.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "chat.xdcloudy.mni.MniMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
