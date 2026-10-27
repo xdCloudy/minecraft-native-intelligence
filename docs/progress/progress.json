@@ -368,7 +368,7 @@
       "id": "inverse_rl",
       "title": "Apprenticeship learning via inverse reinforcement learning",
       "kind": "paper",
-      "url": "https://ai.stanford.edu/~ang/papers/icml04-apprentice.pdf"
+      "url": "https://mlanthology.org/icml/2004/abbeel2004icml-apprenticeship/"
     },
     {
       "id": "gnn_inductive_bias",
