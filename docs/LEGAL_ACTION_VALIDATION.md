@@ -29,9 +29,11 @@ correlated outcome. In particular, the context's recipe IDs currently express
 recipe availability, not a reservation of ingredients; crafting must use the
 normal recipe/inventory path and can still fail if state changes. Cooldown,
 reach, inventory, and world facts can also change between validation and
-execution. This repository does not yet wire this core to a server transport or
-an embodied player executor, so it does not establish Survival parity or prove
-that requests are dispatched safely.
+execution. The initial move/look/jump executor is described in
+[`NATIVE_ACTION_EXECUTION.md`](NATIVE_ACTION_EXECUTION.md); it is not connected
+to a server transport, and other action types remain unsupported. Neither this
+core nor that execution slice establishes Survival parity or proves that
+requests are dispatched safely end to end.
 
 Run `./gradlew actionContractTest` from `minecraft-mod` to execute the
 deterministic no-server contract checks. The GameTest source is compiled by CI,

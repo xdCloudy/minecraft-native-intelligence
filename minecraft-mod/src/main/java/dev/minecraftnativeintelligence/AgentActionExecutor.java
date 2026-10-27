@@ -1,0 +1,275 @@
+package dev.minecraftnativeintelligence;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Consumer;
+import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Input;
+
+/**
+ * Server-thread action ingress and control executor for an owned AI player.
+ * The caller must build the validation context from authoritative server state.
+ */
+public final class AgentActionExecutor {
+    public record Submission(boolean accepted, String reasonCode) {}
+
+    public record Outcome(
+            String agentId,
+            long sessionEpoch,
+            String requestId,
+            String traceId,
+            long sequence,
+            long gameTick,
+            String status,
+            String reasonCode) {
+        public JsonObject toJson() {
+            JsonObject json = new JsonObject();
+            json.addProperty("schema_version", "action-outcome.v0");
+            json.addProperty("agent_id", this.agentId);
+            json.addProperty("session_epoch", this.sessionEpoch);
+            json.addProperty("request_id", this.requestId);
+            json.addProperty("trace_id", this.traceId);
+            json.addProperty("sequence", this.sequence);
+            json.addProperty("game_tick", this.gameTick);
+            json.addProperty("status", this.status);
+            if (this.reasonCode != null) json.addProperty("reason_code", this.reasonCode);
+            return json;
+        }
+    }
+
+    private record ActiveControl(
+            ServerPlayer player,
+            String agentId,
+            long sessionEpoch,
+            String requestId,
+            String traceId,
+            String actionType,
+            JsonObject action,
+            long deadlineGameTick,
+            int durationTicks,
+            Input input,
+            boolean hasInput,
+            boolean started,
+            int ticksApplied) {}
+
+    private record SessionKey(UUID agentUuid, long sessionEpoch) {}
+
+    private final AgentPlayerManager players;
+    private final Consumer<Outcome> outcomeSink;
+    private final Map<UUID, ActiveControl> active = new HashMap<>();
+    private final Map<SessionKey, Set<String>> seenRequestIds = new HashMap<>();
+    private final Map<UUID, Long> outcomeSequences = new HashMap<>();
+
+    public AgentActionExecutor(AgentPlayerManager players, Consumer<Outcome> outcomeSink) {
+        this.players = players;
+        this.outcomeSink = outcomeSink;
+    }
+
+    /**
+     * Validates and queues one request. Calls must run on the owned player's
+     * server thread; the context is trusted server-built input, never request data.
+     */
+    public Submission submit(ServerPlayer player, String requestJson, ActionValidationContext context) {
+        if (!this.players.owns(player)) return new Submission(false, "unauthorized_agent");
+        if (context == null) return this.reject(player, 0, "", "", "invalid_validation_context");
+        MinecraftServer server = player.level().getServer();
+        if (!server.isSameThread()) throw new IllegalStateException("action submission must run on the server thread");
+
+        JsonObject request = parseObject(requestJson);
+        String requestId = stringField(request, "request_id");
+        String traceId = stringField(request, "trace_id");
+        String authoritativeAgentId = player.getGameProfile().id().toString();
+        if (!authoritativeAgentId.equals(context.agentId())) {
+            return this.reject(player, context.sessionEpoch(), requestId, traceId, "unauthorized_agent");
+        }
+        if (context.gameTick() != player.level().getGameTime()) {
+            return this.reject(player, context.sessionEpoch(), requestId, traceId, "stale_validation_context");
+        }
+        SessionKey sessionKey = new SessionKey(player.getUUID(), context.sessionEpoch());
+        if (!requestId.isBlank() && this.seenRequestIds
+                .computeIfAbsent(sessionKey, ignored -> new HashSet<>()).contains(requestId)) {
+            return this.reject(player, context.sessionEpoch(), requestId, traceId, "duplicate_request_id");
+        }
+
+        Set<String> seen = new HashSet<>(context.seenRequestIds());
+        seen.addAll(this.seenRequestIds.getOrDefault(sessionKey, Set.of()));
+        ActionValidationContext requestContext = copyWithSeenIds(context, seen);
+        ActionRequestValidator.Result validation = ActionRequestValidator.validate(request, requestContext);
+        if (!requestId.isBlank()) {
+            this.seenRequestIds.computeIfAbsent(sessionKey, ignored -> new HashSet<>()).add(requestId);
+        }
+        if (!validation.accepted()) {
+            return this.reject(player, context.sessionEpoch(), validation.requestId(), validation.traceId(), validation.reasonCode());
+        }
+        if (this.active.containsKey(player.getUUID())) {
+            return this.reject(player, context.sessionEpoch(), requestId, traceId, "action_conflict");
+        }
+
+        JsonObject action = request.getAsJsonObject("action");
+        String type = stringField(action, "type");
+        if (!Set.of("move", "look", "jump").contains(type)) {
+            return this.reject(player, context.sessionEpoch(), requestId, traceId, "executor_action_unsupported");
+        }
+        boolean hasInput = !type.equals("look");
+        Input input = inputFor(action, type);
+        int durationTicks = type.equals("move")
+                ? optionalInt(action, "duration_ticks", 1)
+                : type.equals("jump") ? optionalInt(action, "hold_ticks", 1) : 1;
+        long deadline = optionalLong(request, "deadline_game_tick", Long.MAX_VALUE);
+        this.active.put(player.getUUID(), new ActiveControl(player, authoritativeAgentId, context.sessionEpoch(),
+                requestId, traceId, type, action, deadline, durationTicks, input, hasInput, false, 0));
+        this.emit(player, authoritativeAgentId, context.sessionEpoch(), requestId, traceId, "accepted", null);
+        return new Submission(true, "accepted");
+    }
+
+    /** Call from Fabric START_SERVER_TICK so vanilla consumes the input this tick. */
+    public void startServerTick(MinecraftServer server) {
+        requireServerThread(server);
+        for (ActiveControl control : new ArrayList<>(this.active.values())) {
+            ServerPlayer player = control.player();
+            if (!player.isAlive() || player.connection == null) {
+                this.finishRejected(control, "agent_unavailable");
+                continue;
+            }
+            long gameTick = player.level().getGameTime();
+            if (gameTick > control.deadlineGameTick()) {
+                this.finishRejected(control, "deadline_expired");
+                continue;
+            }
+            // Vanilla ignores most gameplay packets until the initial client-load
+            // timeout expires. The silent server-owned player has no client ack.
+            if (!player.connection.hasClientLoaded()) continue;
+
+            try {
+                if (control.actionType().equals("look")) {
+                    player.connection.handleMovePlayer(new ServerboundMovePlayerPacket.Rot(
+                            (float) control.action().get("yaw_degrees").getAsDouble(),
+                            (float) control.action().get("pitch_degrees").getAsDouble(),
+                            player.onGround(), player.horizontalCollision));
+                } else {
+                    player.connection.handlePlayerInput(new ServerboundPlayerInputPacket(control.input()));
+                }
+                if (!control.started()) {
+                    this.emit(player, control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "started", null);
+                }
+                this.active.put(player.getUUID(), new ActiveControl(player, control.agentId(), control.sessionEpoch(),
+                        control.requestId(), control.traceId(), control.actionType(), control.action(),
+                        control.deadlineGameTick(), control.durationTicks(), control.input(), control.hasInput(), true,
+                        control.ticksApplied() + 1));
+            } catch (RuntimeException failure) {
+                this.finishRejected(control, "action_execution_failed");
+            }
+        }
+    }
+
+    /** Call from Fabric END_SERVER_TICK after the player has consumed this tick's input. */
+    public void endServerTick(MinecraftServer server) {
+        requireServerThread(server);
+        for (ActiveControl control : new ArrayList<>(this.active.values())) {
+            if (!control.started() || control.ticksApplied() < control.durationTicks()) continue;
+            if (control.hasInput() && control.player().connection != null) {
+                control.player().connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
+            }
+            this.active.remove(control.player().getUUID());
+            this.emit(control.player(), control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "completed", null);
+        }
+    }
+
+    public void removeAgent(ServerPlayer player) {
+        ActiveControl control = this.active.remove(player.getUUID());
+        if (control != null) this.finishRejected(control, "agent_unavailable");
+        this.seenRequestIds.keySet().removeIf(key -> key.agentUuid().equals(player.getUUID()));
+        this.outcomeSequences.remove(player.getUUID());
+    }
+
+    public void stop(MinecraftServer server) {
+        requireServerThread(server);
+        for (ActiveControl control : new ArrayList<>(this.active.values())) {
+            this.finishRejected(control, "server_stopping");
+        }
+        this.seenRequestIds.clear();
+        this.outcomeSequences.clear();
+    }
+
+    private Submission reject(ServerPlayer player, long epoch, String requestId, String traceId, String reason) {
+        if (!requestId.isBlank() && requestId.length() <= 128 && !traceId.isBlank() && traceId.length() <= 128) {
+            this.emit(player, player.getGameProfile().id().toString(), epoch, requestId, traceId, "rejected", reason);
+        }
+        return new Submission(false, reason);
+    }
+
+    private void finishRejected(ActiveControl control, String reason) {
+        if (control.hasInput() && control.player().connection != null) {
+            control.player().connection.handlePlayerInput(new ServerboundPlayerInputPacket(releasedInput()));
+        }
+        this.active.remove(control.player().getUUID());
+        this.emit(control.player(), control.agentId(), control.sessionEpoch(), control.requestId(), control.traceId(), "rejected", reason);
+    }
+
+    private void emit(ServerPlayer player, String agentId, long epoch, String requestId, String traceId, String status, String reason) {
+        long sequence = this.outcomeSequences.getOrDefault(player.getUUID(), 0L);
+        this.outcomeSequences.put(player.getUUID(), sequence + 1);
+        this.outcomeSink.accept(new Outcome(agentId, epoch, requestId, traceId, sequence,
+                player.level().getGameTime(), status, reason));
+    }
+
+    private static ActionValidationContext copyWithSeenIds(ActionValidationContext c, Set<String> seenIds) {
+        return new ActionValidationContext(c.agentId(), c.sessionEpoch(), c.observationSequence(), c.gameTick(),
+                c.maxObservationLag(), c.inventorySize(), c.hungry(), c.supportedCapabilities(), c.permittedActions(),
+                c.visibleEntityRefs(), c.reachableEntityRefs(), c.visibleBlockRefs(), c.reachableBlockRefs(),
+                c.mineableBlockRefs(), c.availableRecipeIds(), c.activeRequestIds(), seenIds,
+                c.blockedCooldowns(), c.inventory(), c.heldItems());
+    }
+
+    static Input inputFor(JsonObject action, String type) {
+        if (type.equals("jump")) {
+            return new Input(false, false, false, false, true, false, false);
+        }
+        double forward = action.get("forward").getAsDouble();
+        double strafe = action.get("strafe").getAsDouble();
+        boolean sneak = action.has("sneak") && action.get("sneak").getAsBoolean();
+        boolean sprint = action.has("sprint") && action.get("sprint").getAsBoolean();
+        return new Input(forward > 0, forward < 0, strafe < 0, strafe > 0, false, sneak, sprint);
+    }
+
+    static Input releasedInput() {
+        return Input.EMPTY;
+    }
+
+    private static JsonObject parseObject(String json) {
+        try {
+            JsonElement parsed = JsonParser.parseString(json);
+            return parsed.isJsonObject() ? parsed.getAsJsonObject() : new JsonObject();
+        } catch (RuntimeException malformed) {
+            return new JsonObject();
+        }
+    }
+
+    private static String stringField(JsonObject object, String field) {
+        if (object == null || !object.has(field) || !object.get(field).isJsonPrimitive()
+                || !object.get(field).getAsJsonPrimitive().isString()) return "";
+        return object.get(field).getAsString();
+    }
+
+    private static int optionalInt(JsonObject object, String field, int fallback) {
+        return object.has(field) ? object.get(field).getAsInt() : fallback;
+    }
+
+    private static long optionalLong(JsonObject object, String field, long fallback) {
+        return object.has(field) ? object.get(field).getAsLong() : fallback;
+    }
+
+    private static void requireServerThread(MinecraftServer server) {
+        if (!server.isSameThread()) throw new IllegalStateException("action execution must run on the server thread");
+    }
+}

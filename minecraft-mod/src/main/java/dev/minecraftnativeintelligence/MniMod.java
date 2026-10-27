@@ -3,6 +3,7 @@ package dev.minecraftnativeintelligence;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -14,6 +15,8 @@ public final class MniMod implements ModInitializer {
     public static final String MOD_ID = "minecraft_native_intelligence";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private final AgentPlayerManager agentPlayers = new AgentPlayerManager();
+    private final AgentActionExecutor actionExecutor = new AgentActionExecutor(
+            this.agentPlayers, outcome -> LOGGER.info("MNI action outcome {}", outcome.toJson()));
 
     @Override
     public void onInitialize() {
@@ -61,6 +64,7 @@ public final class MniMod implements ModInitializer {
                                             source.sendFailure(Component.literal("No active AI player has that name."));
                                             return 0;
                                         }
+                                        this.actionExecutor.removeAgent(player);
                                         this.agentPlayers.remove(source.getServer(), player.getUUID());
                                         source.sendSuccess(
                                                 () -> Component.literal("Despawned AI player " + player.getGameProfile().name()),
@@ -68,7 +72,18 @@ public final class MniMod implements ModInitializer {
                                         return 1;
                                     }))));
         });
-        ServerLifecycleEvents.SERVER_STOPPING.register(this.agentPlayers::removeAll);
+        ServerTickEvents.START_SERVER_TICK.register(this.actionExecutor::startServerTick);
+        ServerTickEvents.END_SERVER_TICK.register(this.actionExecutor::endServerTick);
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
+            this.actionExecutor.stop(server);
+            this.agentPlayers.removeAll(server);
+        });
         LOGGER.info("Minecraft Native Intelligence mod initialized");
+    }
+
+    /** Entry point for a future authenticated environment transport adapter. */
+    public AgentActionExecutor.Submission submitAgentAction(
+            net.minecraft.server.level.ServerPlayer player, String requestJson, ActionValidationContext context) {
+        return this.actionExecutor.submit(player, requestJson, context);
     }
 }

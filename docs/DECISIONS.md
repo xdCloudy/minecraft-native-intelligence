@@ -155,6 +155,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** Free-form commands; direct state mutation; wait for Minecraft adapter implementation before specifying the wire contract.
 - **Consequences:** The legal-action validator (#8) can now validate this schema and enforce observation freshness, capability, visibility, and vanilla preconditions. The schemas do not implement game legality, scheduling, or transport. See [ACTION_SCHEMA.md](ACTION_SCHEMA.md).
 
+## ADR-0019 — Control intentions enter through vanilla server packet handlers
+
+- **Date:** 2026-10-27
+- **Status:** proposed
+- **Context:** The embodied AI player has no authenticated client or socket, but its controls must still be processed as ordinary player input. Direct position or velocity updates would bypass collision and movement rules.
+- **Decision:** The initial movement, look, and jump executor translates bounded intentions into vanilla `Input` and rotation packets, then invokes the owned player's `ServerGamePacketListenerImpl` handlers on the server thread. Tick durations are applied around normal player ticks and inputs are released at the end of their final tick. Other action types remain rejected until they have similarly authoritative paths.
+- **Alternatives:** Set position/rotation/velocity directly; add a parallel movement simulation; create a fake network connection and accept inbound client packets.
+- **Consequences:** The server packet handlers preserve vanilla validation and game mechanics without opening a client transport. The current handlers gate some input on the 60-tick client-load timeout, so controls wait for that timeout. Analog movement axes map to digital signs and are normalized by Minecraft. The code has compile and value-mapping evidence only; integrated/dedicated runtime and human-input parity remain unverified. See [NATIVE_ACTION_EXECUTION.md](NATIVE_ACTION_EXECUTION.md).
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.

@@ -1,8 +1,10 @@
 package dev.minecraftnativeintelligence;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Map;
 import java.util.Set;
+import net.minecraft.world.entity.player.Input;
 
 /** Dependency-free executable contract checks; these do not start Minecraft. */
 public final class ActionRequestValidatorContractTests {
@@ -12,6 +14,8 @@ public final class ActionRequestValidatorContractTests {
         var valid = request("{\"type\":\"move\",\"forward\":1,\"strafe\":0}");
         equal("duplicate_request_id", ActionRequestValidator.validate(valid, contextWithSeenId()).reasonCode(), "duplicate ID");
         checkEveryActionVariant();
+        checkControlInputMapping();
+        checkOutcomeSerialization();
         equal("malformed_request", validateRaw(envelope("-1", "{\"type\":\"jump\"}")).reasonCode(), "negative observation sequence");
         equal("malformed_request", validateRaw(envelope("999999999999999999999999999999", "{\"type\":\"jump\"}")).reasonCode(), "overflow observation sequence");
         equal("malformed_request", validateRaw(envelope("4", "{\"type\":\"jump\"}").replace("\"session_epoch\":3", "\"session_epoch\":-1")).reasonCode(), "negative session epoch");
@@ -21,7 +25,27 @@ public final class ActionRequestValidatorContractTests {
         equal("unsupported_capability", validateRaw(envelope("4", "{\"type\":\"eat\",\"hand\":\"main\"}")).reasonCode(), "unsupported action capability");
         equal("inventory_precondition_failed", validateRaw(envelope("4", "{\"type\":\"drop\",\"slot\":0,\"count\":1,\"whole_stack\":true}")).reasonCode(), "whole-stack count mismatch");
         equal("malformed_request", ActionRequestValidator.validate("{", context()).reasonCode(), "malformed JSON");
-        System.out.println("ActionRequestValidator contract checks passed (26 cases)");
+        System.out.println("Native action contract checks passed (34 cases)");
+    }
+
+    private static void checkControlInputMapping() {
+        JsonObject forward = JsonParser.parseString("{\"forward\":1,\"strafe\":0,\"sprint\":true}").getAsJsonObject();
+        equal(new Input(true, false, false, false, false, false, true), AgentActionExecutor.inputFor(forward, "move"), "forward control");
+        JsonObject diagonal = JsonParser.parseString("{\"forward\":-0.4,\"strafe\":0.7,\"sneak\":true}").getAsJsonObject();
+        equal(new Input(false, true, false, true, false, true, false), AgentActionExecutor.inputFor(diagonal, "move"), "diagonal sneak control");
+        equal(new Input(false, false, false, false, true, false, false), AgentActionExecutor.inputFor(new JsonObject(), "jump"), "jump control");
+        equal(Input.EMPTY, AgentActionExecutor.releasedInput(), "released control");
+    }
+
+    private static void checkOutcomeSerialization() {
+        var rejected = new AgentActionExecutor.Outcome("agent-1", 3, "req-1", "trace-1", 12, 100,
+                "rejected", "executor_action_unsupported").toJson();
+        equal("action-outcome.v0", rejected.get("schema_version").getAsString(), "outcome schema version");
+        equal("executor_action_unsupported", rejected.get("reason_code").getAsString(), "rejection reason");
+        var accepted = new AgentActionExecutor.Outcome("agent-1", 3, "req-2", "trace-2", 13, 101,
+                "accepted", null).toJson();
+        equal(false, accepted.has("reason_code"), "non-rejection omits reason");
+        equal(13L, accepted.get("sequence").getAsLong(), "outcome sequence");
     }
 
     private static void checkEveryActionVariant() {
@@ -94,4 +118,5 @@ public final class ActionRequestValidatorContractTests {
     private static void equal(Object expected, Object actual, String label) {
         if (!expected.equals(actual)) throw new AssertionError(label + ": expected " + expected + ", got " + actual);
     }
+
 }

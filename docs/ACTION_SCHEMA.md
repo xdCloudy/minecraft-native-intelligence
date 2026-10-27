@@ -65,8 +65,12 @@ adapter transport. Minecraft remains the final authority. See
 and [`RUNTIME_BOUNDARY.md`](RUNTIME_BOUNDARY.md) for surrounding constraints.
 
 The current pure validation core and its adapter requirements are described in
-[`LEGAL_ACTION_VALIDATION.md`](LEGAL_ACTION_VALIDATION.md). It does not yet
-connect the request schema to a server transport or execute actions.
+[`LEGAL_ACTION_VALIDATION.md`](LEGAL_ACTION_VALIDATION.md). It does not provide
+a transport adapter.
+
+The initial server-side control executor is documented in
+[`NATIVE_ACTION_EXECUTION.md`](NATIVE_ACTION_EXECUTION.md); it currently
+supports only movement, look, and jump intentions.
 
 Examples: [request](actions/example-action-request.v0.json),
 [started outcome](actions/example-action-outcome.v0.json).

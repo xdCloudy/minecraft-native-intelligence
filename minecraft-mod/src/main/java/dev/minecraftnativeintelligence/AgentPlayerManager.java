@@ -77,6 +77,10 @@ public final class AgentPlayerManager {
                 .orElse(null);
     }
 
+    public boolean owns(ServerPlayer player) {
+        return player != null && this.agents.get(player.getUUID()) == player;
+    }
+
     public void removeAll(MinecraftServer server) {
         requireServerThread(server);
         for (UUID projectUuid : this.agents.keySet().toArray(UUID[]::new)) {

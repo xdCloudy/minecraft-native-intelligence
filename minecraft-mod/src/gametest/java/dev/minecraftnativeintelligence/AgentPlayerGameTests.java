@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Input;
 
 public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
     @GameTest
@@ -55,6 +57,24 @@ public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
             helper.assertTrue(!level.players().contains(player), "cleanup removes level tracking");
             helper.succeed();
         });
+    }
+
+    @GameTest
+    public void vanillaInputHandlerReceivesProjectOwnedPlayerControl(GameTestHelper helper) {
+        AgentPlayerManager manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        var position = helper.absolutePos(new BlockPos(1, 1, 1));
+        ServerPlayer player = manager.spawn(server, level, "MniInputAgent",
+                position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
+        Input expected = new Input(true, false, false, false, true, false, false);
+
+        player.connection.handlePlayerInput(new ServerboundPlayerInputPacket(expected));
+        helper.assertTrue(expected.equals(player.getLastClientInput()),
+                "vanilla server packet handler records the control frame without a client socket");
+
+        manager.remove(server, player.getUUID());
+        helper.succeed();
     }
 
     @Override
