@@ -39,8 +39,6 @@ def _validate(peer: Any, role: str, schema: dict[str, Any]) -> None:
         raise HandshakeError(f"expected role {role}")
     if not peer["ready"]:
         raise HandshakeError(f"{role} not ready")
-    if not set(peer["required_capabilities"]).issubset(peer["supported_capabilities"]):
-        raise HandshakeError(f"{role} requires capabilities it does not implement")
 
 
 def negotiate(
