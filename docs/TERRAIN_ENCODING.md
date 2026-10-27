@@ -35,7 +35,8 @@ visible gold distance error, lookup of an evaluator-selected visible sample,
 visible adjacency
 preservation, and hidden-state conformance. Timing uses seven in-process
 measurements per terrain case; raw case results are retained in each trial's
-`terrain-encoding.json` artifact.
+`terrain-encoding.json` artifact. Current/prior visible-position overlap is
+also recorded to interpret the change-event representation's bandwidth.
 
 ## Run
 

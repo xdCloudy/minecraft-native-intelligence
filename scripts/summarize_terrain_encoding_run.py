@@ -60,6 +60,8 @@ def summarize(run_dir: Path) -> dict[str, Any]:
                              if case["nearest_gold_distance_error_blocks"] is not None]
         summaries[variant] = {
             "terrain_case_count": len(cases),
+            "visible_position_overlap_jaccard_mean": statistics.mean(case["visible_position_overlap_jaccard"] for case in cases),
+            "current_sample_reobserved_fraction_mean": statistics.mean(case["current_sample_reobserved_fraction"] for case in cases),
             "payload_bytes": quantiles([case["payload_bytes"] for case in cases]),
             "encode_median_ns": quantiles([case["encode_median_ns"] for case in cases]),
             "decode_median_ns": quantiles([case["decode_median_ns"] for case in cases]),

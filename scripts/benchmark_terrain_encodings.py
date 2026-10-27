@@ -491,6 +491,9 @@ def measure_case(terrain: str, seed: int, encoder_id: str) -> dict[str, Any]:
     altered_previous = make_observation(altered_world, previous_visible, 1)
     altered_encoding = encoder(altered_current, altered_previous if encoder_id == "change_events" else None)
     noninterference = json.dumps(encoded, sort_keys=True, separators=(",", ":")) == json.dumps(altered_encoding, sort_keys=True, separators=(",", ":"))
+    visible_union = current_visible | previous_visible
+    overlap_jaccard = len(current_visible & previous_visible) / len(visible_union) if visible_union else 1.0
+    current_reobserved_fraction = len(current_visible & previous_visible) / len(current_visible) if current_visible else 1.0
     decoded_keys = set(map(exact_key, decoded))
     reconstructed_count = (sum(1 for sample in current["items"] if exact_key(sample) in decoded_keys)
                            / max(1, len(current["items"])))
@@ -498,6 +501,8 @@ def measure_case(terrain: str, seed: int, encoder_id: str) -> dict[str, Any]:
         "terrain": terrain,
         "seed": seed,
         "visible_samples": len(current["items"]),
+        "visible_position_overlap_jaccard": overlap_jaccard,
+        "current_sample_reobserved_fraction": current_reobserved_fraction,
         "evaluator_only_hidden_blocks": len(hidden_world),
         "payload_bytes": encoded_bytes,
         "encode_median_ns": encode_time,

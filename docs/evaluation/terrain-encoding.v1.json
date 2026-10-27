@@ -159,6 +159,16 @@
       "threshold": 1
     },
     {
+      "id": "prior_view_overlap",
+      "definition": "Jaccard overlap between positions in the current and prior visible sample collections; diagnostic context for change-event size.",
+      "unit": "fraction",
+      "direction": "neutral",
+      "role": "diagnostic",
+      "aggregation": "Mean across terrain and seed cases; preserve per-case values.",
+      "failure_treatment": "A failed trial has no overlap value.",
+      "raw_source": "terrain-encoding.json.cases[].visible_position_overlap_jaccard"
+    },
+    {
       "id": "visible_material_count_exact",
       "definition": "Whether counts of each block ID in the visible sample collection are preserved.",
       "unit": "boolean",
