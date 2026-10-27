@@ -97,5 +97,4 @@ Gate percentage is calculated from each milestone’s evidence-reviewed criteria
 - [Experiments, compatibility and production readiness](PRODUCTION_READINESS.md) — reproducible evidence, branch audit, readiness gates and rejected approaches.
 - [Progress maintenance workflow](PROGRESS_WORKFLOW.md).
 
-
 **Minecraft-specific competency scenarios inventoried: 60.** This is a declared, extensible scope, not proof all mechanics are known or tested. Each scenario requires separate legal-action, in-game and failure-boundary evidence.
