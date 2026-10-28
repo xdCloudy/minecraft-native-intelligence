@@ -18,6 +18,12 @@ The initial, **non-integrated** `action.v0` contract lives in
 [authoritative outcome lifecycle](actions/outcome.schema.json).
 Run `python scripts/validate_action_contract.py docs/actions/example-action.v0.json`
 or `python -m unittest discover -s tests -p 'test_action_contract.py'`.
+Audit an ordered outcome stream against its original request with:
+
+```sh
+python scripts/validate_action_contract.py docs/actions/example-outcomes.v0.json \
+  --request docs/actions/example-action.v0.json
+```
 
 - Envelopes carry explicit agent/session identity, action ID, trace ID,
   observation sequence, issue/expiry ticks, schema version and one typed intent.
@@ -31,6 +37,14 @@ or `python -m unittest discover -s tests -p 'test_action_contract.py'`.
 - A successful preflight is **not** an action completion. Only server-confirmed
   outcome events can report accepted, started, completed, rejected or cancelled.
   Any reason returned to the agent must not reveal hidden Minecraft state.
+- The offline outcome-sequence auditor correlates all four identity fields,
+  rejects inverted/nonmonotonic ticks, permits only `accepted → started →
+  completed/cancelled`, `accepted → completed/cancelled`, or immediate
+  `rejected`, and treats exact transport replays as idempotent. Conflicting
+  replays, phase regressions and new events after a terminal event fail closed.
+  An empty or merely accepted history is **pending**, never "success".
+  This is a check on already authenticated server events; it neither validates
+  the event producer nor executes an action.
 - The first published wire revision is v0. There is no previous supported
   release to migrate from. Future revisions require explicit upgrade/downgrade
   fixtures, capability negotiation, deterministic rejection of incompatible
