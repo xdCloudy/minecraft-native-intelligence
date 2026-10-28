@@ -120,6 +120,17 @@ No PowerShell modules are installed solely for CI at this stage.
 
 ## Future Minecraft/Java gate
 
+The Java jobs cache Gradle module metadata and `net.fabricmc` Maven artifacts
+using the pinned setup-java action and keys derived from the build, settings,
+properties and wrapper configuration. This limited cache does not include the
+Fabric Loom Minecraft cache, game assets, worlds or test output. A cold or
+expired cache still depends on upstream repositories, and caching does not
+turn a failed build into a pass. Hosted runs have timed out while downloading
+Fabric dependencies; cache effectiveness and failure rates remain to be
+measured on repeated runs.
+The action also caches the pinned Gradle wrapper separately by wrapper
+configuration; it does not cache the JDK.
+
 Java and Gradle input changes activate the real Gradle-wrapper build job, using
 Temurin **25** to match the proposed Minecraft 26.3 baseline in
 [`MOD_PLATFORM.md`](MOD_PLATFORM.md). The workflow deliberately fails if a
