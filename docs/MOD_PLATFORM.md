@@ -293,3 +293,29 @@ The current local engineering environment has Java 17, not Java 25. Do not
 interpret a Java 17 build failure as a Fabric 26.3 incompatibility. The
 repository's Minecraft CI job provisions Java 25 and is the first meaningful
 compile check; actual GameTests and player parity require separate execution.
+
+
+### Opt-in dedicated-server GameTest gate (2026-10-28)
+
+The spike now registers an experimental Fabric server GameTest from
+`src/gametest`. Its evaluator-only world fixture asserts that a real server can
+load and execute the test mod. The test is intentionally **not** an AI player,
+Survival legality, vanilla-client, integrated-server or autonomy test.
+
+The repository owner authorised accepting the Minecraft EULA for disposable
+development/CI test environments on 2026-10-28. **Consent is invocation-scoped.**
+Running a normal local build does not silently accept the EULA. An operator
+must explicitly pass:
+
+```sh
+./gradlew --no-daemon -Pmni.acceptTestEula=true build test
+```
+
+Read the [Minecraft EULA](https://www.minecraft.net/en-us/eula) before setting
+this flag in another environment. The Minecraft CI job uses this flag for its
+temporary hosted test world; test logs/reports are retained on failure and test
+worlds are not committed. A successful GameTest proves server boot and a
+minimal world assertion **only**. It cannot promote MI-01/MI-004/MI-005/MI-008/
+MI-009 or ADR-0008 without the substantive player lifecycle/parity evidence
+listed earlier. The dedicated-server test gate remains **unvalidated** until a
+CI or local test run actually passes.
