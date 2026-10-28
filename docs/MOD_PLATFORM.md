@@ -289,10 +289,8 @@ No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
 | Project-owned player embodiment, Survival parity, death/respawn | Untested |
 | Loader comparison/decision and accepted ADR | Untested; ADR-0008 stays proposed |
 
-The current local engineering environment has Java 17, not Java 25. Do not
-interpret a Java 17 build failure as a Fabric 26.3 incompatibility. The
-repository's Minecraft CI job provisions Java 25 and is the first meaningful
-compile check; actual GameTests and player parity require separate execution.
+Use Java 25 for this pinned Minecraft version. A Java 17 build failure is not
+evidence of a Fabric incompatibility. Player parity requires separate tests.
 
 ### Opt-in dedicated-server GameTest gate (2026-10-28)
 
@@ -345,9 +343,20 @@ The first hosted production-client trial ([CI run #81](https://github.com/xdClou
 compiled and passed the dedicated-server tests but **did not boot the client**:
 Minecraft SDL3 reported `Couldn't find matching GLX visual`; Vulkan also
 lacked its surface extension. The job timed out after 20 minutes. The retry
-uses an explicit 24-bit GLX virtual display, Mesa renderer preflight and an
-8-minute bounded client launch. A virtual display passing `glxinfo` is still
-only an environment check, **not** proof of a successful Minecraft client test.
+also failed in [CI run #83](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40620255071)
+after `glxinfo` reported OpenGL 4.5: the SDL window could not obtain a matching
+visual, and Vulkan lacked its surface extension. A passing `glxinfo` is therefore
+not proof that the Minecraft window can start.
+
+In a local disposable Ubuntu 24.04 container, Java 25.0.4.1, Mesa 25.2.8,
+Xvfb and Mesa's software Vulkan driver launched the client after OpenGL failed.
+The production task initially exited successfully without loading the test mod
+or running any tests. Packaging the separate GameTest source set as a test-only
+JAR and including it in the production launch loaded the entrypoint, started an
+integrated world, rendered chunks and produced the screenshot. The CI job now
+installs the Vulkan driver and requires a fresh screenshot so an empty test run
+cannot pass silently. The screenshot is an execution marker, not an automated
+visual correctness assertion. Hosted CI confirmation remains pending.
 
 This is **not yet validated** until that GitHub Actions job completes. Even if
 it passes, an integrated world smoke test does not establish LAN networking,

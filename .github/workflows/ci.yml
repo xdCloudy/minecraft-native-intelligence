@@ -259,22 +259,28 @@ jobs:
         shell: bash
         env:
           LIBGL_ALWAYS_SOFTWARE: "1"
+          ALSOFT_DRIVERS: "null"
         run: |
           set -euo pipefail
           chmod +x gradlew
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends \
-            xvfb xauth mesa-utils libgl1-mesa-dri libglx-mesa0
+            xvfb xauth mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers vulkan-tools
           # Disposable CI worlds only; opt-in EULA consent was owner-authorized.
-          # Fail quickly if SDL3 cannot obtain an OpenGL visual; avoid a
-          # 20-minute stuck Gradle client after a renderer startup failure.
+          # Minecraft 26.3 may reject Xvfb's GLX visual; Mesa's software Vulkan
+          # driver provides a fallback. A bounded launch preserves diagnostics.
+          rm -f run/screenshots/*_mni-integrated-world-smoke.png
           xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX' \
             bash -euo pipefail -c '
               glxinfo -B
+              vulkaninfo --summary
               timeout --signal=TERM --kill-after=10s 8m \
                 ./gradlew --no-daemon --stacktrace \
                 -Pmni.acceptTestEula=true runProductionClientGameTest
             '
+          # Fabric can exit successfully with zero discovered tests. Require the
+          # artifact produced only after our integrated world renders chunks.
+          find run/screenshots -name '*_mni-integrated-world-smoke.png' -size +0c -print -quit | grep -q .
 
       - name: Preserve integrated-client screenshots and failure evidence
         if: always()
@@ -283,6 +289,7 @@ jobs:
           name: integrated-client-test-${{ github.run_id }}
           path: |
             build/run/clientGameTest/screenshots/
+            run/screenshots/*_mni-integrated-world-smoke.png
             build/run/clientGameTest/logs/
             build/run/clientGameTest/crash-reports/
             run/logs/
