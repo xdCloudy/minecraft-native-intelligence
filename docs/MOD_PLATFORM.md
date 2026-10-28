@@ -260,12 +260,12 @@ Quilt:
 
 ## 2026-10-27 executable Fabric 26.3 baseline spike (#151)
 
-The experimental root Gradle project introduces an installable *platform probe*
+The root Gradle project introduces an installable *platform probe*
 only; it logs Fabric initialization and logical-server start without modifying
 world state or creating a player. It does **not** prove Minecraft-native AI
 embodiment or complete the spike defined above.
 
-The experimental branch pins Minecraft `26.3`, Java `25`, Fabric Loader
+The merged platform probe pins Minecraft `26.3`, Java `25`, Fabric Loader
 `0.20.1`, Fabric API `0.165.0+26.3`, Fabric Loom `1.19.3`, and Gradle
 `9.8.2`. These follow the [official Fabric 26.3 example template](https://github.com/FabricMC/fabric-example-mod/tree/26.3)
 and the current [Fabric API releases](https://github.com/FabricMC/fabric-api/releases).
@@ -284,7 +284,7 @@ No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
 | --- | --- |
 | Java 25 Gradle compile and build JAR | **Build passed** in [GitHub Actions run 64](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40604852954), using JDK 25.0.4 and Loom 1.19.3; Java test task had NO-SOURCE |
 | Dedicated logical-server launch and mod event | **T4 smoke validated:** [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964) logged `dedicated=true`, loaded both main and test mods, and passed the GameTest suite |
-| Integrated single-player/LAN logical-server launch | Untested |
+| Integrated single-player/LAN logical-server launch | Single-player client GameTest added under PR for #151; evidence pending real CI execution. LAN is still untested. |
 | Vanilla-client compatibility and profile/tab-list presentation | Untested |
 | Project-owned player embodiment, Survival parity, death/respawn | Untested |
 | Loader comparison/decision and accepted ADR | Untested; ADR-0008 stays proposed |
@@ -323,4 +323,21 @@ build in 57 seconds. The MNI-specific server-world fixture is one of those
 GameTests; no player lifecycle or end-to-end model behavior was tested. The
 server's initial missing `eula.txt`/properties warnings did not prevent the
 Fabric test runner from starting under its explicit EULA test configuration.
-This evidence is confined to this draft PR until merged.
+The probe and its CI evidence were merged in [PR #221](https://github.com/xdCloudy/minecraft-native-intelligence/pull/221).
+
+### Integrated single-player client GameTest (#151; pending CI)
+
+Fabric provides a separate client GameTest mechanism: `runClientGameTest` for
+development and a [production client test task](https://docs.fabricmc.net/develop/automatic-testing)
+for CI. The project now adds `MniIntegratedWorldGameTest` and an independent
+`runProductionClientGameTest` CI job. The test creates an integrated single-player
+world, waits for client chunks to render, and captures a screenshot; the hosted
+job uses a virtual framebuffer and software rendering. The main dedicated-server
+GameTest remains a separate gate, so failure of the client test cannot be
+mistaken for a successful world-parity check.
+
+This is **not yet validated** until that GitHub Actions job completes. Even if
+it passes, an integrated world smoke test does not establish LAN networking,
+vanilla remote-client presentation, a player-compatible AI, persistence,
+Survival mechanics or a Fabric-vs-NeoForge comparison. Each needs its own
+reproducible acceptance test before associated tracker statuses advance.
