@@ -284,7 +284,7 @@ No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
 | --- | --- |
 | Java 25 Gradle compile and build JAR | **Build passed** in [GitHub Actions run 64](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40604852954), using JDK 25.0.4 and Loom 1.19.3; Java test task had NO-SOURCE |
 | Dedicated logical-server launch and mod event | **T4 smoke validated:** [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964) logged `dedicated=true`, loaded both main and test mods, and passed the GameTest suite |
-| Integrated single-player/LAN logical-server launch | Single-player client GameTest added under PR for #151; evidence pending real CI execution. LAN is still untested. |
+| Integrated single-player/LAN logical-server launch | **Single-player smoke passed:** [CI run 40659615906](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659615906); LAN is still untested. |
 | Vanilla-client compatibility and profile/tab-list presentation | Untested |
 | Project-owned player embodiment, Survival parity, death/respawn | Untested |
 | Loader comparison/decision and accepted ADR | Untested; ADR-0008 stays proposed |
@@ -323,7 +323,7 @@ server's initial missing `eula.txt`/properties warnings did not prevent the
 Fabric test runner from starting under its explicit EULA test configuration.
 The probe and its CI evidence were merged in [PR #221](https://github.com/xdCloudy/minecraft-native-intelligence/pull/221).
 
-### Integrated single-player client GameTest (#151; pending CI)
+### Integrated single-player client GameTest (#151)
 
 Fabric provides a separate client GameTest mechanism: `runClientGameTest` for
 development and a [production client test task](https://docs.fabricmc.net/develop/automatic-testing)
@@ -356,10 +356,11 @@ JAR and including it in the production launch loaded the entrypoint, started an
 integrated world, rendered chunks and produced the screenshot. The CI job now
 installs the Vulkan driver and requires a fresh screenshot so an empty test run
 cannot pass silently. The screenshot is an execution marker, not an automated
-visual correctness assertion. Hosted CI confirmation remains pending.
+visual correctness assertion. [Hosted CI run 40659615906](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659615906)
+passed against PR head `84d355b5f106082ccb65884dd508cf461229a353` and retained
+the screenshot and logs as a short-lived artifact.
 
-This is **not yet validated** until that GitHub Actions job completes. Even if
-it passes, an integrated world smoke test does not establish LAN networking,
+This integrated world smoke test does not establish LAN networking,
 vanilla remote-client presentation, a player-compatible AI, persistence,
 Survival mechanics or a Fabric-vs-NeoForge comparison. Each needs its own
 reproducible acceptance test before associated tracker statuses advance.
