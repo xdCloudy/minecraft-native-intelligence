@@ -238,3 +238,64 @@ jobs:
             run/crash-reports/
           if-no-files-found: ignore
           retention-days: 3
+
+  minecraft-client:
+    name: Integrated single-player client GameTest
+    needs: changes
+    if: needs.changes.outputs.minecraft == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Run Fabric client GameTest on virtual display
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+          ALSOFT_DRIVERS: "null"
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            xvfb xauth mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers vulkan-tools
+          # Disposable CI worlds only; opt-in EULA consent was owner-authorized.
+          # Minecraft 26.3 may reject Xvfb's GLX visual; Mesa's software Vulkan
+          # driver provides a fallback. A bounded launch preserves diagnostics.
+          rm -f run/screenshots/*_mni-integrated-world-smoke.png
+          xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX' \
+            bash -euo pipefail -c '
+              glxinfo -B
+              vulkaninfo --summary
+              timeout --signal=TERM --kill-after=10s 8m \
+                ./gradlew --no-daemon --info --stacktrace \
+                -Pmni.acceptTestEula=true runProductionClientGameTest
+            '
+          # Fabric can exit successfully with zero discovered tests. Require the
+          # artifact produced only after our integrated world renders chunks.
+          find run/screenshots -name '*_mni-integrated-world-smoke.png' -size +0c -print -quit | grep -q .
+
+      - name: Preserve integrated-client screenshots and failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: integrated-client-test-${{ github.run_id }}
+          path: |
+            build/run/clientGameTest/screenshots/
+            run/screenshots/*_mni-integrated-world-smoke.png
+            build/run/clientGameTest/logs/
+            build/run/clientGameTest/crash-reports/
+            run/logs/
+            run/crash-reports/
+            build/reports/
+            build/test-results/
+            ~/.gradle/daemon/9.8.2/daemon-*.out.log
+          if-no-files-found: ignore
+          retention-days: 3

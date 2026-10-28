@@ -8,10 +8,14 @@
     "fabric-gametest": [
       "chat.xdcloudy.mni.MniPlatformGameTest",
       "chat.xdcloudy.mni.AgentPlayerGameTests"
+    ],
+    "fabric-client-gametest": [
+      "chat.xdcloudy.mni.MniIntegratedWorldGameTest"
     ]
   },
   "depends": {
     "minecraft-native-intelligence": "*",
-    "fabric-gametest-api-v1": "*"
+    "fabric-gametest-api-v1": "*",
+    "fabric-client-gametest-api-v1": "*"
   }
 }

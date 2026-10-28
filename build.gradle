@@ -19,7 +19,7 @@ fabricApi {
         createSourceSet = true
         modId = 'minecraft-native-intelligence-gametest'
         enableGameTests = true
-        enableClientGameTests = false
+        enableClientGameTests = true
         // Explicit per-invocation consent, never implied for downstream builders.
         eula = providers.gradleProperty('mni.acceptTestEula')
             .map { it == 'true' }
@@ -31,6 +31,24 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    productionRuntimeMods "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+// Keep test-only entrypoints out of the distributable mod, but load them in the
+// production client: a client with zero discovered tests can exit successfully.
+tasks.register('gametestJar', Jar) {
+    archiveClassifier = 'gametest'
+    from sourceSets.gametest.output
+}
+
+// Official Fabric test-runner pattern: launch an actual client and integrated
+// server with a virtual framebuffer in headless CI. This does not test an AI.
+tasks.register('runProductionClientGameTest', net.fabricmc.loom.task.prod.ClientProductionRunTask) {
+    mods.from(tasks.named('gametestJar'))
+    jvmArgs.add('-Dfabric.client.gametest')
+    // CI starts one 24-bit GLX-capable Xvfb server and preflights its renderer.
+    // Do not nest Loom's second, differently configured virtual display.
+    useXVFB = false
 }
 
 processResources {
