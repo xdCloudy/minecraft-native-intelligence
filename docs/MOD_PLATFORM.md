@@ -283,7 +283,7 @@ No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
 | Gate | Evidence status |
 | --- | --- |
 | Java 25 Gradle compile and build JAR | **Build passed** in [GitHub Actions run 64](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40604852954), using JDK 25.0.4 and Loom 1.19.3; Java test task had NO-SOURCE |
-| Dedicated logical-server launch and mod event | Untested |
+| Dedicated logical-server launch and mod event | **T4 smoke validated:** [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964) logged `dedicated=true`, loaded both main and test mods, and passed the GameTest suite |
 | Integrated single-player/LAN logical-server launch | Untested |
 | Vanilla-client compatibility and profile/tab-list presentation | Untested |
 | Project-owned player embodiment, Survival parity, death/respawn | Untested |
@@ -293,7 +293,6 @@ The current local engineering environment has Java 17, not Java 25. Do not
 interpret a Java 17 build failure as a Fabric 26.3 incompatibility. The
 repository's Minecraft CI job provisions Java 25 and is the first meaningful
 compile check; actual GameTests and player parity require separate execution.
-
 
 ### Opt-in dedicated-server GameTest gate (2026-10-28)
 
@@ -317,5 +316,11 @@ temporary hosted test world; test logs/reports are retained on failure and test
 worlds are not committed. A successful GameTest proves server boot and a
 minimal world assertion **only**. It cannot promote MI-01/MI-004/MI-005/MI-008/
 MI-009 or ADR-0008 without the substantive player lifecycle/parity evidence
-listed earlier. The dedicated-server test gate remains **unvalidated** until a
-CI or local test run actually passes.
+listed earlier. [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964)
+reported `runGameTest`, actual server initialization (`dedicated=true`),
+**2/2 required tests passed in 1.916 seconds**, and a successful Java 25 Gradle
+build in 57 seconds. The MNI-specific server-world fixture is one of those
+GameTests; no player lifecycle or end-to-end model behavior was tested. The
+server's initial missing `eula.txt`/properties warnings did not prevent the
+Fabric test runner from starting under its explicit EULA test configuration.
+This evidence is confined to this draft PR until merged.
