@@ -23,6 +23,12 @@ public final class AgentPlayerManager {
     private final Map<UUID, ServerPlayer> agents = new HashMap<>();
 
     public ServerPlayer spawn(MinecraftServer server, ServerLevel level, String username, double x, double y, double z) {
+        return spawnWithId(server, level, UUID.randomUUID(), username, x, y, z);
+    }
+
+    // Test-only explicit identity allows a remove/rejoin persistence probe.
+    ServerPlayer spawnWithId(MinecraftServer server, ServerLevel level, UUID projectUuid,
+                             String username, double x, double y, double z) {
         requireServerThread(server);
         if (!isValidUsername(username)) {
             throw new IllegalArgumentException("username must contain 3–16 ASCII letters, digits, or underscores");
@@ -30,8 +36,10 @@ public final class AgentPlayerManager {
         if (server.getPlayerList().getPlayer(username) != null) {
             throw new IllegalArgumentException("a player with that name is already online");
         }
+        if (projectUuid == null || server.getPlayerList().getPlayer(projectUuid) != null) {
+            throw new IllegalArgumentException("invalid or already-online player identity");
+        }
 
-        UUID projectUuid = UUID.randomUUID();
         GameProfile profile = new GameProfile(projectUuid, username);
         ServerPlayer player = new ServerPlayer(server, level, profile, ClientInformation.createDefault());
         player.setPos(x, y, z);

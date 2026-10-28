@@ -24,6 +24,18 @@ complete: all four required server GameTests passed, including the two
 embodiment tests. The server's random GameTest placement and profile UUID were
 not fixed; this is a bounded smoke result, not a statistical experiment.
 
+A further local dedicated-server probe set three apples as evaluator-only
+inventory setup, removed the test player and confirmed vanilla player data
+contained those apples. Re-registering the same UUID through this prototype
+produced an empty slot. The original expectation of restored inventory failed;
+the checked-in negative test records this limitation rather than calling it a
+persistence success. Source inspection of Minecraft 26.3 shows that its normal
+`PrepareSpawnTask` loads player data before player placement; this prototype
+constructs and registers a fresh `ServerPlayer` directly and omits that path.
+The test also rejects an attempt to register the same online UUID twice.
+Loading a slot alone would not establish correct spawn location, dimension,
+vehicles, identity ownership, crash recovery or restart semantics.
+
 Reproduce in a disposable test environment, after reviewing the
 [Minecraft EULA](https://www.minecraft.net/en-us/eula):
 
