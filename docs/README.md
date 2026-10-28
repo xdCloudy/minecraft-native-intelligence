@@ -20,7 +20,7 @@ Return to the [project README](../README.md) for the overview and current progre
 - [Vision](VISION.md), [principles](PRINCIPLES.md), and [glossary](GLOSSARY.md) — vocabulary and design constraints.
 - [Architecture overview](../ARCHITECTURE.md) and [detailed architecture](ARCHITECTURE.md) — conceptual boundaries and interfaces; the proposed system is not yet implemented.
 - [Decision log](DECISIONS.md) — accepted constraints, proposed platform choices, and unresolved decisions.
-- [Minecraft integration](INTEGRATION.md), [mod platform](MOD_PLATFORM.md), and [embodiment spike](EMBODIMENT_SPIKE.md) — player embodiment, Survival parity, compatibility, installation target, and loader experiments.
+- [Minecraft integration](INTEGRATION.md), [mod platform](MOD_PLATFORM.md), [embodiment spike](EMBODIMENT_SPIKE.md), and [client tracking spike](CLIENT_TRACKING_SPIKE.md) — player embodiment, Survival parity, compatibility, installation target, and loader experiments.
 - [Runtime boundary](RUNTIME_BOUNDARY.md) and [scaling](SCALING.md) — asynchronous scheduling, serving, state isolation, and multi-agent resource limits.
 - [Observation schema](OBSERVATION_SCHEMA.md), [information access](INFORMATION_ACCESS.md), and [action space](ACTION_SPACE.md) — what an agent may sense and legally do.
 

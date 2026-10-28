@@ -87,6 +87,12 @@
   },
   "evidence": [
     {
+      "id": "client_tracking_spike",
+      "title": "Integrated-client test-only player tracking smoke",
+      "kind": "repository",
+      "url": "repo:docs/CLIENT_TRACKING_SPIKE.md"
+    },
+    {
       "id": "embodiment_spike_gametest",
       "title": "Test-only player embodiment spike and dedicated-server smoke",
       "kind": "repository",
@@ -1051,6 +1057,7 @@
             "productionReadiness": "not_assessed"
           },
           "evidence": [
+            "client_tracking_spike",
             "embed",
             "roadmap",
             "actions",
