@@ -336,6 +336,11 @@ job uses a virtual framebuffer and software rendering. The main dedicated-server
 GameTest remains a separate gate, so failure of the client test cannot be
 mistaken for a successful world-parity check.
 
+The pinned Fabric API `0.165.0+26.3` exposes
+`TestSingleplayerContext.getConnection().waitForChunksRender()`; earlier
+Fabric tutorials show `getClientLevel()`, which is not present in this pinned
+version. Compilation must be checked against the exact API, not a floating doc.
+
 This is **not yet validated** until that GitHub Actions job completes. Even if
 it passes, an integrated world smoke test does not establish LAN networking,
 vanilla remote-client presentation, a player-compatible AI, persistence,

@@ -14,7 +14,9 @@ public final class MniIntegratedWorldGameTest implements FabricClientGameTest {
     @Override
     public void runTest(ClientGameTestContext context) {
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
-            singleplayer.getClientLevel().waitForChunksRender();
+            // Fabric API 0.165.0+26.3 exposes server connections here; the
+            // older getClientLevel() tutorial example does not compile.
+            singleplayer.getConnection().waitForChunksRender();
             context.takeScreenshot("mni-integrated-world-smoke");
         }
     }
