@@ -106,8 +106,8 @@ public final class AgentPlayerManager {
      * Netty channel and accepts no packets; AI input is injected through the
      * server-authoritative action adapter instead of a simulated client.
      */
-    private static final class SilentAgentConnection extends Connection {
-        private SilentAgentConnection() {
+    static final class SilentAgentConnection extends Connection {
+        SilentAgentConnection() {
             super(PacketFlow.SERVERBOUND);
         }
 

@@ -33,6 +33,12 @@ persistence success. Source inspection of Minecraft 26.3 shows that its normal
 `PrepareSpawnTask` loads player data before player placement; this prototype
 constructs and registers a fresh `ServerPlayer` directly and omits that path.
 The test also rejects an attempt to register the same online UUID twice.
+A separate local comparison using `PrepareSpawnTask` with the same no-socket
+test connection restored the three apples in the same-server rejoin. The
+preparation runs asynchronously and the fixture allows up to 2,000 GameTest
+ticks for chunk preparation; the first 20-tick trial timed out before it was
+ready. This is not yet evidence of behavior across server restarts or of
+compatibility with ordinary clients.
 Loading a slot alone would not establish correct spawn location, dimension,
 vehicles, identity ownership, crash recovery or restart semantics.
 

@@ -2,11 +2,15 @@ package chat.xdcloudy.mni;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.CommonListenerCookie;
+import net.minecraft.server.network.config.PrepareSpawnTask;
+import net.minecraft.server.players.NameAndId;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -20,6 +24,41 @@ public final class AgentPlayerGameTests implements CustomTestMethodInvoker {
         helper.assertTrue(!AgentPlayerManager.isValidUsername("bad-name"), "punctuation is rejected");
         helper.assertTrue(!AgentPlayerManager.isValidUsername(null), "missing username is rejected");
         helper.succeed();
+    }
+
+    @GameTest(maxTicks = 2000)
+    public void vanillaPreparationRestoresSavedInventory(GameTestHelper helper) {
+        var manager = new AgentPlayerManager();
+        var level = helper.getLevel();
+        var server = level.getServer();
+        var pos = helper.absolutePos(new BlockPos(1, 1, 1));
+        var id = UUID.randomUUID();
+        var profile = new GameProfile(id, "MniPrepProbe");
+        var player = manager.spawnWithId(server, level, id, profile.name(),
+                pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+        // Evaluator fixture, not a Survival action.
+        player.getInventory().setItem(0, new ItemStack(Items.APPLE, 3));
+        helper.assertTrue(manager.remove(server, id), "initial player removed and saved");
+
+        var task = new PrepareSpawnTask(server, new NameAndId(profile));
+        task.start(packet -> {});
+        helper.runBeforeTestEnd(() -> {
+            task.close();
+            var active = server.getPlayerList().getPlayer(id);
+            if (active != null) {
+                server.getPlayerList().remove(active);
+            }
+        });
+        helper.onEachTick(() -> {
+            if (task.tick()) {
+                var restored = task.spawnPlayer(new AgentPlayerManager.SilentAgentConnection(),
+                        CommonListenerCookie.createInitial(profile, false));
+                var stack = restored.getInventory().getItem(0);
+                helper.assertTrue(stack.is(Items.APPLE) && stack.getCount() == 3,
+                        "prepared player restores the saved inventory slot");
+                helper.succeed();
+            }
+        });
     }
 
     @GameTest
