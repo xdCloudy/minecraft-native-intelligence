@@ -38,7 +38,9 @@ dependencies {
 // server with a virtual framebuffer in headless CI. This does not test an AI.
 tasks.register('runProductionClientGameTest', net.fabricmc.loom.task.prod.ClientProductionRunTask) {
     jvmArgs.add('-Dfabric.client.gametest')
-    useXVFB = true
+    // CI starts one 24-bit GLX-capable Xvfb server and preflights its renderer.
+    // Do not nest Loom's second, differently configured virtual display.
+    useXVFB = false
 }
 
 processResources {

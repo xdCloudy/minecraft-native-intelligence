@@ -341,6 +341,14 @@ The pinned Fabric API `0.165.0+26.3` exposes
 Fabric tutorials show `getClientLevel()`, which is not present in this pinned
 version. Compilation must be checked against the exact API, not a floating doc.
 
+The first hosted production-client trial ([CI run #81](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40617975160))
+compiled and passed the dedicated-server tests but **did not boot the client**:
+Minecraft SDL3 reported `Couldn't find matching GLX visual`; Vulkan also
+lacked its surface extension. The job timed out after 20 minutes. The retry
+uses an explicit 24-bit GLX virtual display, Mesa renderer preflight and an
+8-minute bounded client launch. A virtual display passing `glxinfo` is still
+only an environment check, **not** proof of a successful Minecraft client test.
+
 This is **not yet validated** until that GitHub Actions job completes. Even if
 it passes, an integrated world smoke test does not establish LAN networking,
 vanilla remote-client presentation, a player-compatible AI, persistence,

@@ -243,7 +243,7 @@ jobs:
     name: Integrated single-player client GameTest
     needs: changes
     if: needs.changes.outputs.minecraft == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Check out repository
@@ -262,9 +262,19 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x gradlew
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            xvfb xauth mesa-utils libgl1-mesa-dri libglx-mesa0
           # Disposable CI worlds only; opt-in EULA consent was owner-authorized.
-          ./gradlew --no-daemon --stacktrace \
-            -Pmni.acceptTestEula=true runProductionClientGameTest
+          # Fail quickly if SDL3 cannot obtain an OpenGL visual; avoid a
+          # 20-minute stuck Gradle client after a renderer startup failure.
+          xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX' \
+            bash -euo pipefail -c '
+              glxinfo -B
+              timeout --signal=TERM --kill-after=10s 8m \
+                ./gradlew --no-daemon --stacktrace \
+                -Pmni.acceptTestEula=true runProductionClientGameTest
+            '
 
       - name: Preserve integrated-client screenshots and failure evidence
         if: always()
@@ -275,6 +285,8 @@ jobs:
             build/run/clientGameTest/screenshots/
             build/run/clientGameTest/logs/
             build/run/clientGameTest/crash-reports/
+            run/logs/
+            run/crash-reports/
             build/reports/
             build/test-results/
           if-no-files-found: ignore
