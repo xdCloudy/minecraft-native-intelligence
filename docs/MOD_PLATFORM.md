@@ -359,6 +359,10 @@ cannot pass silently. The screenshot is an execution marker, not an automated
 visual correctness assertion. [Hosted CI run 40659615906](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659615906)
 passed against PR head `84d355b5f106082ccb65884dd508cf461229a353` and retained
 the screenshot and logs as a short-lived artifact.
+The subsequent [run 40659879395](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659879395)
+timed out before Gradle logged project configuration or launched the client;
+no client artifact was created. The cause remains unknown. The job now retains
+Gradle daemon logs and enables diagnostic output to investigate a recurrence.
 
 This integrated world smoke test does not establish LAN networking,
 vanilla remote-client presentation, a player-compatible AI, persistence,

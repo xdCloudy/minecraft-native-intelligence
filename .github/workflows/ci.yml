@@ -275,7 +275,7 @@ jobs:
               glxinfo -B
               vulkaninfo --summary
               timeout --signal=TERM --kill-after=10s 8m \
-                ./gradlew --no-daemon --stacktrace \
+                ./gradlew --no-daemon --info --stacktrace \
                 -Pmni.acceptTestEula=true runProductionClientGameTest
             '
           # Fabric can exit successfully with zero discovered tests. Require the
@@ -296,5 +296,6 @@ jobs:
             run/crash-reports/
             build/reports/
             build/test-results/
+            ~/.gradle/daemon/9.8.2/daemon-*.out.log
           if-no-files-found: ignore
           retention-days: 3
