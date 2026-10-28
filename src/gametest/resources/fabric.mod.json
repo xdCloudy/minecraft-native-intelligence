@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraft-native-intelligence-gametest",
+  "version": "1.0.0",
+  "name": "Minecraft Native Intelligence server smoke tests",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "chat.xdcloudy.mni.MniPlatformGameTest"
+    ]
+  },
+  "depends": {
+    "minecraft-native-intelligence": "*",
+    "fabric-gametest-api-v1": "*"
+  }
+}

@@ -257,3 +257,70 @@ Quilt:
 
 - [Quilt project overview](https://quiltmc.org/en/about/)
 - [Quilt FAQ](https://quiltmc.org/en/about/faq/)
+
+## 2026-10-27 executable Fabric 26.3 baseline spike (#151)
+
+The experimental root Gradle project introduces an installable *platform probe*
+only; it logs Fabric initialization and logical-server start without modifying
+world state or creating a player. It does **not** prove Minecraft-native AI
+embodiment or complete the spike defined above.
+
+The experimental branch pins Minecraft `26.3`, Java `25`, Fabric Loader
+`0.20.1`, Fabric API `0.165.0+26.3`, Fabric Loom `1.19.3`, and Gradle
+`9.8.2`. These follow the [official Fabric 26.3 example template](https://github.com/FabricMC/fabric-example-mod/tree/26.3)
+and the current [Fabric API releases](https://github.com/FabricMC/fabric-api/releases).
+The [release-day Fabric guide](https://www.fabricmc.net/2026/09/15/263.html)
+listed older tool versions; those historical values above were valid at its
+publication, but are not this experiment's exact pinned build inputs.
+
+The Gradle wrapper scripts/JAR were taken from the official 26.3 example
+template; wrapper JAR SHA-256 is
+`3b8a25775a69158b5ad2b1d17a80a88dc7b40a352a73eb27d06c612a7ce68e98`.
+No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
+
+### Evidence gates (all distinct)
+
+| Gate | Evidence status |
+| --- | --- |
+| Java 25 Gradle compile and build JAR | **Build passed** in [GitHub Actions run 64](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40604852954), using JDK 25.0.4 and Loom 1.19.3; Java test task had NO-SOURCE |
+| Dedicated logical-server launch and mod event | **T4 smoke validated:** [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964) logged `dedicated=true`, loaded both main and test mods, and passed the GameTest suite |
+| Integrated single-player/LAN logical-server launch | Untested |
+| Vanilla-client compatibility and profile/tab-list presentation | Untested |
+| Project-owned player embodiment, Survival parity, death/respawn | Untested |
+| Loader comparison/decision and accepted ADR | Untested; ADR-0008 stays proposed |
+
+The current local engineering environment has Java 17, not Java 25. Do not
+interpret a Java 17 build failure as a Fabric 26.3 incompatibility. The
+repository's Minecraft CI job provisions Java 25 and is the first meaningful
+compile check; actual GameTests and player parity require separate execution.
+
+### Opt-in dedicated-server GameTest gate (2026-10-28)
+
+The spike now registers an experimental Fabric server GameTest from
+`src/gametest`. Its evaluator-only world fixture asserts that a real server can
+load and execute the test mod. The test is intentionally **not** an AI player,
+Survival legality, vanilla-client, integrated-server or autonomy test.
+
+The repository owner authorised accepting the Minecraft EULA for disposable
+development/CI test environments on 2026-10-28. **Consent is invocation-scoped.**
+Running a normal local build does not silently accept the EULA. An operator
+must explicitly pass:
+
+```sh
+./gradlew --no-daemon -Pmni.acceptTestEula=true build test
+```
+
+Read the [Minecraft EULA](https://www.minecraft.net/en-us/eula) before setting
+this flag in another environment. The Minecraft CI job uses this flag for its
+temporary hosted test world; test logs/reports are retained on failure and test
+worlds are not committed. A successful GameTest proves server boot and a
+minimal world assertion **only**. It cannot promote MI-01/MI-004/MI-005/MI-008/
+MI-009 or ADR-0008 without the substantive player lifecycle/parity evidence
+listed earlier. [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964)
+reported `runGameTest`, actual server initialization (`dedicated=true`),
+**2/2 required tests passed in 1.916 seconds**, and a successful Java 25 Gradle
+build in 57 seconds. The MNI-specific server-world fixture is one of those
+GameTests; no player lifecycle or end-to-end model behavior was tested. The
+server's initial missing `eula.txt`/properties warnings did not prevent the
+Fabric test runner from starting under its explicit EULA test configuration.
+This evidence is confined to this draft PR until merged.
