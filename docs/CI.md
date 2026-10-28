@@ -32,7 +32,7 @@ It then conditionally runs:
 | `*.md`, `.markdownlint.yml` | Documentation |
 | `*.py`, `*.json`, `pyproject.toml`, `requirements*.txt`, `.gitignore` | Python and JSON tooling |
 | `*.ps1` | PowerShell syntax |
-| `.github/workflows/ci.yml` | All current stack checks |
+| `.github/workflows/ci.yml` | All current stack checks, including both Minecraft jobs |
 
 A skipped conditional job is expected for an unrelated stack.
 
@@ -119,6 +119,17 @@ if ($failed) { exit 1 }
 No PowerShell modules are installed solely for CI at this stage.
 
 ## Future Minecraft/Java gate
+
+The Java jobs cache Gradle module metadata and `net.fabricmc` Maven artifacts
+using the pinned setup-java action and keys derived from the build, settings,
+properties and wrapper configuration. This limited cache does not include the
+Fabric Loom Minecraft cache, game assets, worlds or test output. A cold or
+expired cache still depends on upstream repositories, and caching does not
+turn a failed build into a pass. Hosted runs have timed out while downloading
+Fabric dependencies; cache effectiveness and failure rates remain to be
+measured on repeated runs.
+The action also caches the pinned Gradle wrapper separately by wrapper
+configuration; it does not cache the JDK.
 
 Java and Gradle input changes activate the real Gradle-wrapper build job, using
 Temurin **25** to match the proposed Minecraft 26.3 baseline in

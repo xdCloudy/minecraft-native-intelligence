@@ -84,6 +84,7 @@ jobs:
               docs=true
               python=true
               powershell=true
+            minecraft=true
             fi
           done < <(git diff --name-only "$base" "$head")
 
@@ -213,6 +214,16 @@ jobs:
           distribution: temurin
           # Proposed 26.3 baseline requires Java 25 (ADR-0008); revisit with any platform ADR.
           java-version: "25"
+          cache: gradle
+          cache-jdk: false
+          cache-path: |
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/files-2.1/net.fabricmc
+          cache-dependency-path: |
+            build.gradle
+            settings.gradle
+            gradle.properties
+            gradle/wrapper/gradle-wrapper.properties
       - name: Require and execute the Minecraft Gradle wrapper
         shell: bash
         run: |
@@ -254,6 +265,16 @@ jobs:
         with:
           distribution: temurin
           java-version: "25"
+          cache: gradle
+          cache-jdk: false
+          cache-path: |
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/files-2.1/net.fabricmc
+          cache-dependency-path: |
+            build.gradle
+            settings.gradle
+            gradle.properties
+            gradle/wrapper/gradle-wrapper.properties
 
       - name: Run Fabric client GameTest on virtual display
         shell: bash
