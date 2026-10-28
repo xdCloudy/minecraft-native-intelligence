@@ -12,6 +12,34 @@ The contract is intentionally separate from the executable experiment runner.
 Issue #46 owns the reproducible runner and artifact execution layer. This
 document defines what that runner must consume and produce.
 
+## Exploratory paired binary metric audit (issue #192)
+
+`scripts/paired_binary_evaluation.py` reads two immutable
+`eval.result.v1` manifests and compares a **preselected Boolean trial metric**
+over identical scenario hashes and exactly matched typed seeds/repetitions:
+
+```sh
+python scripts/paired_binary_evaluation.py left-result.json right-result.json --metric primary_success
+```
+
+It reports the complete 2×2 paired success table, each success rate, the paired
+rate difference, and an exact two-sided McNemar/binomial p-value for discordant
+pairs. This is **exploratory, not a benchmark result**. It rejects mismatched
+scenario revisions or trial coverage, missing/non-Boolean metrics, failed or
+partial trials, retry attempts, interventions, unexpected deviations, policy-
+visible privileged inputs, duplicate attempts and inconsistent raw-trial
+status counts. It does not silently discard failure cases.
+
+The metric definition and failure treatment must be registered **before**
+conducting experiments; this utility deliberately refuses retry/failure
+policies that require a separate preregistered analysis. Any synthetic
+fixture is labelled `synthetic_only`. A nominal p-value is not a causal
+finding, power calculation, multiple-test correction, confidence interval, or
+evidence of learned behaviour. Results require independent held-out Survival
+executions, validated information parity, preregistered hypotheses, power and
+uncertainty assessment before making capability claims. Rejected runs should
+be retained as negative evidence rather than deleted.
+
 ## Core rule
 
 A result is not an evaluation result unless the scenario and result manifests
