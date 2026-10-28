@@ -12,8 +12,8 @@ A recorded experiment is not automatically a positive result or integrated capab
 
 | Cell | Loader / version | Server mode | Client | Status | Evidence / limitation |
 |---|---|---|---|---|---|
-| `COMP-001` | Fabric (proposed); TBD by v0.2 compatibility decision | dedicated | vanilla client | unverified | [Fabric developer documentation](https://docs.fabricmc.net/develop/), [Roadmap and milestone gates](../ROADMAP.md)<br>Only compatibility investigated on main counts. Mod compile checks on historical unmerged PR heads are listed separately. |
-| `COMP-002` | Fabric (proposed); TBD by v0.2 compatibility decision | integrated single-player/LAN | vanilla client | unverified | [Fabric developer documentation](https://docs.fabricmc.net/develop/), [Roadmap and milestone gates](../ROADMAP.md)<br>No main-branch in-game compatibility evidence. |
+| `COMP-001` | Fabric (proposed); TBD by v0.2 compatibility decision | dedicated | vanilla client | unverified | [Fabric developer documentation](https://docs.fabricmc.net/develop/), [Roadmap and milestone gates](../ROADMAP.md)<br>PR #221 merged on main. Minecraft 26.3/Fabric dedicated logical-server boot and evaluator-only GameTests passed CI #76 (2/2 required tests in #75), but no vanilla client joined and no player-compatible AI entity exists; full compatibility stays unverified. |
+| `COMP-002` | Fabric (proposed); TBD by v0.2 compatibility decision | integrated single-player/LAN | vanilla client | unverified | [Fabric developer documentation](https://docs.fabricmc.net/develop/), [Roadmap and milestone gates](../ROADMAP.md)<br>Dedicated-server GameTests passed in #221, but integrated single-player/LAN and unmodified-client presentation remain untested. No compatibility validation claim. |
 
 ## Production readiness gates
 
@@ -448,7 +448,7 @@ Outstanding questions are grouped by workstream; these rows describe future work
 
 ## Historical unmerged pull requests
 
-Audited main 8622b139da2db7782525faec3ee4dac623acb1ba. 0 tracked PRs remain open; 8 were closed without merging. Historical head/base revisions, reviewed paths and check snapshots are preserved. Stacked-branch success does not imply main integration. All records are excluded from shipped capability credit.
+Audited main 1a339e09b0020f90ee756b7f6b99c598a857789d. 0 tracked PRs remain open; 8 were closed without merging. Historical head/base revisions, reviewed paths and check snapshots are preserved. Stacked-branch success does not imply main integration. All records are excluded from shipped capability credit.
 
 | PR / state / branch | Historical base → head | Review summary and files | Affected items | Historical check snapshot |
 |---|---|---|---|---|

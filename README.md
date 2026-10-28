@@ -35,10 +35,10 @@ The intended integration is a server-authoritative **Minecraft: Java Edition mod
 | Training-method research | 0.0% |
 | Experimental effectiveness | 0.0% |
 | Demonstrated capabilities | 0.0% |
-| Implementation maturity | 0.0% |
-| Validation coverage | 0.0% |
-| Production readiness | 0.0% |
-| Overall scoped progress | 0.0% |
+| Implementation maturity | 0.2% |
+| Validation coverage | 0.5% |
+| Production readiness | 0.8% |
+| Overall scoped progress | 0.2% |
 
 **Minecraft-specific competency scenarios inventoried: 62.** Each remains unproven until independently evaluated in-game. A full catalog is not a guarantee that every possible mechanic has been enumerated.
 

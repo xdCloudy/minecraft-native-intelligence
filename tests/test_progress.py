@@ -100,7 +100,19 @@ class ProgressTests(unittest.TestCase):
             self.assertGreaterEqual(len(row['acceptanceCriteria']), 4)
             self.assertTrue(any('boundary trials' in task for task in row['remainingWork']))
             self.assertEqual(row['status']['research'], 'not_investigated')
-            self.assertEqual(row['status']['validation'], 'untested')
+            if row['id'] == 'MI-004':
+                # A real dedicated-server GameTest validates a narrow loader
+                # bootstrap, not the full Fabric/NeoForge/upgrade protocol.
+                self.assertEqual(row['status']['validation'], 'in_game_tested')
+                self.assertIn('mni_fabric_boot_221', row['evidence'])
+                self.assertEqual(row['status']['experimentalOutcome'], 'not_assessed')
+            elif row['status']['validation'] == 'unit_tested':
+                # Offline contracts have CI test evidence, but the proposed
+                # Minecraft comparative experiments have not run.
+                self.assertTrue(any(e.startswith('mni_') for e in row['evidence']))
+                self.assertEqual(row['status']['experimentalOutcome'], 'not_assessed')
+            else:
+                self.assertEqual(row['status']['validation'], 'untested')
 
     def test_reintroduced_generic_avenue_template_is_rejected(self):
         data = copy.deepcopy(BASE)
