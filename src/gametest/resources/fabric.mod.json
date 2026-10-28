@@ -6,7 +6,8 @@
   "environment": "*",
   "entrypoints": {
     "fabric-gametest": [
-      "chat.xdcloudy.mni.MniPlatformGameTest"
+      "chat.xdcloudy.mni.MniPlatformGameTest",
+      "chat.xdcloudy.mni.AgentPlayerGameTests"
     ]
   },
   "depends": {
