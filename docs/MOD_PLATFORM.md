@@ -363,6 +363,11 @@ The subsequent [run 40659879395](https://github.com/xdCloudy/minecraft-native-in
 timed out before Gradle logged project configuration or launched the client;
 no client artifact was created. The cause remains unknown. The job now retains
 Gradle daemon logs and enables diagnostic output to investigate a recurrence.
+The next [run 40661048834](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40661048834)
+again timed out before Minecraft started. The final Gradle message was a
+download request for Fabric's `mercury` dependency, with no later progress
+logged. This identifies the phase, not the underlying cause; diagnostic logs
+were retained.
 
 This integrated world smoke test does not establish LAN networking,
 vanilla remote-client presentation, a player-compatible AI, persistence,

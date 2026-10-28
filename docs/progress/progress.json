@@ -87,6 +87,12 @@
   },
   "evidence": [
     {
+      "id": "embodiment_spike_gametest",
+      "title": "Test-only player embodiment spike and dedicated-server smoke",
+      "kind": "repository",
+      "url": "repo:docs/EMBODIMENT_SPIKE.md"
+    },
+    {
       "id": "goal",
       "title": "Project goal",
       "kind": "repository",
@@ -473,6 +479,7 @@
           ],
           "dependencies": [],
           "evidence": [
+            "embodiment_spike_gametest",
             "embed",
             "fabric"
           ],
@@ -505,6 +512,11 @@
           ],
           "lastAssessment": "2026-10-28",
           "history": [
+            {
+              "date": "2026-10-28",
+              "revision": "d177480a8a498888a008319adbb036f00e4af040",
+              "change": "Recovered the unmerged PR #125 player prototype into a test-only branch. Its original mode-setting order failed in a dedicated GameTest; after correction the narrow local fixture passed. Neither result proves main-branch player compatibility or changes its assessed status."
+            },
             {
               "date": "2026-10-27",
               "revision": "000c37b7fa9e016b7f2be34d36cb28233f2ef687",
