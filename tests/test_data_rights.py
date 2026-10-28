@@ -56,6 +56,15 @@ class DataRightsTests(unittest.TestCase):
             item["review"]["status"] = status
             self.assertEqual("review_not_approved", allowed({item["artifact_id"]: item})[1])
 
+    def test_review_timestamps_must_exist_and_be_effective(self):
+        item = manifest()
+        for date in ("2026-10-28T00:00:00Z", "bogus", "2026-10-26T00:00:00"):
+            item["review"]["reviewed_at"] = date
+            self.assertEqual("review_timestamp_invalid_or_future", allowed({item["artifact_id"]: item})[1])
+        for date in ("2026-10-27T00:00:00Z", "2026-10-26T23:59:59+00:00"):
+            item["review"]["reviewed_at"] = date
+            self.assertTrue(allowed({item["artifact_id"]: item})[0])
+
     def test_deletion_request_or_deleted_artifact_blocks_reuse(self):
         item = manifest()
         item["retention"]["deletion_requested"] = True
