@@ -84,6 +84,7 @@ jobs:
               docs=true
               python=true
               powershell=true
+            minecraft=true
             fi
           done < <(git diff --name-only "$base" "$head")
 

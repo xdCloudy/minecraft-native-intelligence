@@ -32,7 +32,7 @@ It then conditionally runs:
 | `*.md`, `.markdownlint.yml` | Documentation |
 | `*.py`, `*.json`, `pyproject.toml`, `requirements*.txt`, `.gitignore` | Python and JSON tooling |
 | `*.ps1` | PowerShell syntax |
-| `.github/workflows/ci.yml` | All current stack checks |
+| `.github/workflows/ci.yml` | All current stack checks, including both Minecraft jobs |
 
 A skipped conditional job is expected for an unrelated stack.
 
