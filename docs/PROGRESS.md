@@ -1,6 +1,6 @@
 # Research and development progress
 
-Assessment: `2026-10-27` · assessed main `8622b139da2db7782525faec3ee4dac623acb1ba` · 15 workstreams · 330 tracked features, research candidates and methods.
+Assessment: `2026-10-28` · assessed main `1a339e09b0020f90ee756b7f6b99c598a857789d` · 15 workstreams · 330 tracked features, research candidates and methods.
 
 > The percentages track evidence against this declared research scope. They do not measure intelligence, autonomy, consciousness or human-level ability. No Minecraft-native intelligent agent is demonstrated on the assessed main revision. Unmerged PRs and their historical checks are recorded separately and receive no integrated or shipped credit.
 
@@ -10,10 +10,10 @@ Assessment: `2026-10-27` · assessed main `8622b139da2db7782525faec3ee4dac623acb
 | Research completion | ░░░░░░░░░░░░░░░░ | 0.0% | Investigation can conclude negatively or as infeasible. |
 | Experimental effectiveness | ░░░░░░░░░░░░░░░░ | 0.0% | Positive outcomes only; a negative result can still conclude research. |
 | Demonstrated capabilities | ░░░░░░░░░░░░░░░░ | 0.0% | Positive, functional and in-game or stronger evidence on main. |
-| Implementation maturity | ░░░░░░░░░░░░░░░░ | 0.0% | Functional states on the assessed main revision. |
-| Validation coverage | ░░░░░░░░░░░░░░░░ | 0.0% | Unit through independent verification; gameplay requires in-game evidence. |
-| Production readiness | ░░░░░░░░░░░░░░░░ | 0.0% | Operational, security, privacy, compatibility and release gates. |
-| Overall scoped progress | ░░░░░░░░░░░░░░░░ | 0.0% | 60% demonstrated capabilities, 20% implementation, 10% validation, 10% readiness. |
+| Implementation maturity | ░░░░░░░░░░░░░░░░ | 0.2% | Functional states on the assessed main revision. |
+| Validation coverage | ░░░░░░░░░░░░░░░░ | 0.5% | Unit through independent verification; gameplay requires in-game evidence. |
+| Production readiness | ░░░░░░░░░░░░░░░░ | 0.8% | Operational, security, privacy, compatibility and release gates. |
+| Overall scoped progress | ░░░░░░░░░░░░░░░░ | 0.2% | 60% demonstrated capabilities, 20% implementation, 10% validation, 10% readiness. |
 
 Research coverage and completion are distinct. Expanding scope can lower completion. Weights are `workstream weight × item priority`; neither is adjusted to preserve a trend. [Scoring and definitions](PROGRESS_WORKFLOW.md).
 
@@ -30,18 +30,18 @@ Research coverage and completion are distinct. Expanding scope can lower complet
 
 | Workstream | Items | Research | Implementation | Validation | Readiness |
 |---|---:|---:|---:|---:|---:|
-| Minecraft integration and embodiment | 13 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Minecraft integration and embodiment | 13 | 0.0% | 0.7% | 4.3% | 2.7% |
 | Perception and information access | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Action, control and legality | 14 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Action, control and legality | 14 | 0.0% | 0.7% | 1.3% | 2.7% |
 | Model architectures and training | 42 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Learning and adaptation | 47 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Cognition and autonomy | 16 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Construction and spatial creativity | 18 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Memory and identity | 17 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Language, relationships and social behavior | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Infrastructure, runtime and scaling | 11 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Evaluation and evidence | 19 | 0.0% | 0.0% | 0.0% | 0.0% |
-| Safety, security and data governance | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
+| Infrastructure, runtime and scaling | 11 | 0.0% | 0.8% | 1.6% | 3.2% |
+| Evaluation and evidence | 19 | 0.0% | 0.9% | 1.8% | 3.6% |
+| Safety, security and data governance | 15 | 0.0% | 1.6% | 3.2% | 6.4% |
 | Multi-agent infrastructure and population scaling | 15 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Minecraft-specific gameplay competencies | 62 | 0.0% | 0.0% | 0.0% | 0.0% |
 | Training data and experiment lifecycle | 12 | 0.0% | 0.0% | 0.0% | 0.0% |
@@ -77,9 +77,9 @@ Gate percentage is calculated from each milestone’s evidence-reviewed criteria
 
 ## GitHub workflow audit
 
-Checked: 2026-10-27T19:33:21Z · open issues: **80** · open PRs: **0** · issues closed administratively: **101**.
+Checked: 2026-10-28T01:34:52Z · open issues: **80** · open PRs: **0** · issues closed administratively: **101**.
 
-80 new open issues now map every canonical research/engineering item into 15 workstream epics and 65 actionable packages. These are execution plans, not capability evidence. The previous 101 administrative issue closures and eight unmerged PR closures meet no implementation acceptance criteria.
+80 open issues, 0 open PRs verified after the squash-merges of #217-#223; all six worked issue packages remain open for unmet acceptance gates. 330 items map to 65 packages and 15 epics. Neither earlier administrative closures nor merged offline/probe infrastructure satisfy Minecraft capability gates.
 
 ## Unmerged PR history (including closed PRs)
 
