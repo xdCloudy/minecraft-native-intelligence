@@ -531,6 +531,7 @@ intended use; collection, training, evaluation, derivatives, publishing and
 redistribution are not interchangeable.
 
 The gate checks source hashes and references are *declared*, review/use status,
+review timestamps that are timezone-aware and already effective,
 consent purpose, separate chat opt-in, retention expiry, withdrawal, pending
 deletion, and recursive lineage. A revoked ancestor blocks future use of its
 descendants. All test data are synthetic.

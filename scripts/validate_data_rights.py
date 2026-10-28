@@ -37,6 +37,15 @@ def expiry_valid(expires_at: str | None, now: datetime) -> bool:
         return False
 
 
+def review_effective(reviewed_at: str, now: datetime) -> bool:
+    """An approval cannot authorize use before its stated review time."""
+    try:
+        parsed = datetime.fromisoformat(reviewed_at.replace("Z", "+00:00"))
+        return parsed.tzinfo is not None and parsed <= now
+    except (ValueError, TypeError, AttributeError, OverflowError):
+        return False
+
+
 def authorize_use(
     manifests: dict[str, dict[str, Any]],
     artifact_id: str,
@@ -73,6 +82,8 @@ def authorize_use(
         active.add(identifier)
         if manifest["review"]["status"] != "approved":
             return "review_not_approved"
+        if not review_effective(manifest["review"]["reviewed_at"], current):
+            return "review_timestamp_invalid_or_future"
         if purpose not in manifest["review"]["approved_uses"]:
             return "use_not_approved"
         retention = manifest["retention"]
