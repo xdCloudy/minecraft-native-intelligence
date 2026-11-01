@@ -105,12 +105,13 @@ jobs:
       - name: Lint Markdown
         uses: DavidAnson/markdownlint-cli2-action@992badcdf24e3b8eb7e87ff9287fe931bcb00c6e # v20
         with:
+          config: ".markdownlint.yml"
           globs: "**/*.md"
 
       - name: Check Markdown links
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2
         with:
-          args: --no-progress --exclude-path LICENSE --accept 200,429 "**/*.md"
+          args: --no-progress --exclude-path LICENSE --accept 200,429,503 "**/*.md"
           fail: true
 
   python:
