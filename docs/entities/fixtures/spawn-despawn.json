@@ -1,0 +1,8 @@
+{
+  "format": "entity-identity-fixture.v0",
+  "case_id": "EI-01.case-1",
+  "current_observation_sequence": 1,
+  "coverage": "complete",
+  "previous_tracks": [],
+  "current_observation_refs": ["obs-1"]
+}

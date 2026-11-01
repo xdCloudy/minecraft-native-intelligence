@@ -1,0 +1,29 @@
+{
+  "format": "entity-identity-fixture.v0",
+  "case_id": "EI-03.case-1",
+  "current_observation_sequence": 12,
+  "coverage": "complete",
+  "previous_tracks": [
+    {
+      "handle": "t1",
+      "observation_ref": "obs-12",
+      "is_existing": true,
+      "gap_windows": 0,
+      "signal_scores": {
+        "type_compatibility": 1,
+        "visible_appearance": 1
+      }
+    },
+    {
+      "handle": "t2",
+      "observation_ref": "obs-12",
+      "is_existing": true,
+      "gap_windows": 0,
+      "signal_scores": {
+        "type_compatibility": 1,
+        "visible_appearance": 1
+      }
+    }
+  ],
+  "current_observation_refs": ["obs-12"]
+}

@@ -1,0 +1,19 @@
+{
+  "format": "entity-identity-fixture.v0",
+  "case_id": "EI-02.case-1",
+  "current_observation_sequence": 4,
+  "coverage": "partial",
+  "previous_tracks": [
+    {
+      "handle": "t1",
+      "observation_ref": "obs-4",
+      "is_existing": true,
+      "gap_windows": 2,
+      "signal_scores": {
+        "type_compatibility": 1,
+        "visible_appearance": 1
+      }
+    }
+  ],
+  "current_observation_refs": ["obs-4"]
+}

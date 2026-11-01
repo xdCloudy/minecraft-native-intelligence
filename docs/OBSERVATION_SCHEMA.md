@@ -383,8 +383,10 @@ An `observation_ref` only correlates fields/events inside the declared current
 observation/event window. It is **not** a server UUID and is not guaranteed to
 represent persistent identity across occlusion/re-observation.
 
-Issue #5 owns the next decision: when/how sensed entity identity may persist or
-be probabilistically re-associated without server-global truth leakage.
+Issue #5's proposed entity continuity design is in
+[ENTITY_IDENTITY.md](ENTITY_IDENTITY.md). The proposal keeps this observation
+reference ephemeral and moves any cross-observation hypothesis to
+agent-owned memory.
 
 Hidden health, inventory, internal UUID, target AI, pathing state, and unseen
 effects are not v0 entity fields.
@@ -605,16 +607,10 @@ Issue #3 intentionally does **not** decide persistent sensed-entity identity.
 
 The v0 `observation_ref` is ephemeral.
 
-Issue #5 may introduce:
-
-- re-identification hypotheses;
-- stable sensed handles;
-- uncertainty/confidence;
-- graph/token representation; and
-- spawn/despawn/occlusion semantics.
-
-That work can extend/refine the entity representation without changing the rest
-of the observation envelope.
+Issue #5 proposes a memory-owned association graph with opaque, scoped track
+handles and explicit uncertainty. It does not add stable entity identity to
+the observation payload or change the rest of this envelope. See
+[ENTITY_IDENTITY.md](ENTITY_IDENTITY.md) and `docs/entities/identity.v0.json`.
 
 ## Relationship to #6
 

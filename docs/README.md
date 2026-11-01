@@ -28,7 +28,7 @@ Return to the [project README](../README.md) for the overview and current progre
 
 These are research-oriented subsystem notes, not finished implementations:
 
-- [Perception](PERCEPTION.md) and [world models](WORLD_MODEL.md)
+- [Perception](PERCEPTION.md), [entity identity](ENTITY_IDENTITY.md), and [world models](WORLD_MODEL.md)
 - [Memory](MEMORY.md), [learning](LEARNING.md), and [training](TRAINING.md)
 - [Language](LANGUAGE.md), [personality](PERSONALITY.md), and [multi-agent behaviour](MULTI_AGENT.md)
 - [Safety](SAFETY.md) and [data systems](DATA.md)

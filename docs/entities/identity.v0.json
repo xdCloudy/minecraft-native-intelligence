@@ -1,0 +1,348 @@
+{
+  "contract_version": "entity-identity.v0",
+  "issue": "#5",
+  "research_question": "Which continuity claims can an agent derive from observations available to an ordinary player, and how should uncertainty survive occlusion and similar entities?",
+  "answer": {
+    "identity_continuity": "The adapter supplies only observation-local references. The agent runtime may maintain separate, agent-owned perceptual tracks as uncertain hypotheses. A track is not the entity's true identity, and the score buckets are heuristic ordering aids rather than probabilities.",
+    "observed_versus_derived": {
+      "observed": [
+        "Current visible entity type, relative position and velocity, pose, display text, visible equipment, and cue flags from observation.v0.",
+        "Observation coverage and player-facing events delivered in the current declared window."
+      ],
+      "derived": [
+        "Candidate links from a current observation to an agent-owned perceptual track.",
+        "A bounded heuristic score and bucket computed from declared visible cues and elapsed observation windows."
+      ]
+    }
+  },
+  "options": [
+    {
+      "id": "server_identifier",
+      "description": "Expose a server UUID or persistent mod handle as sensed entity identity.",
+      "verdict": "rejected",
+      "why": "It leaks authoritative continuity unavailable to an ordinary player and bypasses the re-identification question."
+    },
+    {
+      "id": "observation_reference_only",
+      "description": "Keep entity references local to one observation and do not maintain cross-observation hypotheses.",
+      "verdict": "component",
+      "why": "This remains the correct environment boundary and is insufficient by itself for persistent memory association."
+    },
+    {
+      "id": "typed_tuple_set",
+      "description": "Represent each entity track as a fixed typed tuple or set of feature values.",
+      "verdict": "component",
+      "why": "Useful for deterministic baselines, but relations, competing hypotheses, and provenance need explicit graph edges or parallel structures."
+    },
+    {
+      "id": "agent_owned_association_graph",
+      "description": "Keep observations as evidence nodes and maintain ranked, revisable links to agent-owned perceptual tracks.",
+      "verdict": "adopted",
+      "why": "It separates evidence from derived continuity, allows multiple candidates, and keeps memory ownership explicit."
+    },
+    {
+      "id": "opaque_tokens",
+      "description": "Use opaque tokens to reference observations and agent-owned perceptual tracks.",
+      "verdict": "component",
+      "why": "Tokens are suitable references inside the graph, but a stable token alone would falsely imply identity and carries no uncertainty or evidence."
+    },
+    {
+      "id": "display_name_key",
+      "description": "Treat visible name text as a stable entity key.",
+      "verdict": "rejected",
+      "why": "Names can be absent, duplicated, changed, or spoofed by player-facing content."
+    },
+    {
+      "id": "pixel_tracker",
+      "description": "Use screenshot-only tracking as the primary identity interface.",
+      "verdict": "comparison_only",
+      "why": "It changes the core interface to a pixel controller and is reserved for a separately scoped comparison."
+    }
+  ],
+  "decision": {
+    "summary": "Retain ephemeral observation references and represent cross-observation continuity as agent-owned, scored hypotheses. Scores are heuristic, not calibrated probabilities; ambiguity never authorizes identity or memory merging.",
+    "adr": "ADR-0016"
+  },
+  "evidence_layer": {
+    "observation_schema": "observation.v0",
+    "ref_semantics": "observation_local_only",
+    "unchanged": true
+  },
+  "track_layer": {
+    "owner": "memory_boundary",
+    "representation": "association_graph",
+    "inputs": [
+      "policy.entities.items[*].type_id",
+      "policy.entities.items[*].relative_position",
+      "policy.entities.items[*].relative_velocity",
+      "policy.entities.items[*].pose",
+      "policy.entities.items[*].display_name",
+      "policy.entities.items[*].equipment",
+      "policy.entities.items[*].cue_flags",
+      "policy.entities.coverage",
+      "policy.events.items[*]"
+    ],
+    "outputs": [
+      "Opaque agent-local track handles",
+      "Candidate observation-to-track links with score, bucket, and contributing evidence"
+    ],
+    "persistence": [
+      "Track handles are scoped to an agent and world/memory epoch.",
+      "Track records preserve provenance and may be split, retired, or left ambiguous.",
+      "No track handle is a server UUID, Minecraft entity ID, profile ID, or policy-observation field."
+    ]
+  },
+  "identity_states": [
+    {
+      "state": "new",
+      "entry": "A current observation has no candidate link to an existing perceptual track.",
+      "exit": "A later observation supplies enough player-visible evidence for a candidate association, or the track is retired by memory policy.",
+      "bucket_ceiling": "ambiguous"
+    },
+    {
+      "state": "tracked",
+      "entry": "One candidate link is currently preferred, while the source observations remain available for revision.",
+      "exit": "A conflicting observation, competing candidate, observation gap, or split decision lowers or invalidates the association.",
+      "bucket_ceiling": "certain"
+    },
+    {
+      "state": "occluded_hypothesis",
+      "entry": "A previously observed track is not currently sensed while entity coverage is partial or unavailable.",
+      "exit": "The same track receives new candidate evidence, or the configured memory-retention policy retires the hypothesis.",
+      "bucket_ceiling": "plausible"
+    },
+    {
+      "state": "reassociated",
+      "entry": "A re-observed entity has a candidate link to a previously occluded track.",
+      "exit": "Subsequent evidence confirms, weakens, or splits the candidate association.",
+      "bucket_ceiling": "strong"
+    },
+    {
+      "state": "not_sensed_in_scope",
+      "entry": "The entity collection is complete for its declared sensor scope and contains no observation linked to this track.",
+      "exit": "A later observation supplies candidate evidence or memory policy retires the hypothesis.",
+      "bucket_ceiling": "ambiguous"
+    },
+    {
+      "state": "retired",
+      "entry": "The agent's memory policy expires a track or an explicit split removes it from current association.",
+      "exit": "Terminal within the current memory epoch; a new track receives a new opaque handle.",
+      "bucket_ceiling": "ambiguous"
+    }
+  ],
+  "signals": [
+    {
+      "id": "type_compatibility",
+      "channel": "vision",
+      "access_rule_ids": ["ia.visual.frustum", "ia.visual.distance", "ia.visual.occlusion", "ia.entity.visible_properties"],
+      "weight": 20,
+      "scoring_contribution": "base",
+      "max_signal_score": 1,
+      "notes": "Compatibility between currently visible and previously observed types; transformation ambiguity remains."
+    },
+    {
+      "id": "motion_continuity",
+      "channel": "vision",
+      "access_rule_ids": ["ia.visual.frustum", "ia.visual.distance", "ia.visual.occlusion", "ia.entity.visible_properties", "ia.negative.coverage_required"],
+      "weight": 25,
+      "scoring_contribution": "time_sensitive",
+      "max_signal_score": 1,
+      "notes": "Relative position and velocity continuity within the declared speed envelope; missing samples are unknown."
+    },
+    {
+      "id": "visible_appearance",
+      "channel": "vision",
+      "access_rule_ids": ["ia.visual.frustum", "ia.visual.distance", "ia.visual.occlusion", "ia.entity.visible_properties"],
+      "weight": 15,
+      "scoring_contribution": "base",
+      "max_signal_score": 1,
+      "notes": "Visible pose, equipment identities, and declared cue flags; similarity alone cannot merge tracks."
+    },
+    {
+      "id": "display_text",
+      "channel": "vision",
+      "access_rule_ids": ["ia.visual.frustum", "ia.visual.distance", "ia.visual.occlusion", "ia.entity.visible_properties"],
+      "weight": 10,
+      "scoring_contribution": "base",
+      "max_signal_score": 1,
+      "notes": "Visible name/display text is a weak cue, never a unique key."
+    },
+    {
+      "id": "received_communication",
+      "channel": "chat",
+      "access_rule_ids": ["ia.chat.recipient_delivery", "ia.ui.player_facing"],
+      "weight": 15,
+      "scoring_contribution": "base",
+      "max_signal_score": 1,
+      "notes": "A delivered message can support a candidate link only when its sender identity was player-facing; text alone does not establish identity."
+    },
+    {
+      "id": "observed_relation",
+      "channel": "vision",
+      "access_rule_ids": ["ia.visual.frustum", "ia.visual.distance", "ia.visual.occlusion", "ia.entity.visible_properties"],
+      "weight": 15,
+      "scoring_contribution": "base",
+      "max_signal_score": 1,
+      "notes": "A visible mount/passenger or other declared relation is evidence about a relation, not identity inheritance."
+    }
+  ],
+  "policy": {
+    "buckets": ["ambiguous", "plausible", "strong", "certain"],
+    "thresholds": {
+      "ambiguous_min": 0,
+      "plausible_min": 25,
+      "strong_min": 50,
+      "certain_min": 75
+    },
+    "tie_break": [
+      "Rank by descending aggregate score.",
+      "Exact ties remain ambiguous; stable ordering by opaque track handle is presentation only and is not evidence.",
+      "Retain competing candidates within the same non-ambiguous bucket; never force a one-to-one match."
+    ],
+    "decay": {
+      "model": "linear score decay per missed observation window, floored at zero",
+      "parameter": 5,
+      "unit": "score points per missed observation window"
+    },
+    "speed_envelope": [
+      {"scope": "ordinary walking or running", "blocks_per_tick": 0.8},
+      {"scope": "known vehicle or projectile class", "blocks_per_tick": 4.0},
+      {"scope": "unknown movement class", "blocks_per_tick": 0}
+    ],
+    "merge": [
+      "Do not merge perceptual tracks into a true-identity record.",
+      "An association score ranks candidates only; any memory consolidation must preserve source episodes and remain reversible.",
+      "Partial or unavailable coverage cannot support absence or despawn."
+    ],
+    "split": [
+      "Allow an agent-memory track to split when later visible evidence supports multiple explanations.",
+      "Preserve prior observations and the split reason in provenance.",
+      "Never repair an ambiguous split using server identifiers or evaluator ground truth."
+    ]
+  },
+  "edge_cases": [
+    {
+      "id": "EI-01",
+      "name": "spawn_and_despawn",
+      "category": "spawn_despawn",
+      "rule": "A first sighting is new-to-memory, not proof of world spawn. Complete declared coverage supports only not-sensed-in-scope; partial coverage says nothing about despawn.",
+      "signals_used": ["type_compatibility", "motion_continuity"],
+      "fixtures": ["spawn-despawn.json", "complete-scope-absence.json"]
+    },
+    {
+      "id": "EI-02",
+      "name": "occlusion_gap",
+      "category": "occlusion",
+      "rule": "Partial or unavailable entity coverage creates an occluded hypothesis and applies bounded score decay; it does not retire or confirm the track.",
+      "signals_used": ["motion_continuity", "visible_appearance"],
+      "fixtures": ["occlusion-gap.json"]
+    },
+    {
+      "id": "EI-03",
+      "name": "similar_entities",
+      "category": "similar_entities",
+      "rule": "Two plausible candidates remain distinct and ambiguous; similar type, equipment, or display text cannot collapse them.",
+      "signals_used": ["type_compatibility", "visible_appearance", "display_text"],
+      "fixtures": ["similar-entities.json"]
+    },
+    {
+      "id": "EI-04",
+      "name": "mounts_and_projectiles",
+      "category": "mounts_projectiles",
+      "rule": "Mount, passenger, projectile, and thrower are separate tracks. Only a currently visible relation is recorded; relation does not transfer identity.",
+      "signals_used": ["type_compatibility", "motion_continuity", "observed_relation"],
+      "fixtures": ["mount-projectile.json"]
+    },
+    {
+      "id": "EI-05",
+      "name": "information_loss",
+      "category": "information_loss",
+      "rule": "Unknown fields, dropped windows, or partial coverage contribute no negative evidence and cannot retire a track by themselves.",
+      "signals_used": ["motion_continuity", "visible_appearance"],
+      "fixtures": ["information-loss.json"]
+    }
+  ],
+  "hard_rules": [
+    "Only observation.v0 policy fields and player-facing events may contribute evidence; meta, server state, evaluator labels, and internal entity identifiers are prohibited.",
+    "Observation references remain local to their declared observation/event window and are not persisted as identity.",
+    "Perceptual track handles are opaque and scoped to one agent and world/memory epoch.",
+    "Scores and buckets are scripted heuristics in this prototype, not learned competence, calibrated confidence, or proof of identity.",
+    "Partial or unavailable coverage never means entity absence, death, or despawn.",
+    "Mounts, passengers, projectiles, and owners retain separate tracks; relationships never transfer identity.",
+    "Uncertainty and source provenance survive memory updates, splits, and retirement."
+  ],
+  "conformance": {
+    "prototype": "scripts/validate_entity_identity.py",
+    "fixtures_root": "fixtures",
+    "cases": [
+      {
+        "id": "EI-01.case-1",
+        "name": "first_sighting_not_spawn_claim",
+        "fixture": "spawn-despawn.json",
+        "expected": {
+          "tracks": [
+            {"handle": "t1", "state": "new", "bucket": "ambiguous", "aggregate": 0}
+          ],
+          "leakage_free": true
+        }
+      },
+      {
+        "id": "EI-01.case-2",
+        "name": "complete_scope_does_not_claim_world_despawn",
+        "fixture": "complete-scope-absence.json",
+        "expected": {
+          "tracks": [
+            {"handle": "t1", "state": "not_sensed_in_scope", "bucket": "ambiguous", "aggregate": 0}
+          ],
+          "leakage_free": true
+        }
+      },
+      {
+        "id": "EI-02.case-1",
+        "name": "occlusion_preserves_hypothesis",
+        "fixture": "occlusion-gap.json",
+        "expected": {
+          "tracks": [
+            {"handle": "t1", "state": "reassociated", "bucket": "plausible", "aggregate": 25}
+          ],
+          "leakage_free": true
+        }
+      },
+      {
+        "id": "EI-03.case-1",
+        "name": "similar_entities_remain_ambiguous",
+        "fixture": "similar-entities.json",
+        "expected": {
+          "tracks": [
+            {"handle": "t1", "state": "tracked", "bucket": "plausible", "aggregate": 35},
+            {"handle": "t2", "state": "tracked", "bucket": "plausible", "aggregate": 35}
+          ],
+          "leakage_free": true
+        }
+      },
+      {
+        "id": "EI-04.case-1",
+        "name": "mount_relation_does_not_merge_tracks",
+        "fixture": "mount-projectile.json",
+        "expected": {
+          "tracks": [
+            {"handle": "t1", "state": "tracked", "bucket": "plausible", "aggregate": 30},
+            {"handle": "t2", "state": "new", "bucket": "ambiguous", "aggregate": 0}
+          ],
+          "leakage_free": true
+        }
+      },
+      {
+        "id": "EI-05.case-1",
+        "name": "partial_information_does_not_retire",
+        "fixture": "information-loss.json",
+        "expected": {
+          "tracks": [
+            {"handle": "t1", "state": "occluded_hypothesis", "bucket": "ambiguous", "aggregate": 0}
+          ],
+          "leakage_free": true
+        }
+      }
+    ]
+  }
+}

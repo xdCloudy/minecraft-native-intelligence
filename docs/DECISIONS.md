@@ -137,6 +137,15 @@ Use the template below for material decisions. Statuses are `proposed`, `accepte
 - **Alternatives:** One omniscient server-state object passed to the runtime; free-form JSON dictionaries; policy exposure of sequence/tick/profile metadata; radius-based block/entity dumps; assign persistent server UUIDs to sensed entities immediately.
 - **Consequences:** Every core field has a source, units/frame, access-rule mapping, visibility status, precision and unknown/absence semantics in `fields.v0.json`. #5 can now research re-identification without a server-UUID shortcut, #6 can compare richer geometry encodings under the same access rules, #61 can build full protocol negotiation, and #64 can define cadence/backpressure without changing unknown-versus-absent meaning. See [OBSERVATION_SCHEMA.md](OBSERVATION_SCHEMA.md) and `docs/observations/`.
 
+## ADR-0016 — Sensed entity continuity is an agent-owned hypothesis
+
+- **Date:** 2026-10-27
+- **Status:** proposed
+- **Context:** Observation v0 intentionally provides only observation-local entity references. Persistent continuity could support memory, but server identifiers would leak truth unavailable to a player and heuristic re-identification can confuse similar entities.
+- **Decision:** Keep observation references ephemeral and represent cross-observation continuity in an agent-owned association graph. Its inputs are policy-visible observation fields and player-facing events; its handles are opaque and scoped to an agent/world-memory epoch. The current weighted scoring and buckets are scripted research scaffolding, not calibrated confidence or proof of identity. Ambiguity never authorizes merging true identity or memory.
+- **Alternatives:** Expose server UUID/entity IDs; use display names as unique keys; omit all cross-observation hypotheses; make screenshot tracking the primary interface.
+- **Consequences:** The observation v0 contract stays unchanged. Synthetic conformance fixtures exercise spawn/first sighting, occlusion, similar entities, mounts/projectiles, and information loss. Runtime integration and the heuristic parameters still require controlled evaluation before they can support a capability claim.
+
 ## Open decision queue
 
 Fabric embodiment validation, whether clients ultimately need the mod, exact player lifecycle hooks, observation and action granularity, model family, training framework, persistence store, telemetry format, skin catalog source, deterministic simulation approach, personal adaptation, and model serving remain unresolved.

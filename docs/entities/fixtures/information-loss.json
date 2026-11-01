@@ -1,0 +1,15 @@
+{
+  "format": "entity-identity-fixture.v0",
+  "case_id": "EI-05.case-1",
+  "current_observation_sequence": 33,
+  "coverage": "unavailable",
+  "previous_tracks": [
+    {
+      "handle": "t1",
+      "is_existing": true,
+      "gap_windows": 5,
+      "signal_scores": {}
+    }
+  ],
+  "current_observation_refs": []
+}
