@@ -12,6 +12,34 @@ The contract is intentionally separate from the executable experiment runner.
 Issue #46 owns the reproducible runner and artifact execution layer. This
 document defines what that runner must consume and produce.
 
+## Exploratory paired binary metric audit (issue #192)
+
+`scripts/paired_binary_evaluation.py` reads two immutable
+`eval.result.v1` manifests and compares a **preselected Boolean trial metric**
+over identical scenario hashes and exactly matched typed seeds/repetitions:
+
+```sh
+python scripts/paired_binary_evaluation.py left-result.json right-result.json --metric primary_success
+```
+
+It reports the complete 2×2 paired success table, each success rate, the paired
+rate difference, and an exact two-sided McNemar/binomial p-value for discordant
+pairs. This is **exploratory, not a benchmark result**. It rejects mismatched
+scenario revisions or trial coverage, missing/non-Boolean metrics, failed or
+partial trials, retry attempts, interventions, unexpected deviations, policy-
+visible privileged inputs, duplicate attempts and inconsistent raw-trial
+status counts. It does not silently discard failure cases.
+
+The metric definition and failure treatment must be registered **before**
+conducting experiments; this utility deliberately refuses retry/failure
+policies that require a separate preregistered analysis. Any synthetic
+fixture is labelled `synthetic_only`. A nominal p-value is not a causal
+finding, power calculation, multiple-test correction, confidence interval, or
+evidence of learned behaviour. Results require independent held-out Survival
+executions, validated information parity, preregistered hypotheses, power and
+uncertainty assessment before making capability claims. Rejected runs should
+be retained as negative evidence rather than deleted.
+
 ## Core rule
 
 A result is not an evaluation result unless the scenario and result manifests
@@ -337,6 +365,31 @@ Every persisted artifact referenced by a result uses:
 Git commit IDs are used for source revisions where applicable. Mutable branch
 names are not sufficient provenance.
 
+## Construction evaluation: plans are not finished structures
+
+Construction studies (see `BU-016`–`BU-018`, `GP-061`–`GP-062` and `EV-018`)
+must record distinct artifacts and outcomes at each stage. A policy may succeed
+at one stage and fail at another; no roll-up may turn plan-only success into an
+in-world construction claim.
+
+| Gate | Observable evidence | Failure examples |
+| --- | --- | --- |
+| Specification | Parsed intent, dimensions, constraints, clarification log, rejected impossible requests | Hallucinated material availability or ignored contradictory player intent |
+| Blueprint | Versioned block palette, 3D coordinates/orientation, construction dependencies, uncertainty labels for hidden geometry | Impossible placements, invalid palette, unseen image regions presented as known |
+| Procurement | Legal inventory/container transactions, measured bill of materials, reserved resources | Missing materials, duplicated items, creative-mode injection, unauthorized withdrawals |
+| Placement | Server-accepted player-equivalent placement/removal actions with ticks and outcomes | Out-of-reach writes, failed placement counted as success, destructively bypassed claims |
+| Verification | Independent world-state comparison to constraints and declared ground truth, safety/lighting/access checks | Cosmetic render passes while physical structure is incomplete or inaccessible |
+| Recovery | Persisted plan/action ledger, disturbance log, resume/repair actions, final checked structure | Repeated placement after restart, loss of design version, uncontrolled terrain edits |
+
+Compare the same objectives on held-out seeds and distinguish reference-image
+fidelity from unobservable geometry guesses. If evaluator-only voxel ground
+truth is used for scoring, keep it outside the agent's observation interface.
+Report the fraction of requested projects *actually completed by legal in-game
+actions*, in addition to blueprint quality, survival duration, materials,
+action counts, repair cost, p95/p99 decision latency and server MSPT/TPS where
+applicable. Include plan-only and template-script controls with their
+non-learned contribution disclosed. No test is claimed executed here.
+
 ## CI and execution strategy
 
 Issue #52 owns the concrete GitHub Actions implementation. The evaluation
@@ -428,3 +481,19 @@ A new evaluation is ready to run only when:
 - [ ] required raw artifacts are declared;
 - [ ] data/privacy restrictions are satisfied; and
 - [ ] runner output will preserve failed and inconclusive attempts.
+
+## Retry-history integrity in offline run comparisons
+
+`scripts/compare_experiment_runs.py` preserves **every** trial attempt by the
+logical variant/seed/repetition identifier and numeric attempt index. The
+highest attempt index determines the final outcome, independent of JSON record
+order. Missing or duplicate retry indices, or retries after a completed attempt,
+fail the comparison rather than silently overwriting evidence.
+
+In addition to final-status changes, comparison output reports
+`logical_trial_attempt_history_changes` so two runs with identical successful
+final outcomes but different failures/timeouts remain distinguishable. This is
+provenance/error accounting only, **not** a statistical capability result.
+It does not establish baseline parity, unbiased sampling, confidence intervals,
+or Minecraft-native benchmark execution. Issue #192 remains open until those
+independent gates are evidenced.

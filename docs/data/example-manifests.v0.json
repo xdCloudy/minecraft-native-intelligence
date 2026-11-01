@@ -1,0 +1,39 @@
+{
+  "fixture-only-001": {
+    "schema_version": "dataset-manifest.v0",
+    "artifact_id": "fixture-only-001",
+    "origin": "synthetic",
+    "source": {
+      "reference": "docs/data/example-manifests.v0.json#fixture-only-001",
+      "version": "example-v0",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "rights_holder": "fixture-only",
+      "license_or_permission_ref": "example-not-a-license"
+    },
+    "consent": {
+      "status": "not_required",
+      "record_id": null,
+      "permitted_uses": []
+    },
+    "review": {
+      "status": "pending",
+      "reviewer": "fixture-placeholder",
+      "reviewed_at": "2026-10-27T00:00:00Z",
+      "approved_uses": []
+    },
+    "personal_data": {
+      "contains_identifiers": false,
+      "contains_chat": false,
+      "chat_opt_in": false
+    },
+    "retention": {
+      "expires_at": null,
+      "deletion_requested": false,
+      "deleted_at": null
+    },
+    "lineage": {
+      "source_ids": [],
+      "transformation_ref": null
+    }
+  }
+}

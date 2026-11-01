@@ -257,3 +257,119 @@ Quilt:
 
 - [Quilt project overview](https://quiltmc.org/en/about/)
 - [Quilt FAQ](https://quiltmc.org/en/about/faq/)
+
+## 2026-10-27 executable Fabric 26.3 baseline spike (#151)
+
+The root Gradle project introduces an installable *platform probe*
+only; it logs Fabric initialization and logical-server start without modifying
+world state or creating a player. It does **not** prove Minecraft-native AI
+embodiment or complete the spike defined above.
+
+The merged platform probe pins Minecraft `26.3`, Java `25`, Fabric Loader
+`0.20.1`, Fabric API `0.165.0+26.3`, Fabric Loom `1.19.3`, and Gradle
+`9.8.2`. These follow the [official Fabric 26.3 example template](https://github.com/FabricMC/fabric-example-mod/tree/26.3)
+and the current [Fabric API releases](https://github.com/FabricMC/fabric-api/releases).
+The [release-day Fabric guide](https://www.fabricmc.net/2026/09/15/263.html)
+listed older tool versions; those historical values above were valid at its
+publication, but are not this experiment's exact pinned build inputs.
+
+The Gradle wrapper scripts/JAR were taken from the official 26.3 example
+template; wrapper JAR SHA-256 is
+`3b8a25775a69158b5ad2b1d17a80a88dc7b40a352a73eb27d06c612a7ce68e98`.
+No game JAR, Mojang assets, skins, player data or model checkpoints are bundled.
+
+### Evidence gates (all distinct)
+
+| Gate | Evidence status |
+| --- | --- |
+| Java 25 Gradle compile and build JAR | **Build passed** in [GitHub Actions run 64](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40604852954), using JDK 25.0.4 and Loom 1.19.3; Java test task had NO-SOURCE |
+| Dedicated logical-server launch and mod event | **T4 smoke validated:** [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964) logged `dedicated=true`, loaded both main and test mods, and passed the GameTest suite |
+| Integrated single-player/LAN logical-server launch | **Single-player smoke passed:** [CI run 40659615906](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659615906); LAN is still untested. |
+| Vanilla-client compatibility and profile/tab-list presentation | Untested |
+| Project-owned player embodiment, Survival parity, death/respawn | Untested |
+| Loader comparison/decision and accepted ADR | Untested; ADR-0008 stays proposed |
+
+Use Java 25 for this pinned Minecraft version. A Java 17 build failure is not
+evidence of a Fabric incompatibility. Player parity requires separate tests.
+
+### Opt-in dedicated-server GameTest gate (2026-10-28)
+
+The spike now registers an experimental Fabric server GameTest from
+`src/gametest`. Its evaluator-only world fixture asserts that a real server can
+load and execute the test mod. The test is intentionally **not** an AI player,
+Survival legality, vanilla-client, integrated-server or autonomy test.
+
+The repository owner authorised accepting the Minecraft EULA for disposable
+development/CI test environments on 2026-10-28. **Consent is invocation-scoped.**
+Running a normal local build does not silently accept the EULA. An operator
+must explicitly pass:
+
+```sh
+./gradlew --no-daemon -Pmni.acceptTestEula=true build test
+```
+
+Read the [Minecraft EULA](https://www.minecraft.net/en-us/eula) before setting
+this flag in another environment. The Minecraft CI job uses this flag for its
+temporary hosted test world; test logs/reports are retained on failure and test
+worlds are not committed. A successful GameTest proves server boot and a
+minimal world assertion **only**. It cannot promote MI-01/MI-004/MI-005/MI-008/
+MI-009 or ADR-0008 without the substantive player lifecycle/parity evidence
+listed earlier. [CI run 75](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40615220964)
+reported `runGameTest`, actual server initialization (`dedicated=true`),
+**2/2 required tests passed in 1.916 seconds**, and a successful Java 25 Gradle
+build in 57 seconds. The MNI-specific server-world fixture is one of those
+GameTests; no player lifecycle or end-to-end model behavior was tested. The
+server's initial missing `eula.txt`/properties warnings did not prevent the
+Fabric test runner from starting under its explicit EULA test configuration.
+The probe and its CI evidence were merged in [PR #221](https://github.com/xdCloudy/minecraft-native-intelligence/pull/221).
+
+### Integrated single-player client GameTest (#151)
+
+Fabric provides a separate client GameTest mechanism: `runClientGameTest` for
+development and a [production client test task](https://docs.fabricmc.net/develop/automatic-testing)
+for CI. The project now adds `MniIntegratedWorldGameTest` and an independent
+`runProductionClientGameTest` CI job. The test creates an integrated single-player
+world, waits for client chunks to render, and captures a screenshot; the hosted
+job uses a virtual framebuffer and software rendering. The main dedicated-server
+GameTest remains a separate gate, so failure of the client test cannot be
+mistaken for a successful world-parity check.
+
+The pinned Fabric API `0.165.0+26.3` exposes
+`TestSingleplayerContext.getConnection().waitForChunksRender()`; earlier
+Fabric tutorials show `getClientLevel()`, which is not present in this pinned
+version. Compilation must be checked against the exact API, not a floating doc.
+
+The first hosted production-client trial ([CI run #81](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40617975160))
+compiled and passed the dedicated-server tests but **did not boot the client**:
+Minecraft SDL3 reported `Couldn't find matching GLX visual`; Vulkan also
+lacked its surface extension. The job timed out after 20 minutes. The retry
+also failed in [CI run #83](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40620255071)
+after `glxinfo` reported OpenGL 4.5: the SDL window could not obtain a matching
+visual, and Vulkan lacked its surface extension. A passing `glxinfo` is therefore
+not proof that the Minecraft window can start.
+
+In a local disposable Ubuntu 24.04 container, Java 25.0.4.1, Mesa 25.2.8,
+Xvfb and Mesa's software Vulkan driver launched the client after OpenGL failed.
+The production task initially exited successfully without loading the test mod
+or running any tests. Packaging the separate GameTest source set as a test-only
+JAR and including it in the production launch loaded the entrypoint, started an
+integrated world, rendered chunks and produced the screenshot. The CI job now
+installs the Vulkan driver and requires a fresh screenshot so an empty test run
+cannot pass silently. The screenshot is an execution marker, not an automated
+visual correctness assertion. [Hosted CI run 40659615906](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659615906)
+passed against PR head `84d355b5f106082ccb65884dd508cf461229a353` and retained
+the screenshot and logs as a short-lived artifact.
+The subsequent [run 40659879395](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40659879395)
+timed out before Gradle logged project configuration or launched the client;
+no client artifact was created. The cause remains unknown. The job now retains
+Gradle daemon logs and enables diagnostic output to investigate a recurrence.
+The next [run 40661048834](https://github.com/xdCloudy/minecraft-native-intelligence/actions/runs/40661048834)
+again timed out before Minecraft started. The final Gradle message was a
+download request for Fabric's `mercury` dependency, with no later progress
+logged. This identifies the phase, not the underlying cause; diagnostic logs
+were retained.
+
+This integrated world smoke test does not establish LAN networking,
+vanilla remote-client presentation, a player-compatible AI, persistence,
+Survival mechanics or a Fabric-vs-NeoForge comparison. Each needs its own
+reproducible acceptance test before associated tracker statuses advance.

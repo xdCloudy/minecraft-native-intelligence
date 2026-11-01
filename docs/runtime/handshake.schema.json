@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:runtime-handshake:v0",
+  "title": "MNI local runtime session negotiation v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "role",
+    "instance_id",
+    "session_epoch",
+    "protocol",
+    "transport",
+    "ready",
+    "schemas",
+    "supported_capabilities",
+    "required_capabilities",
+    "limits",
+    "model"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "runtime-handshake.v0"
+    },
+    "role": {
+      "enum": [
+        "minecraft_mod",
+        "inference_runtime"
+      ]
+    },
+    "instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_epoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "major",
+        "minor"
+      ],
+      "properties": {
+        "major": {
+          "const": 0,
+          "type": "integer"
+        },
+        "minor": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "transport": {
+      "const": "loopback"
+    },
+    "ready": {
+      "type": "boolean"
+    },
+    "schemas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation",
+        "action"
+      ],
+      "properties": {
+        "observation": {
+          "const": "observation.v0"
+        },
+        "action": {
+          "const": "action.v0"
+        }
+      }
+    },
+    "supported_capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_message_bytes",
+        "max_batch"
+      ],
+      "properties": {
+        "max_message_bytes": {
+          "type": "integer",
+          "minimum": 1024
+        },
+        "max_batch": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        }
+      }
+    },
+    "model": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "model_id",
+            "checkpoint_sha256",
+            "revision"
+          ],
+          "properties": {
+            "model_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "checkpoint_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "revision": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

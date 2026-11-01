@@ -24,3 +24,23 @@ Every milestone must preserve legal action constraints, partial observability, p
 ## Current focus
 
 The v0.1 foundation baseline is complete. Current work is v0.2: validate the proposed Fabric/Minecraft baseline through the player-compatible embodiment spike, then prioritize installable-mod packaging, Survival parity, observation/action implementation, information-access enforcement, deterministic Minecraft harnesses, compatibility testing, and telemetry. These determine whether later results are meaningful and should precede model architecture commitments.
+
+## Calculated milestone progress
+
+<!-- MNI_ROADMAP_PROGRESS_START -->
+
+| Milestone | Status | Gate progress | Evidence gates met |
+|---|---|---:|---:|
+| v0.1 — Project Foundation | complete_as_documented | 100.0% | 1/1 |
+| v0.2 — Minecraft Native Interface | in_progress | 20.0% | 0/5 |
+| v0.3 — Agent Runtime | future | 0.0% | 0/1 |
+| v0.4 — Memory | future | 0.0% | 0/1 |
+| v0.5 — Behaviour Baseline | future | 0.0% | 0/1 |
+| v0.6 — Language Grounding | future | 0.0% | 0/1 |
+| v0.7 — Autonomous Behaviour | future | 0.0% | 0/1 |
+| v0.8 — Lifelong Learning | future | 0.0% | 0/1 |
+| v0.9 — Multi-Agent Intelligence | future | 0.0% | 0/1 |
+| v0.10 — Scaling & Simulation | future | 0.0% | 0/1 |
+| v0.11 — Integrated Research Prototype | future | 0.0% | 0/1 |
+| v1.0 — Native Intelligence Research Release | future | 0.0% | 0/1 |
+<!-- MNI_ROADMAP_PROGRESS_END -->

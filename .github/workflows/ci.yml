@@ -4,6 +4,9 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -15,12 +18,14 @@ permissions:
 jobs:
   changes:
     name: Detect changed stacks
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     outputs:
       docs: ${{ steps.filter.outputs.docs }}
       python: ${{ steps.filter.outputs.python }}
       powershell: ${{ steps.filter.outputs.powershell }}
+      minecraft: ${{ steps.filter.outputs.minecraft }}
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -48,6 +53,7 @@ jobs:
           docs=false
           python=false
           powershell=false
+          minecraft=false
 
           while IFS= read -r file; do
             case "$file" in
@@ -68,6 +74,12 @@ jobs:
                 ;;
             esac
 
+            case "$file" in
+              *.java|*.kt|*.gradle|*.gradle.kts|gradlew|gradlew.bat|gradle/*|fabric.mod.json)
+                minecraft=true
+                ;;
+            esac
+
             if [[ "$file" == ".github/workflows/ci.yml" ]]; then
               docs=true
               python=true
@@ -78,6 +90,7 @@ jobs:
           echo "docs=$docs" >> "$GITHUB_OUTPUT"
           echo "python=$python" >> "$GITHUB_OUTPUT"
           echo "powershell=$powershell" >> "$GITHUB_OUTPUT"
+          echo "minecraft=$minecraft" >> "$GITHUB_OUTPUT"
 
   documentation:
     name: Documentation
@@ -103,7 +116,7 @@ jobs:
   python:
     name: Python and JSON tooling
     needs: changes
-    if: needs.changes.outputs.python == 'true'
+    if: needs.changes.outputs.python == 'true' || needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -117,6 +130,18 @@ jobs:
 
       - name: Run deterministic tooling smoke
         run: python scripts/ci_smoke.py
+
+      - name: Validate canonical progress source
+        run: python tools/progress.py validate
+
+      - name: Check generated progress documentation is current
+        run: python tools/progress.py check
+
+      - name: Check local Markdown file links and anchors
+        run: python tools/check_doc_links.py
+
+      - name: Test progress validation and deterministic generation
+        run: python -m unittest discover -s tests -p 'test_*.py'
 
       - name: Upload failure diagnostics
         if: failure()
@@ -159,3 +184,118 @@ jobs:
           if ($failed) {
             exit 1
           }
+
+  github-state:
+    name: Live GitHub tracking
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check issue and PR state against canonical snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/check_github_state.py
+
+  minecraft:
+    name: Minecraft mod compile and unit tests
+    needs: changes
+    if: needs.changes.outputs.minecraft == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+        with:
+          distribution: temurin
+          # Proposed 26.3 baseline requires Java 25 (ADR-0008); revisit with any platform ADR.
+          java-version: "25"
+      - name: Require and execute the Minecraft Gradle wrapper
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f gradlew ]]; then
+            echo "::error::Minecraft sources/build inputs changed, but no root Gradle wrapper exists."
+            exit 1
+          fi
+          chmod +x gradlew
+          # Owner authorized EULA acceptance for ephemeral CI game-test worlds only.
+          # Local builds keep the default false until their operator opts in.
+          ./gradlew --no-daemon --stacktrace -Pmni.acceptTestEula=true build test
+
+      - name: Preserve Minecraft test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: minecraft-test-failure-${{ github.run_id }}
+          path: |
+            build/reports/
+            build/test-results/
+            run/logs/
+            run/crash-reports/
+          if-no-files-found: ignore
+          retention-days: 3
+
+  minecraft-client:
+    name: Integrated single-player client GameTest
+    needs: changes
+    if: needs.changes.outputs.minecraft == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Run Fabric client GameTest on virtual display
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+          ALSOFT_DRIVERS: "null"
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            xvfb xauth mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers vulkan-tools
+          # Disposable CI worlds only; opt-in EULA consent was owner-authorized.
+          # Minecraft 26.3 may reject Xvfb's GLX visual; Mesa's software Vulkan
+          # driver provides a fallback. A bounded launch preserves diagnostics.
+          rm -f run/screenshots/*_mni-integrated-world-smoke.png
+          xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX' \
+            bash -euo pipefail -c '
+              glxinfo -B
+              vulkaninfo --summary
+              timeout --signal=TERM --kill-after=10s 8m \
+                ./gradlew --no-daemon --info --stacktrace \
+                -Pmni.acceptTestEula=true runProductionClientGameTest
+            '
+          # Fabric can exit successfully with zero discovered tests. Require the
+          # artifact produced only after our integrated world renders chunks.
+          find run/screenshots -name '*_mni-integrated-world-smoke.png' -size +0c -print -quit | grep -q .
+
+      - name: Preserve integrated-client screenshots and failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: integrated-client-test-${{ github.run_id }}
+          path: |
+            build/run/clientGameTest/screenshots/
+            run/screenshots/*_mni-integrated-world-smoke.png
+            build/run/clientGameTest/logs/
+            build/run/clientGameTest/crash-reports/
+            run/logs/
+            run/crash-reports/
+            build/reports/
+            build/test-results/
+            ~/.gradle/daemon/9.8.2/daemon-*.out.log
+          if-no-files-found: ignore
+          retention-days: 3

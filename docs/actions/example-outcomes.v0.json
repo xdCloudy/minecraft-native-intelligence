@@ -1,0 +1,20 @@
+[
+  {
+    "schema_version": "action-outcome.v0",
+    "agent_id": "example-agent",
+    "session_epoch": 1,
+    "action_id": "move-0001",
+    "trace_id": "trace-move-0001",
+    "server_tick": 251,
+    "phase": "accepted"
+  },
+  {
+    "schema_version": "action-outcome.v0",
+    "agent_id": "example-agent",
+    "session_epoch": 1,
+    "action_id": "move-0001",
+    "trace_id": "trace-move-0001",
+    "server_tick": 255,
+    "phase": "completed"
+  }
+]

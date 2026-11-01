@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mni:action:v0",
+  "title": "MNI typed, player-equivalent action request v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "agent_id",
+    "session_epoch",
+    "action_id",
+    "observation_seq",
+    "submitted_tick",
+    "expires_tick",
+    "trace_id",
+    "intent"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "action.v0"
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "session_epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "action_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "observation_seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "submitted_tick": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "expires_tick": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+    },
+    "intent": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "forward",
+            "strafe",
+            "duration_ticks"
+          ],
+          "properties": {
+            "type": {
+              "const": "move"
+            },
+            "forward": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "strafe": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "duration_ticks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "yaw_delta_degrees",
+            "pitch_delta_degrees"
+          ],
+          "properties": {
+            "type": {
+              "const": "look"
+            },
+            "yaw_delta_degrees": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            "pitch_delta_degrees": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "pressed",
+            "duration_ticks"
+          ],
+          "properties": {
+            "type": {
+              "const": "jump"
+            },
+            "pressed": {
+              "type": "boolean"
+            },
+            "duration_ticks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "target_ref"
+          ],
+          "properties": {
+            "type": {
+              "const": "attack"
+            },
+            "target_ref": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "target_ref"
+          ],
+          "properties": {
+            "type": {
+              "const": "mine"
+            },
+            "target_ref": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "target_ref",
+            "face",
+            "hand"
+          ],
+          "properties": {
+            "type": {
+              "const": "place"
+            },
+            "target_ref": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+            },
+            "face": {
+              "enum": [
+                "up",
+                "down",
+                "north",
+                "south",
+                "east",
+                "west"
+              ]
+            },
+            "hand": {
+              "enum": [
+                "main",
+                "off"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "target_ref",
+            "hand"
+          ],
+          "properties": {
+            "type": {
+              "const": "interact"
+            },
+            "target_ref": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._:/-]{1,128}$"
+            },
+            "hand": {
+              "enum": [
+                "main",
+                "off"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "slot"
+          ],
+          "properties": {
+            "type": {
+              "const": "select_hotbar"
+            },
+            "slot": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 8
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "recipe_id",
+            "count"
+          ],
+          "properties": {
+            "type": {
+              "const": "craft"
+            },
+            "recipe_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9_.-]+:[a-z0-9_./-]+$"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "message"
+          ],
+          "properties": {
+            "type": {
+              "const": "chat"
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "scope"
+          ],
+          "properties": {
+            "type": {
+              "const": "stop"
+            },
+            "scope": {
+              "const": "active_intent"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

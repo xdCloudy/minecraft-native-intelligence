@@ -177,6 +177,33 @@ The listener must bind only to loopback by default. Remote listening is out of
 scope for this issue and requires explicit authentication, encryption,
 authorization, deployment, and threat-model work.
 
+## Executable v0 session-negotiation fixture (experimental)
+
+The [logical handshake schema](runtime/handshake.schema.json) and
+[offline negotiator](../scripts/validate_runtime_handshake.py) provide a small,
+standard-library-only T1/T2 acceptance prototype under issue #191. They are
+**not** a gRPC/Protobuf wire implementation, transport, credential system, or
+running model service. The JSON format is only a language-neutral fixture; the
+planned production wire remains Protobuf.
+
+A mod/runtime pair must advertise version 0, the same epoch, distinct instance
+IDs, compatible minor versions, the exact observation/action v0 contracts,
+loopback transport, readiness, mandatory bilateral capabilities, finite
+message/batch limits, and an approved model checkpoint SHA-256. Negotiation
+uses the stricter limit and protocol version. It fails closed on malformed
+advertisements, unknown fields, stale epoch, missing model, or unapproved
+checkpoint. A successful result **does not authenticate the process** or
+authorize gameplay actions; the service-management layer must authenticate
+channels, bind handshake results to the connection, fence old sessions, and
+the mod must validate every action.
+
+Run `python -m unittest tests.test_runtime_handshake` to exercise synthetic
+acceptance/rejection fixtures. Outstanding gates: protobuf generation,
+authenticated local service discovery, async Java client, reference model
+worker, per-agent isolation/fencing, backpressure, restart recovery, real
+Minecraft integration, and measured p50/p95/p99 latency. No Minecraft/model
+evaluation has been performed by this prototype.
+
 ## Protocol shape
 
 Use one long-lived asynchronous runtime session rather than a synchronous RPC

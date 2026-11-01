@@ -3,6 +3,11 @@
 The repository uses one stack-aware GitHub Actions workflow:
 `.github/workflows/ci.yml`.
 
+For documentation edits, follow the [style guide](STYLE_GUIDE.md) and
+[documentation index](README.md). The local link checker covers repository
+navigation; the hosted link checker covers external URLs and can report remote
+service timeouts independently of broken local references.
+
 ## Goals
 
 CI should:
@@ -37,6 +42,16 @@ Remote checks:
 
 - markdownlint;
 - link validation with lychee.
+
+The Python job also checks all local Markdown file references and heading/explicit
+anchors without depending on a network connection:
+
+```bash
+python tools/check_doc_links.py
+```
+
+This validates local navigation even if remote reference sites are temporarily
+unavailable. It is not a substitute for checking external citation URLs.
 
 Equivalent local commands, when those tools are installed:
 
@@ -103,6 +118,16 @@ if ($failed) { exit 1 }
 ```
 
 No PowerShell modules are installed solely for CI at this stage.
+
+## Future Minecraft/Java gate
+
+Java and Gradle input changes activate the real Gradle-wrapper build job, using
+Temurin **25** to match the proposed Minecraft 26.3 baseline in
+[`MOD_PLATFORM.md`](MOD_PLATFORM.md). The workflow deliberately fails if a
+Java implementation is submitted without a root Gradle wrapper. The Java and
+loader choice remains contingent on the player-embodiment spike and an accepted
+platform ADR; future version decisions must update this CI toolchain together
+with the docs. A compilation pass cannot substitute for in-game GameTests.
 
 ## Action pinning
 

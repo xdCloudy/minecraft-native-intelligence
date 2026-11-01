@@ -1,15 +1,22 @@
 # Contributing
 
-This project welcomes research, design, documentation, evaluation, tooling, and—when milestones reach it—implementation contributions. It is early-stage: discuss large architectural work in an issue before investing heavily.
+Contributions to research, design, documentation, evaluation, and tooling are welcome. Minecraft mod and agent implementation work must respect the staged roadmap; the project has no working AI-player release yet.
+
+**New here?** Read the [documentation guide](docs/README.md) and [project goal](docs/GOAL.md) first. The [documentation style guide](docs/STYLE_GUIDE.md) covers writing and generated files.
 
 ## Before starting
 
-Read [`docs/GOAL.md`](docs/GOAL.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`ROADMAP.md`](ROADMAP.md), and [`AGENTS.md`](AGENTS.md). Select or open a scoped issue with a milestone, area, type, and priority. Research work should state its question, evidence plan, expected artifact, and decision it can unblock.
+Read the [goal](docs/GOAL.md), [architecture](ARCHITECTURE.md), [roadmap](ROADMAP.md), and [agent instructions](AGENTS.md). For substantial architecture changes, open a design issue before implementing. State the question, evidence plan, expected artifact, and decision the work could unblock.
 
 ## Finding and choosing work
 
-Use [ROADMAP.md](ROADMAP.md) to identify the current milestone, then prefer an
-issue labelled `status:ready`.
+Use [ROADMAP.md](ROADMAP.md) to identify the current milestone, then consult
+the [critical-path backlog](docs/BACKLOG.md). Run `python tools/backlog.py --live`
+for the ranked work queue: it checks real prerequisites and takes precedence
+over possibly stale `status:ready` labels. If none is available, investigate
+the active blockers or propose a scoped research issue; administratively
+closed issues do not mean their engineering requirements are completed.
+Check the [feature matrix](docs/FEATURE_MATRIX.md) for current evidence state.
 
 Before starting:
 
@@ -45,6 +52,41 @@ uses [docs/DATA_GOVERNANCE.md](docs/DATA_GOVERNANCE.md).
 4. Use the ecosystem's standard formatter/linter once a stack exists.
 5. Update docs and `docs/DECISIONS.md` when contracts or architecture change.
 6. Submit the pull-request template completely, including learned-versus-scripted and data/privacy sections.
+
+For documentation-only changes, keep terminology and reading paths consistent
+with the [style guide](docs/STYLE_GUIDE.md). Edit the human-maintained source
+page, not a generated matrix. If a link or heading changes, update referring
+pages and validate local anchors.
+
+### Progress data is part of the change
+
+For every meaningful feature or research PR, update the canonical dataset at
+[`docs/progress/progress.json`](docs/progress/progress.json) with evidence-backed
+status changes, stable IDs, acceptance criteria, limitations, remaining work,
+history, dependencies and milestone mappings. Keep research, experimental
+outcome, implementation, validation and production readiness independent.
+Update affected architecture and training candidates when relevant. Do not
+credit work on an open branch as integrated on main. Generate the dashboard and
+matrices; do not edit their generated Markdown by hand.
+
+Before submitting, run:
+
+```sh
+python tools/progress.py validate
+python tools/progress.py generate
+python tools/progress.py check
+python tools/check_doc_links.py
+python -m unittest discover -s tests -p 'test_*.py'
+```
+
+See [`docs/PROGRESS_WORKFLOW.md`](docs/PROGRESS_WORKFLOW.md) for scoring,
+status definitions and evidence rules.
+
+For game-mechanic changes, use the generated
+[`Minecraft competency matrix`](docs/MINECRAFT_COMPETENCY_MATRIX.md) and
+[`coverage protocol`](docs/COMPETENCY_COVERAGE.md). Add independent
+scenario/failure-boundary gates when aggregated capabilities conceal missing
+mechanics. Model/data hypotheses are not in-game capability evidence.
 
 ## Before opening a pull request
 
